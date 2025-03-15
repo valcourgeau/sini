@@ -236,6 +236,8 @@ export function RelocationWizard() {
         // Show insurance details only if they have insurance
         if (hasInsurance) {
           return <SingleInsuranceDetails form={form} />;
+        } else if (hasInsurance === null) {
+          return <SingleInsuranceDetails form={form} />;
         } else {
           return <SingleLeaseTermination form={form} />;
         }

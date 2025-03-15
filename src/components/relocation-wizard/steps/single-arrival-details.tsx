@@ -52,6 +52,7 @@ export function SingleArrivalDetails({ form }: SingleArrivalDetailsProps) {
             min={tomorrowStr}
             {...register("singleArrivalDetails.arrivalDate")}
             className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+            defaultValue={tomorrowStr}
           />
           {arrivalErrors.arrivalDate && (
             <p className="text-sm text-red-500 mt-1">
@@ -69,7 +70,8 @@ export function SingleArrivalDetails({ form }: SingleArrivalDetailsProps) {
           </Label>
           <Select 
             onValueChange={(value) => setValue("singleArrivalDetails.estimatedDuration", value)}
-            defaultValue={form.getValues("singleArrivalDetails.estimatedDuration")}
+            // defaultValue={form.getValues("singleArrivalDetails.estimatedDuration")}
+            defaultValue="1-2 weeks"  // TODO(val): remove this
           >
             <SelectTrigger id="singleArrivalDetails.estimatedDuration" className="w-full">
               <SelectValue placeholder="Select estimated duration" />

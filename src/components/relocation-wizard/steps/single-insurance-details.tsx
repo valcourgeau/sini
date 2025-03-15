@@ -28,6 +28,7 @@ export function SingleInsuranceDetails({ form }: SingleInsuranceDetailsProps) {
             {...register("singleInsuranceDetails.insuranceCompany")}
             className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
             placeholder="e.g., Zurich Insurance, AXA, Swiss Life"
+            defaultValue="Zurich Insurance"  // TODO(val): remove this
           />
           {insuranceErrors.insuranceCompany && (
             <p className="text-sm text-red-500 mt-1">
@@ -45,6 +46,7 @@ export function SingleInsuranceDetails({ form }: SingleInsuranceDetailsProps) {
             {...register("singleInsuranceDetails.policyNumber")}
             className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
             placeholder="Your insurance policy number"
+            defaultValue="1234567890"  // TODO(val): remove this
           />
           {insuranceErrors.policyNumber && (
             <p className="text-sm text-red-500 mt-1">
@@ -65,6 +67,7 @@ export function SingleInsuranceDetails({ form }: SingleInsuranceDetailsProps) {
             {...register("singleInsuranceDetails.agentContact")}
             className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
             placeholder="Name and contact details of your insurance agent"
+            defaultValue="John Doe"  // TODO(val): remove this
           />
           <p className="text-xs text-muted-foreground mt-1">
             If you have a specific agent handling your claim, providing their details can help expedite the process.

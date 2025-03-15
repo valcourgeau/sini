@@ -25,7 +25,7 @@ export function SingleInsuranceCoverage({ form }: SingleInsuranceCoverageProps) 
           
           <RadioGroup 
             defaultValue={form.watch("singleInsuranceCoverage.hasInsurance") ? "yes" : "no"}
-            onValueChange={(value) => setValue("singleInsuranceCoverage.hasInsurance", value === "yes")}
+            onValueChange={(value) => setValue("singleInsuranceCoverage.hasInsurance", value === "yes" ? true : value === "no" ? false : null)}
             className="grid gap-4"
           >
             <div className="flex items-start space-x-3 p-4 border rounded-md">
@@ -36,6 +36,18 @@ export function SingleInsuranceCoverage({ form }: SingleInsuranceCoverageProps) 
                 </Label>
                 <p className="text-sm text-muted-foreground">
                   I have insurance (e.g., home insurance, rental insurance) that may cover relocation expenses.
+                </p>
+              </div>
+            </div>
+
+            <div className="flex items-start space-x-3 p-4 border rounded-md">
+              <RadioGroupItem value="unknown" id="insurance-unknown" />
+              <div className="space-y-1.5 flex-1">
+                <Label htmlFor="insurance-unknown" className="text-base">
+                  I don't know
+                </Label>
+                <p className="text-sm text-muted-foreground">
+                  I am unsure if I have insurance coverage for relocation expenses.
                 </p>
               </div>
             </div>

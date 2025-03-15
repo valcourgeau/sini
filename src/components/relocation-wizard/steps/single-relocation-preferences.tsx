@@ -40,10 +40,13 @@ export function SingleRelocationPreferences({ form }: SingleRelocationPreference
           <Label htmlFor="singleRelocationPreferences.maxDistance">Maximum Distance from Current Location</Label>
           <Select
             onValueChange={(value) => setValue("singleRelocationPreferences.maxDistance", parseInt(value))}
-            defaultValue={form.getValues("singleRelocationPreferences.maxDistance")?.toString()}
+            // defaultValue={form.getValues("singleRelocationPreferences.maxDistance")?.toString()}
+            defaultValue="20"  // TODO(val): remove this
           >
             <SelectTrigger id="singleRelocationPreferences.maxDistance" className="w-full">
-              <SelectValue placeholder="Select maximum distance" />
+              <SelectValue
+               placeholder="Select maximum distance"
+              />
             </SelectTrigger>
             <SelectContent>
               {distanceOptions.map((option) => (
