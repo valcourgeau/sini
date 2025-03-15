@@ -170,7 +170,7 @@ export function SingleReviewConfirm({ form }: SingleReviewConfirmProps) {
           <h3 className={titleClass}>Insurance Information</h3>
           <div className="space-y-0.5">
             <div className={detailRowClass}>
-              <span className={labelClass}>Has Insurance Coverage:</span>
+              <span className={labelClass}>Has Insurance Coverage for Relocation:</span>
               <span className={valueClass}>
                 {getValue("singleInsuranceCoverage.hasInsurance") === true 
                   ? "Yes" 
