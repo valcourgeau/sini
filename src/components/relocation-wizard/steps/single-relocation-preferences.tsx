@@ -1,11 +1,11 @@
 import { UseFormReturn } from "react-hook-form";
 import { Label } from "@/components/ui/label";
-import { 
-  Select, 
-  SelectContent, 
-  SelectItem, 
-  SelectTrigger, 
-  SelectValue 
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue
 } from "@/components/ui/select";
 
 interface SingleRelocationPreferencesProps {
@@ -15,7 +15,7 @@ interface SingleRelocationPreferencesProps {
 export function SingleRelocationPreferences({ form }: SingleRelocationPreferencesProps) {
   const { register, setValue, formState: { errors } } = form;
   const preferencesErrors = errors.singleRelocationPreferences || {};
-  
+
   // Available distance options in kilometers
   const distanceOptions = [
     { value: 5, label: "Up to 5 km" },
@@ -38,7 +38,7 @@ export function SingleRelocationPreferences({ form }: SingleRelocationPreference
       <div className="space-y-6">
         <div className="space-y-2">
           <Label htmlFor="singleRelocationPreferences.maxDistance">Maximum Distance from Current Location</Label>
-          <Select 
+          <Select
             onValueChange={(value) => setValue("singleRelocationPreferences.maxDistance", parseInt(value))}
             defaultValue={form.getValues("singleRelocationPreferences.maxDistance")?.toString()}
           >
@@ -67,6 +67,7 @@ export function SingleRelocationPreferences({ form }: SingleRelocationPreference
             {...register("singleRelocationPreferences.preferredAreas")}
             className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
             placeholder="E.g., Lausanne, Geneva, Zurich"
+            defaultValue="Geneva"
           />
           <p className="text-xs text-muted-foreground mt-1">
             Enter your preferred cities or areas, separated by commas.

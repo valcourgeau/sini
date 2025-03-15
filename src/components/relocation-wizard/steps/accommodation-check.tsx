@@ -8,7 +8,7 @@ interface AccommodationCheckProps {
 
 export function AccommodationCheck({ form }: AccommodationCheckProps) {
   const { register, formState: { errors } } = form;
-  
+
   return (
     <div className="space-y-6">
       <div>
@@ -19,7 +19,7 @@ export function AccommodationCheck({ form }: AccommodationCheckProps) {
       </div>
 
       <div className="space-y-4">
-        <RadioGroup 
+        <RadioGroup
           defaultValue={form.getValues("isAccommodationListed")}
           onValueChange={(value) => form.setValue("isAccommodationListed", value as "yes" | "no" | "unknown")}
           className="grid gap-4"
@@ -35,7 +35,7 @@ export function AccommodationCheck({ form }: AccommodationCheckProps) {
               </p>
             </div>
           </div>
-          
+
           <div className="flex items-start space-x-3 p-4 border rounded-md">
             <RadioGroupItem value="no" id="accommodation-no" />
             <div className="space-y-1.5 flex-1">
@@ -47,7 +47,7 @@ export function AccommodationCheck({ form }: AccommodationCheckProps) {
               </p>
             </div>
           </div>
-          
+
           <div className="flex items-start space-x-3 p-4 border rounded-md">
             <RadioGroupItem value="unknown" id="accommodation-unknown" />
             <div className="space-y-1.5 flex-1">
@@ -60,7 +60,7 @@ export function AccommodationCheck({ form }: AccommodationCheckProps) {
             </div>
           </div>
         </RadioGroup>
-        
+
         {errors.isAccommodationListed && (
           <p className="text-sm text-red-500 mt-2">
             {errors.isAccommodationListed.message as string}
