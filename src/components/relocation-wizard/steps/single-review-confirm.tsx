@@ -171,10 +171,16 @@ export function SingleReviewConfirm({ form }: SingleReviewConfirmProps) {
           <div className="space-y-0.5">
             <div className={detailRowClass}>
               <span className={labelClass}>Has Insurance Coverage:</span>
-              <span className={valueClass}>{getValue("singleInsuranceCoverage.hasInsurance") ? "Yes" : "No"}</span>
+              <span className={valueClass}>
+                {getValue("singleInsuranceCoverage.hasInsurance") === true 
+                  ? "Yes" 
+                  : getValue("singleInsuranceCoverage.hasInsurance") === false 
+                    ? "No" 
+                    : "Unsure"}
+              </span>
             </div>
             
-            {getValue("singleInsuranceCoverage.hasInsurance") && (
+            {getValue("singleInsuranceCoverage.hasInsurance") === true && (
               <>
                 <div className={detailRowClass}>
                   <span className={labelClass}>Insurance Company:</span>
@@ -190,6 +196,101 @@ export function SingleReviewConfirm({ form }: SingleReviewConfirmProps) {
                     <span className={valueClass}>{getValue("singleInsuranceDetails.agentContact")}</span>
                   </div>
                 )}
+              </>
+            )}
+            
+            {getValue("singleInsuranceCoverage.hasInsurance") === null && (
+              <>
+                {/* Swiss Insurance Details */}
+                <div className="mt-3 border-t border-border pt-3">
+                  <h4 className="font-medium text-sm mb-2">Swiss Insurance Details</h4>
+                  
+                  {/* RC Insurance */}
+                  {getValue("swissInsuranceDetails.hasRCInsurance") && (
+                    <div className="ml-2 mb-3">
+                      <div className="font-medium text-sm">Responsabilité Civile (RC) Insurance</div>
+                      <div className={detailRowClass}>
+                        <span className={labelClass}>Insurance Company:</span>
+                        <span className={valueClass}>{getValue("swissInsuranceDetails.rcInsuranceCompany")}</span>
+                      </div>
+                      <div className={detailRowClass}>
+                        <span className={labelClass}>Policy Number:</span>
+                        <span className={valueClass}>{getValue("swissInsuranceDetails.rcPolicyNumber")}</span>
+                      </div>
+                    </div>
+                  )}
+                  
+                  {/* Ménage Insurance */}
+                  {getValue("swissInsuranceDetails.hasMenageInsurance") && (
+                    <div className="ml-2 mb-3">
+                      <div className="font-medium text-sm">Assurance Ménage (Household Insurance)</div>
+                      <div className={detailRowClass}>
+                        <span className={labelClass}>Insurance Company:</span>
+                        <span className={valueClass}>{getValue("swissInsuranceDetails.menageInsuranceCompany")}</span>
+                      </div>
+                      <div className={detailRowClass}>
+                        <span className={labelClass}>Policy Number:</span>
+                        <span className={valueClass}>{getValue("swissInsuranceDetails.menagePolicyNumber")}</span>
+                      </div>
+                    </div>
+                  )}
+                  
+                  {/* Natural Disaster Insurance */}
+                  {getValue("swissInsuranceDetails.hasNaturalDisasterInsurance") && (
+                    <div className="ml-2 mb-3">
+                      <div className="font-medium text-sm">Natural Disaster Insurance</div>
+                      <div className={detailRowClass}>
+                        <span className={labelClass}>Insurance Company:</span>
+                        <span className={valueClass}>{getValue("swissInsuranceDetails.naturalDisasterInsuranceCompany")}</span>
+                      </div>
+                      <div className={detailRowClass}>
+                        <span className={labelClass}>Policy Number:</span>
+                        <span className={valueClass}>{getValue("swissInsuranceDetails.naturalDisasterPolicyNumber")}</span>
+                      </div>
+                    </div>
+                  )}
+                  
+                  {/* Building Insurance */}
+                  {getValue("swissInsuranceDetails.hasBuildingInsurance") && (
+                    <div className="ml-2 mb-3">
+                      <div className="font-medium text-sm">Building Insurance</div>
+                      <div className={detailRowClass}>
+                        <span className={labelClass}>Insurance Company:</span>
+                        <span className={valueClass}>{getValue("swissInsuranceDetails.buildingInsuranceCompany")}</span>
+                      </div>
+                      <div className={detailRowClass}>
+                        <span className={labelClass}>Policy Number:</span>
+                        <span className={valueClass}>{getValue("swissInsuranceDetails.buildingPolicyNumber")}</span>
+                      </div>
+                    </div>
+                  )}
+                  
+                  {/* ECA Insurance */}
+                  {getValue("swissInsuranceDetails.ecaPolicyNumber") !== "Not provided" && (
+                    <div className="ml-2 mb-3">
+                      <div className="font-medium text-sm">ECA Insurance (Canton de Vaud)</div>
+                      <div className={detailRowClass}>
+                        <span className={labelClass}>Policy Number:</span>
+                        <span className={valueClass}>{getValue("swissInsuranceDetails.ecaPolicyNumber")}</span>
+                      </div>
+                    </div>
+                  )}
+                  
+                  {/* Additional Information */}
+                  {getValue("swissInsuranceDetails.agentContact") !== "Not provided" && (
+                    <div className={detailRowClass}>
+                      <span className={labelClass}>Agent Contact:</span>
+                      <span className={valueClass}>{getValue("swissInsuranceDetails.agentContact")}</span>
+                    </div>
+                  )}
+                  
+                  {getValue("swissInsuranceDetails.additionalNotes") !== "Not provided" && (
+                    <div className={detailRowClass}>
+                      <span className={labelClass}>Additional Notes:</span>
+                      <span className={valueClass}>{getValue("swissInsuranceDetails.additionalNotes")}</span>
+                    </div>
+                  )}
+                </div>
               </>
             )}
           </div>

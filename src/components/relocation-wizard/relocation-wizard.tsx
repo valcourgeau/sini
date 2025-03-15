@@ -32,6 +32,7 @@ import { MultipleRelocationRequests } from "./steps/multiple-relocation-requests
 import { MultipleReviewConfirm } from "./steps/multiple-review-confirm";
 import { MultipleConsent } from "./steps/multiple-consent";
 import { SuccessMessage } from "./steps/success-message";
+import { SwissInsuranceDetails } from "./steps/swiss-insurance-details";
 
 // Define the form schema using Zod
 const formSchema = z.object({
@@ -50,6 +51,7 @@ const formSchema = z.object({
     city: z.string().min(1, "City is required"),
     postalCode: z.string().min(4, "Valid postal code is required"),
     country: z.string().min(1, "Country is required"),
+    canton: z.string().optional(),
   }).optional(),
 
   singleRelocationPreferences: z.object({
@@ -79,13 +81,42 @@ const formSchema = z.object({
   }).optional(),
 
   singleInsuranceCoverage: z.object({
-    hasInsurance: z.boolean(),
+    hasInsurance: z.boolean().nullable(),
   }).optional(),
 
   singleInsuranceDetails: z.object({
     insuranceCompany: z.string().min(1, "Insurance company is required"),
     policyNumber: z.string().min(1, "Policy number is required"),
     agentContact: z.string().optional(),
+  }).optional(),
+
+  swissInsuranceDetails: z.object({
+    // RC Insurance
+    hasRCInsurance: z.boolean().optional(),
+    rcInsuranceCompany: z.string().optional(),
+    rcPolicyNumber: z.string().optional(),
+    
+    // Ménage Insurance
+    hasMenageInsurance: z.boolean().optional(),
+    menageInsuranceCompany: z.string().optional(),
+    menagePolicyNumber: z.string().optional(),
+    
+    // Natural Disaster Insurance
+    hasNaturalDisasterInsurance: z.boolean().optional(),
+    naturalDisasterInsuranceCompany: z.string().optional(),
+    naturalDisasterPolicyNumber: z.string().optional(),
+    
+    // Building Insurance (for owners)
+    hasBuildingInsurance: z.boolean().optional(),
+    buildingInsuranceCompany: z.string().optional(),
+    buildingPolicyNumber: z.string().optional(),
+    
+    // ECA Insurance (for Canton de Vaud)
+    ecaPolicyNumber: z.string().optional(),
+    
+    // Additional Information
+    agentContact: z.string().optional(),
+    additionalNotes: z.string().optional(),
   }).optional(),
 
   singleLeaseTermination: z.object({
@@ -186,6 +217,7 @@ export function RelocationWizard() {
   const renderStep = () => {
     const relocationType = form.watch("relocationType");
     const hasInsurance = form.watch("singleInsuranceCoverage")?.hasInsurance;
+    const insuranceUnknown = hasInsurance !== true && hasInsurance !== false;
 
     switch (step) {
       case 1:
@@ -236,8 +268,8 @@ export function RelocationWizard() {
         // Show insurance details only if they have insurance
         if (hasInsurance) {
           return <SingleInsuranceDetails form={form} />;
-        } else if (hasInsurance === null) {
-          return <SingleInsuranceDetails form={form} />;
+        } else if (insuranceUnknown) {
+          return <SwissInsuranceDetails form={form} />;
         } else {
           return <SingleLeaseTermination form={form} />;
         }
@@ -245,19 +277,21 @@ export function RelocationWizard() {
       case 11:
         if (hasInsurance) {
           return <SingleLeaseTermination form={form} />;
+        } else if (insuranceUnknown) {
+          return <SingleLeaseTermination form={form} />;
         } else {
           return <SingleReviewConfirm form={form} />;
         }
         break;
       case 12:
-        if (hasInsurance) {
+        if (hasInsurance || insuranceUnknown) {
           return <SingleReviewConfirm form={form} />;
         } else {
           return <SingleConsent form={form} />;
         }
         break;
       case 13:
-        if (hasInsurance) {
+        if (hasInsurance || insuranceUnknown) {
           return <SingleConsent form={form} />;
         } else {
           return <SuccessMessage />;

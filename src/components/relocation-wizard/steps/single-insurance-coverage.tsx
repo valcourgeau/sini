@@ -1,14 +1,22 @@
 import { UseFormReturn } from "react-hook-form";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { FieldError } from "react-hook-form";
 
 interface SingleInsuranceCoverageProps {
   form: UseFormReturn<any>;
 }
 
 export function SingleInsuranceCoverage({ form }: SingleInsuranceCoverageProps) {
-  const { setValue, formState: { errors } } = form;
-  const insuranceErrors = errors.singleInsuranceCoverage || {};
+  const { setValue, watch, formState: { errors } } = form;
+  const insuranceErrors = errors.singleInsuranceCoverage as Record<string, FieldError> || {};
+  
+  // Get the current value to set the default
+  const hasInsurance = watch("singleInsuranceCoverage.hasInsurance");
+  let defaultValue = "unknown";
+  
+  if (hasInsurance === true) defaultValue = "yes";
+  else if (hasInsurance === false) defaultValue = "no";
   
   return (
     <div className="space-y-6">
@@ -24,8 +32,16 @@ export function SingleInsuranceCoverage({ form }: SingleInsuranceCoverageProps) 
           <Label>Do you have insurance that covers relocation due to the disaster?</Label>
           
           <RadioGroup 
-            defaultValue={form.watch("singleInsuranceCoverage.hasInsurance") ? "yes" : "no"}
-            onValueChange={(value) => setValue("singleInsuranceCoverage.hasInsurance", value === "yes" ? true : value === "no" ? false : null)}
+            defaultValue={defaultValue}
+            onValueChange={(value) => {
+              if (value === "yes") {
+                setValue("singleInsuranceCoverage.hasInsurance", true);
+              } else if (value === "no") {
+                setValue("singleInsuranceCoverage.hasInsurance", false);
+              } else {
+                setValue("singleInsuranceCoverage.hasInsurance", null);
+              }
+            }}
             className="grid gap-4"
           >
             <div className="flex items-start space-x-3 p-4 border rounded-md">
@@ -75,7 +91,7 @@ export function SingleInsuranceCoverage({ form }: SingleInsuranceCoverageProps) 
         <div className="p-4 bg-blue-50 rounded-md border border-blue-100">
           <p className="text-sm text-blue-700">
             <strong>Note:</strong> Insurance information helps us coordinate with your provider if applicable. 
-            If you're unsure about your coverage, we still encourage you to proceed with the request and select "No".
+            If you're unsure about your coverage, select "I don't know" and we'll help you identify potential coverage options.
           </p>
         </div>
       </div>
