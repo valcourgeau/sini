@@ -107,9 +107,14 @@ export function SingleReviewConfirm({ form }: SingleReviewConfirmProps) {
             <div className={detailRowClass}>
               <span className={labelClass}>Maximum Distance:</span>
               <span className={valueClass}>
-                {getValue("singleRelocationPreferences.maxDistance") !== "Not provided" 
-                  ? `Up to ${getValue("singleRelocationPreferences.maxDistance")} km` 
-                  : "Not specified"}
+                {getValue("singleRelocationPreferences.distanceLabel") !== "Not provided" ? (
+                  <span>
+                    {getValue("singleRelocationPreferences.distanceLabel")}{" "}
+                    ({getValue("singleRelocationPreferences.distanceSubLabel", "")})
+                  </span>
+                ) : (
+                  `Up to ${getValue("singleRelocationPreferences.maxDistance")} km`
+                )}
               </span>
             </div>
             <div className={detailRowClass}>
