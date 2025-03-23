@@ -93,6 +93,10 @@ export function SingleReviewConfirm({ form }: SingleReviewConfirmProps) {
               <span className={labelClass}>Country:</span>
               <span className={valueClass}>{getValue("singleDisasterAddress.country")}</span>
             </div>
+            <div className={detailRowClass}>
+              <span className={labelClass}>Role:</span>
+              <span className={valueClass}>{getValue("role")}</span>
+            </div>
           </div>
         </div>
         

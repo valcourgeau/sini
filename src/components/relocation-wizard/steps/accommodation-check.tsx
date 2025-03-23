@@ -78,7 +78,7 @@ export function AccommodationCheck({ form }: AccommodationCheckProps) {
             )}
           >
             <div className="mb-3">{option.icon}</div>
-            <h3 className="text-base font-medium mb-2">{option.label}</h3>
+            <h3 className="text-base font-medium">{option.label}</h3>
           </button>
         ))}
       </div>

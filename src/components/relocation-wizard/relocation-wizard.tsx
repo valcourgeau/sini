@@ -218,6 +218,7 @@ export function RelocationWizard() {
     const relocationType = form.watch("relocationType");
     const hasInsurance = form.watch("singleInsuranceCoverage")?.hasInsurance;
     const insuranceUnknown = hasInsurance !== true && hasInsurance !== false;
+    const role = form.watch("role");
 
     switch (step) {
       case 1:
@@ -269,6 +270,7 @@ export function RelocationWizard() {
         if (hasInsurance) {
           return <SingleInsuranceDetails form={form} />;
         } else if (insuranceUnknown) {
+          // Full insurance details form
           return <SwissInsuranceDetails form={form} />;
         } else {
           return <SingleLeaseTermination form={form} />;
