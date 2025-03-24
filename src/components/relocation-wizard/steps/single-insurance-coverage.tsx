@@ -67,9 +67,9 @@ export function SingleInsuranceCoverage({ form }: SingleInsuranceCoverageProps) 
                 </div>
 
                 <h3 className="text-lg font-medium mb-1">Yes</h3>
-                <p className="text-sm text-center text-muted-foreground">
-                  Home or rental insurance may cover relocation expenses.
-                </p>
+                {/* <p className="text-sm text-center text-muted-foreground">
+                  e.g. Home or rental insurance may cover relocation expenses.
+                </p> */}
 
                 {selectedValue === "yes" && (
                   <div className="absolute top-3 right-3 bg-primary text-white rounded-full p-0.5">
@@ -109,9 +109,9 @@ export function SingleInsuranceCoverage({ form }: SingleInsuranceCoverageProps) 
                 </div>
 
                 <h3 className="text-lg font-medium mb-1">I don't know</h3>
-                <p className="text-sm text-center text-muted-foreground">
+                {/* <p className="text-sm text-center text-muted-foreground">
                   I am unsure if I have insurance coverage for relocation expenses.
-                </p>
+                </p> */}
 
                 {selectedValue === "unknown" && (
                   <div className="absolute top-3 right-3 bg-primary text-white rounded-full p-0.5">
@@ -151,9 +151,9 @@ export function SingleInsuranceCoverage({ form }: SingleInsuranceCoverageProps) 
                 </div>
 
                 <h3 className="text-lg font-medium mb-1">No</h3>
-                <p className="text-sm text-center text-muted-foreground">
+                {/* <p className="text-sm text-center text-muted-foreground">
                   I do not have insurance coverage for relocation expenses.
-                </p>
+                </p> */}
 
                 {selectedValue === "no" && (
                   <div className="absolute top-3 right-3 bg-primary text-white rounded-full p-0.5">

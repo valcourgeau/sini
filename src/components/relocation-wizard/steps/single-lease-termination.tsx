@@ -1,5 +1,7 @@
 import { UseFormReturn } from "react-hook-form";
 import { Label } from "@/components/ui/label";
+import { Check, FileTerminal, Bell, Calendar } from "lucide-react";
+import { useState } from "react";
 
 interface SingleLeaseTerminationProps {
   form: UseFormReturn<any>;
@@ -10,6 +12,19 @@ export function SingleLeaseTermination({ form }: SingleLeaseTerminationProps) {
   const leaseErrors = errors.singleLeaseTermination || {};
   
   const hasTerminatedLease = watch("singleLeaseTermination.hasTerminatedLease");
+  const hasNotifiedLandlord = watch("singleLeaseTermination.hasNotifiedLandlord");
+  const terminationDate = watch("singleLeaseTermination.terminationDate");
+
+  const handleToggleTermination = (value: boolean) => {
+    setValue("singleLeaseTermination.hasTerminatedLease", value);
+    if (!value) {
+      setValue("singleLeaseTermination.terminationDate", "");
+    }
+  };
+
+  const handleToggleNotification = (value: boolean) => {
+    setValue("singleLeaseTermination.hasNotifiedLandlord", value);
+  };
 
   return (
     <div className="space-y-6">
@@ -20,67 +35,125 @@ export function SingleLeaseTermination({ form }: SingleLeaseTerminationProps) {
         </p>
       </div>
 
-      <div className="space-y-6">
-        <div className="space-y-4">
-          <div className="flex items-start space-x-3">
-            <input
-              type="checkbox"
-              id="singleLeaseTermination.hasTerminatedLease"
-              {...register("singleLeaseTermination.hasTerminatedLease")}
-              className="rounded border-input h-5 w-5 mt-0.5"
-              onChange={(e) => {
-                setValue("singleLeaseTermination.hasTerminatedLease", e.target.checked);
-                if (!e.target.checked) {
-                  setValue("singleLeaseTermination.terminationDate", "");
-                }
-              }}
-            />
-            <div className="space-y-1">
-              <Label htmlFor="singleLeaseTermination.hasTerminatedLease" className="text-base font-medium">
-                I have terminated my current lease/rental agreement
-              </Label>
-              <p className="text-sm text-muted-foreground">
-                Check this if you have already given notice to end your current lease.
+      <div className="space-y-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {/* Lease Termination Card */}
+          <div className="relative">
+            <button
+              type="button"
+              onClick={() => handleToggleTermination(!hasTerminatedLease)}
+              className={`group relative flex flex-col items-center p-6 rounded-xl border-2 transition-all duration-200 w-full ${
+                hasTerminatedLease === true
+                  ? "border-primary bg-primary/5 shadow-md" 
+                  : "border-gray-200 hover:border-gray-300 hover:shadow-sm"
+              }`}
+              aria-pressed={hasTerminatedLease === true}
+            >
+              <div className={`w-16 h-16 rounded-full flex items-center justify-center mb-4 transition-all ${
+                hasTerminatedLease === true 
+                  ? "bg-primary text-white" 
+                  : "bg-gray-100 text-gray-500 group-hover:bg-gray-200"
+              }`}>
+                <FileTerminal size={32} />
+              </div>
+
+              <h3 className="text-lg font-medium mb-1">Lease Termination</h3>
+              <p className="text-sm text-center text-muted-foreground">
+                For my current lease/rental agreement
               </p>
-            </div>
-          </div>
-          
-          {hasTerminatedLease && (
-            <div className="ml-8 space-y-2">
-              <Label htmlFor="singleLeaseTermination.terminationDate">
-                Lease Termination Date
-              </Label>
+
+              {hasTerminatedLease === true && (
+                <div className="absolute top-3 right-3 bg-primary text-white rounded-full p-0.5">
+                  <Check size={16} />
+                </div>
+              )}
+
               <input
-                id="singleLeaseTermination.terminationDate"
-                type="date"
-                {...register("singleLeaseTermination.terminationDate")}
-                className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                type="checkbox"
+                id="singleLeaseTermination.hasTerminatedLease"
+                {...register("singleLeaseTermination.hasTerminatedLease")}
+                checked={hasTerminatedLease === true}
+                onChange={(e) => handleToggleTermination(e.target.checked)}
+                className="sr-only"
               />
-              <p className="text-xs text-muted-foreground mt-1">
-                The date when your current lease will officially end.
+            </button>
+          </div>
+
+          {/* Landlord Notification Card */}
+          <div className="relative">
+            <button
+              type="button"
+              onClick={() => handleToggleNotification(!hasNotifiedLandlord)}
+              className={`group relative flex flex-col items-center p-6 rounded-xl border-2 transition-all duration-200 w-full ${
+                hasNotifiedLandlord === true
+                  ? "border-primary bg-primary/5 shadow-md" 
+                  : "border-gray-200 hover:border-gray-300 hover:shadow-sm"
+              }`}
+              aria-pressed={hasNotifiedLandlord === true}
+            >
+              <div className={`w-16 h-16 rounded-full flex items-center justify-center mb-4 transition-all ${
+                hasNotifiedLandlord === true 
+                  ? "bg-primary text-white" 
+                  : "bg-gray-100 text-gray-500 group-hover:bg-gray-200"
+              }`}>
+                <Bell size={32} />
+              </div>
+
+              <h3 className="text-lg font-medium mb-1">Landlord Notification</h3>
+              <p className="text-sm text-center text-muted-foreground">
+                I have notified my landlord about the disaster
               </p>
-            </div>
-          )}
+
+              {hasNotifiedLandlord === true && (
+                <div className="absolute top-3 right-3 bg-primary text-white rounded-full p-0.5">
+                  <Check size={16} />
+                </div>
+              )}
+
+              <input
+                type="checkbox"
+                id="singleLeaseTermination.hasNotifiedLandlord"
+                {...register("singleLeaseTermination.hasNotifiedLandlord")}
+                checked={hasNotifiedLandlord === true}
+                onChange={(e) => handleToggleNotification(e.target.checked)}
+                className="sr-only"
+              />
+            </button>
+          </div>
         </div>
 
-        <div className="space-y-4">
-          <div className="flex items-start space-x-3">
-            <input
-              type="checkbox"
-              id="singleLeaseTermination.hasNotifiedLandlord"
-              {...register("singleLeaseTermination.hasNotifiedLandlord")}
-              className="rounded border-input h-5 w-5 mt-0.5"
-            />
-            <div className="space-y-1">
-              <Label htmlFor="singleLeaseTermination.hasNotifiedLandlord" className="text-base font-medium">
-                I have notified my landlord about the disaster
-              </Label>
-              <p className="text-sm text-muted-foreground">
-                Check this if you have informed your landlord about the disaster and your need for relocation.
-              </p>
+        {/* Termination Date Field - Only appears when lease termination is selected */}
+        {hasTerminatedLease && (
+          <div className="rounded-lg border border-border bg-card text-card-foreground shadow-sm">
+            <div className="p-6 space-y-4">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-full bg-primary/10 text-primary flex items-center justify-center flex-shrink-0">
+                  <Calendar size={20} />
+                </div>
+                <div>
+                  <h3 className="text-base font-medium">Lease Termination Date</h3>
+                  <p className="text-sm text-muted-foreground">
+                    When will your current lease officially end?
+                  </p>
+                </div>
+              </div>
+              
+              <div className="space-y-2">
+                <input
+                  id="singleLeaseTermination.terminationDate"
+                  type="date"
+                  {...register("singleLeaseTermination.terminationDate")}
+                  className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                />
+                {leaseErrors.terminationDate && (
+                  <p className="text-sm text-red-500 mt-1">
+                    {leaseErrors.terminationDate.message as string}
+                  </p>
+                )}
+              </div>
             </div>
           </div>
-        </div>
+        )}
 
         <div className="p-4 bg-blue-50 rounded-md border border-blue-100">
           <p className="text-sm text-blue-700">
