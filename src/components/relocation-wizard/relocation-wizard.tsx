@@ -33,6 +33,7 @@ import { MultipleReviewConfirm } from "./steps/multiple-review-confirm";
 import { MultipleConsent } from "./steps/multiple-consent";
 import { SuccessMessage } from "./steps/success-message";
 import { SwissInsuranceDetails } from "./steps/swiss-insurance-details";
+import { UseFormReturn } from "react-hook-form";
 
 // Define the form schema using Zod
 const formSchema = z.object({
@@ -177,6 +178,13 @@ export function RelocationWizard() {
       isAccommodationListed: undefined,
       role: undefined,
       relocationType: undefined,
+      singleSpecialNeeds: {
+        hasAnimals: false,
+        hasAccessibilityNeeds: false,
+        animalDetails: "",
+        accessibilityDetails: "",
+        otherSpecialNeeds: ""
+      }
     },
   });
 
@@ -317,29 +325,33 @@ export function RelocationWizard() {
       
     return (
       <CardFooter className="flex justify-between">
-        {step > 1 && (
-          <Button 
-            type="button" 
-            variant="outline" 
-            onClick={prevStep}
-          >
-            Back
-          </Button>
-        )}
+        <div>
+          {step > 1 && (
+            <Button 
+              type="button" 
+              variant="outline" 
+              onClick={prevStep}
+            >
+              Back
+            </Button>
+          )}
+        </div>
         
-        {isFinalStep ? (
-          <Button 
-            type="button" 
-            onClick={() => form.handleSubmit(onSubmit)()}
-            disabled={isSubmitting}
-          >
-            {isSubmitting ? "Submitting..." : "Submit Request"}
-          </Button>
-        ) : (
-          <Button type="button" onClick={nextStep}>
-            {step === 1 ? "Start" : "Next"}
-          </Button>
-        )}
+        <div>
+          {isFinalStep ? (
+            <Button 
+              type="button" 
+              onClick={() => form.handleSubmit(onSubmit)()}
+              disabled={isSubmitting}
+            >
+              {isSubmitting ? "Submitting..." : "Submit Request"}
+            </Button>
+          ) : (
+            <Button type="button" onClick={nextStep}>
+              {step === 1 ? "Start" : "Next"}
+            </Button>
+          )}
+        </div>
       </CardFooter>
     );
   };

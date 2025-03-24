@@ -1,23 +1,53 @@
 import { UseFormReturn } from "react-hook-form";
+import { useEffect, useState } from "react";
 
 interface SingleReviewConfirmProps {
   form: UseFormReturn<any>;
 }
 
 export function SingleReviewConfirm({ form }: SingleReviewConfirmProps) {
-  const formValues = form.getValues();
+  // Create a state to store form values and trigger re-renders when they change
+  const [formData, setFormData] = useState(form.getValues());
+  
+  // Update formData whenever the form changes
+  useEffect(() => {
+    const subscription = form.watch((value) => {
+      setFormData(form.getValues());
+    });
+    
+    return () => subscription.unsubscribe();
+  }, [form]);
   
   // Helper functions to handle optional nested objects safely
   const getValue = (path: string, defaultValue: string = "Not provided") => {
     const pathParts = path.split(".");
-    let value = formValues;
+    let value = formData; // Use formData instead of calling getValues directly
     
     for (const part of pathParts) {
       if (value === undefined || value === null) return defaultValue;
       value = value[part];
     }
     
+    // Handle boolean values explicitly
+    if (typeof value === "boolean") {
+      return value;
+    }
+    
     return value || defaultValue;
+  };
+  
+  // Helper function to check boolean values properly
+  const getBooleanValue = (path: string): boolean => {
+    const pathParts = path.split(".");
+    let value = formData; // Use formData to get the latest values
+    
+    for (const part of pathParts) {
+      if (value === undefined || value === null) return false;
+      value = value[part];
+    }
+    
+    // Strict comparison to ensure we're getting a true boolean
+    return value === true;
   };
   
   const formatDate = (dateStr: string) => {
@@ -34,6 +64,14 @@ export function SingleReviewConfirm({ form }: SingleReviewConfirmProps) {
       return dateStr;
     }
   };
+  
+  // Log the form values for debugging
+  console.log("Form values in review:", {
+    hasAnimals: getBooleanValue("singleSpecialNeeds.hasAnimals"),
+    hasAccessibilityNeeds: getBooleanValue("singleSpecialNeeds.hasAccessibilityNeeds"),
+    rawHasAnimals: getValue("singleSpecialNeeds.hasAnimals"),
+    rawHasAccessibilityNeeds: getValue("singleSpecialNeeds.hasAccessibilityNeeds")
+  });
   
   const sectionClass = "border-b border-border pb-4 mb-4 last:border-0 last:pb-0 last:mb-0";
   const titleClass = "font-medium text-base mb-2";
@@ -137,16 +175,16 @@ export function SingleReviewConfirm({ form }: SingleReviewConfirmProps) {
             <div className={detailRowClass}>
               <span className={labelClass}>Pets/Animals:</span>
               <span className={valueClass}>
-                {getValue("singleSpecialNeeds.hasAnimals") ? "Yes" : "No"}
-                {getValue("singleSpecialNeeds.hasAnimals") && getValue("singleSpecialNeeds.animalDetails") !== "Not provided" && 
+                {getBooleanValue("singleSpecialNeeds.hasAnimals") ? "Yes" : "No"}
+                {getBooleanValue("singleSpecialNeeds.hasAnimals") && getValue("singleSpecialNeeds.animalDetails") !== "Not provided" && 
                   ` - ${getValue("singleSpecialNeeds.animalDetails")}`}
               </span>
             </div>
             <div className={detailRowClass}>
               <span className={labelClass}>Accessibility Requirements:</span>
               <span className={valueClass}>
-                {getValue("singleSpecialNeeds.hasAccessibilityNeeds") ? "Yes" : "No"}
-                {getValue("singleSpecialNeeds.hasAccessibilityNeeds") && getValue("singleSpecialNeeds.accessibilityDetails") !== "Not provided" && 
+                {getBooleanValue("singleSpecialNeeds.hasAccessibilityNeeds") ? "Yes" : "No"}
+                {getBooleanValue("singleSpecialNeeds.hasAccessibilityNeeds") && getValue("singleSpecialNeeds.accessibilityDetails") !== "Not provided" && 
                   ` - ${getValue("singleSpecialNeeds.accessibilityDetails")}`}
               </span>
             </div>
@@ -381,10 +419,10 @@ export function SingleReviewConfirm({ form }: SingleReviewConfirmProps) {
           <div className="space-y-0.5">
             <div className={detailRowClass}>
               <span className={labelClass}>Lease Terminated:</span>
-              <span className={valueClass}>{getValue("singleLeaseTermination.hasTerminatedLease") ? "Yes" : "No"}</span>
+              <span className={valueClass}>{getBooleanValue("singleLeaseTermination.hasTerminatedLease") ? "Yes" : "No"}</span>
             </div>
             
-            {getValue("singleLeaseTermination.hasTerminatedLease") && (
+            {getBooleanValue("singleLeaseTermination.hasTerminatedLease") && (
               <div className={detailRowClass}>
                 <span className={labelClass}>Termination Date:</span>
                 <span className={valueClass}>{formatDate(getValue("singleLeaseTermination.terminationDate"))}</span>
@@ -393,7 +431,7 @@ export function SingleReviewConfirm({ form }: SingleReviewConfirmProps) {
             
             <div className={detailRowClass}>
               <span className={labelClass}>Landlord Notified:</span>
-              <span className={valueClass}>{getValue("singleLeaseTermination.hasNotifiedLandlord") ? "Yes" : "No"}</span>
+              <span className={valueClass}>{getBooleanValue("singleLeaseTermination.hasNotifiedLandlord") ? "Yes" : "No"}</span>
             </div>
           </div>
         </div>
