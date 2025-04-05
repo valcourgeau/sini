@@ -324,13 +324,14 @@ export function RelocationWizard() {
       (relocationType === "multiple" && step === 7);
       
     return (
-      <CardFooter className="flex justify-between">
+      <CardFooter className="flex justify-between pt-4 pb-6">
         <div>
           {step > 1 && (
             <Button 
               type="button" 
               variant="outline" 
               onClick={prevStep}
+              className="px-6 py-2 h-auto"
             >
               Back
             </Button>
@@ -343,11 +344,16 @@ export function RelocationWizard() {
               type="button" 
               onClick={() => form.handleSubmit(onSubmit)()}
               disabled={isSubmitting}
+              className="px-8 py-2 h-auto bg-primary hover:bg-primary/90"
             >
               {isSubmitting ? "Submitting..." : "Submit Request"}
             </Button>
           ) : (
-            <Button type="button" onClick={nextStep}>
+            <Button 
+              type="button" 
+              onClick={nextStep}
+              className="px-8 py-2 h-auto bg-primary hover:bg-primary/90"
+            >
               {step === 1 ? "Start" : "Next"}
             </Button>
           )}
@@ -362,21 +368,21 @@ export function RelocationWizard() {
 
   return (
     <div className="container mx-auto py-8 px-4 md:px-0 max-w-5xl">
-      <Card>
-        <CardHeader>
-          <CardTitle>Relocation Assistance Request</CardTitle>
-          <CardDescription>
+      <Card className="border-2 shadow-lg">
+        <CardHeader className="pb-6">
+          <CardTitle className="text-2xl font-bold text-center">Relocation Assistance Request</CardTitle>
+          <CardDescription className="text-center text-base">
             Please complete this form to request relocation assistance.
           </CardDescription>
-          <div className="mt-4">
-            <Progress value={progressPercentage} className="h-2" />
-            <p className="text-sm text-right mt-1 text-muted-foreground">
+          <div className="mt-6">
+            <Progress value={progressPercentage} className="h-2.5" />
+            <p className="text-sm text-right mt-2 text-muted-foreground">
               Step {step} of {totalSteps}
             </p>
           </div>
         </CardHeader>
         
-        <CardContent>
+        <CardContent className="pb-8">
           <form>
             {renderStep()}
           </form>

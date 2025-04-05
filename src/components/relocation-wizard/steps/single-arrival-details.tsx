@@ -2,6 +2,7 @@ import { UseFormReturn } from "react-hook-form";
 import { Label } from "@/components/ui/label";
 import { useState } from "react";
 import { Check, Clock, Calendar, HelpCircle } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 interface SingleArrivalDetailsProps {
   form: UseFormReturn<any>;
@@ -148,18 +149,20 @@ export function SingleArrivalDetails({ form }: SingleArrivalDetailsProps) {
                 key={option.id}
                 type="button"
                 onClick={() => handleDurationSelect(option.value)}
-                className={`group relative flex flex-col items-center p-6 rounded-xl border-2 transition-all duration-200 ${
+                className={cn(
+                  "group relative flex flex-col items-center p-6 rounded-xl border-2 transition-all duration-200",
                   selectedDuration === option.value
                     ? "border-primary bg-primary/5 shadow-md" 
                     : "border-gray-200 hover:border-gray-300 hover:shadow-sm"
-                }`}
+                )}
                 aria-pressed={selectedDuration === option.value}
               >
-                <div className={`w-16 h-16 rounded-full flex items-center justify-center mb-4 transition-all ${
+                <div className={cn(
+                  "w-16 h-16 rounded-full flex items-center justify-center mb-4 transition-all",
                   selectedDuration === option.value 
                     ? "bg-primary text-white" 
                     : "bg-gray-100 text-gray-500 group-hover:bg-gray-200"
-                }`}>
+                )}>
                   {option.icon}
                 </div>
                 <h3 className="text-lg font-medium mb-1">{option.label}</h3>

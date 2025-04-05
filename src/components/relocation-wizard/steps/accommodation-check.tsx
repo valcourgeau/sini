@@ -1,5 +1,6 @@
 import { UseFormReturn } from "react-hook-form";
 import { cn } from "@/lib/utils";
+import { Check, CheckCircle, HelpCircle, XCircle } from "lucide-react";
 
 interface AccommodationCheckProps {
   form: UseFormReturn<any>;
@@ -9,6 +10,7 @@ interface AccommodationOption {
   value: "yes" | "no" | "unknown";
   icon: React.ReactNode;
   label: string;
+  description: string;
 }
 
 export function AccommodationCheck({ form }: AccommodationCheckProps) {
@@ -18,31 +20,21 @@ export function AccommodationCheck({ form }: AccommodationCheckProps) {
   const accommodationOptions: AccommodationOption[] = [
     {
       value: "yes",
-      icon: (
-        <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5" className="text-emerald-500">
-          <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-        </svg>
-      ),
-      label: "Yes"
+      icon: <CheckCircle size={32} />,
+      label: "Yes",
+      description: "My property is already registered"
     },
     {
       value: "no",
-      icon: (
-        <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5" className="text-rose-500">
-          <path strokeLinecap="round" strokeLinejoin="round" d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-        </svg>
-      ),
-      label: "No"
+      icon: <XCircle size={32} />,
+      label: "No",
+      description: "My property is not registered yet"
     },
     {
       value: "unknown",
-      icon: (
-        <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5" className="text-blue-500">
-          <path strokeLinecap="round" strokeLinejoin="round" d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-          <path strokeLinecap="round" strokeLinejoin="round" d="M12 17.25h.007v.008H12v-.008z" />
-        </svg>
-      ),
-      label: "I don't know"
+      icon: <HelpCircle size={32} />,
+      label: "I don't know",
+      description: "I'm not sure if my property is registered"
     }
   ];
 
@@ -56,9 +48,9 @@ export function AccommodationCheck({ form }: AccommodationCheckProps) {
 
   return (
     <div className="space-y-6">
-      <div>
-        <h2 className="text-lg font-medium mb-4">Is your accommodation already listed on our platform?</h2>
-        <p className="text-sm text-muted-foreground mb-6">
+      <div className="text-center">
+        <h2 className="text-xl font-semibold mb-2">Is your accommodation already listed on our platform?</h2>
+        <p className="text-sm text-muted-foreground mb-6 max-w-lg mx-auto">
           Let us know if your property is already registered in our system.
         </p>
       </div>
@@ -70,15 +62,40 @@ export function AccommodationCheck({ form }: AccommodationCheckProps) {
             type="button"
             onClick={() => handleOptionSelect(option.value)}
             className={cn(
-              "flex flex-col items-center text-left p-6 rounded-xl border-2 transition-all duration-200",
-              "hover:shadow-md hover:border-gray-300",
+              "group relative flex flex-col items-center p-6 rounded-xl border-2 transition-all duration-200",
               currentValue === option.value 
-                ? "border-blue-500 bg-blue-50 shadow-sm" 
-                : "border-gray-200"
+                ? "border-primary bg-primary/5 shadow-md" 
+                : "border-gray-200 hover:border-gray-300 hover:shadow-sm"
             )}
+            aria-pressed={currentValue === option.value}
           >
-            <div className="mb-3">{option.icon}</div>
-            <h3 className="text-base font-medium">{option.label}</h3>
+            <div className={cn(
+              "w-16 h-16 rounded-full flex items-center justify-center mb-4 transition-all",
+              currentValue === option.value 
+                ? "bg-primary text-white" 
+                : "bg-gray-100 text-gray-500 group-hover:bg-gray-200"
+            )}>
+              {option.icon}
+            </div>
+            <h3 className="text-lg font-medium mb-1">{option.label}</h3>
+            <p className="text-sm text-center text-muted-foreground">
+              {option.description}
+            </p>
+            
+            {currentValue === option.value && (
+              <div className="absolute top-3 right-3 bg-primary text-white rounded-full p-0.5">
+                <Check size={16} />
+              </div>
+            )}
+            
+            <input
+              type="radio"
+              name="isAccommodationListed"
+              value={option.value}
+              checked={currentValue === option.value}
+              onChange={() => handleOptionSelect(option.value)}
+              className="sr-only" // Hidden but keeps form functionality
+            />
           </button>
         ))}
       </div>
