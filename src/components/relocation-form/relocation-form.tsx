@@ -38,18 +38,18 @@ export function RelocationForm() {
   } = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      firstName: "Valentin",
-      lastName: "Garnier",
-      email: "valentin.garnier@gmail.com",
-      phone: "06 12 34 56 78",
-      address: "123 Rue de la Paix",
-      city: "Paris",
-      postalCode: "75000",
-      sinisterType: "fire",
-      sinisterDate: "2024-01-01",
-      insuranceCompany: "AXA",
-      insuranceNumber: "1234567890",
-      comments: "Je souhaite être relogé suite à un incendie survenu le 1er janvier 2024.",
+      firstName: "",
+      lastName: "",
+      email: "",
+      phone: "",
+      address: "",
+      city: "",
+      postalCode: "",
+      sinisterType: "other",
+      sinisterDate: "",
+      insuranceCompany: "",
+      insuranceNumber: "",
+      comments: "",
     },
   });
 
@@ -89,7 +89,7 @@ export function RelocationForm() {
   }
 
   return (
-    <div className="mx-auto max-w-2xl space-y-6 rounded-lg border border-border bg-card p-6 shadow-sm">
+    <div className="mx-auto max-w-4xl space-y-6 rounded-lg border border-border bg-card p-6 shadow-sm">
       <div className="space-y-2">
         <h2 className="text-2xl font-bold">Demande de relogement</h2>
         <p className="text-gray-500">

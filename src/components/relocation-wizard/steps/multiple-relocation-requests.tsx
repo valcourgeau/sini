@@ -1,8 +1,36 @@
 import { useState } from "react";
-import { UseFormReturn } from "react-hook-form";
+import { UseFormReturn, FieldError, FieldErrorsImpl } from "react-hook-form";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
-import { Trash2, UserPlus, Users } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { Checkbox } from "@/components/ui/checkbox";
+import { 
+  Table, 
+  TableBody, 
+  TableCell, 
+  TableHead, 
+  TableHeader, 
+  TableRow 
+} from "@/components/ui/table";
+import { 
+  Trash2, 
+  UserPlus, 
+  Users, 
+  Copy, 
+  Check, 
+  AlertCircle 
+} from "lucide-react";
+import { toast } from "sonner";
+import { cn } from "@/lib/utils";
+
+interface RelocationRequest {
+  firstName: string;
+  lastName: string;
+  email: string;
+  phone: string;
+  estimatedDuration: string;
+  hasInsurance: boolean;
+}
 
 interface MultipleRelocationRequestsProps {
   form: UseFormReturn<any>;
@@ -10,28 +38,25 @@ interface MultipleRelocationRequestsProps {
 
 export function MultipleRelocationRequests({ form }: MultipleRelocationRequestsProps) {
   const { register, watch, setValue, formState: { errors } } = form;
-  const [showAddPersonForm, setShowAddPersonForm] = useState(false);
   
   // Get current requests or initialize empty array
   const requests = watch("multipleRelocationRequests") || [];
-  const requestErrors = errors.multipleRelocationRequests || [];
+  // Cast errors to any to avoid type issues
+  const requestErrors = (errors.multipleRelocationRequests as any) || [];
   
   // Add a new person
   const addPerson = () => {
-    const newPerson = {
+    const newPerson: RelocationRequest = {
       firstName: "",
       lastName: "",
       email: "",
       phone: "",
-      specialNeeds: "",
-      arrivalDate: "",
       estimatedDuration: "",
       hasInsurance: false,
-      insuranceDetails: "",
     };
     
     setValue("multipleRelocationRequests", [...requests, newPerson]);
-    setShowAddPersonForm(false);
+    toast.success("New person added to the list");
   };
   
   // Remove a person by index
@@ -39,6 +64,40 @@ export function MultipleRelocationRequests({ form }: MultipleRelocationRequestsP
     const updatedRequests = [...requests];
     updatedRequests.splice(index, 1);
     setValue("multipleRelocationRequests", updatedRequests);
+    toast.success("Person removed from the list");
+  };
+
+  // Duplicate a person
+  const duplicatePerson = (index: number) => {
+    const personToDuplicate = { ...requests[index] };
+    const updatedRequests = [...requests];
+    updatedRequests.splice(index + 1, 0, personToDuplicate);
+    setValue("multipleRelocationRequests", updatedRequests);
+    toast.success("Person duplicated");
+  };
+
+  // Save changes
+  const saveChanges = () => {
+    // Validate required fields
+    const hasErrors = requests.some((request: RelocationRequest) => {
+      return !request.firstName || !request.lastName || !request.email || !request.phone;
+    });
+
+    if (hasErrors) {
+      toast.error("Please fill in all required fields");
+      return;
+    }
+
+    toast.success("Changes saved successfully");
+  };
+
+  // Helper function to safely access error messages
+  const getErrorMessage = (index: number, field: string): string | undefined => {
+    if (Array.isArray(requestErrors) && requestErrors[index]) {
+      const error = requestErrors[index] as any;
+      return error[field]?.message as string;
+    }
+    return undefined;
   };
 
   return (
@@ -52,169 +111,151 @@ export function MultipleRelocationRequests({ form }: MultipleRelocationRequestsP
 
       <div className="space-y-6">
         {requests.length > 0 ? (
-          <div className="space-y-8">
-            {requests.map((request: any, index: number) => (
-              <div key={index} className="p-4 border rounded-md bg-muted/20 space-y-4">
-                <div className="flex justify-between items-center">
-                  <h3 className="font-medium flex items-center gap-1.5">
-                    <Users className="h-4 w-4" />
-                    Person {index + 1}
-                  </h3>
-                  <Button 
-                    variant="ghost" 
-                    size="sm" 
-                    onClick={() => removePerson(index)}
-                    type="button"
-                    className="text-red-500 hover:text-red-700 hover:bg-red-50"
-                  >
-                    <Trash2 className="h-4 w-4 mr-1" />
-                    Remove
-                  </Button>
-                </div>
-                
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div className="space-y-2">
-                    <Label htmlFor={`multipleRelocationRequests.${index}.firstName`}>
-                      First Name <span className="text-red-500">*</span>
-                    </Label>
-                    <input
-                      id={`multipleRelocationRequests.${index}.firstName`}
-                      {...register(`multipleRelocationRequests.${index}.firstName`)}
-                      className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-                      placeholder="First name"
-                    />
-                    {requestErrors[index]?.firstName && (
-                      <p className="text-sm text-red-500 mt-1">
-                        {requestErrors[index]?.firstName?.message as string}
-                      </p>
-                    )}
-                  </div>
-                  
-                  <div className="space-y-2">
-                    <Label htmlFor={`multipleRelocationRequests.${index}.lastName`}>
-                      Last Name <span className="text-red-500">*</span>
-                    </Label>
-                    <input
-                      id={`multipleRelocationRequests.${index}.lastName`}
-                      {...register(`multipleRelocationRequests.${index}.lastName`)}
-                      className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-                      placeholder="Last name"
-                    />
-                    {requestErrors[index]?.lastName && (
-                      <p className="text-sm text-red-500 mt-1">
-                        {requestErrors[index]?.lastName?.message as string}
-                      </p>
-                    )}
-                  </div>
-                </div>
-                
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div className="space-y-2">
-                    <Label htmlFor={`multipleRelocationRequests.${index}.email`}>
-                      Email <span className="text-red-500">*</span>
-                    </Label>
-                    <input
-                      id={`multipleRelocationRequests.${index}.email`}
-                      type="email"
-                      {...register(`multipleRelocationRequests.${index}.email`)}
-                      className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-                      placeholder="Email address"
-                    />
-                    {requestErrors[index]?.email && (
-                      <p className="text-sm text-red-500 mt-1">
-                        {requestErrors[index]?.email?.message as string}
-                      </p>
-                    )}
-                  </div>
-                  
-                  <div className="space-y-2">
-                    <Label htmlFor={`multipleRelocationRequests.${index}.phone`}>
-                      Phone <span className="text-red-500">*</span>
-                    </Label>
-                    <input
-                      id={`multipleRelocationRequests.${index}.phone`}
-                      type="tel"
-                      {...register(`multipleRelocationRequests.${index}.phone`)}
-                      className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-                      placeholder="+41 XX XXX XX XX"
-                    />
-                    {requestErrors[index]?.phone && (
-                      <p className="text-sm text-red-500 mt-1">
-                        {requestErrors[index]?.phone?.message as string}
-                      </p>
-                    )}
-                  </div>
-                </div>
-                
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div className="space-y-2">
-                    <Label htmlFor={`multipleRelocationRequests.${index}.arrivalDate`}>
-                      Desired Arrival Date (Optional)
-                    </Label>
-                    <input
-                      id={`multipleRelocationRequests.${index}.arrivalDate`}
-                      type="date"
-                      {...register(`multipleRelocationRequests.${index}.arrivalDate`)}
-                      className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-                    />
-                  </div>
-                  
-                  <div className="space-y-2">
-                    <Label htmlFor={`multipleRelocationRequests.${index}.estimatedDuration`}>
-                      Estimated Duration (Optional)
-                    </Label>
-                    <input
-                      id={`multipleRelocationRequests.${index}.estimatedDuration`}
-                      {...register(`multipleRelocationRequests.${index}.estimatedDuration`)}
-                      className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-                      placeholder="e.g., 3 months"
-                    />
-                  </div>
-                </div>
-                
-                <div className="space-y-2">
-                  <Label htmlFor={`multipleRelocationRequests.${index}.specialNeeds`}>
-                    Special Needs (Optional)
-                  </Label>
-                  <textarea
-                    id={`multipleRelocationRequests.${index}.specialNeeds`}
-                    {...register(`multipleRelocationRequests.${index}.specialNeeds`)}
-                    rows={2}
-                    className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-                    placeholder="Any special needs, accessibility requirements, or pets"
-                  />
-                </div>
-                
-                <div className="space-y-2">
-                  <div className="flex items-start space-x-3 py-2">
-                    <input
-                      type="checkbox"
-                      id={`multipleRelocationRequests.${index}.hasInsurance`}
-                      {...register(`multipleRelocationRequests.${index}.hasInsurance`)}
-                      className="rounded border-input h-5 w-5 mt-0.5"
-                    />
-                    <Label htmlFor={`multipleRelocationRequests.${index}.hasInsurance`} className="cursor-pointer">
-                      Has insurance coverage for relocation
-                    </Label>
-                  </div>
-                  
-                  {watch(`multipleRelocationRequests.${index}.hasInsurance`) && (
-                    <div className="space-y-2 ml-8">
-                      <Label htmlFor={`multipleRelocationRequests.${index}.insuranceDetails`}>
-                        Insurance Details
-                      </Label>
-                      <textarea
-                        id={`multipleRelocationRequests.${index}.insuranceDetails`}
-                        {...register(`multipleRelocationRequests.${index}.insuranceDetails`)}
-                        rows={2}
-                        className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-                        placeholder="Insurance company, policy number, etc."
+          <div className="rounded-lg border overflow-hidden bg-white shadow-sm">
+            <Table>
+              <TableHeader>
+                <TableRow className="bg-muted/50">
+                  <TableHead className="w-[100px]">First Name</TableHead>
+                  <TableHead className="w-[100px]">Last Name</TableHead>
+                  <TableHead className="w-[160px]">Email</TableHead>
+                  <TableHead className="w-[130px]">Phone</TableHead>
+                  <TableHead className="w-[120px]">Duration</TableHead>
+                  <TableHead className="w-[80px]">Insurance</TableHead>
+                  <TableHead className="w-[80px] text-right">Actions</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {requests.map((request: RelocationRequest, index: number) => (
+                  <TableRow key={index} className="hover:bg-muted/30">
+                    <TableCell>
+                      <div className="space-y-0.5">
+                        <Input
+                          {...register(`multipleRelocationRequests.${index}.firstName`, {
+                            required: "First name is required"
+                          })}
+                          placeholder="First name"
+                          className={cn(
+                            "h-8 px-2 py-1 text-sm",
+                            getErrorMessage(index, 'firstName') ? "border-red-500" : ""
+                          )}
+                        />
+                        {getErrorMessage(index, 'firstName') && (
+                          <p className="text-xs text-red-500 flex items-center gap-1">
+                            <AlertCircle className="h-3 w-3" />
+                            {getErrorMessage(index, 'firstName')}
+                          </p>
+                        )}
+                      </div>
+                    </TableCell>
+                    <TableCell>
+                      <div className="space-y-0.5">
+                        <Input
+                          {...register(`multipleRelocationRequests.${index}.lastName`, {
+                            required: "Last name is required"
+                          })}
+                          placeholder="Last name"
+                          className={cn(
+                            "h-8 px-2 py-1 text-sm",
+                            getErrorMessage(index, 'lastName') ? "border-red-500" : ""
+                          )}
+                        />
+                        {getErrorMessage(index, 'lastName') && (
+                          <p className="text-xs text-red-500 flex items-center gap-1">
+                            <AlertCircle className="h-3 w-3" />
+                            {getErrorMessage(index, 'lastName')}
+                          </p>
+                        )}
+                      </div>
+                    </TableCell>
+                    <TableCell>
+                      <div className="space-y-0.5">
+                        <Input
+                          type="email"
+                          {...register(`multipleRelocationRequests.${index}.email`)}
+                          placeholder="Email address"
+                          className={cn(
+                            "h-8 px-2 py-1 text-sm",
+                            getErrorMessage(index, 'email') ? "border-red-500" : ""
+                          )}
+                        />
+                        {getErrorMessage(index, 'email') && (
+                          <p className="text-xs text-red-500 flex items-center gap-1">
+                            <AlertCircle className="h-3 w-3" />
+                            {getErrorMessage(index, 'email')}
+                          </p>
+                        )}
+                      </div>
+                    </TableCell>
+                    <TableCell>
+                      <div className="space-y-0.5">
+                        <Input
+                          type="tel"
+                          {...register(`multipleRelocationRequests.${index}.phone`)}
+                          placeholder="+41 XX XXX XX XX"
+                          className={cn(
+                            "h-8 px-2 py-1 text-sm",
+                            getErrorMessage(index, 'phone') ? "border-red-500" : ""
+                          )}
+                        />
+                        {getErrorMessage(index, 'phone') && (
+                          <p className="text-xs text-red-500 flex items-center gap-1">
+                            <AlertCircle className="h-3 w-3" />
+                            {getErrorMessage(index, 'phone')}
+                          </p>
+                        )}
+                      </div>
+                    </TableCell>
+                    <TableCell>
+                      <Input
+                        {...register(`multipleRelocationRequests.${index}.estimatedDuration`)}
+                        placeholder="e.g., 3 months"
+                        className="h-8 px-2 py-1 text-sm"
                       />
-                    </div>
-                  )}
-                </div>
-              </div>
-            ))}
+                    </TableCell>
+                    <TableCell>
+                      <div className="flex items-center space-x-1.5">
+                        <Checkbox
+                          id={`multipleRelocationRequests.${index}.hasInsurance`}
+                          checked={watch(`multipleRelocationRequests.${index}.hasInsurance`)}
+                          onCheckedChange={(checked) => {
+                            setValue(`multipleRelocationRequests.${index}.hasInsurance`, checked);
+                          }}
+                          className="h-4 w-4"
+                        />
+                        <Label 
+                          htmlFor={`multipleRelocationRequests.${index}.hasInsurance`} 
+                          className="text-xs cursor-pointer"
+                        >
+                          Yes
+                        </Label>
+                      </div>
+                    </TableCell>
+                    <TableCell className="text-right">
+                      <div className="flex justify-end gap-1">
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          onClick={() => duplicatePerson(index)}
+                          type="button"
+                          className="h-7 w-7 text-blue-500 hover:text-blue-700 hover:bg-blue-50"
+                        >
+                          <Copy className="h-3.5 w-3.5" />
+                        </Button>
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          onClick={() => removePerson(index)}
+                          type="button"
+                          className="h-7 w-7 text-red-500 hover:text-red-700 hover:bg-red-50"
+                        >
+                          <Trash2 className="h-3.5 w-3.5" />
+                        </Button>
+                      </div>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
           </div>
         ) : (
           <div className="text-center p-8 border border-dashed rounded-md bg-muted/10">
@@ -226,52 +267,34 @@ export function MultipleRelocationRequests({ form }: MultipleRelocationRequestsP
           </div>
         )}
         
-        {showAddPersonForm ? (
-          <div className="p-4 border rounded-md bg-muted/10 space-y-4">
-            <h3 className="font-medium">Add New Person</h3>
-            <div className="flex justify-end space-x-2">
-              <Button 
-                variant="outline" 
-                size="sm" 
-                onClick={() => setShowAddPersonForm(false)}
-                type="button"
-              >
-                Cancel
-              </Button>
-              <Button 
-                variant="default" 
-                size="sm" 
-                onClick={addPerson}
-                type="button"
-              >
-                Add Person
-              </Button>
-            </div>
-          </div>
-        ) : (
+        <div className="flex flex-col sm:flex-row gap-3">
           <Button 
             type="button" 
-            variant="outline" 
-            onClick={() => setShowAddPersonForm(true)}
-            className="w-full"
+            onClick={addPerson}
+            className="flex-1"
           >
             <UserPlus className="h-4 w-4 mr-2" />
-            Add Another Person
+            Add Person
           </Button>
-        )}
-        
-        {requests.length === 0 && (
-          <Button type="button" onClick={addPerson} className="w-full">
-            <UserPlus className="h-4 w-4 mr-2" />
-            Add First Person
-          </Button>
-        )}
+          
+          {requests.length > 0 && (
+            <Button 
+              type="button" 
+              variant="outline" 
+              onClick={saveChanges}
+              className="flex-1"
+            >
+              <Check className="h-4 w-4 mr-2" />
+              Save Changes
+            </Button>
+          )}
+        </div>
 
         {requests.length > 0 && (
           <div className="p-4 bg-amber-50 rounded-md border border-amber-100">
             <p className="text-sm text-amber-700">
               <strong>Note:</strong> Please ensure that you've added all individuals requiring relocation assistance. 
-              You can add or remove people using the buttons above.
+              You can add, duplicate, or remove people using the buttons above.
             </p>
           </div>
         )}

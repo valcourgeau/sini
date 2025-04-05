@@ -361,7 +361,7 @@ export function RelocationWizard() {
   }
 
   return (
-    <div className="container mx-auto py-8 px-4 md:px-0 max-w-3xl">
+    <div className="container mx-auto py-8 px-4 md:px-0 max-w-5xl">
       <Card>
         <CardHeader>
           <CardTitle>Relocation Assistance Request</CardTitle>

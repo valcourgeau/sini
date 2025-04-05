@@ -42,6 +42,7 @@ export function MultipleReviewConfirm({ form }: MultipleReviewConfirmProps) {
   const detailRowClass = "flex flex-col md:flex-row md:items-baseline py-1.5";
   const labelClass = "text-sm font-medium text-muted-foreground md:w-1/3";
   const valueClass = "text-sm";
+  const noBorderSectionClass = "pb-4 mb-4 last:pb-0 last:mb-0";
 
   return (
     <div className="space-y-6">
@@ -89,60 +90,62 @@ export function MultipleReviewConfirm({ form }: MultipleReviewConfirmProps) {
           <div className="space-y-4">
             {requests.map((request: any, index: number) => (
               <div key={index} className="bg-muted/20 p-5 rounded-md border border-border">
-                <h4 className="font-medium text-base mb-4">Person {index + 1}: {request.firstName} {request.lastName}</h4>
+                <h4 className="font-medium text-base mb-4">Person {index + 1}</h4>
                 
-                <div className="space-y-4">
-                  <div className={sectionClass}>
-                    <h5 className="font-medium text-sm mb-2">Contact Information</h5>
-                    <div className="space-y-0.5">
-                      <div className={detailRowClass}>
-                        <span className={labelClass}>Email:</span>
-                        <span className={valueClass}>{request.email || "Not provided"}</span>
-                      </div>
-                      <div className={detailRowClass}>
-                        <span className={labelClass}>Phone:</span>
-                        <span className={valueClass}>{request.phone || "Not provided"}</span>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {/* Left Column */}
+                  <div className="space-y-4">
+                    <div className={sectionClass}>
+                      <div className="space-y-0.5">
+                        <div className={detailRowClass}>
+                          <span className={labelClass}>Name:</span>
+                          <span className={valueClass}>{request.firstName} {request.lastName}</span>
+                        </div>
+                        <div className={detailRowClass}>
+                          <span className={labelClass}>Email:</span>
+                          <span className={valueClass}>{request.email || "Not provided"}</span>
+                        </div>
+                        <div className={detailRowClass}>
+                          <span className={labelClass}>Phone:</span>
+                          <span className={valueClass}>{request.phone || "Not provided"}</span>
+                        </div>
                       </div>
                     </div>
                   </div>
                   
-                  <div className={sectionClass}>
-                    <h5 className="font-medium text-sm mb-2">Relocation Details</h5>
-                    <div className="space-y-0.5">
-                      {request.arrivalDate && (
+                  {/* Right Column */}
+                  <div className="space-y-4">
+                    <div className={noBorderSectionClass}>
+                      <div className="space-y-0.5">
                         <div className={detailRowClass}>
-                          <span className={labelClass}>Arrival Date:</span>
-                          <span className={valueClass}>{formatDate(request.arrivalDate)}</span>
+                          <span className={labelClass}>Has Insurance:</span>
+                          <span className={valueClass}>{request.hasInsurance ? "Yes" : "No"}</span>
                         </div>
-                      )}
-                      {request.estimatedDuration && (
-                        <div className={detailRowClass}>
-                          <span className={labelClass}>Estimated Duration:</span>
-                          <span className={valueClass}>{request.estimatedDuration}</span>
-                        </div>
-                      )}
-                      {request.specialNeeds && (
-                        <div className={detailRowClass}>
-                          <span className={labelClass}>Special Needs:</span>
-                          <span className={valueClass}>{request.specialNeeds}</span>
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                  
-                  <div className={sectionClass}>
-                    <h5 className="font-medium text-sm mb-2">Insurance Information</h5>
-                    <div className="space-y-0.5">
-                      <div className={detailRowClass}>
-                        <span className={labelClass}>Has Insurance:</span>
-                        <span className={valueClass}>{request.hasInsurance ? "Yes" : "No"}</span>
+                        {request.hasInsurance && request.insuranceDetails && (
+                          <div className={detailRowClass}>
+                            <span className={labelClass}>Insurance Details:</span>
+                            <span className={valueClass}>{request.insuranceDetails}</span>
+                          </div>
+                        )}
+                        {request.arrivalDate && (
+                          <div className={detailRowClass}>
+                            <span className={labelClass}>Arrival Date:</span>
+                            <span className={valueClass}>{formatDate(request.arrivalDate)}</span>
+                          </div>
+                        )}
+                        {request.estimatedDuration && (
+                          <div className={detailRowClass}>
+                            <span className={labelClass}>Estimated Duration:</span>
+                            <span className={valueClass}>{request.estimatedDuration}</span>
+                          </div>
+                        )}
+                        {request.specialNeeds && (
+                          <div className={detailRowClass}>
+                            <span className={labelClass}>Special Needs:</span>
+                            <span className={valueClass}>{request.specialNeeds}</span>
+                          </div>
+                        )}
                       </div>
-                      {request.hasInsurance && request.insuranceDetails && (
-                        <div className={detailRowClass}>
-                          <span className={labelClass}>Insurance Details:</span>
-                          <span className={valueClass}>{request.insuranceDetails}</span>
-                        </div>
-                      )}
                     </div>
                   </div>
                 </div>
