@@ -28,63 +28,35 @@ export function SingleArrivalDetails({ form }: SingleArrivalDetailsProps) {
   // State to track selected duration
   const [selectedDuration, setSelectedDuration] = useState(currentDuration);
   
-  // Duration options with icons and descriptions
+  // Duration options with icons and labels
   const durationOptions = [
     { 
       id: "short-term", 
-      value: "1-2 weeks", 
-      label: "1-2 weeks",
-      subLabel: "Short stay",
-      icon: <Clock size={32} />,
-      description: "Brief accommodation for urgent needs"
+      value: "A few days", 
+      label: "A few days",
+      subLabel: "Urgent and short stay",
+      icon: <Clock size={32} />
     },
     { 
-      id: "medium-short", 
-      value: "2-4 weeks",
-      label: "2-4 weeks",
-      subLabel: "Short-medium stay",
-      icon: <Clock size={32} />,
-      description: "A few weeks of temporary housing"
+      id: "few-weeks", 
+      value: "A few weeks", 
+      label: "A few weeks",
+      subLabel: "Temporary stay",
+      icon: <Clock size={32} />
     },
     { 
-      id: "medium", 
-      value: "1-3 months",
-      label: "1-3 months",
-      subLabel: "Medium stay",
-      icon: <Calendar size={32} />,
-      description: "Several months of transitional housing"
-    },
-    { 
-      id: "medium-long", 
-      value: "3-6 months",
-      label: "3-6 months",
-      subLabel: "Medium-long stay",
-      icon: <Calendar size={32} />,
-      description: "Extended period accommodation"
-    },
-    { 
-      id: "long", 
-      value: "6-12 months",
-      label: "6-12 months",
-      subLabel: "Long stay",
-      icon: <Calendar size={32} />,
-      description: "Long-term housing solution"
-    },
-    { 
-      id: "very-long", 
-      value: "more than 12 months",
-      label: "More than 12 months",
-      subLabel: "Very long stay",
-      icon: <Calendar size={32} />,
-      description: "Long-term or permanent relocation"
+      id: "few-months", 
+      value: "A few months", 
+      label: "A few months",
+      subLabel: "Transitional housing",
+      icon: <Calendar size={32} />
     },
     { 
       id: "unknown", 
-      value: "unknown",
+      value: "Unknown / Not sure",
       label: "Unknown / Not sure",
       subLabel: "Flexible duration",
-      icon: <HelpCircle size={32} />,
-      description: "Duration to be determined later"
+      icon: <HelpCircle size={32} />
     },
   ];
 
@@ -124,7 +96,7 @@ export function SingleArrivalDetails({ form }: SingleArrivalDetailsProps) {
             type="date"
             min={tomorrowStr}
             {...register("singleArrivalDetails.arrivalDate")}
-            className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+            className="w-full max-w-[150px] rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
             defaultValue={tomorrowStr}
           />
           {arrivalErrors.arrivalDate && (
@@ -166,11 +138,8 @@ export function SingleArrivalDetails({ form }: SingleArrivalDetailsProps) {
                   {option.icon}
                 </div>
                 <h3 className="text-lg font-medium mb-1">{option.label}</h3>
-                <p className="text-sm text-center text-muted-foreground mb-1">
+                <p className="text-sm text-center text-muted-foreground">
                   {option.subLabel}
-                </p>
-                <p className="text-xs text-center text-muted-foreground">
-                  {option.description}
                 </p>
                 
                 {selectedDuration === option.value && (
@@ -203,7 +172,7 @@ export function SingleArrivalDetails({ form }: SingleArrivalDetailsProps) {
 
         <div className="p-4 bg-blue-50 rounded-md border border-blue-100 mt-6">
           <p className="text-sm text-blue-700">
-            <strong>Note:</strong> These details help us match you with appropriate relocation options. 
+            <strong>Note:</strong> Help us match you with appropriate relocation options. 
             If your circumstances change, you can always update this information later.
           </p>
         </div>

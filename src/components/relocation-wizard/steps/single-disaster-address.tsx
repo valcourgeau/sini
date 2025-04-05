@@ -45,7 +45,7 @@ export function SingleDisasterAddress({ form }: SingleDisasterAddressProps) {
           )}
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
           <div className="space-y-2">
             <Label htmlFor="singleDisasterAddress.city">City</Label>
             <input
@@ -77,9 +77,7 @@ export function SingleDisasterAddress({ form }: SingleDisasterAddressProps) {
               </p>
             )}
           </div>
-        </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="space-y-2">
             <Label htmlFor="singleDisasterAddress.canton">Canton (if in Switzerland)</Label>
             <Select 

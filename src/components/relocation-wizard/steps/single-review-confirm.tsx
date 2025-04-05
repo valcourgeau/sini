@@ -260,10 +260,10 @@ export function SingleReviewConfirm({ form }: SingleReviewConfirmProps) {
                     getValue("swissInsuranceDetails.ecaPolicyNumber") !== "Not provided" ||
                     getValue("swissInsuranceDetails.agentContact") !== "Not provided" ||
                     getValue("swissInsuranceDetails.additionalNotes") !== "Not provided") ? (
-                    <>
+                    <div className="space-y-4">
                       {/* RC Insurance */}
-                      <div className="ml-2 mb-3">
-                        <div className="font-medium text-sm">Responsabilité Civile (RC) Insurance</div>
+                      <div className="ml-2 rounded-md bg-gray-50 p-3 border-l-2 border-gray-300">
+                        <div className="font-medium text-sm text-gray-700">Responsabilité Civile (RC) Insurance</div>
                         <div className={detailRowClass}>
                           <span className={labelClass}>Has RC Insurance:</span>
                           <span className={valueClass}>
@@ -284,13 +284,19 @@ export function SingleReviewConfirm({ form }: SingleReviewConfirmProps) {
                               <span className={labelClass}>Policy Number:</span>
                               <span className={valueClass}>{getValue("swissInsuranceDetails.rcPolicyNumber")}</span>
                             </div>
+                            {getValue("swissInsuranceDetails.rcContactPerson") !== "Not provided" && (
+                              <div className={detailRowClass}>
+                                <span className={labelClass}>Contact details:</span>
+                                <span className={valueClass}>{getValue("swissInsuranceDetails.rcContactPerson")}</span>
+                              </div>
+                            )}
                           </>
                         )}
                       </div>
                       
                       {/* Ménage Insurance */}
-                      <div className="ml-2 mb-3">
-                        <div className="font-medium text-sm">Assurance Ménage (Household Insurance)</div>
+                      <div className="ml-2 rounded-md bg-gray-50 p-3 border-l-2 border-gray-300">
+                        <div className="font-medium text-sm text-gray-700">Assurance Ménage (Household Insurance)</div>
                         <div className={detailRowClass}>
                           <span className={labelClass}>Has Ménage Insurance:</span>
                           <span className={valueClass}>
@@ -311,13 +317,19 @@ export function SingleReviewConfirm({ form }: SingleReviewConfirmProps) {
                               <span className={labelClass}>Policy Number:</span>
                               <span className={valueClass}>{getValue("swissInsuranceDetails.menagePolicyNumber")}</span>
                             </div>
+                            {getValue("swissInsuranceDetails.menageContactPerson") !== "Not provided" && (
+                              <div className={detailRowClass}>
+                                <span className={labelClass}>Contact details:</span>
+                                <span className={valueClass}>{getValue("swissInsuranceDetails.menageContactPerson")}</span>
+                              </div>
+                            )}
                           </>
                         )}
                       </div>
                       
                       {/* Natural Disaster Insurance */}
-                      <div className="ml-2 mb-3">
-                        <div className="font-medium text-sm">Natural Disaster Insurance</div>
+                      <div className="ml-2 rounded-md bg-gray-50 p-3 border-l-2 border-gray-300">
+                        <div className="font-medium text-sm text-gray-700">Natural Disaster Insurance</div>
                         <div className={detailRowClass}>
                           <span className={labelClass}>Has Natural Disaster Insurance:</span>
                           <span className={valueClass}>
@@ -338,14 +350,20 @@ export function SingleReviewConfirm({ form }: SingleReviewConfirmProps) {
                               <span className={labelClass}>Policy Number:</span>
                               <span className={valueClass}>{getValue("swissInsuranceDetails.naturalDisasterPolicyNumber")}</span>
                             </div>
+                            {getValue("swissInsuranceDetails.naturalDisasterContactPerson") !== "Not provided" && (
+                              <div className={detailRowClass}>
+                                <span className={labelClass}>Contact details:</span>
+                                <span className={valueClass}>{getValue("swissInsuranceDetails.naturalDisasterContactPerson")}</span>
+                              </div>
+                            )}
                           </>
                         )}
                       </div>
                       
                       {/* Building Insurance - Only show if user is an owner */}
                       {getValue("role") === "owner" && (
-                        <div className="ml-2 mb-3">
-                          <div className="font-medium text-sm">Building Insurance</div>
+                        <div className="ml-2 rounded-md bg-gray-50 p-3 border-l-2 border-gray-300">
+                          <div className="font-medium text-sm text-gray-700">Building Insurance</div>
                           <div className={detailRowClass}>
                             <span className={labelClass}>Has Building Insurance:</span>
                             <span className={valueClass}>
@@ -366,6 +384,12 @@ export function SingleReviewConfirm({ form }: SingleReviewConfirmProps) {
                                 <span className={labelClass}>Policy Number:</span>
                                 <span className={valueClass}>{getValue("swissInsuranceDetails.buildingPolicyNumber")}</span>
                               </div>
+                              {getValue("swissInsuranceDetails.buildingContactPerson") !== "Not provided" && (
+                                <div className={detailRowClass}>
+                                  <span className={labelClass}>Contact details:</span>
+                                  <span className={valueClass}>{getValue("swissInsuranceDetails.buildingContactPerson")}</span>
+                                </div>
+                              )}
                             </>
                           )}
                         </div>
@@ -375,8 +399,8 @@ export function SingleReviewConfirm({ form }: SingleReviewConfirmProps) {
                       {(getValue("singleDisasterAddress.canton") === "Vaud" || 
                         (getValue("singleDisasterAddress.postalCode").startsWith("1") && 
                          getValue("singleDisasterAddress.country") === "Switzerland")) && (
-                        <div className="ml-2 mb-3">
-                          <div className="font-medium text-sm">ECA Insurance (Canton de Vaud)</div>
+                        <div className="ml-2 rounded-md bg-gray-50 p-3 border-l-2 border-gray-300">
+                          <div className="font-medium text-sm text-gray-700">ECA Insurance (Canton de Vaud)</div>
                           <div className={detailRowClass}>
                             <span className={labelClass}>Policy Number:</span>
                             <span className={valueClass}>{getValue("swissInsuranceDetails.ecaPolicyNumber")}</span>
@@ -385,23 +409,26 @@ export function SingleReviewConfirm({ form }: SingleReviewConfirmProps) {
                       )}
                       
                       {/* Additional Information */}
-                      <div className="ml-2 mt-4 pt-2 border-t border-border/50">
-                        <div className="font-medium text-sm mb-1">Additional Information</div>
-                        {getValue("swissInsuranceDetails.agentContact") !== "Not provided" && (
-                          <div className={detailRowClass}>
-                            <span className={labelClass}>Agent Contact:</span>
-                            <span className={valueClass}>{getValue("swissInsuranceDetails.agentContact")}</span>
-                          </div>
-                        )}
-                        
-                        {getValue("swissInsuranceDetails.additionalNotes") !== "Not provided" && (
-                          <div className={detailRowClass}>
-                            <span className={labelClass}>Additional Notes:</span>
-                            <span className={valueClass}>{getValue("swissInsuranceDetails.additionalNotes")}</span>
-                          </div>
-                        )}
-                      </div>
-                    </>
+                      {(getValue("swissInsuranceDetails.agentContact") !== "Not provided" || 
+                        getValue("swissInsuranceDetails.additionalNotes") !== "Not provided") && (
+                        <div className="ml-2 mt-4 p-3 border-t border-border/50 bg-gray-50 rounded-md">
+                          <div className="font-medium text-sm mb-1">Additional Information</div>
+                          {getValue("swissInsuranceDetails.agentContact") !== "Not provided" && (
+                            <div className={detailRowClass}>
+                              <span className={labelClass}>Agent Contact:</span>
+                              <span className={valueClass}>{getValue("swissInsuranceDetails.agentContact")}</span>
+                            </div>
+                          )}
+                          
+                          {getValue("swissInsuranceDetails.additionalNotes") !== "Not provided" && (
+                            <div className={detailRowClass}>
+                              <span className={labelClass}>Additional Notes:</span>
+                              <span className={valueClass}>{getValue("swissInsuranceDetails.additionalNotes")}</span>
+                            </div>
+                          )}
+                        </div>
+                      )}
+                    </div>
                   ) : (
                     <p className="text-sm text-muted-foreground ml-2">
                       No insurance information provided. Our team will help you identify potential coverage options.
