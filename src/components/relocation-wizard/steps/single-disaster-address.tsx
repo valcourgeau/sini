@@ -21,14 +21,15 @@ export function SingleDisasterAddress({ form }: SingleDisasterAddressProps) {
   
   return (
     <div className="space-y-6">
-      <div>
-        <h2 className="text-lg font-medium mb-4">Disaster Address</h2>
-        <p className="text-sm text-muted-foreground mb-6">
-          Please provide the address of the property affected by the disaster that requires relocation.
+      <div className="text-center">
+        <h2 className="text-xl font-semibold mb-2">Disaster Address</h2>
+        <p className="text-sm text-muted-foreground mb-6 max-w-lg mx-auto">
+          Please provide the address of the property affected.
         </p>
       </div>
 
       <div className="space-y-4">
+        {/* Street Address */}
         <div className="space-y-2">
           <Label htmlFor="singleDisasterAddress.street">Street Address</Label>
           <input
@@ -45,7 +46,8 @@ export function SingleDisasterAddress({ form }: SingleDisasterAddressProps) {
           )}
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+        {/* City, Postal Code, Canton, Country in one row */}
+        <div className="grid grid-cols-4 gap-4">
           <div className="space-y-2">
             <Label htmlFor="singleDisasterAddress.city">City</Label>
             <input
@@ -79,13 +81,13 @@ export function SingleDisasterAddress({ form }: SingleDisasterAddressProps) {
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="singleDisasterAddress.canton">Canton (if in Switzerland)</Label>
+            <Label htmlFor="singleDisasterAddress.canton">Canton</Label>
             <Select 
               onValueChange={(value) => setValue("singleDisasterAddress.canton", value)}
               defaultValue="none"
             >
               <SelectTrigger className="w-full">
-                <SelectValue placeholder="Select a canton" />
+                <SelectValue placeholder="Select canton" />
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="none">Not applicable</SelectItem>

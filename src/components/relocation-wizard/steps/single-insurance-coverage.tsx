@@ -31,9 +31,9 @@ export function SingleInsuranceCoverage({ form }: SingleInsuranceCoverageProps) 
 
   return (
     <div className="space-y-6">
-      <div>
-        <h2 className="text-lg font-medium mb-4">Insurance Coverage</h2>
-        <p className="text-sm text-muted-foreground mb-6">
+      <div className="text-center">
+        <h2 className="text-xl font-semibold mb-2">Insurance Coverage</h2>
+        <p className="text-sm text-muted-foreground mb-6 max-w-lg mx-auto">
           Please indicate whether you have insurance that may cover your relocation expenses.
         </p>
       </div>

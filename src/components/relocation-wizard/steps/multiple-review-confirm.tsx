@@ -1,5 +1,5 @@
 import { UseFormReturn } from "react-hook-form";
-import { Users } from "lucide-react";
+import { Users, Users2 } from "lucide-react";
 
 interface MultipleReviewConfirmProps {
   form: UseFormReturn<any>;
@@ -73,6 +73,10 @@ export function MultipleReviewConfirm({ form }: MultipleReviewConfirmProps) {
                 <span className={valueClass}>{getValue("multipleDisasterAddress.postalCode")}</span>
               </div>
               <div className={detailRowClass}>
+                <span className={labelClass}>Canton:</span>
+                <span className={valueClass}>{getValue("multipleDisasterAddress.canton")}</span>
+              </div>
+              <div className={detailRowClass}>
                 <span className={labelClass}>Country:</span>
                 <span className={valueClass}>{getValue("multipleDisasterAddress.country")}</span>
               </div>
@@ -87,65 +91,59 @@ export function MultipleReviewConfirm({ form }: MultipleReviewConfirmProps) {
         </h3>
         
         {requests.length > 0 ? (
-          <div className="space-y-4">
+          <div className="space-y-3">
             {requests.map((request: any, index: number) => (
-              <div key={index} className="bg-muted/20 p-5 rounded-md border border-border">
-                <h4 className="font-medium text-base mb-4">Person {index + 1}</h4>
+              <div key={index} className="bg-muted/20 p-4 rounded-md border border-border">
+                <h4 className="font-medium text-sm mb-2 flex items-center">
+                  <Users2 className="h-4 w-4 mr-1.5 text-muted-foreground" />
+                  Person {index + 1}: {request.firstName} {request.lastName}
+                </h4>
                 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm">
                   {/* Left Column */}
-                  <div className="space-y-4">
-                    <div className={sectionClass}>
-                      <div className="space-y-0.5">
-                        <div className={detailRowClass}>
-                          <span className={labelClass}>Name:</span>
-                          <span className={valueClass}>{request.firstName} {request.lastName}</span>
-                        </div>
-                        <div className={detailRowClass}>
-                          <span className={labelClass}>Email:</span>
-                          <span className={valueClass}>{request.email || "Not provided"}</span>
-                        </div>
-                        <div className={detailRowClass}>
-                          <span className={labelClass}>Phone:</span>
-                          <span className={valueClass}>{request.phone || "Not provided"}</span>
-                        </div>
-                      </div>
+                  <div>
+                    <div className="grid grid-cols-3 gap-1">
+                      <span className="text-xs text-muted-foreground">Email:</span>
+                      <span className="col-span-2">{request.email || "Not provided"}</span>
+                      
+                      <span className="text-xs text-muted-foreground">Phone:</span>
+                      <span className="col-span-2">{request.phone || "Not provided"}</span>
                     </div>
                   </div>
                   
                   {/* Right Column */}
-                  <div className="space-y-4">
-                    <div className={noBorderSectionClass}>
-                      <div className="space-y-0.5">
-                        <div className={detailRowClass}>
-                          <span className={labelClass}>Has Insurance:</span>
-                          <span className={valueClass}>{request.hasInsurance ? "Yes" : "No"}</span>
-                        </div>
-                        {request.hasInsurance && request.insuranceDetails && (
-                          <div className={detailRowClass}>
-                            <span className={labelClass}>Insurance Details:</span>
-                            <span className={valueClass}>{request.insuranceDetails}</span>
-                          </div>
-                        )}
-                        {request.arrivalDate && (
-                          <div className={detailRowClass}>
-                            <span className={labelClass}>Arrival Date:</span>
-                            <span className={valueClass}>{formatDate(request.arrivalDate)}</span>
-                          </div>
-                        )}
-                        {request.estimatedDuration && (
-                          <div className={detailRowClass}>
-                            <span className={labelClass}>Estimated Duration:</span>
-                            <span className={valueClass}>{request.estimatedDuration}</span>
-                          </div>
-                        )}
-                        {request.specialNeeds && (
-                          <div className={detailRowClass}>
-                            <span className={labelClass}>Special Needs:</span>
-                            <span className={valueClass}>{request.specialNeeds}</span>
-                          </div>
-                        )}
-                      </div>
+                  <div>
+                    <div className="grid grid-cols-3 gap-1">
+                      <span className="text-xs text-muted-foreground">Insurance:</span>
+                      <span className="col-span-2">{request.hasInsurance ? "Yes" : "No"}</span>
+                      
+                      {request.hasInsurance && request.insuranceDetails && (
+                        <>
+                          <span className="text-xs text-muted-foreground">Details:</span>
+                          <span className="col-span-2">{request.insuranceDetails}</span>
+                        </>
+                      )}
+                      
+                      {request.arrivalDate && (
+                        <>
+                          <span className="text-xs text-muted-foreground">Arrival:</span>
+                          <span className="col-span-2">{formatDate(request.arrivalDate)}</span>
+                        </>
+                      )}
+                      
+                      {request.estimatedDuration && (
+                        <>
+                          <span className="text-xs text-muted-foreground">Duration:</span>
+                          <span className="col-span-2">{request.estimatedDuration}</span>
+                        </>
+                      )}
+                      
+                      {request.specialNeeds && (
+                        <>
+                          <span className="text-xs text-muted-foreground">Special Needs:</span>
+                          <span className="col-span-2">{request.specialNeeds}</span>
+                        </>
+                      )}
                     </div>
                   </div>
                 </div>

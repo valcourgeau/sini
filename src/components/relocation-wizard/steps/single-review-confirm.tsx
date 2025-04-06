@@ -446,19 +446,22 @@ export function SingleReviewConfirm({ form }: SingleReviewConfirmProps) {
           <div className="space-y-0.5">
             <div className={detailRowClass}>
               <span className={labelClass}>Lease Terminated:</span>
-              <span className={valueClass}>{getBooleanValue("singleLeaseTermination.hasTerminatedLease") ? "Yes" : "No"}</span>
+              <span className={valueClass}>
+                {getBooleanValue("singleLeaseTermination.hasTerminatedLease") ? "Yes" : "No"}
+                {getBooleanValue("singleLeaseTermination.hasTerminatedLease") && (
+                  <> (Termination Date: {formatDate(getValue("singleLeaseTermination.terminationDate"))})</>
+                )}
+              </span>
             </div>
-            
-            {getBooleanValue("singleLeaseTermination.hasTerminatedLease") && (
-              <div className={detailRowClass}>
-                <span className={labelClass}>Termination Date:</span>
-                <span className={valueClass}>{formatDate(getValue("singleLeaseTermination.terminationDate"))}</span>
-              </div>
-            )}
             
             <div className={detailRowClass}>
               <span className={labelClass}>Landlord Notified:</span>
-              <span className={valueClass}>{getBooleanValue("singleLeaseTermination.hasNotifiedLandlord") ? "Yes" : "No"}</span>
+              <span className={valueClass}>
+                {getBooleanValue("singleLeaseTermination.hasNotifiedLandlord") ? "Yes" : "No"}
+                {getBooleanValue("singleLeaseTermination.hasNotifiedLandlord") && (
+                  <> (Notification Date: {formatDate(getValue("singleLeaseTermination.notificationDate"))})</>
+                )}
+              </span>
             </div>
           </div>
         </div>

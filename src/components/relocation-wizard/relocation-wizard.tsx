@@ -124,6 +124,7 @@ const formSchema = z.object({
     hasTerminatedLease: z.boolean().optional(),
     terminationDate: z.string().optional(),
     hasNotifiedLandlord: z.boolean().optional(),
+    notificationDate: z.string().optional(),
   }).optional(),
 
   singleConsent: z.object({
@@ -192,7 +193,7 @@ export function RelocationWizard() {
   const getTotalSteps = () => {
     const relocationType = form.watch("relocationType");
     
-    if (!relocationType) return 4; // Default steps until relocation type selection
+    if (!relocationType) return 13; // Default steps until relocation type selection
     
     return relocationType === "single" ? 13 : 8; // Single: 13 steps, Multiple: 8 steps
   };
@@ -374,7 +375,7 @@ export function RelocationWizard() {
           <CardDescription className="text-center text-base">
             Please complete this form to request relocation assistance.
           </CardDescription>
-          <div className="mt-6">
+          <div className="mt-12">
             <Progress value={progressPercentage} className="h-2.5" />
             <p className="text-sm text-right mt-2 text-muted-foreground">
               Step {step} of {totalSteps}

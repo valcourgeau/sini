@@ -11,9 +11,9 @@ export function SingleInsuranceDetails({ form }: SingleInsuranceDetailsProps) {
   
   return (
     <div className="space-y-6">
-      <div>
-        <h2 className="text-lg font-medium mb-4">Insurance Details</h2>
-        <p className="text-sm text-muted-foreground mb-6">
+      <div className="text-center">
+        <h2 className="text-xl font-semibold mb-2">Insurance Details</h2>
+        <p className="text-sm text-muted-foreground mb-6 max-w-lg mx-auto">
           Please provide information about your insurance policy that may cover relocation expenses.
         </p>
       </div>

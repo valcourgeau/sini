@@ -1,10 +1,27 @@
 import { UseFormReturn } from "react-hook-form";
 import { Label } from "@/components/ui/label";
-import { PawPrint, Accessibility, Plus, Check, Dog, Cat, Bird, Rabbit, HelpCircle, X } from "lucide-react";
+import { PawPrint, Accessibility, Plus, Check, Dog, Cat, Bird, Rabbit, HelpCircle, X, Eye, Ear, Brain, Heart, Building2, ArrowUpDown, LucideIcon, Stethoscope, HeartHandshake  } from "lucide-react";
 import { useEffect, useState } from "react";
+import { Card, CardContent } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { cn } from "@/lib/utils";
 
 interface SingleSpecialNeedsProps {
   form: UseFormReturn<any>;
+}
+
+interface PetType {
+  id: string;
+  name: string;
+  icon: LucideIcon;
+}
+
+interface AccessibilityType {
+  id: string;
+  label: string;
+  icon: LucideIcon;
+  description?: string;
 }
 
 export function SingleSpecialNeeds({ form }: SingleSpecialNeedsProps) {
@@ -17,8 +34,11 @@ export function SingleSpecialNeeds({ form }: SingleSpecialNeedsProps) {
   
   // State for pet type selection
   const [selectedPetTypes, setSelectedPetTypes] = useState<string[]>([]);
-  const [showOtherPetInput, setShowOtherPetInput] = useState(false);
-  const [otherPetDetails, setOtherPetDetails] = useState("");
+  const [petDetails, setPetDetails] = useState<Record<string, string>>({});
+  
+  // State for accessibility requirements
+  const [selectedAccessibilityTypes, setSelectedAccessibilityTypes] = useState<string[]>([]);
+  const [accessibilityDetails, setAccessibilityDetails] = useState<Record<string, string>>({});
 
   // Ensure form fields are initialized with proper boolean values
   useEffect(() => {
@@ -62,107 +82,22 @@ export function SingleSpecialNeeds({ form }: SingleSpecialNeedsProps) {
         });
         // Reset pet type selection
         setSelectedPetTypes([]);
-        setShowOtherPetInput(false);
-        setOtherPetDetails("");
+        setPetDetails({});
       } else if (field === "singleSpecialNeeds.hasAccessibilityNeeds") {
         setValue("singleSpecialNeeds.accessibilityDetails", "", {
           shouldValidate: true,
           shouldDirty: true,
           shouldTouch: true
         });
+        // Reset accessibility type selection
+        setSelectedAccessibilityTypes([]);
+        setAccessibilityDetails({});
       }
-    }
-  };
-
-  // Handler for selecting a pet type
-  const handlePetTypeSelect = (petType: string) => {
-    let updatedPetTypes: string[];
-    
-    if (petType === "other") {
-      // Toggle the "Other" option
-      if (selectedPetTypes.includes("other")) {
-        updatedPetTypes = selectedPetTypes.filter(type => type !== "other");
-        setShowOtherPetInput(false);
-      } else {
-        updatedPetTypes = [...selectedPetTypes, "other"];
-        setShowOtherPetInput(true);
-      }
-    } else {
-      // Toggle the selected pet type
-      if (selectedPetTypes.includes(petType)) {
-        updatedPetTypes = selectedPetTypes.filter(type => type !== petType);
-      } else {
-        updatedPetTypes = [...selectedPetTypes, petType];
-      }
-    }
-    
-    setSelectedPetTypes(updatedPetTypes);
-    
-    // Update the animalDetails field with the selected pet types
-    if (updatedPetTypes.length === 0) {
-      setValue("singleSpecialNeeds.animalDetails", "", {
-        shouldValidate: true,
-        shouldDirty: true,
-        shouldTouch: true
-      });
-    } else {
-      // Format the pet types for display
-      const petTypeLabels = updatedPetTypes.map(type => {
-        if (type === "dog") return "Dog";
-        if (type === "cat") return "Cat";
-        if (type === "bird") return "Bird";
-        if (type === "small") return "Small Animal";
-        if (type === "other") return "Other";
-        return type;
-      });
-      
-      // If "Other" is selected, include the custom details
-      if (updatedPetTypes.includes("other") && otherPetDetails) {
-        const otherIndex = petTypeLabels.indexOf("Other");
-        petTypeLabels[otherIndex] = `Other (${otherPetDetails})`;
-      }
-      
-      setValue("singleSpecialNeeds.animalDetails", petTypeLabels.join(", "), {
-        shouldValidate: true,
-        shouldDirty: true,
-        shouldTouch: true
-      });
-    }
-  };
-
-  // Handler for other pet details input
-  const handleOtherPetDetailsChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    const details = e.target.value;
-    setOtherPetDetails(details);
-    
-    // Update the animalDetails field with the selected pet types and custom input
-    if (selectedPetTypes.length === 0) {
-      setValue("singleSpecialNeeds.animalDetails", "", {
-        shouldValidate: true,
-        shouldDirty: true,
-        shouldTouch: true
-      });
-    } else {
-      // Format the pet types for display
-      const petTypeLabels = selectedPetTypes.map(type => {
-        if (type === "dog") return "Dog";
-        if (type === "cat") return "Cat";
-        if (type === "bird") return "Bird";
-        if (type === "small") return "Small Animal";
-        if (type === "other") return `Other (${details})`;
-        return type;
-      });
-      
-      setValue("singleSpecialNeeds.animalDetails", petTypeLabels.join(", "), {
-        shouldValidate: true,
-        shouldDirty: true,
-        shouldTouch: true
-      });
     }
   };
 
   // Pet type options
-  const petTypes = [
+  const petTypes: PetType[] = [
     { id: "dog", name: "Dog", icon: Dog },
     { id: "cat", name: "Cat", icon: Cat },
     { id: "bird", name: "Bird", icon: Bird },
@@ -170,227 +105,316 @@ export function SingleSpecialNeeds({ form }: SingleSpecialNeedsProps) {
     { id: "other", name: "Other", icon: HelpCircle }
   ];
 
+  // Accessibility type options
+  const accessibilityTypeOptions: AccessibilityType[] = [
+    {
+      id: 'wheelchair',
+      label: 'Wheelchair Access',
+      icon: Accessibility,
+    },
+    {
+      id: 'medical',
+      label: 'Medical Care',
+      icon: Stethoscope,
+    },
+    {
+      id: 'elevator',
+      label: 'Elevator Access',
+      icon: Building2,
+    },
+    {
+      id: 'other',
+      label: 'Other',
+      icon: Accessibility,
+    },
+  ];
+
+  // Handler for toggling pet type selection
+  const handlePetTypeToggle = (typeId: string) => {
+    const updatedTypes = selectedPetTypes.includes(typeId)
+      ? selectedPetTypes.filter(id => id !== typeId)
+      : [...selectedPetTypes, typeId];
+    
+    setSelectedPetTypes(updatedTypes);
+    
+    // Update form value
+    const details = updatedTypes.map(type => {
+      const pet = petTypes.find(p => p.id === type);
+      return pet ? pet.name : type;
+    }).join(", ");
+    
+    setValue("singleSpecialNeeds.animalDetails", details, {
+      shouldValidate: true,
+      shouldDirty: true,
+      shouldTouch: true
+    });
+  };
+
+  // Handler for pet details change
+  const handlePetDetailsChange = (typeId: string, value: string) => {
+    setPetDetails(prev => ({ ...prev, [typeId]: value }));
+    
+    // Update the animalDetails field with the selected pet types and custom input
+    const petTypeLabels = selectedPetTypes.map(type => {
+      const pet = petTypes.find(p => p.id === type);
+      if (type === 'other') {
+        return `Other (${value})`;
+      }
+      return pet ? pet.name : type;
+    });
+    
+    setValue("singleSpecialNeeds.animalDetails", petTypeLabels.join(", "), {
+      shouldValidate: true,
+      shouldDirty: true,
+      shouldTouch: true
+    });
+  };
+
+  // Handler for toggling accessibility type selection
+  const handleAccessibilityTypeToggle = (typeId: string) => {
+    const updatedTypes = selectedAccessibilityTypes.includes(typeId)
+      ? selectedAccessibilityTypes.filter(id => id !== typeId)
+      : [...selectedAccessibilityTypes, typeId];
+    
+    setSelectedAccessibilityTypes(updatedTypes);
+    
+    // Update form value
+    const details = updatedTypes.map(type => {
+      const option = accessibilityTypeOptions.find(opt => opt.id === type);
+      return option ? option.label : type;
+    }).join(", ");
+    
+    setValue("singleSpecialNeeds.accessibilityDetails", details, {
+      shouldValidate: true,
+      shouldDirty: true,
+      shouldTouch: true
+    });
+  };
+
+  // Handler for accessibility details change
+  const handleAccessibilityDetailsChange = (typeId: string, value: string) => {
+    setAccessibilityDetails(prev => ({ ...prev, [typeId]: value }));
+    
+    // Update the accessibilityDetails field with the selected types and custom input
+    const accessibilityTypeLabels = selectedAccessibilityTypes.map(type => {
+      const option = accessibilityTypeOptions.find(opt => opt.id === type);
+      if (type === 'other') {
+        return `Other (${value})`;
+      }
+      return option ? option.label : type;
+    });
+    
+    setValue("singleSpecialNeeds.accessibilityDetails", accessibilityTypeLabels.join(", "), {
+      shouldValidate: true,
+      shouldDirty: true,
+      shouldTouch: true
+    });
+  };
+
   return (
-    <div className="space-y-8">
+    <div className="space-y-6">
       <div className="text-center">
         <h2 className="text-xl font-semibold mb-2">Special Needs & Requirements</h2>
-        <p className="text-sm text-muted-foreground max-w-lg mx-auto">
+        <p className="text-sm text-muted-foreground mb-6 max-w-2xl mx-auto">
           Please let us know if you have any special needs or requirements for your relocation.
         </p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 auto-rows-min">
         {/* Animals Card */}
-        <button
-          type="button"
-          onClick={() => handleSpecialNeedToggle("singleSpecialNeeds.hasAnimals", !hasAnimals)}
-          className={`group relative flex flex-col items-center p-6 rounded-xl border-2 transition-all duration-200 ${
-            hasAnimals === true
-              ? "border-primary bg-primary/5 shadow-md" 
-              : "border-gray-200 hover:border-gray-300 hover:shadow-sm"
-          }`}
-          aria-pressed={hasAnimals === true}
+        <div
+          className={cn(
+            "group relative flex flex-col p-6 rounded-xl border-2 transition-all duration-200",
+            hasAnimals
+              ? "border-primary bg-primary/5 shadow-md"
+              : "border-gray-200 hover:border-gray-300 hover:shadow-sm h-[160px]"
+          )}
         >
-          <div className={`w-16 h-16 rounded-full flex items-center justify-center mb-4 transition-all ${
-            hasAnimals === true ? "bg-primary text-white" : "bg-gray-100 text-gray-500 group-hover:bg-gray-200"
-          }`}>
+          <button
+            type="button"
+            onClick={() => handleSpecialNeedToggle("singleSpecialNeeds.hasAnimals", !hasAnimals)}
+            className="flex flex-col items-center w-full"
+            aria-pressed={hasAnimals}
+          >
+            <div className={cn(
+              "w-16 h-16 rounded-full flex items-center justify-center mb-4 transition-all",
+              hasAnimals ? "bg-primary text-white" : "bg-gray-100 text-gray-500 group-hover:bg-gray-200"
+            )}>
             <PawPrint size={32} />
           </div>
           <h3 className="text-lg font-medium mb-1">Pets or Animals</h3>
           
-          {hasAnimals === true && (
-            <div className="absolute top-3 right-3 bg-primary text-white rounded-full p-0.5">
-              <Check size={16} />
+            {hasAnimals && (
+              <div className="absolute top-3 right-3 bg-primary text-white rounded-full p-0.5">
+                <Check size={16} />
+              </div>
+            )}
+          </button>
+          
+          {/* Pet Selection Content - Appears when card is selected */}
+          {hasAnimals && (
+            <div className="mt-6 pt-6 border-t border-gray-200">
+              <div className="flex items-center gap-2 mb-3">
+                <PawPrint className="text-primary" size={20} />
+                <Label className="text-base font-medium">
+                  What types of pets do you have?
+                </Label>
+              </div>
+              
+              {/* Pet Type Selection Grid */}
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-4">
+                {petTypes.map((pet) => {
+                  const isSelected = selectedPetTypes.includes(pet.id);
+                  return (
+                    <button
+                      key={pet.id}
+                      type="button"
+                      onClick={() => handlePetTypeToggle(pet.id)}
+                      className={cn(
+                        "flex flex-col items-center p-3 rounded-xl border transition-all",
+                        isSelected
+                          ? "border-primary bg-primary/5 shadow-sm"
+                          : "border-gray-200 hover:border-gray-300"
+                      )}
+                    >
+                      <div className={cn(
+                        "w-10 h-10 rounded-full flex items-center justify-center mb-2",
+                        isSelected ? "bg-primary text-white" : "bg-gray-100 text-gray-500"
+                      )}>
+                        <pet.icon className="h-6 w-6" />
+                      </div>
+                      <span className="text-sm font-medium">{pet.name}</span>
+                      {isSelected && (
+                        <div className="absolute top-1 right-1 bg-primary text-white rounded-full p-0.5">
+                          <Check size={12} />
+                        </div>
+                      )}
+                    </button>
+                  );
+                })}
+              </div>
+              
+              {/* Selected Pets Details */}
+              {selectedPetTypes.includes('other') && (
+                <div className="space-y-2 mt-4">
+                  <Label htmlFor="pet-details-other">Specify Pet Type</Label>
+                  <Input
+                    id="pet-details-other"
+                    placeholder="Enter pet type"
+                    value={petDetails['other'] || ''}
+                    onChange={(e) => handlePetDetailsChange('other', e.target.value)}
+                  />
+                </div>
+              )}
             </div>
           )}
-          
-          <input
-            type="checkbox"
-            id="singleSpecialNeeds.hasAnimals"
-            {...register("singleSpecialNeeds.hasAnimals")}
-            checked={hasAnimals === true}
-            onChange={(e) => handleSpecialNeedToggle("singleSpecialNeeds.hasAnimals", e.target.checked)}
-            className="sr-only" // Hidden but keeps the form functionality
-          />
-        </button>
+        </div>
 
         {/* Accessibility Card */}
-        <button
-          type="button"
-          onClick={() => handleSpecialNeedToggle("singleSpecialNeeds.hasAccessibilityNeeds", !hasAccessibilityNeeds)}
-          className={`group relative flex flex-col items-center p-6 rounded-xl border-2 transition-all duration-200 ${
-            hasAccessibilityNeeds === true
-              ? "border-primary bg-primary/5 shadow-md" 
-              : "border-gray-200 hover:border-gray-300 hover:shadow-sm"
-          }`}
-          aria-pressed={hasAccessibilityNeeds === true}
+        <div
+          className={cn(
+            "group relative flex flex-col p-6 rounded-xl border-2 transition-all duration-200",
+            hasAccessibilityNeeds
+              ? "border-primary bg-primary/5 shadow-md"
+              : "border-gray-200 hover:border-gray-300 hover:shadow-sm h-[160px]"
+          )}
         >
-          <div className={`w-16 h-16 rounded-full flex items-center justify-center mb-4 transition-all ${
-            hasAccessibilityNeeds === true ? "bg-primary text-white" : "bg-gray-100 text-gray-500 group-hover:bg-gray-200"
-          }`}>
-            <Accessibility size={32} />
-          </div>
-          <h3 className="text-lg font-medium mb-1">Accessibility Requirements</h3>
+          <button
+            type="button"
+            onClick={() => handleSpecialNeedToggle("singleSpecialNeeds.hasAccessibilityNeeds", !hasAccessibilityNeeds)}
+            className="flex flex-col items-center w-full"
+            aria-pressed={hasAccessibilityNeeds}
+          >
+            <div className={cn(
+              "w-16 h-16 rounded-full flex items-center justify-center mb-4 transition-all",
+              hasAccessibilityNeeds ? "bg-primary text-white" : "bg-gray-100 text-gray-500 group-hover:bg-gray-200"
+            )}>
+              <HeartHandshake size={32} />
+            </div>
+            <h3 className="text-lg font-medium">Accessibility Requirements</h3>
+            
+            {hasAccessibilityNeeds && (
+              <div className="absolute top-3 right-3 bg-primary text-white rounded-full p-0.5">
+                <Check size={16} />
+              </div>
+            )}
+          </button>
           
-          {hasAccessibilityNeeds === true && (
-            <div className="absolute top-3 right-3 bg-primary text-white rounded-full p-0.5">
-              <Check size={16} />
+          {/* Accessibility Selection Content - Appears when card is selected */}
+          {hasAccessibilityNeeds && (
+            <div className="mt-6 pt-6 border-t border-gray-200">
+              <div className="flex items-center gap-2 mb-3">
+                <Accessibility className="text-primary" size={20} />
+                <Label className="text-base font-medium">
+                  What accessibility requirements do you need?
+                </Label>
+              </div>
+              
+              {/* Accessibility Type Selection Grid */}
+              <div className="grid grid-cols-2 gap-3 mb-4">
+                {accessibilityTypeOptions.map((type) => {
+                  const isSelected = selectedAccessibilityTypes.includes(type.id);
+                  return (
+                    <button
+                      key={type.id}
+                      type="button"
+                      onClick={() => handleAccessibilityTypeToggle(type.id)}
+                      className={cn(
+                        "flex flex-col items-center p-3 rounded-xl border transition-all",
+                        isSelected
+                          ? "border-primary bg-primary/5 shadow-sm"
+                          : "border-gray-200 hover:border-gray-300"
+                      )}
+                    >
+                      <div className={cn(
+                        "w-10 h-10 rounded-full flex items-center justify-center mb-2",
+                        isSelected ? "bg-primary text-white" : "bg-gray-100 text-gray-500"
+                      )}>
+                        <type.icon className="h-6 w-6" />
+                      </div>
+                      <span className="text-sm font-medium">{type.label}</span>
+                      {isSelected && (
+                        <div className="absolute top-1 right-1 bg-primary text-white rounded-full p-0.5">
+                          <Check size={12} />
+                        </div>
+                      )}
+                    </button>
+                  );
+                })}
+              </div>
+              
+              {/* Selected Accessibility Details */}
+              {selectedAccessibilityTypes.includes('other') && (
+                <div className="space-y-2 mt-4">
+                  <Label htmlFor="accessibility-details-other">Specify Requirements</Label>
+                  <Input
+                    id="accessibility-details-other"
+                    placeholder="Enter specific accessibility requirements"
+                    value={accessibilityDetails['other'] || ''}
+                    onChange={(e) => handleAccessibilityDetailsChange('other', e.target.value)}
+                  />
+                </div>
+              )}
             </div>
           )}
-          
-          <input
-            type="checkbox"
-            id="singleSpecialNeeds.hasAccessibilityNeeds"
-            {...register("singleSpecialNeeds.hasAccessibilityNeeds")}
-            checked={hasAccessibilityNeeds === true}
-            onChange={(e) => handleSpecialNeedToggle("singleSpecialNeeds.hasAccessibilityNeeds", e.target.checked)}
-            className="sr-only" // Hidden but keeps the form functionality
-          />
-        </button>
+        </div>
       </div>
 
-      {/* Details sections that appear when options are selected */}
-      <div className="space-y-6 mt-8 overflow-hidden">
-        {/* Animals Details - Airbnb-style pet selection */}
-        <div className={`transition-all duration-300 ease-in-out ${
-          hasAnimals === true
-            ? "max-h-96 opacity-100" 
-            : "max-h-0 opacity-0 pointer-events-none"
-        }`}>
-          <div className="bg-gray-50 p-5 rounded-xl border border-gray-100">
-            <div className="flex items-center gap-2 mb-3">
-              <PawPrint className="text-primary" size={20} />
-              <Label className="text-base font-medium">
-                What types of pets do you have?
-              </Label>
-            </div>
-            
-            {/* Pet Type Selection Grid */}
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3 mb-4">
-              {petTypes.map((pet) => {
-                const Icon = pet.icon;
-                const isSelected = selectedPetTypes.includes(pet.id);
-                return (
-                  <button
-                    key={pet.id}
-                    type="button"
-                    onClick={() => handlePetTypeSelect(pet.id)}
-                    className={`flex flex-col items-center p-3 rounded-xl border transition-all ${
-                      isSelected
-                        ? "border-primary bg-primary/5 shadow-sm"
-                        : "border-gray-200 hover:border-gray-300"
-                    }`}
-                  >
-                    <div className={`w-10 h-10 rounded-full flex items-center justify-center mb-2 ${
-                      isSelected
-                        ? "bg-primary text-white"
-                        : "bg-gray-100 text-gray-500"
-                    }`}>
-                      <Icon size={28} />
-                    </div>
-                    <span className="text-sm font-medium">{pet.name}</span>
-                    {isSelected && (
-                      <div className="absolute top-1 right-1 bg-primary text-white rounded-full p-0.5">
-                        <Check size={12} />
-                      </div>
-                    )}
-                  </button>
-                );
-              })}
-            </div>
-            
-            {/* Selected Pets Summary */}
-            {selectedPetTypes.length > 0 && (
-              <div className="mb-4">
-                <div className="text-sm font-medium mb-2">Selected Pets:</div>
-                <div className="flex flex-wrap gap-2">
-                  {selectedPetTypes.map((type) => {
-                    let label = "";
-                    if (type === "dog") label = "Dog";
-                    else if (type === "cat") label = "Cat";
-                    else if (type === "bird") label = "Bird";
-                    else if (type === "small") label = "Small Animal";
-                    else if (type === "other") label = "Other";
-                    
-                    return (
-                      <div 
-                        key={type} 
-                        className="flex items-center gap-1 bg-primary/10 text-primary px-2 py-1 rounded-md text-sm"
-                      >
-                        <span>{label}</span>
-                        <button 
-                          type="button"
-                          onClick={() => handlePetTypeSelect(type)}
-                          className="text-primary hover:text-primary/80"
-                        >
-                          <X size={14} />
-                        </button>
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
-            )}
-            
-            {/* Other Pet Details Input */}
-            {showOtherPetInput && (
-              <div className="mt-4">
-                <Label htmlFor="singleSpecialNeeds.animalDetails" className="text-sm font-medium mb-2 block">
-                  Please describe your other pets
-                </Label>
-                <textarea
-                  id="singleSpecialNeeds.animalDetails"
-                  value={otherPetDetails}
-                  onChange={handleOtherPetDetailsChange}
-                  rows={3}
-                  className="w-full rounded-md border border-input bg-white px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
-                  placeholder="E.g., 2 hamsters, 1 turtle, etc."
-                />
-              </div>
-            )}
-          </div>
+      {/* Other Special Needs */}
+      <div className="bg-white p-5 rounded-xl border border-gray-200">
+        <div className="flex items-center gap-2 mb-3">
+          <Plus className="text-gray-500" size={20} />
+          <Label htmlFor="singleSpecialNeeds.otherSpecialNeeds" className="text-base font-medium">
+            Any other special needs or requests? (Optional)
+          </Label>
         </div>
-
-        {/* Accessibility Details */}
-        <div className={`transition-all duration-300 ease-in-out ${
-          hasAccessibilityNeeds === true
-            ? "max-h-96 opacity-100" 
-            : "max-h-0 opacity-0 pointer-events-none"
-        }`}>
-          <div className="bg-gray-50 p-5 rounded-xl border border-gray-100">
-            <div className="flex items-center gap-2 mb-3">
-              <Accessibility className="text-primary" size={20} />
-              <Label htmlFor="singleSpecialNeeds.accessibilityDetails" className="text-base font-medium">
-                Tell us about your accessibility needs
-              </Label>
-            </div>
-            <textarea
-              id="singleSpecialNeeds.accessibilityDetails"
-              {...register("singleSpecialNeeds.accessibilityDetails")}
-              rows={3}
-              className="w-full rounded-md border border-input bg-white px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-              placeholder="E.g., wheelchair accessible, ground floor required, etc."
-              disabled={hasAccessibilityNeeds !== true}
-            />
-          </div>
-        </div>
-
-        {/* Other Special Needs */}
-        <div className="bg-white p-5 rounded-xl border border-gray-200">
-          <div className="flex items-center gap-2 mb-3">
-            <Plus className="text-gray-500" size={20} />
-            <Label htmlFor="singleSpecialNeeds.otherSpecialNeeds" className="text-base font-medium">
-              Any other special needs or requests? (Optional)
-            </Label>
-          </div>
-          <textarea
-            id="singleSpecialNeeds.otherSpecialNeeds"
-            {...register("singleSpecialNeeds.otherSpecialNeeds")}
-            rows={4}
-            className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-            placeholder="Any other special needs or requirements for your relocation"
-          />
-        </div>
+        <textarea
+          id="singleSpecialNeeds.otherSpecialNeeds"
+          {...register("singleSpecialNeeds.otherSpecialNeeds")}
+          rows={4}
+          className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+          placeholder="Any other special needs or requirements for your relocation"
+        />
       </div>
     </div>
   );

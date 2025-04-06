@@ -18,10 +18,21 @@ import {
   Users, 
   Copy, 
   Check, 
-  AlertCircle 
+  AlertCircle,
+  Clock,
+  HelpCircle,
+  FastForward,
+  TrafficCone
 } from "lucide-react";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 interface RelocationRequest {
   firstName: string;
@@ -43,6 +54,38 @@ export function MultipleRelocationRequests({ form }: MultipleRelocationRequestsP
   const requests = watch("multipleRelocationRequests") || [];
   // Cast errors to any to avoid type issues
   const requestErrors = (errors.multipleRelocationRequests as any) || [];
+  
+  // Duration options with icons and labels
+  const durationOptions = [
+    { 
+      id: "short-term", 
+      value: "A few days", 
+      label: "A few days",
+      subLabel: "Urgent and short stay",
+      icon: <FastForward size={18} strokeWidth={1.5} />
+    },
+    { 
+      id: "few-weeks", 
+      value: "A few weeks", 
+      label: "A few weeks",
+      subLabel: "Temporary stay",
+      icon: <Clock size={18} strokeWidth={1.5} />
+    },
+    { 
+      id: "few-months", 
+      value: "A few months", 
+      label: "A few months",
+      subLabel: "Transitional housing",
+      icon: <TrafficCone size={18} strokeWidth={1.5} />
+    },
+    { 
+      id: "unknown", 
+      value: "Unknown / Not sure",
+      label: "Unknown / Not sure",
+      subLabel: "Flexible duration",
+      icon: <HelpCircle size={18} strokeWidth={1.5} />
+    },
+  ];
   
   // Add a new person
   const addPerson = () => {
@@ -100,6 +143,15 @@ export function MultipleRelocationRequests({ form }: MultipleRelocationRequestsP
     return undefined;
   };
 
+  // Function to handle duration selection
+  const handleDurationSelect = (index: number, value: string) => {
+    setValue(`multipleRelocationRequests.${index}.estimatedDuration`, value, { 
+      shouldValidate: true, 
+      shouldDirty: true,
+      shouldTouch: true
+    });
+  };
+
   return (
     <div className="space-y-6">
       <div>
@@ -115,13 +167,13 @@ export function MultipleRelocationRequests({ form }: MultipleRelocationRequestsP
             <Table>
               <TableHeader>
                 <TableRow className="bg-muted/50">
-                  <TableHead className="w-[100px]">First Name</TableHead>
-                  <TableHead className="w-[100px]">Last Name</TableHead>
-                  <TableHead className="w-[160px]">Email</TableHead>
-                  <TableHead className="w-[130px]">Phone</TableHead>
-                  <TableHead className="w-[120px]">Duration</TableHead>
-                  <TableHead className="w-[80px]">Insurance</TableHead>
-                  <TableHead className="w-[80px] text-right">Actions</TableHead>
+                  <TableHead className="w-[100px] text-gray-900 font-medium">First Name</TableHead>
+                  <TableHead className="w-[100px] text-gray-900 font-medium">Last Name</TableHead>
+                  <TableHead className="w-[200px] text-gray-900 font-medium">Email</TableHead>
+                  <TableHead className="w-[150px] text-gray-900 font-medium">Phone</TableHead>
+                  <TableHead className="w-[100px] text-gray-900 font-medium">Duration</TableHead>
+                  <TableHead className="w-[50px] text-gray-900 font-medium">Insurance</TableHead>
+                  <TableHead className="w-[80px] text-gray-900 font-medium text-right">Actions</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -133,7 +185,7 @@ export function MultipleRelocationRequests({ form }: MultipleRelocationRequestsP
                           {...register(`multipleRelocationRequests.${index}.firstName`, {
                             required: "First name is required"
                           })}
-                          placeholder="First name"
+                          placeholder="Paul"
                           className={cn(
                             "h-8 px-2 py-1 text-sm",
                             getErrorMessage(index, 'firstName') ? "border-red-500" : ""
@@ -153,7 +205,7 @@ export function MultipleRelocationRequests({ form }: MultipleRelocationRequestsP
                           {...register(`multipleRelocationRequests.${index}.lastName`, {
                             required: "Last name is required"
                           })}
-                          placeholder="Last name"
+                          placeholder="Dupont"
                           className={cn(
                             "h-8 px-2 py-1 text-sm",
                             getErrorMessage(index, 'lastName') ? "border-red-500" : ""
@@ -172,7 +224,7 @@ export function MultipleRelocationRequests({ form }: MultipleRelocationRequestsP
                         <Input
                           type="email"
                           {...register(`multipleRelocationRequests.${index}.email`)}
-                          placeholder="Email address"
+                          placeholder="paul.dupont@gmail.com"
                           className={cn(
                             "h-8 px-2 py-1 text-sm",
                             getErrorMessage(index, 'email') ? "border-red-500" : ""
@@ -206,11 +258,24 @@ export function MultipleRelocationRequests({ form }: MultipleRelocationRequestsP
                       </div>
                     </TableCell>
                     <TableCell>
-                      <Input
-                        {...register(`multipleRelocationRequests.${index}.estimatedDuration`)}
-                        placeholder="e.g., 3 months"
-                        className="h-8 px-2 py-1 text-sm"
-                      />
+                      <Select
+                        value={watch(`multipleRelocationRequests.${index}.estimatedDuration`) || ""}
+                        onValueChange={(value) => handleDurationSelect(index, value)}
+                      >
+                        <SelectTrigger className="h-8 px-2 py-1 text-sm w-[145px]">
+                          <SelectValue placeholder="Select duration" className="text-muted-foreground" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {durationOptions.map((option) => (
+                            <SelectItem key={option.id} value={option.value}>
+                              <div className="flex items-center gap-2">
+                                {option.icon}
+                                <span className="whitespace-nowrap">{option.label}</span>
+                              </div>
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
                     </TableCell>
                     <TableCell>
                       <div className="flex items-center space-x-1.5">
@@ -220,11 +285,11 @@ export function MultipleRelocationRequests({ form }: MultipleRelocationRequestsP
                           onCheckedChange={(checked) => {
                             setValue(`multipleRelocationRequests.${index}.hasInsurance`, checked);
                           }}
-                          className="h-4 w-4"
+                          className="h-4 w-4 border-black"
                         />
                         <Label 
                           htmlFor={`multipleRelocationRequests.${index}.hasInsurance`} 
-                          className="text-xs cursor-pointer"
+                          className="text-sm cursor-pointer"
                         >
                           Yes
                         </Label>
@@ -237,9 +302,9 @@ export function MultipleRelocationRequests({ form }: MultipleRelocationRequestsP
                           size="icon"
                           onClick={() => duplicatePerson(index)}
                           type="button"
-                          className="h-7 w-7 text-blue-500 hover:text-blue-700 hover:bg-blue-50"
+                          className="h-7 w-7 text-black hover:text-black/70 hover:bg-gray-100"
                         >
-                          <Copy className="h-3.5 w-3.5" />
+                          <Copy className="h-4 w-4" />
                         </Button>
                         <Button
                           variant="ghost"
@@ -248,7 +313,7 @@ export function MultipleRelocationRequests({ form }: MultipleRelocationRequestsP
                           type="button"
                           className="h-7 w-7 text-red-500 hover:text-red-700 hover:bg-red-50"
                         >
-                          <Trash2 className="h-3.5 w-3.5" />
+                          <Trash2 className="h-4 w-4" />
                         </Button>
                       </div>
                     </TableCell>
