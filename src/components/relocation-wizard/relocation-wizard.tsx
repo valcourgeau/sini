@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -173,6 +173,11 @@ export function RelocationWizard() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
 
+  // Add debugging for isSubmitted state changes
+  useEffect(() => {
+    console.log("isSubmitted state changed:", isSubmitted);
+  }, [isSubmitted]);
+
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -193,9 +198,9 @@ export function RelocationWizard() {
   const getTotalSteps = () => {
     const relocationType = form.watch("relocationType");
     
-    if (!relocationType) return 13; // Default steps until relocation type selection
+    if (!relocationType) return 14; // Default steps until relocation type selection
     
-    return relocationType === "single" ? 13 : 8; // Single: 13 steps, Multiple: 8 steps
+    return relocationType === "single" ? 14 : 8; // Single: 14 steps, Multiple: 8 steps
   };
 
   const totalSteps = getTotalSteps();
@@ -212,14 +217,10 @@ export function RelocationWizard() {
   };
 
   const onSubmit = async (data: FormValues) => {
-    setIsSubmitting(true);
-    
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 1500));
-    
-    console.log("Form submitted:", data);
-    setIsSubmitting(false);
-    setIsSubmitted(true);
+    console.log("onSubmit called with data:", data);
+    // This function is now just a wrapper for the direct submission handler
+    // The actual submission logic is in the handleSubmit function in renderNavigationButtons
+    return data;
   };
 
   // Determine which step component to render
@@ -321,8 +322,41 @@ export function RelocationWizard() {
     const hasInsurance = form.watch("singleInsuranceCoverage")?.hasInsurance;
     
     const isFinalStep = 
-      (relocationType === "single" && ((hasInsurance && step === 13) || (!hasInsurance && step === 12))) ||
+      (relocationType === "single" && ((hasInsurance && step === 14) || (!hasInsurance && step === 13))) ||
       (relocationType === "multiple" && step === 7);
+    
+    console.log("Navigation state:", { 
+      step, 
+      relocationType, 
+      hasInsurance, 
+      isFinalStep, 
+      isSubmitting, 
+      isSubmitted 
+    });
+      
+    // Direct form submission handler
+    const handleSubmit = async () => {
+      console.log("Submit button clicked");
+      setIsSubmitting(true);
+      
+      try {
+        // Get form data
+        const formData = form.getValues();
+        console.log("Form data:", formData);
+        
+        // Simulate API call
+        console.log("Starting simulated API call");
+        await new Promise(resolve => setTimeout(resolve, 1500));
+        
+        console.log("Form submitted successfully");
+        setIsSubmitting(false);
+        console.log("Setting isSubmitted to true");
+        setIsSubmitted(true);
+      } catch (error) {
+        console.error("Error submitting form:", error);
+        setIsSubmitting(false);
+      }
+    };
       
     return (
       <CardFooter className="flex justify-between pt-4 pb-6">
@@ -343,7 +377,7 @@ export function RelocationWizard() {
           {isFinalStep ? (
             <Button 
               type="button" 
-              onClick={() => form.handleSubmit(onSubmit)()}
+              onClick={handleSubmit}
               disabled={isSubmitting}
               className="px-8 py-2 h-auto bg-primary hover:bg-primary/90"
             >

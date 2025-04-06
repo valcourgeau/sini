@@ -32,9 +32,9 @@ export function SingleLeaseTermination({ form }: SingleLeaseTerminationProps) {
 
   return (
     <div className="space-y-6">
-      <div>
-        <h2 className="text-lg font-medium mb-4">Lease Termination Status</h2>
-        <p className="text-sm text-muted-foreground mb-6">
+      <div className="text-center">
+        <h2 className="text-xl font-semibold mb-2">Lease Termination Status</h2>
+        <p className="text-sm text-muted-foreground mb-6 max-w-2xl mx-auto">
           Please provide information about the status of your current lease or rental agreement.
         </p>
       </div>

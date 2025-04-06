@@ -11,13 +11,13 @@ export function SuccessMessage() {
         </div>
         <h2 className="text-2xl font-bold">Request Submitted Successfully</h2>
         <p className="text-muted-foreground max-w-md">
-          Your relocation assistance request has been submitted successfully. Our team will review your request and contact you shortly.
+          Our team will review your request and contact you shortly.
         </p>
       </div>
       
-      <div className="border-t border-border pt-6">
-        <h3 className="font-medium mb-2">What happens next?</h3>
-        <ul className="space-y-2 text-sm">
+      <div className="border-t border-border pt-6 flex flex-col items-center text-center max-w-md mx-auto">
+        <h3 className="font-medium mb-4">What happens next?</h3>
+        <ul className="space-y-2 text-sm mt-2">
           <li className="flex items-start gap-2">
             <span className="bg-primary/10 text-primary rounded-full w-5 h-5 flex items-center justify-center flex-shrink-0 mt-0.5">1</span>
             <span>Our team will review your request within 24-48 hours.</span>
