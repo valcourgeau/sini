@@ -2,7 +2,7 @@ import { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Contact | SINI",
-  description: "Contactez le Service d'Intervention et de Relogement d'Urgence pour les cantons de Genève et Vaud.",
+  description: "Contactez SINI pour les cantons de Genève et Vaud.",
 };
 
 /**

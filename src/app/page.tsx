@@ -9,7 +9,7 @@ export default function HomePage() {
           <div className="grid gap-6 lg:grid-cols-2 lg:gap-12">
             <div className="space-y-4">
               <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
-                Service d'Intervention et de Relogement d'Urgence
+                Service de Relogement d'Urgence
               </h1>
               <p className="max-w-[600px] text-gray-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
                 Une solution rapide et efficace pour les personnes touchées par des sinistres dans les cantons de Genève et Vaud.
@@ -20,6 +20,12 @@ export default function HomePage() {
                   className="inline-flex h-10 items-center justify-center rounded-md bg-primary px-8 text-sm font-medium text-primary-foreground shadow transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"
                 >
                   Demander un relogement
+                </Link>
+                <Link 
+                  href="/property/list" 
+                  className="inline-flex h-10 items-center justify-center rounded-md border border-input bg-primary px-8 text-sm font-medium text-primary-foreground shadow transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"
+                >
+                  Proposer un logement
                 </Link>
                 <Link 
                   href="/about" 
@@ -133,12 +139,18 @@ export default function HomePage() {
             <p className="mt-4 text-gray-500 md:text-xl/relaxed">
               Commencez votre demande dès maintenant et recevez une réponse dans les 24 heures.
             </p>
-            <div className="mt-8">
+            <div className="mt-8 flex flex-col md:flex-row gap-4 justify-center">
               <Link 
                 href="/relocation/new" 
                 className="inline-flex h-10 items-center justify-center rounded-md bg-primary px-8 text-sm font-medium text-primary-foreground shadow transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"
               >
                 Demander un relogement
+              </Link>
+              <Link 
+                href="/property/list" 
+                className="inline-flex h-10 items-center justify-center rounded-md bg-primary px-8 text-sm font-medium text-primary-foreground shadow transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"
+              >
+                Proposer un logement
               </Link>
             </div>
           </div>
