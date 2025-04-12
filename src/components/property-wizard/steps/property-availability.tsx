@@ -8,9 +8,17 @@ interface PropertyAvailabilityProps {
   form: UseFormReturn<any>;
 }
 
+interface PropertyAvailabilityErrors {
+  availableFrom?: { message?: string };
+  availableTo?: { message?: string };
+  minStay?: { message?: string };
+  maxStay?: { message?: string };
+  isFlexible?: { message?: string };
+}
+
 export function PropertyAvailability({ form }: PropertyAvailabilityProps) {
   const { register, setValue, watch, formState: { errors } } = form;
-  const availabilityErrors = errors.propertyAvailability || {};
+  const availabilityErrors = (errors.propertyAvailability || {}) as PropertyAvailabilityErrors;
   
   // Watch if isFlexible is selected
   const isFlexible = watch("propertyAvailability.isFlexible");

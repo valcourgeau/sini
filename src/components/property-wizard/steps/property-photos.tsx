@@ -8,9 +8,13 @@ interface PropertyPhotosProps {
   form: UseFormReturn<any>;
 }
 
+interface PropertyPhotosErrors {
+  photos?: { message?: string };
+}
+
 export function PropertyPhotos({ form }: PropertyPhotosProps) {
   const { register, setValue, watch, formState: { errors } } = form;
-  const photosErrors = errors.propertyPhotos || {};
+  const photosErrors = (errors.propertyPhotos || {}) as PropertyPhotosErrors;
   
   // Mock photos for demo purposes
   const [photos, setPhotos] = useState<string[]>([

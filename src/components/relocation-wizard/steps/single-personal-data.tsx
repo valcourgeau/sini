@@ -5,9 +5,16 @@ interface SinglePersonalDataProps {
   form: UseFormReturn<any>;
 }
 
+interface PersonalErrors {
+  firstName?: { message?: string };
+  lastName?: { message?: string };
+  email?: { message?: string };
+  phone?: { message?: string };
+}
+
 export function SinglePersonalData({ form }: SinglePersonalDataProps) {
   const { register, formState: { errors } } = form;
-  const personalErrors = errors.singlePersonalData || {};
+  const personalErrors = (errors.singlePersonalData || {}) as PersonalErrors;
   
   return (
     <div className="space-y-6">

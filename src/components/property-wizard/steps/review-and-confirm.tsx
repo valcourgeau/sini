@@ -8,9 +8,14 @@ interface ReviewAndConfirmProps {
   form: UseFormReturn<any>;
 }
 
+interface ConfirmErrors {
+  agreeToTerms?: { message?: string };
+  agreeToDataPolicy?: { message?: string };
+}
+
 export function ReviewAndConfirm({ form }: ReviewAndConfirmProps) {
   const { register, setValue, watch, formState: { errors } } = form;
-  const confirmErrors = errors.confirmDetails || {};
+  const confirmErrors = (errors.confirmDetails || {}) as ConfirmErrors;
   
   // Get all the form data
   const formData = form.getValues();

@@ -5,9 +5,14 @@ interface MultipleConsentProps {
   form: UseFormReturn<any>;
 }
 
+interface ConsentErrors {
+  agreeToTerms?: { message?: string };
+  agreeToDataProcessing?: { message?: string };
+}
+
 export function MultipleConsent({ form }: MultipleConsentProps) {
   const { register, formState: { errors } } = form;
-  const consentErrors = errors.multipleConsent || {};
+  const consentErrors = (errors.multipleConsent || {}) as ConsentErrors;
   
   return (
     <div className="space-y-6">

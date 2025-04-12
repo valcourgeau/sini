@@ -5,9 +5,14 @@ interface SingleConsentProps {
   form: UseFormReturn<any>;
 }
 
+interface ConsentErrors {
+  agreeToTerms?: { message?: string };
+  agreeToDataProcessing?: { message?: string };
+}
+
 export function SingleConsent({ form }: SingleConsentProps) {
   const { register, formState: { errors } } = form;
-  const consentErrors = errors.singleConsent || {};
+  const consentErrors = (errors.singleConsent || {}) as ConsentErrors;
   
   return (
     <div className="space-y-6">

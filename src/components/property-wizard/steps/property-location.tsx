@@ -8,6 +8,15 @@ interface PropertyLocationProps {
   form: UseFormReturn<any>;
 }
 
+interface PropertyLocationErrors {
+  street?: { message?: string };
+  city?: { message?: string };
+  postalCode?: { message?: string };
+  canton?: { message?: string };
+  country?: { message?: string };
+  showExactLocation?: { message?: string };
+}
+
 const swissCantons = [
   { value: "geneve", label: "Geneva" },
   { value: "vaud", label: "Vaud" },
@@ -23,7 +32,7 @@ const swissCantons = [
 
 export function PropertyLocation({ form }: PropertyLocationProps) {
   const { register, setValue, watch, formState: { errors } } = form;
-  const locationErrors = errors.propertyLocation || {};
+  const locationErrors = (errors.propertyLocation || {}) as PropertyLocationErrors;
   
   // Watch if show exact location is selected
   const showExactLocation = watch("propertyLocation.showExactLocation");

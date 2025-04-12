@@ -8,9 +8,17 @@ interface OwnerDetailsProps {
   form: UseFormReturn<any>;
 }
 
+interface OwnerDetailsErrors {
+  firstName?: { message?: string };
+  lastName?: { message?: string };
+  email?: { message?: string };
+  phone?: { message?: string };
+  preferredContact?: { message?: string };
+}
+
 export function OwnerDetails({ form }: OwnerDetailsProps) {
   const { register, setValue, watch, formState: { errors } } = form;
-  const ownerErrors = errors.ownerDetails || {};
+  const ownerErrors = (errors.ownerDetails || {}) as OwnerDetailsErrors;
   
   // Get the current contact preference
   const preferredContact = watch("ownerDetails.preferredContact");
