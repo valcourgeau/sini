@@ -47,9 +47,9 @@ export function PropertyPhotos({ form }: PropertyPhotosProps) {
   return (
     <div className="space-y-8">
       <div className="text-center mb-6">
-        <h2 className="text-xl font-semibold mb-2">Photos du logement</h2>
+        <h2 className="text-xl font-semibold mb-2">Property Photos</h2>
         <p className="text-sm text-muted-foreground max-w-lg mx-auto">
-          Ajoutez des photos pour montrer votre logement aux personnes intéressées.
+          Add photos to showcase your property to interested individuals.
         </p>
       </div>
 
@@ -63,9 +63,9 @@ export function PropertyPhotos({ form }: PropertyPhotosProps) {
             <ImagePlus className="h-8 w-8 text-blue-500" />
           </div>
           
-          <h3 className="text-lg font-medium mb-2">Ajouter des photos</h3>
+          <h3 className="text-lg font-medium mb-2">Add Photos</h3>
           <p className="text-sm text-muted-foreground mb-4">
-            Glissez-déposez vos photos ici ou cliquez pour parcourir vos fichiers
+            Drag and drop your photos here or click to browse your files
           </p>
           
           <div className="flex justify-center gap-2">
@@ -74,7 +74,7 @@ export function PropertyPhotos({ form }: PropertyPhotosProps) {
               className="inline-flex h-9 items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground shadow transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
             >
               <Camera className="mr-2 h-4 w-4" />
-              Télécharger des photos
+              Upload Photos
             </button>
           </div>
           
@@ -87,14 +87,14 @@ export function PropertyPhotos({ form }: PropertyPhotosProps) {
           />
           
           <p className="text-xs text-muted-foreground mt-4">
-            Format recommandé: JPG, PNG. Taille maximum: 5 MB par image.
+            Recommended format: JPG, PNG. Maximum size: 5 MB per image.
           </p>
         </div>
         
         {/* Display uploaded photos */}
         {photos.length > 0 && (
           <div className="space-y-4 mt-8">
-            <h3 className="text-lg font-medium">Photos téléchargées ({photos.length})</h3>
+            <h3 className="text-lg font-medium">Uploaded Photos ({photos.length})</h3>
             
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               {photos.map((photo, index) => (
@@ -118,7 +118,7 @@ export function PropertyPhotos({ form }: PropertyPhotosProps) {
                   
                   {index === 0 && (
                     <div className="absolute bottom-0 left-0 right-0 bg-black/50 text-white text-xs py-1 px-2">
-                      Photo principale
+                      Main Photo
                     </div>
                   )}
                 </div>
@@ -130,7 +130,7 @@ export function PropertyPhotos({ form }: PropertyPhotosProps) {
                 className="flex flex-col items-center justify-center border-2 border-dashed rounded-md aspect-square hover:border-gray-400 transition-colors"
               >
                 <Image className="h-8 w-8 text-gray-400 mb-2" />
-                <span className="text-sm font-medium text-gray-600">Ajouter</span>
+                <span className="text-sm font-medium text-gray-600">Add</span>
               </button>
             </div>
             
@@ -141,7 +141,7 @@ export function PropertyPhotos({ form }: PropertyPhotosProps) {
             )}
             
             <p className="text-sm text-muted-foreground mt-2">
-              Vous pouvez ajouter jusqu'à 25 photos. La première photo sera l'image principale.
+              You can add up to 25 photos. The first photo will be the main image.
             </p>
           </div>
         )}

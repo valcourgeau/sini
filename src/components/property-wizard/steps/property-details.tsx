@@ -9,7 +9,7 @@ import {
   MinusCircle, 
   PlusCircle 
 } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
 
 interface PropertyDetailsProps {
@@ -22,11 +22,60 @@ type CounterField = {
   icon: React.ReactNode;
   min: number;
   fieldName: string;
+  increment?: number;
 };
 
 export function PropertyDetails({ form }: PropertyDetailsProps) {
   const { register, setValue, watch, formState: { errors } } = form;
+  
+  // Safely access nested errors
   const detailsErrors = errors.propertyDetails || {};
+  
+  // Log form state for debugging
+  useEffect(() => {
+    console.log("PropertyDetails - Form errors:", errors);
+    console.log("PropertyDetails - Details errors:", detailsErrors);
+  }, [errors, detailsErrors]);
+  
+  // Log form values for debugging
+  useEffect(() => {
+    const subscription = form.watch((value, { name, type }) => {
+      if (name?.startsWith('propertyDetails')) {
+        console.log(`PropertyDetails - Form value changed: ${name}`, value[name]);
+      }
+    });
+    
+    return () => subscription.unsubscribe();
+  }, [form]);
+  
+  // Function to validate the current step
+  const validateStep = async () => {
+    console.log("Validating PropertyDetails step");
+    
+    // Validate all fields in the propertyDetails object
+    const isValid = await form.trigger([
+      "propertyDetails.title",
+      "propertyDetails.description",
+      "propertyDetails.bedrooms",
+      "propertyDetails.bathrooms",
+      "propertyDetails.maxGuests",
+      "propertyDetails.squareMeters"
+    ]);
+    
+    console.log("PropertyDetails validation result:", isValid);
+    
+    if (!isValid) {
+      console.log("PropertyDetails validation errors:", form.formState.errors);
+    }
+    
+    return isValid;
+  };
+  
+  // Expose the validate function to the parent component
+  useEffect(() => {
+    // @ts-ignore - Adding a custom property to the form object
+    form.validatePropertyDetails = validateStep;
+  }, [form]);
   
   // Initialize numeric values if they are undefined
   const initializeNumericValues = () => {
@@ -34,60 +83,69 @@ export function PropertyDetails({ form }: PropertyDetailsProps) {
       "propertyDetails.bedrooms": 1,
       "propertyDetails.bathrooms": 1,
       "propertyDetails.maxGuests": 2,
-      "propertyDetails.squareMeters": 0
+      "propertyDetails.squareMeters": 50
     };
     
+    console.log("Initializing numeric values");
+    
     Object.entries(fieldDefaults).forEach(([field, defaultValue]) => {
-      if (watch(field) === undefined) {
+      const currentValue = watch(field);
+      console.log(`Field ${field} current value:`, currentValue);
+      
+      if (currentValue === undefined || currentValue === null) {
+        console.log(`Setting ${field} to default value:`, defaultValue);
         setValue(field, defaultValue, {
-          shouldValidate: false,
-          shouldDirty: false
+          shouldValidate: true,
+          shouldDirty: false,
+          shouldTouch: false
         });
       }
     });
   };
 
   // Call initialization on first render
-  useState(() => {
+  useEffect(() => {
     initializeNumericValues();
-  });
+  }, []);
   
   // Counter fields
   const counterFields: CounterField[] = [
     {
       id: "bedrooms",
       name: "Bedrooms",
-      icon: <Bed size={20} />,
+      icon: <Bed size={24} />,
       min: 0,
       fieldName: "propertyDetails.bedrooms"
     },
     {
       id: "bathrooms",
       name: "Bathrooms",
-      icon: <Bath size={20} />,
+      icon: <Bath size={24} />,
       min: 0,
       fieldName: "propertyDetails.bathrooms"
     },
     {
       id: "maxGuests",
       name: "Guests",
-      icon: <Users size={20} />,
+      icon: <Users size={24} />,
       min: 1,
       fieldName: "propertyDetails.maxGuests"
     },
     {
       id: "squareMeters",
       name: "Area (m²)",
-      icon: <SquareCode size={20} />,
-      min: 1,
-      fieldName: "propertyDetails.squareMeters"
+      icon: <SquareCode size={24} />,
+      min: 5,
+      fieldName: "propertyDetails.squareMeters",
+      increment: 5
     }
   ];
   
   // Function to increment counter
-  const incrementCounter = (fieldName: string, min: number) => {
+  const incrementCounter = (fieldName: string, min: number, increment: number = 1) => {
     const currentValue = watch(fieldName) || min;
-    setValue(fieldName, currentValue + 1, {
+    console.log(`Incrementing ${fieldName} from ${currentValue} to ${currentValue + increment}`);
+    setValue(fieldName, currentValue + increment, {
       shouldValidate: true,
       shouldDirty: true,
       shouldTouch: true
@@ -95,15 +153,32 @@ export function PropertyDetails({ form }: PropertyDetailsProps) {
   };
   
   // Function to decrement counter
-  const decrementCounter = (fieldName: string, min: number) => {
+  const decrementCounter = (fieldName: string, min: number, increment: number = 1) => {
     const currentValue = watch(fieldName) || min;
     if (currentValue > min) {
-      setValue(fieldName, currentValue - 1, {
+      console.log(`Decrementing ${fieldName} from ${currentValue} to ${currentValue - increment}`);
+      setValue(fieldName, currentValue - increment, {
         shouldValidate: true,
         shouldDirty: true,
         shouldTouch: true
       });
     }
+  };
+
+  // Helper function to safely access error messages
+  const getErrorMessage = (fieldName: string): string | undefined => {
+    const error = detailsErrors[fieldName as keyof typeof detailsErrors];
+    if (!error) return undefined;
+    
+    // Handle different error types
+    if (typeof error === 'string') return error;
+    
+    // For FieldError objects
+    if (error && typeof error === 'object' && 'message' in error) {
+      return error.message as string;
+    }
+    
+    return undefined;
   };
 
   return (
@@ -127,14 +202,15 @@ export function PropertyDetails({ form }: PropertyDetailsProps) {
           <Input
             id="propertyDetails.title"
             {...register("propertyDetails.title")}
+            defaultValue="Beautiful bright apartment in the city center"
             placeholder="Ex: Beautiful bright apartment in the city center"
             className={cn(
-              detailsErrors.title && "border-red-500 focus-visible:ring-red-500"
+              getErrorMessage("title") && "border-red-500 focus-visible:ring-red-500"
             )}
           />
-          {detailsErrors.title && (
+          {getErrorMessage("title") && (
             <p className="text-sm text-red-500 mt-1">
-              {detailsErrors.title.message}
+              {getErrorMessage("title")}
             </p>
           )}
           <p className="text-xs text-muted-foreground mt-1">
@@ -142,35 +218,7 @@ export function PropertyDetails({ form }: PropertyDetailsProps) {
           </p>
         </div>
         
-        {/* Description field */}
-        <div className="space-y-2">
-          <Label 
-            htmlFor="propertyDetails.description" 
-            className="text-base font-medium"
-          >
-            Description
-          </Label>
-          <textarea
-            id="propertyDetails.description"
-            {...register("propertyDetails.description")}
-            rows={5}
-            placeholder="Describe your property in detail, mention what makes it unique..."
-            className={cn(
-              "w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50",
-              detailsErrors.description && "border-red-500 focus-visible:ring-red-500"
-            )}
-          />
-          {detailsErrors.description && (
-            <p className="text-sm text-red-500 mt-1">
-              {detailsErrors.description.message}
-            </p>
-          )}
-          <p className="text-xs text-muted-foreground mt-1">
-            A detailed description will help travelers better understand what you're offering.
-          </p>
-        </div>
-        
-        {/* Counter fields (bedrooms, bathrooms, guests, size) */}
+        {/* Counter fields (bedrooms, bathrooms, guests, size) - MOVED ABOVE DESCRIPTION */}
         <div className="pt-4 border-t">
           <h3 className="text-lg font-medium mb-4">Features</h3>
           
@@ -190,14 +238,14 @@ export function PropertyDetails({ form }: PropertyDetailsProps) {
                 <div className="flex items-center">
                   <button
                     type="button"
-                    onClick={() => decrementCounter(field.fieldName, field.min)}
+                    onClick={() => decrementCounter(field.fieldName, field.min, field.increment || 1)}
                     className={cn(
-                      "p-1 rounded-full text-gray-500 hover:bg-gray-100 transition-colors",
+                      "p-1.5 rounded-full text-gray-500 hover:bg-gray-100 transition-colors",
                       watch(field.fieldName) <= field.min && "opacity-50 cursor-not-allowed"
                     )}
                     disabled={watch(field.fieldName) <= field.min}
                   >
-                    <MinusCircle size={20} />
+                    <MinusCircle size={24} />
                   </button>
                   
                   <span className="w-12 text-center font-medium">
@@ -206,10 +254,10 @@ export function PropertyDetails({ form }: PropertyDetailsProps) {
                   
                   <button
                     type="button"
-                    onClick={() => incrementCounter(field.fieldName, field.min)}
-                    className="p-1 rounded-full text-gray-500 hover:bg-gray-100 transition-colors"
+                    onClick={() => incrementCounter(field.fieldName, field.min, field.increment || 1)}
+                    className="p-1.5 rounded-full text-gray-500 hover:bg-gray-100 transition-colors"
                   >
-                    <PlusCircle size={20} />
+                    <PlusCircle size={24} />
                   </button>
                   
                   <input
@@ -225,18 +273,47 @@ export function PropertyDetails({ form }: PropertyDetailsProps) {
           {/* Error messages for counter fields */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-2">
             {counterFields.map((field) => {
-              const fieldErrors = detailsErrors[field.id];
+              const errorMessage = getErrorMessage(field.id);
               return (
                 <div key={`${field.id}-error`}>
-                  {fieldErrors && (
+                  {errorMessage && (
                     <p className="text-sm text-red-500">
-                      {fieldErrors.message}
+                      {errorMessage}
                     </p>
                   )}
                 </div>
               );
             })}
           </div>
+        </div>
+        
+        {/* Description field - MOVED BELOW FEATURES */}
+        <div className="space-y-2">
+          <Label 
+            htmlFor="propertyDetails.description" 
+            className="text-base font-medium"
+          >
+            Description
+          </Label>
+          <textarea
+            id="propertyDetails.description"
+            {...register("propertyDetails.description")}
+            rows={5}
+            placeholder="Describe your property in detail, mention what makes it unique..."
+            defaultValue="This is a beautiful apartment in the city center. It has a balcony and a view of the lake."
+            className={cn(
+              "w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50",
+              getErrorMessage("description") && "border-red-500 focus-visible:ring-red-500"
+            )}
+          />
+          {getErrorMessage("description") && (
+            <p className="text-sm text-red-500 mt-1">
+              {getErrorMessage("description")}
+            </p>
+          )}
+          <p className="text-xs text-muted-foreground mt-1">
+            A detailed description will help travelers better understand what you're offering.
+          </p>
         </div>
       </div>
     </div>

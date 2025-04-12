@@ -9,9 +9,17 @@ interface PropertyPricingProps {
   form: UseFormReturn<any>;
 }
 
+// Define the structure of the pricing errors
+interface PricingErrors {
+  price?: {
+    message?: string;
+  };
+  [key: string]: any;
+}
+
 export function PropertyPricing({ form }: PropertyPricingProps) {
   const { register, setValue, watch, formState: { errors } } = form;
-  const pricingErrors = errors.propertyPricing || {};
+  const pricingErrors = (errors.propertyPricing || {}) as PricingErrors;
   
   // Get the current period from the form
   const pricePeriod = watch("propertyPricing.pricePeriod") || "night";

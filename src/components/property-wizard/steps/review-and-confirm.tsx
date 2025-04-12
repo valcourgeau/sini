@@ -18,11 +18,11 @@ export function ReviewAndConfirm({ form }: ReviewAndConfirmProps) {
   // Function to get property type label
   const getPropertyTypeLabel = (type: string): string => {
     const types: Record<string, string> = {
-      apartment: "Appartement",
-      house: "Maison",
-      room: "Chambre privée",
+      apartment: "Apartment",
+      house: "House",
+      room: "Private Room",
       studio: "Studio",
-      other: "Autre"
+      other: "Other"
     };
     
     return types[type] || type;
@@ -31,9 +31,9 @@ export function ReviewAndConfirm({ form }: ReviewAndConfirmProps) {
   // Function to format price period
   const formatPricePeriod = (period: string): string => {
     const periods: Record<string, string> = {
-      night: "par nuit",
-      week: "par semaine",
-      month: "par mois"
+      night: "per night",
+      week: "per week",
+      month: "per month"
     };
     
     return periods[period] || period;
@@ -51,9 +51,9 @@ export function ReviewAndConfirm({ form }: ReviewAndConfirmProps) {
   return (
     <div className="space-y-8">
       <div className="text-center mb-6">
-        <h2 className="text-xl font-semibold mb-2">Vérification et confirmation</h2>
+        <h2 className="text-xl font-semibold mb-2">Review and Confirm</h2>
         <p className="text-sm text-muted-foreground max-w-lg mx-auto">
-          Vérifiez les informations de votre logement avant de soumettre.
+          Verify your property information before submitting.
         </p>
       </div>
 
@@ -62,14 +62,14 @@ export function ReviewAndConfirm({ form }: ReviewAndConfirmProps) {
         <div className="space-y-4">
           <h3 className="text-lg font-medium flex items-center gap-2">
             <Home className="text-gray-500" />
-            Résumé du logement
+            Property Summary
           </h3>
           
           <div className="bg-gray-50 rounded-xl p-6 space-y-4">
             {/* Title and Type */}
             <div className="space-y-1">
               <h4 className="text-xl font-semibold">
-                {formData.propertyDetails?.title || "Titre non défini"}
+                {formData.propertyDetails?.title || "Title not defined"}
               </h4>
               <p className="text-gray-500">
                 {getPropertyTypeLabel(formData.propertyType)}
@@ -90,15 +90,15 @@ export function ReviewAndConfirm({ form }: ReviewAndConfirmProps) {
             <div className="grid grid-cols-3 gap-4 mt-4 text-sm">
               <div className="text-center p-3 bg-white rounded-lg border">
                 <p className="font-medium">{formData.propertyDetails?.bedrooms || 0}</p>
-                <p className="text-gray-500">Chambres</p>
+                <p className="text-gray-500">Bedrooms</p>
               </div>
               <div className="text-center p-3 bg-white rounded-lg border">
                 <p className="font-medium">{formData.propertyDetails?.bathrooms || 0}</p>
-                <p className="text-gray-500">Salles de bain</p>
+                <p className="text-gray-500">Bathrooms</p>
               </div>
               <div className="text-center p-3 bg-white rounded-lg border">
                 <p className="font-medium">{formData.propertyDetails?.maxGuests || 0}</p>
-                <p className="text-gray-500">Voyageurs</p>
+                <p className="text-gray-500">Guests</p>
               </div>
             </div>
             
@@ -113,13 +113,13 @@ export function ReviewAndConfirm({ form }: ReviewAndConfirmProps) {
             <div className="flex items-start gap-3 text-gray-600 mt-4">
               <Calendar size={18} className="text-gray-400 mt-0.5" />
               <div>
-                <p>Disponible à partir du: {formData.propertyAvailability?.availableFrom}</p>
+                <p>Available from: {formData.propertyAvailability?.availableFrom}</p>
                 {formData.propertyAvailability?.availableTo && (
-                  <p>Disponible jusqu'au: {formData.propertyAvailability.availableTo}</p>
+                  <p>Available until: {formData.propertyAvailability.availableTo}</p>
                 )}
-                <p>Durée minimale: {formData.propertyAvailability?.minStay || 1} jours</p>
+                <p>Minimum stay: {formData.propertyAvailability?.minStay || 1} days</p>
                 {formData.propertyAvailability?.maxStay && (
-                  <p>Durée maximale: {formData.propertyAvailability.maxStay} jours</p>
+                  <p>Maximum stay: {formData.propertyAvailability.maxStay} days</p>
                 )}
               </div>
             </div>
@@ -128,9 +128,9 @@ export function ReviewAndConfirm({ form }: ReviewAndConfirmProps) {
             <div className="flex items-start gap-3 text-gray-600 mt-4">
               <User size={18} className="text-gray-400 mt-0.5" />
               <div>
-                <p>Proposé par: {formData.ownerDetails?.firstName} {formData.ownerDetails?.lastName}</p>
+                <p>Listed by: {formData.ownerDetails?.firstName} {formData.ownerDetails?.lastName}</p>
                 <p>Contact: {formData.ownerDetails?.email}</p>
-                <p>Téléphone: {formData.ownerDetails?.phone}</p>
+                <p>Phone: {formData.ownerDetails?.phone}</p>
               </div>
             </div>
           </div>
@@ -138,7 +138,7 @@ export function ReviewAndConfirm({ form }: ReviewAndConfirmProps) {
         
         {/* Terms and conditions */}
         <div className="space-y-4 mt-8 pt-6 border-t">
-          <h3 className="text-lg font-medium">Conditions générales</h3>
+          <h3 className="text-lg font-medium">Terms and Conditions</h3>
           
           <div className="space-y-4">
             <div className="flex items-start space-x-2">
@@ -154,10 +154,10 @@ export function ReviewAndConfirm({ form }: ReviewAndConfirmProps) {
                   htmlFor="confirmDetails.agreeToTerms"
                   className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
                 >
-                  J'accepte les conditions générales d'utilisation
+                  I agree to the terms of service
                 </Label>
                 <p className="text-sm text-muted-foreground">
-                  En cochant cette case, vous acceptez les conditions générales d'utilisation de notre plateforme.
+                  By checking this box, you agree to the terms of service of our platform.
                 </p>
               </div>
             </div>
@@ -181,10 +181,10 @@ export function ReviewAndConfirm({ form }: ReviewAndConfirmProps) {
                   htmlFor="confirmDetails.agreeToDataPolicy"
                   className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
                 >
-                  J'accepte la politique de confidentialité
+                  I agree to the privacy policy
                 </Label>
                 <p className="text-sm text-muted-foreground">
-                  En cochant cette case, vous acceptez notre politique de confidentialité concernant le traitement de vos données personnelles.
+                  By checking this box, you agree to our privacy policy regarding the processing of your personal data.
                 </p>
               </div>
             </div>
@@ -201,7 +201,7 @@ export function ReviewAndConfirm({ form }: ReviewAndConfirmProps) {
         <div className="mt-8 bg-green-50 rounded-lg p-4 flex gap-3">
           <CheckCircle className="text-green-500 mt-0.5 h-5 w-5 flex-shrink-0" />
           <p className="text-sm text-green-700">
-            En cliquant sur "Soumettre" ci-dessous, votre logement sera ajouté à notre plateforme et pourra être réservé par des personnes en recherche de relogement d'urgence.
+            By clicking "Submit" below, your property will be added to our platform and can be booked by people in need of emergency housing.
           </p>
         </div>
       </div>

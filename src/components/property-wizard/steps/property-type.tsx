@@ -1,5 +1,5 @@
 import { UseFormReturn } from "react-hook-form";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Building, Home, Hotel, Building2, HelpCircle, Check, BedDouble } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -15,10 +15,15 @@ type PropertyTypeOption = {
 };
 
 export function PropertyType({ form }: PropertyTypeProps) {
-  const { setValue, watch, formState: { errors } } = form;
+  const { setValue, watch, formState: { errors, isDirty } } = form;
   
   // Get the current property type from the form
   const propertyType = watch("propertyType");
+  
+  // Log when property type changes for debugging
+  useEffect(() => {
+    console.log("Property type selected:", propertyType);
+  }, [propertyType]);
   
   // Define the property type options
   const propertyTypes: PropertyTypeOption[] = [
@@ -34,33 +39,39 @@ export function PropertyType({ form }: PropertyTypeProps) {
       description: "A single-family or semi-detached house",
       icon: <Home size={32} />
     },
-    {
-      id: "room",
-      name: "Private Room",
-      description: "A room in a shared accommodation",
-      icon: <BedDouble size={32} />
-    },
+    // {
+    //   id: "room",
+    //   name: "Private Room",
+    //   description: "A room in a shared accommodation",
+    //   icon: <BedDouble size={32} />
+    // },
     {
       id: "studio",
       name: "Studio",
       description: "A one-room living space",
       icon: <Building2 size={32} />
     },
-    {
-      id: "other",
-      name: "Other",
-      description: "Another type of accommodation",
-      icon: <HelpCircle size={32} />
-    }
+    // {
+    //   id: "other",
+    //   name: "Other",
+    //   description: "Another type of accommodation",
+    //   icon: <HelpCircle size={32} />
+    // }
   ];
 
   // Function to handle selection of property type
   const handlePropertyTypeSelect = (id: string) => {
+    console.log("Selecting property type:", id);
     setValue("propertyType", id, {
       shouldValidate: true,
       shouldDirty: true,
       shouldTouch: true
     });
+    
+    // Force validation after setting the value
+    setTimeout(() => {
+      form.trigger("propertyType");
+    }, 0);
   };
 
   return (
@@ -110,7 +121,7 @@ export function PropertyType({ form }: PropertyTypeProps) {
               name="propertyType"
               value={type.id}
               checked={propertyType === type.id}
-              onChange={() => {}}
+              onChange={() => handlePropertyTypeSelect(type.id)}
               className="sr-only" // Hidden but keeps form functionality
             />
           </button>

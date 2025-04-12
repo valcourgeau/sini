@@ -27,9 +27,9 @@ export function OwnerDetails({ form }: OwnerDetailsProps) {
   return (
     <div className="space-y-8">
       <div className="text-center mb-6">
-        <h2 className="text-xl font-semibold mb-2">Informations de contact</h2>
+        <h2 className="text-xl font-semibold mb-2">Contact Information</h2>
         <p className="text-sm text-muted-foreground max-w-lg mx-auto">
-          Ces informations seront utilisées pour vous contacter en cas d'intérêt pour votre logement.
+          This information will be used to contact you if someone is interested in your property.
         </p>
       </div>
 
@@ -42,7 +42,7 @@ export function OwnerDetails({ form }: OwnerDetailsProps) {
               htmlFor="ownerDetails.firstName" 
               className="text-base font-medium"
             >
-              Prénom
+              First Name
             </Label>
             <Input
               id="ownerDetails.firstName"
@@ -64,7 +64,7 @@ export function OwnerDetails({ form }: OwnerDetailsProps) {
               htmlFor="ownerDetails.lastName" 
               className="text-base font-medium"
             >
-              Nom
+              Last Name
             </Label>
             <Input
               id="ownerDetails.lastName"
@@ -114,7 +114,7 @@ export function OwnerDetails({ form }: OwnerDetailsProps) {
               className="text-base font-medium flex items-center gap-2"
             >
               <Phone size={18} className="text-gray-500" />
-              Téléphone
+              Phone
             </Label>
             <Input
               id="ownerDetails.phone"
@@ -134,9 +134,9 @@ export function OwnerDetails({ form }: OwnerDetailsProps) {
         
         {/* Preferred contact method */}
         <div className="mt-8 pt-6 border-t">
-          <h3 className="text-lg font-medium mb-4">Méthode de contact préférée</h3>
+          <h3 className="text-lg font-medium mb-4">Preferred Contact Method</h3>
           <p className="text-sm text-muted-foreground mb-4">
-            Comment préférez-vous être contacté par les personnes intéressées?
+            How would you prefer to be contacted by interested individuals?
           </p>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -196,7 +196,7 @@ export function OwnerDetails({ form }: OwnerDetailsProps) {
               )}>
                 <Phone size={24} />
               </div>
-              <h4 className="text-base font-medium">Téléphone</h4>
+              <h4 className="text-base font-medium">Phone</h4>
               
               {preferredContact === "phone" && (
                 <div className="absolute top-3 right-3 bg-primary text-white rounded-full p-0.5">
@@ -233,7 +233,7 @@ export function OwnerDetails({ form }: OwnerDetailsProps) {
               )}>
                 <MessageSquare size={24} />
               </div>
-              <h4 className="text-base font-medium">Les deux</h4>
+              <h4 className="text-base font-medium">Both</h4>
               
               {preferredContact === "both" && (
                 <div className="absolute top-3 right-3 bg-primary text-white rounded-full p-0.5">
@@ -261,7 +261,7 @@ export function OwnerDetails({ form }: OwnerDetailsProps) {
         
         <div className="bg-blue-50 rounded-lg p-4 mt-6">
           <p className="text-sm text-blue-700">
-            <strong>Note:</strong> Vos informations de contact ne seront partagées qu'avec les personnes intéressées par votre logement, et uniquement après votre approbation.
+            <strong>Note:</strong> Your contact information will only be shared with individuals interested in your property, and only after your approval.
           </p>
         </div>
       </div>

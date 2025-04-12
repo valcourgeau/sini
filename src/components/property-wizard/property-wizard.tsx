@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -76,7 +76,7 @@ const formSchema = z.object({
   
   // Step 6: Property Photos
   propertyPhotos: z.object({
-    photos: z.array(z.string()).min(1, "At least one photo is required"),
+    photos: z.array(z.string()).min(0, "At least one photo is required"),
   }),
   
   // Step 7: Property Pricing
@@ -130,11 +130,17 @@ export function PropertyWizard() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
 
+  // Add debugging for isSubmitted state changes
+  useEffect(() => {
+    console.log("isSubmitted state changed:", isSubmitted);
+  }, [isSubmitted]);
+
   const totalSteps = 10; // Total number of steps in our wizard
   
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
+      propertyType: undefined,
       propertyAmenities: {
         features: [],
         hasWifi: false,
@@ -158,7 +164,22 @@ export function PropertyWizard() {
         photos: [],
       },
     },
+    mode: "onChange",
   });
+  
+  // Add debugging for form state changes
+  useEffect(() => {
+    const subscription = form.watch((value, { name, type }) => {
+      console.log("Form value changed:", { name, type, value });
+    });
+    
+    return () => subscription.unsubscribe();
+  }, [form]);
+  
+  // Add debugging for form errors
+  useEffect(() => {
+    console.log("Form errors:", form.formState.errors);
+  }, [form.formState.errors]);
   
   // Calculate progress percentage
   const progressPercentage = (step / totalSteps) * 100;
@@ -172,12 +193,53 @@ export function PropertyWizard() {
   };
 
   const onSubmit = async (data: FormValues) => {
-    console.log("Form data:", data);
+    console.log("onSubmit called with data:", data);
+    // This function is now just a wrapper for the direct submission handler
+    // The actual submission logic is in the handleSubmit function in renderNavigationButtons
     return data;
+  };
+
+  // Add a function to validate the current step
+  const validateCurrentStep = async () => {
+    console.log("Validating current step:", step);
+    
+    // Define the fields to validate for each step
+    const stepFields: Record<number, string> = {
+      1: "propertyType",
+      2: "propertyDetails",
+      3: "propertyLocation",
+      4: "propertyAmenities",
+      5: "propertyAvailability",
+      6: "propertyPhotos",
+      7: "propertyPricing",
+      8: "propertyRules",
+      9: "ownerDetails",
+      10: "confirmDetails"
+    };
+    
+    // Get the field to validate for the current step
+    const fieldToValidate = stepFields[step];
+    
+    if (!fieldToValidate) {
+      console.log("No field to validate for step:", step);
+      return true;
+    }
+    
+    // Validate the field
+    console.log("Validating field:", fieldToValidate);
+    const isValid = await form.trigger(fieldToValidate as any);
+    
+    console.log("Validation result:", isValid);
+    if (!isValid) {
+      console.log("Validation errors:", form.formState.errors);
+    }
+    
+    return isValid;
   };
 
   // Determine which step component to render
   const renderStep = () => {
+    // Render the appropriate step component
     switch (step) {
       case 1:
         return <PropertyType form={form} />;
@@ -211,115 +273,165 @@ export function PropertyWizard() {
     // If on the success message step, don't show navigation buttons
     if (step === 11) return null;
     
+    const isFinalStep = step === 10;
+    
+    console.log("Navigation state:", { 
+      step, 
+      isFinalStep, 
+      isSubmitting, 
+      isSubmitted 
+    });
+      
+    // Direct form submission handler
     const handleSubmit = async () => {
+      console.log("Submit button clicked");
       setIsSubmitting(true);
+      
       try {
+        // Validate the entire form before submission
+        console.log("Validating entire form before submission");
+        const isFormValid = await form.trigger();
+        
+        if (!isFormValid) {
+          console.log("Form validation failed:", form.formState.errors);
+          setIsSubmitting(false);
+          return;
+        }
+        
+        // Get form data
         const formData = form.getValues();
-        await onSubmit(formData);
+        console.log("Form data:", formData);
+        
+        // Simulate API call
+        console.log("Starting simulated API call");
+        await new Promise(resolve => setTimeout(resolve, 1500));
+        
         console.log("Form submitted successfully");
+        setIsSubmitting(false);
+        console.log("Setting isSubmitted to true");
         setIsSubmitted(true);
         // Move to success message
         setStep(11);
       } catch (error) {
         console.error("Error submitting form:", error);
-      } finally {
         setIsSubmitting(false);
       }
     };
 
+    // Function to validate current step and proceed
+    const validateAndProceed = async () => {
+      console.log("Validating step:", step);
+      
+      // Validate the current step
+      const isValid = await validateCurrentStep();
+      
+      if (isValid) {
+        console.log("Step validation successful, proceeding to next step");
+        nextStep();
+      } else {
+        console.log("Step validation failed, showing errors");
+      }
+    };
+
     return (
-      <div className="flex justify-between mt-8">
-        {step > 1 ? (
-          <Button type="button" variant="outline" onClick={prevStep}>
-            Précédent
-          </Button>
-        ) : (
-          <div></div> // Placeholder to maintain layout
-        )}
+      <CardFooter className="flex justify-between pt-4 pb-6">
+        <div>
+          {step > 1 && (
+            <Button 
+              type="button" 
+              variant="outline" 
+              onClick={prevStep}
+              className="px-6 py-2 h-auto"
+            >
+              Back
+            </Button>
+          )}
+        </div>
         
-        {step < 10 ? (
-          <Button 
-            type="button" 
-            onClick={() => {
-              form.trigger().then(isValid => {
+        <div>
+          {isFinalStep ? (
+            <Button 
+              type="button" 
+              onClick={async () => {
+                console.log("Final step - validating form before submission");
+                // Validate the current step before submission
+                const isValid = await validateCurrentStep();
+                
                 if (isValid) {
-                  nextStep();
-                } else {
-                  console.log("Form validation failed");
-                }
-              });
-            }}
-          >
-            Suivant
-          </Button>
-        ) : (
-          <Button 
-            type="button" 
-            onClick={() => {
-              form.trigger().then(isValid => {
-                if (isValid) {
+                  console.log("Final step validation successful, proceeding with submission");
                   handleSubmit();
                 } else {
-                  console.log("Form validation failed");
+                  console.log("Final step validation failed:", form.formState.errors);
                 }
-              });
-            }}
-            disabled={isSubmitting}
-          >
-            {isSubmitting ? "Soumission..." : "Soumettre"}
-          </Button>
-        )}
-      </div>
+              }}
+              disabled={isSubmitting}
+              className="px-8 py-2 h-auto bg-primary hover:bg-primary/90"
+            >
+              {isSubmitting ? "Submitting..." : "Submit Property"}
+            </Button>
+          ) : (
+            <Button 
+              type="button" 
+              onClick={validateAndProceed}
+              className="px-8 py-2 h-auto bg-primary hover:bg-primary/90"
+            >
+              {step === 1 ? "Start" : "Next"}
+            </Button>
+          )}
+        </div>
+      </CardFooter>
     );
   };
 
+  if (isSubmitted) {
+    return <SuccessMessage />;
+  }
+
   return (
-    <div className="max-w-3xl mx-auto">
-      <div className="mb-8">
-        <div className="flex justify-between items-center mb-2">
-          <span className="text-sm font-medium">Étape {step} sur {totalSteps}</span>
-          <span className="text-sm font-medium">{Math.round(progressPercentage)}%</span>
-        </div>
-        <Progress value={progressPercentage} className="h-2" />
-      </div>
-      
-      <Card>
-        <CardHeader>
-          <CardTitle>
-            {step === 1 && "Type de logement"}
-            {step === 2 && "Détails du logement"}
-            {step === 3 && "Localisation"}
-            {step === 4 && "Équipements"}
-            {step === 5 && "Disponibilité"}
+    <div className="container mx-auto py-8 px-4 md:px-0 max-w-5xl">
+      <Card className="border-2 shadow-lg">
+        <CardHeader className="pb-6">
+          <CardTitle className="text-2xl font-bold text-center">
+            {step === 1 && "Property Type"}
+            {step === 2 && "Property Details"}
+            {step === 3 && "Property Location"}
+            {step === 4 && "Amenities"}
+            {step === 5 && "Availability"}
             {step === 6 && "Photos"}
-            {step === 7 && "Prix"}
-            {step === 8 && "Règles"}
-            {step === 9 && "Informations de contact"}
-            {step === 10 && "Vérification et confirmation"}
-            {step === 11 && "Merci pour votre proposition!"}
+            {step === 7 && "Price"}
+            {step === 8 && "Rules"}
+            {step === 9 && "Contact Information"}
+            {step === 10 && "Review and Confirmation"}
+            {step === 11 && "Thank you for your submission!"}
           </CardTitle>
-          <CardDescription>
-            {step === 1 && "Sélectionnez le type de logement que vous souhaitez mettre à disposition."}
-            {step === 2 && "Décrivez votre logement en détail."}
-            {step === 3 && "Indiquez où se trouve votre logement."}
-            {step === 4 && "Quels équipements proposez-vous?"}
-            {step === 5 && "Quand votre logement est-il disponible?"}
-            {step === 6 && "Ajoutez des photos de votre logement."}
-            {step === 7 && "Définissez le prix de votre logement."}
-            {step === 8 && "Établissez les règles pour votre logement."}
-            {step === 9 && "Fournissez vos informations de contact."}
-            {step === 10 && "Vérifiez tous les détails avant de soumettre."}
-            {step === 11 && "Votre logement a été ajouté avec succès."}
+          <CardDescription className="text-center text-base">
+            {step === 1 && "Select the type of property you wish to make available."}
+            {step === 2 && "Describe your property in detail."}
+            {step === 3 && "Indicate where your property is located."}
+            {step === 4 && "What amenities do you offer?"}
+            {step === 5 && "When is your property available?"}
+            {step === 6 && "Add photos of your property."}
+            {step === 7 && "Set the price of your property."}
+            {step === 8 && "Establish the rules for your property."}
+            {step === 9 && "Provide your contact information."}
+            {step === 10 && "Verify all details before submitting."}
+            {step === 11 && "Your property has been successfully added."}
           </CardDescription>
+          <div className="mt-12">
+            <Progress value={progressPercentage} className="h-2.5" />
+            <p className="text-sm text-right mt-2 text-muted-foreground">
+              Step {step} of {totalSteps}
+            </p>
+          </div>
         </CardHeader>
-        <CardContent>
-          <form>
+        
+        <CardContent className="pb-8">
+          <form onSubmit={(e) => e.preventDefault()}>
             {renderStep()}
           </form>
         </CardContent>
-        <CardFooter>
-          {renderNavigationButtons()}
-        </CardFooter>
+        
+        {renderNavigationButtons()}
       </Card>
     </div>
   );

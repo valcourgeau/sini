@@ -29,48 +29,48 @@ export function PropertyRules({ form }: PropertyRulesProps) {
   const rulesOptions: RuleOption[] = [
     {
       id: "children",
-      name: "Enfants",
-      description: "Acceptez-vous les enfants?",
+      name: "Children",
+      description: "Do you accept children?",
       icon: <Baby size={24} />,
       fieldName: "propertyRules.allowChildren",
-      yesLabel: "Autorisés",
-      noLabel: "Non autorisés"
+      yesLabel: "Allowed",
+      noLabel: "Not allowed"
     },
     {
       id: "pets",
-      name: "Animaux",
-      description: "Acceptez-vous les animaux?",
+      name: "Pets",
+      description: "Do you accept pets?",
       icon: <PawPrint size={24} />,
       fieldName: "propertyRules.allowPets",
-      yesLabel: "Autorisés",
-      noLabel: "Non autorisés"
+      yesLabel: "Allowed",
+      noLabel: "Not allowed"
     },
     {
       id: "smoking",
-      name: "Tabac",
-      description: "Autorisez-vous de fumer?",
+      name: "Smoking",
+      description: "Is smoking permitted?",
       icon: <Cigarette size={24} />,
       fieldName: "propertyRules.allowSmoking",
-      yesLabel: "Autorisé",
-      noLabel: "Interdit"
+      yesLabel: "Permitted",
+      noLabel: "Not permitted"
     },
     {
       id: "events",
-      name: "Événements",
-      description: "Autorisez-vous les fêtes/événements?",
+      name: "Events",
+      description: "Are parties/events allowed?",
       icon: <Music size={24} />,
       fieldName: "propertyRules.allowEvents",
-      yesLabel: "Autorisés",
-      noLabel: "Non autorisés"
+      yesLabel: "Allowed",
+      noLabel: "Not allowed"
     },
     {
       id: "quietHours",
-      name: "Heures de silence",
-      description: "Imposez-vous des heures de silence?",
+      name: "Quiet Hours",
+      description: "Do you enforce quiet hours?",
       icon: <Clock size={24} />,
       fieldName: "propertyRules.quietHours",
-      yesLabel: "Oui",
-      noLabel: "Non"
+      yesLabel: "Yes",
+      noLabel: "No"
     }
   ];
 
@@ -86,9 +86,9 @@ export function PropertyRules({ form }: PropertyRulesProps) {
   return (
     <div className="space-y-8">
       <div className="text-center mb-6">
-        <h2 className="text-xl font-semibold mb-2">Règles du logement</h2>
+        <h2 className="text-xl font-semibold mb-2">Property Rules</h2>
         <p className="text-sm text-muted-foreground max-w-lg mx-auto">
-          Définissez les règles pour votre logement.
+          Define the rules for your property.
         </p>
       </div>
 
@@ -121,7 +121,7 @@ export function PropertyRules({ form }: PropertyRulesProps) {
                 )}>
                   <Check size={16} />
                 </div>
-                <span className="font-medium">{rule.yesLabel || "Oui"}</span>
+                <span className="font-medium">{rule.yesLabel || "Yes"}</span>
                 
                 <input
                   type="radio"
@@ -151,7 +151,7 @@ export function PropertyRules({ form }: PropertyRulesProps) {
                 )}>
                   <X size={16} />
                 </div>
-                <span className="font-medium">{rule.noLabel || "Non"}</span>
+                <span className="font-medium">{rule.noLabel || "No"}</span>
                 
                 <input
                   type="radio"
@@ -167,7 +167,7 @@ export function PropertyRules({ form }: PropertyRulesProps) {
             {rule.id === "quietHours" && watch("propertyRules.quietHours") && (
               <div className="mt-4 grid grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <Label htmlFor="propertyRules.quietHoursStart">Début</Label>
+                  <Label htmlFor="propertyRules.quietHoursStart">Start</Label>
                   <Input
                     id="propertyRules.quietHoursStart"
                     type="time"
@@ -176,7 +176,7 @@ export function PropertyRules({ form }: PropertyRulesProps) {
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="propertyRules.quietHoursEnd">Fin</Label>
+                  <Label htmlFor="propertyRules.quietHoursEnd">End</Label>
                   <Input
                     id="propertyRules.quietHoursEnd"
                     type="time"
@@ -195,7 +195,7 @@ export function PropertyRules({ form }: PropertyRulesProps) {
         <div className="flex items-center gap-2 mb-3">
           <Plus size={20} className="text-gray-500" />
           <Label htmlFor="propertyRules.additionalRules" className="text-base font-medium">
-            Règles supplémentaires (optionnel)
+            Additional Rules (optional)
           </Label>
         </div>
         <textarea
@@ -203,7 +203,7 @@ export function PropertyRules({ form }: PropertyRulesProps) {
           {...register("propertyRules.additionalRules")}
           rows={4}
           className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-          placeholder="Indiquez toutes les règles supplémentaires que vous souhaitez communiquer à vos invités."
+          placeholder="Include any additional rules you want to communicate to your guests."
         />
       </div>
     </div>

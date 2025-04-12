@@ -27,9 +27,9 @@ export function PropertyAvailability({ form }: PropertyAvailabilityProps) {
   return (
     <div className="space-y-8">
       <div className="text-center mb-6">
-        <h2 className="text-xl font-semibold mb-2">Disponibilité du logement</h2>
+        <h2 className="text-xl font-semibold mb-2">Property Availability</h2>
         <p className="text-sm text-muted-foreground max-w-lg mx-auto">
-          Quand votre logement est-il disponible et pour combien de temps?
+          When is your property available and for how long?
         </p>
       </div>
 
@@ -43,7 +43,7 @@ export function PropertyAvailability({ form }: PropertyAvailabilityProps) {
               className="text-base font-medium flex items-center gap-2"
             >
               <Calendar size={18} className="text-gray-500" />
-              Disponible à partir du
+              Available from
             </Label>
             <Input
               id="propertyAvailability.availableFrom"
@@ -67,7 +67,7 @@ export function PropertyAvailability({ form }: PropertyAvailabilityProps) {
               className="text-base font-medium flex items-center gap-2"
             >
               <Calendar size={18} className="text-gray-500" />
-              Disponible jusqu'au (optionnel)
+              Available until (optional)
             </Label>
             <Input
               id="propertyAvailability.availableTo"
@@ -93,7 +93,7 @@ export function PropertyAvailability({ form }: PropertyAvailabilityProps) {
               className="text-base font-medium flex items-center gap-2"
             >
               <Clock size={18} className="text-gray-500" />
-              Durée minimale de séjour (jours)
+              Minimum stay duration (days)
             </Label>
             <Input
               id="propertyAvailability.minStay"
@@ -118,7 +118,7 @@ export function PropertyAvailability({ form }: PropertyAvailabilityProps) {
               className="text-base font-medium flex items-center gap-2"
             >
               <Clock size={18} className="text-gray-500" />
-              Durée maximale de séjour (jours, optionnel)
+              Maximum stay duration (days, optional)
             </Label>
             <Input
               id="propertyAvailability.maxStay"
@@ -139,9 +139,9 @@ export function PropertyAvailability({ form }: PropertyAvailabilityProps) {
         
         {/* Flexibility option */}
         <div className="mt-6 pt-6 border-t">
-          <h3 className="text-lg font-medium mb-4">Flexibilité</h3>
+          <h3 className="text-lg font-medium mb-4">Flexibility</h3>
           <p className="text-sm text-muted-foreground mb-4">
-            Êtes-vous flexible sur les dates d'entrée et de sortie?
+            Are you flexible with check-in and check-out dates?
           </p>
           
           <div className="flex gap-4">
@@ -164,7 +164,7 @@ export function PropertyAvailability({ form }: PropertyAvailabilityProps) {
               )}>
                 <Check size={16} />
               </div>
-              <span className="font-medium">Oui, je suis flexible</span>
+              <span className="font-medium">Yes, I'm flexible</span>
               
               <input
                 type="radio"
@@ -194,7 +194,7 @@ export function PropertyAvailability({ form }: PropertyAvailabilityProps) {
               )}>
                 <Calendar size={16} />
               </div>
-              <span className="font-medium">Non, dates fixes</span>
+              <span className="font-medium">No, fixed dates</span>
               
               <input
                 type="radio"

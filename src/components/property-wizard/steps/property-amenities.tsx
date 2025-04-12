@@ -11,14 +11,13 @@ import {
   Bath,
   Accessibility,
   Check,
-  Washer,
-  Shower,
+  Shirt,
+  Droplet,
   Coffee,
   Home,
   Laptop,
   Lock,
   Snowflake,
-  SwimmingPool,
   Dog,
   Bike,
   LucideIcon
@@ -52,33 +51,33 @@ export function PropertyAmenities({ form }: PropertyAmenitiesProps) {
   const essentialAmenities: AmenityOption[] = [
     { id: "wifi", name: "WiFi", icon: Wifi },
     { id: "parking", name: "Parking", icon: Car },
-    { id: "kitchen", name: "Cuisine", icon: Utensils },
-    { id: "washer", name: "Lave-linge", icon: Washer },
-    { id: "tv", name: "Télévision", icon: Tv },
-    { id: "aircon", name: "Climatisation", icon: Snowflake },
-    { id: "heating", name: "Chauffage", icon: Flame },
-    { id: "accessibility", name: "Accessibilité", icon: Accessibility }
+    { id: "kitchen", name: "Kitchen", icon: Utensils },
+    { id: "washer", name: "Washer", icon: Shirt },
+    { id: "tv", name: "TV", icon: Tv },
+    { id: "aircon", name: "Air Conditioning", icon: Snowflake },
+    { id: "heating", name: "Heating", icon: Flame },
+    { id: "accessibility", name: "Accessibility", icon: Accessibility }
   ];
   
   // Additional amenities for multi-select
   const additionalAmenities: AmenityOption[] = [
-    { id: "pool", name: "Piscine", icon: SwimmingPool },
-    { id: "pets", name: "Animaux acceptés", icon: Dog },
-    { id: "workspace", name: "Espace de travail", icon: Laptop },
-    { id: "bbq", name: "Barbecue", icon: Flame },
-    { id: "bikes", name: "Vélos", icon: Bike },
-    { id: "securitycam", name: "Caméras de sécurité", icon: Lock },
-    { id: "coffee", name: "Machine à café", icon: Coffee },
-    { id: "dishwasher", name: "Lave-vaisselle", icon: Utensils },
-    { id: "bathtub", name: "Baignoire", icon: Bath },
-    { id: "shower", name: "Douche", icon: Shower }
+    { id: "pool", name: "Pool", icon: Waves },
+    { id: "pets", name: "Pets Allowed", icon: Dog },
+    { id: "workspace", name: "Workspace", icon: Laptop },
+    { id: "bbq", name: "BBQ", icon: Flame },
+    { id: "bikes", name: "Bikes", icon: Bike },
+    { id: "securitycam", name: "Security Cameras", icon: Lock },
+    { id: "coffee", name: "Coffee Machine", icon: Coffee },
+    { id: "dishwasher", name: "Dishwasher", icon: Utensils },
+    { id: "bathtub", name: "Bathtub", icon: Bath },
+    { id: "shower", name: "Shower", icon: Droplet }
   ];
   
   // Accessibility features
   const accessibilityFeatures: AmenityOption[] = [
-    { id: "wheelchair", name: "Accès fauteuil roulant", icon: Accessibility },
-    { id: "elevator", name: "Ascenseur", icon: Home },
-    { id: "stepfree", name: "Entrée sans marches", icon: Home }
+    { id: "wheelchair", name: "Wheelchair Access", icon: Accessibility },
+    { id: "elevator", name: "Elevator", icon: Home },
+    { id: "stepfree", name: "Step-free Entry", icon: Home }
   ];
 
   // Function to toggle essential amenities (true/false)
@@ -115,7 +114,7 @@ export function PropertyAmenities({ form }: PropertyAmenitiesProps) {
     const accessibilityFeatures = watch("propertyAmenities.accessibilityFeatures") || [];
     
     const newFeatures = accessibilityFeatures.includes(id)
-      ? accessibilityFeatures.filter(featureId => featureId !== id)
+      ? accessibilityFeatures.filter((featureId: string) => featureId !== id)
       : [...accessibilityFeatures, id];
     
     setValue("propertyAmenities.accessibilityFeatures", newFeatures, {
@@ -137,15 +136,15 @@ export function PropertyAmenities({ form }: PropertyAmenitiesProps) {
   return (
     <div className="space-y-8">
       <div className="text-center mb-6">
-        <h2 className="text-xl font-semibold mb-2">Équipements et services</h2>
+        <h2 className="text-xl font-semibold mb-2">Amenities and Services</h2>
         <p className="text-sm text-muted-foreground max-w-lg mx-auto">
-          Quels équipements et services proposez-vous dans votre logement?
+          What amenities and services do you offer in your property?
         </p>
       </div>
 
       {/* Essential amenities - Uses toggle cards */}
       <div className="space-y-4">
-        <h3 className="text-lg font-medium">Équipements essentiels</h3>
+        <h3 className="text-lg font-medium">Essential Amenities</h3>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {essentialAmenities.map((amenity) => {
             const fieldName = `propertyAmenities.has${amenity.id.charAt(0).toUpperCase() + amenity.id.slice(1)}`;
@@ -195,7 +194,7 @@ export function PropertyAmenities({ form }: PropertyAmenitiesProps) {
 
       {/* Additional amenities - Uses multi-select cards */}
       <div className="space-y-4 mt-8">
-        <h3 className="text-lg font-medium">Équipements supplémentaires</h3>
+        <h3 className="text-lg font-medium">Additional Amenities</h3>
         <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
           {additionalAmenities.map((amenity) => {
             const isSelected = selectedAmenities.includes(amenity.id);
@@ -237,9 +236,9 @@ export function PropertyAmenities({ form }: PropertyAmenitiesProps) {
       {/* Accessibility features - Only shown if accessibility is selected in essential amenities */}
       {watch("propertyAmenities.hasAccessibility") && (
         <div className="space-y-4 mt-8 border-t pt-8">
-          <h3 className="text-lg font-medium">Caractéristiques d'accessibilité</h3>
+          <h3 className="text-lg font-medium">Accessibility Features</h3>
           <p className="text-sm text-muted-foreground mb-4">
-            Sélectionnez toutes les caractéristiques d'accessibilité disponibles.
+            Select all available accessibility features.
           </p>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">

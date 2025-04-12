@@ -9,16 +9,16 @@ interface PropertyLocationProps {
 }
 
 const swissCantons = [
-  { value: "geneve", label: "Genève" },
+  { value: "geneve", label: "Geneva" },
   { value: "vaud", label: "Vaud" },
   { value: "neuchatel", label: "Neuchâtel" },
   { value: "fribourg", label: "Fribourg" },
   { value: "valais", label: "Valais" },
-  { value: "berne", label: "Berne" },
+  { value: "berne", label: "Bern" },
   { value: "jura", label: "Jura" },
-  { value: "zurich", label: "Zürich" },
-  { value: "bale", label: "Bâle" },
-  { value: "tessin", label: "Tessin" }
+  { value: "zurich", label: "Zurich" },
+  { value: "bale", label: "Basel" },
+  { value: "tessin", label: "Ticino" }
 ];
 
 export function PropertyLocation({ form }: PropertyLocationProps) {
@@ -40,9 +40,9 @@ export function PropertyLocation({ form }: PropertyLocationProps) {
   return (
     <div className="space-y-8">
       <div className="text-center mb-6">
-        <h2 className="text-xl font-semibold mb-2">Localisation du logement</h2>
+        <h2 className="text-xl font-semibold mb-2">Property Location</h2>
         <p className="text-sm text-muted-foreground max-w-lg mx-auto">
-          Veuillez indiquer l'adresse précise de votre logement.
+          Please provide the exact address of your property.
         </p>
       </div>
 
@@ -55,12 +55,13 @@ export function PropertyLocation({ form }: PropertyLocationProps) {
               htmlFor="propertyLocation.street" 
               className="text-base font-medium"
             >
-              Rue et numéro
+              Property Address
             </Label>
             <Input
               id="propertyLocation.street"
               {...register("propertyLocation.street")}
-              placeholder="Ex: Rue du Mont-Blanc 18"
+              placeholder="Ex: Mont-Blanc Street 18"
+              defaultValue="18 Rue du Lac"
               className={cn(
                 locationErrors.street && "border-red-500 focus-visible:ring-red-500"
               )}
@@ -80,12 +81,13 @@ export function PropertyLocation({ form }: PropertyLocationProps) {
                 htmlFor="propertyLocation.city" 
                 className="text-base font-medium"
               >
-                Ville
+                City
               </Label>
               <Input
                 id="propertyLocation.city"
                 {...register("propertyLocation.city")}
-                placeholder="Ex: Genève"
+                placeholder="Ex: Geneva"
+                defaultValue="Geneva"
                 className={cn(
                   locationErrors.city && "border-red-500 focus-visible:ring-red-500"
                 )}
@@ -103,12 +105,13 @@ export function PropertyLocation({ form }: PropertyLocationProps) {
                 htmlFor="propertyLocation.postalCode" 
                 className="text-base font-medium"
               >
-                Code postal
+                Postal Code
               </Label>
               <Input
                 id="propertyLocation.postalCode"
                 {...register("propertyLocation.postalCode")}
                 placeholder="Ex: 1201"
+                defaultValue="1201"
                 className={cn(
                   locationErrors.postalCode && "border-red-500 focus-visible:ring-red-500"
                 )}
@@ -131,12 +134,13 @@ export function PropertyLocation({ form }: PropertyLocationProps) {
               <select
                 id="propertyLocation.canton"
                 {...register("propertyLocation.canton")}
+                defaultValue="geneve"
                 className={cn(
                   "flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50",
                   locationErrors.canton && "border-red-500 focus-visible:ring-red-500"
                 )}
               >
-                <option value="">Sélectionnez un canton</option>
+                <option value="">Select a canton</option>
                 {swissCantons.map((canton) => (
                   <option key={canton.value} value={canton.value}>
                     {canton.label}
@@ -157,11 +161,11 @@ export function PropertyLocation({ form }: PropertyLocationProps) {
               htmlFor="propertyLocation.country" 
               className="text-base font-medium"
             >
-              Pays
+              Country
             </Label>
             <Input
               id="propertyLocation.country"
-              defaultValue="Suisse"
+              defaultValue="Switzerland"
               {...register("propertyLocation.country")}
               className={cn(
                 locationErrors.country && "border-red-500 focus-visible:ring-red-500"
@@ -177,9 +181,9 @@ export function PropertyLocation({ form }: PropertyLocationProps) {
         
         {/* Show exact location toggle */}
         <div className="mt-8 border-t pt-6">
-          <h3 className="text-lg font-medium mb-4">Visibilité de l'adresse</h3>
+          <h3 className="text-lg font-medium mb-4">Address Visibility</h3>
           <p className="text-sm text-muted-foreground mb-4">
-            Souhaitez-vous que votre adresse exacte soit visible par les personnes intéressées?
+            Do you want your exact address to be visible to interested individuals?
           </p>
           
           <div className="flex gap-4">
@@ -202,7 +206,7 @@ export function PropertyLocation({ form }: PropertyLocationProps) {
               )}>
                 <MapPin size={16} />
               </div>
-              <span className="font-medium">Montrer l'adresse exacte</span>
+              <span className="font-medium">Show exact address</span>
               
               {showExactLocation === true && (
                 <div className="absolute top-3 right-3 bg-primary text-white rounded-full p-0.5">
@@ -238,7 +242,7 @@ export function PropertyLocation({ form }: PropertyLocationProps) {
               )}>
                 <MapPin size={16} />
               </div>
-              <span className="font-medium">Montrer uniquement le quartier</span>
+              <span className="font-medium">Show only the neighborhood</span>
               
               {showExactLocation === false && (
                 <div className="absolute top-3 right-3 bg-primary text-white rounded-full p-0.5">
@@ -257,7 +261,7 @@ export function PropertyLocation({ form }: PropertyLocationProps) {
           </div>
           
           <p className="text-xs text-muted-foreground mt-4">
-            <strong>Note:</strong> Même si vous ne montrez que le quartier publiquement, l'adresse exacte sera partagée avec la personne intéressée une fois que vous aurez accepté sa demande.
+            <strong>Note:</strong> Even if you only show the neighborhood publicly, the exact address will be shared with the interested person once you have accepted their request.
           </p>
         </div>
       </div>
