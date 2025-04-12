@@ -6,7 +6,9 @@
     "dev": "npx next dev",
     "build": "npx next build",
     "start": "npx next start",
-    "lint": "npx next lint"
+    "lint": "npx next lint",
+    "export": "next build",
+    "deploy": "gh-pages -d out"
   },
   "dependencies": {
     "@hookform/resolvers": "^4.1.0",
@@ -27,7 +29,6 @@
     "leaflet": "^1.9.4",
     "lucide-react": "^0.475.0",
     "next": "^15.2.4",
-    "next-export": "^0.1.7",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "react-hook-form": "^7.54.2",
@@ -48,6 +49,7 @@
     "autoprefixer": "^10.4.21",
     "eslint": "^9",
     "eslint-config-next": "15.1.7",
+    "gh-pages": "^6.1.1",
     "postcss": "^8.5.3",
     "typescript": "^5.0.0"
   }
