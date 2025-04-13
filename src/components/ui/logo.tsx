@@ -15,44 +15,38 @@ const sizes = {
 
 export function Logo({ className, size = 'md' }: LogoProps) {
   return (
-    <div className={cn('flex items-center gap-2', className)}>
-      {/* Lighthouse Icon in Lucide style */}
+    <div className={cn('flex items-center gap-3', className)}>
+      {/* Lighthouse Icon */}
       <svg
         className={cn(sizes[size], 'w-auto')}
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
+        viewBox="0 0 800 800"
+        fill="currentColor"
       >
-        {/* Base */}
-        <path d="M6 20h12" />
-        
-        {/* Main tower */}
-        <path d="M12 4v16" />
-        
-        {/* Tower structure - simple trapezoid */}
-        <path d="M9 20l3-16l3 16" />
-        
-        {/* Light chamber at top */}
-        <path d="M8 7h8" />
-        
-        {/* Top */}
-        <path d="M10 4h4" />
-        
-        {/* Windows */}
-        <path d="M10 12h4" />
-        <path d="M10 16h4" />
-        
         {/* Light beams - simplified */}
-        <path d="M6 7L3 5" strokeDasharray="1 1" />
-        <path d="M18 7L21 5" strokeDasharray="1 1" />
+        <path
+          d="M250,300 L100,150 M400,250 L400,100 M550,300 L700,150"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="20"
+          strokeLinecap="round"
+        />
+        
+        {/* Lighthouse silhouette */}
+        <path d="M400,150 L350,200 L350,250 L300,600 L500,600 L450,250 L450,200 L400,150 Z" />
+        
+        {/* Lighthouse top */}
+        <path d="M350,250 C350,200 450,200 450,250 L450,300 L350,300 Z" />
+        
+        {/* Top dome */}
+        <path d="M375,200 L400,150 L425,200 C425,225 375,225 375,200 Z" />
+        
+        {/* Ground/rocks */}
+        <path d="M100,600 C200,550 250,575 300,600 L500,600 C550,575 600,550 700,600 L100,600 Z" />
       </svg>
       
       {/* Pharewest Text */}
       <span className={cn(
-        'font-semibold tracking-tight',
+        'font-sans font-bold tracking-tight',
         {
           'text-lg': size === 'sm',
           'text-xl': size === 'md',
