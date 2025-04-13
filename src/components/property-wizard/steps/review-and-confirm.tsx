@@ -108,10 +108,25 @@ export function ReviewAndConfirm({ form }: ReviewAndConfirmProps) {
             </div>
             
             {/* Price */}
-            <div className="flex items-center gap-2 mt-4">
-              <DollarSign size={18} className="text-gray-400" />
-              <span className="text-xl font-bold">{formData.propertyPricing?.price || 0}</span>
-              <span className="text-gray-500">{formatPricePeriod(formData.propertyPricing?.pricePeriod)}</span>
+            <div className="space-y-2 mt-4">
+              <div className="flex items-center gap-2">
+                <DollarSign size={18} className="text-gray-400" />
+                <span className="text-lg font-medium">Prix</span>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div className="bg-white rounded-lg border p-3">
+                  <p className="text-sm text-gray-500">Par nuit</p>
+                  <p className="text-xl font-bold">{formData.propertyPricing?.prices?.night || 0} CHF</p>
+                </div>
+                <div className="bg-white rounded-lg border p-3">
+                  <p className="text-sm text-gray-500">Par semaine</p>
+                  <p className="text-xl font-bold">{formData.propertyPricing?.prices?.week || 0} CHF</p>
+                </div>
+                <div className="bg-white rounded-lg border p-3">
+                  <p className="text-sm text-gray-500">Par mois</p>
+                  <p className="text-xl font-bold">{formData.propertyPricing?.prices?.month || 0} CHF</p>
+                </div>
+              </div>
             </div>
             
             {/* Availability */}
@@ -119,13 +134,7 @@ export function ReviewAndConfirm({ form }: ReviewAndConfirmProps) {
               <Calendar size={18} className="text-gray-400 mt-0.5" />
               <div>
                 <p>Available from: {formData.propertyAvailability?.availableFrom}</p>
-                {formData.propertyAvailability?.availableTo && (
-                  <p>Available until: {formData.propertyAvailability.availableTo}</p>
-                )}
                 <p>Minimum stay: {formData.propertyAvailability?.minStay || 1} days</p>
-                {formData.propertyAvailability?.maxStay && (
-                  <p>Maximum stay: {formData.propertyAvailability.maxStay} days</p>
-                )}
               </div>
             </div>
             

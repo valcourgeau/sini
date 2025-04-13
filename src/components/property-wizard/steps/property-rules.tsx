@@ -15,8 +15,6 @@ type RuleOption = {
   description: string;
   icon: React.ReactNode;
   fieldName: string;
-  yesLabel?: string;
-  noLabel?: string;
 };
 
 export function PropertyRules({ form }: PropertyRulesProps) {
@@ -31,46 +29,36 @@ export function PropertyRules({ form }: PropertyRulesProps) {
       id: "children",
       name: "Children",
       description: "Do you accept children?",
-      icon: <Baby size={24} />,
-      fieldName: "propertyRules.allowChildren",
-      yesLabel: "Allowed",
-      noLabel: "Not allowed"
+      icon: <Baby size={32} />,
+      fieldName: "propertyRules.allowChildren"
     },
     {
       id: "pets",
       name: "Pets",
       description: "Do you accept pets?",
-      icon: <PawPrint size={24} />,
-      fieldName: "propertyRules.allowPets",
-      yesLabel: "Allowed",
-      noLabel: "Not allowed"
+      icon: <PawPrint size={32} />,
+      fieldName: "propertyRules.allowPets"
     },
     {
       id: "smoking",
       name: "Smoking",
       description: "Is smoking permitted?",
-      icon: <Cigarette size={24} />,
-      fieldName: "propertyRules.allowSmoking",
-      yesLabel: "Permitted",
-      noLabel: "Not permitted"
+      icon: <Cigarette size={32} />,
+      fieldName: "propertyRules.allowSmoking"
     },
     {
       id: "events",
       name: "Events",
       description: "Are parties/events allowed?",
-      icon: <Music size={24} />,
-      fieldName: "propertyRules.allowEvents",
-      yesLabel: "Allowed",
-      noLabel: "Not allowed"
+      icon: <Music size={32} />,
+      fieldName: "propertyRules.allowEvents"
     },
     {
       id: "quietHours",
       name: "Quiet Hours",
       description: "Do you enforce quiet hours?",
-      icon: <Clock size={24} />,
-      fieldName: "propertyRules.quietHours",
-      yesLabel: "Yes",
-      noLabel: "No"
+      icon: <Clock size={32} />,
+      fieldName: "propertyRules.quietHours"
     }
   ];
 
@@ -84,51 +72,59 @@ export function PropertyRules({ form }: PropertyRulesProps) {
   };
 
   return (
-    <div className="space-y-8">
-      <div className="text-center mb-6">
-        <h2 className="text-xl font-semibold mb-2">Property Rules</h2>
+    <div className="space-y-6">
+      <div className="text-center mb-4">
+        <h2 className="text-xl font-semibold mb-1">Property Rules</h2>
         <p className="text-sm text-muted-foreground max-w-lg mx-auto">
-          Define the rules for your property.
+          Define the rules for your property to help guests understand what to expect.
         </p>
       </div>
 
-      <div className="space-y-8">
+      <div className="space-y-4 max-w-2xl mx-auto">
         {rulesOptions.map((rule) => (
-          <div key={rule.id} className="space-y-3">
-            <div className="flex items-center gap-2">
-              <span className="text-gray-500">{rule.icon}</span>
-              <h3 className="text-lg font-medium">{rule.name}</h3>
+          <div key={rule.id} className="flex items-center justify-between gap-4">
+            <div className="flex items-center gap-3 flex-1">
+              <div className={cn(
+                "w-12 h-12 rounded-full flex items-center justify-center",
+                watch(rule.fieldName) !== undefined
+                  ? "bg-primary text-white"
+                  : "bg-gray-100 text-gray-500"
+              )}>
+                {rule.icon}
+              </div>
+              <div>
+                <h3 className="text-base font-medium">{rule.name}</h3>
+                <p className="text-sm text-muted-foreground">{rule.description}</p>
+              </div>
             </div>
-            <p className="text-sm text-muted-foreground mb-3">{rule.description}</p>
             
-            <div className="flex gap-4">
+            <div className="flex gap-1.5">
               <button
                 type="button"
                 onClick={() => toggleRule(rule.fieldName, true)}
                 className={cn(
-                  "flex-1 group relative flex items-center justify-center p-4 rounded-xl border-2 transition-all duration-200",
+                  "group relative flex items-center justify-center p-2.5 rounded-lg border-2 transition-all duration-200",
                   watch(rule.fieldName) === true
-                    ? "border-primary bg-primary/5 shadow-md"
+                    ? "border-primary bg-primary/5 shadow-sm"
                     : "border-gray-200 hover:border-gray-300 hover:shadow-sm"
                 )}
                 aria-pressed={watch(rule.fieldName) === true}
               >
                 <div className={cn(
-                  "w-8 h-8 rounded-full flex items-center justify-center mr-3 transition-all",
+                  "w-7 h-7 rounded-full flex items-center justify-center transition-all",
                   watch(rule.fieldName) === true
                     ? "bg-primary text-white"
                     : "bg-gray-100 text-gray-500 group-hover:bg-gray-200"
                 )}>
-                  <Check size={16} />
+                  <Check size={14} />
                 </div>
-                <span className="font-medium">{rule.yesLabel || "Yes"}</span>
                 
                 <input
                   type="radio"
                   name={rule.fieldName}
                   checked={watch(rule.fieldName) === true}
                   onChange={() => {}}
-                  className="sr-only" // Hidden but keeps form functionality
+                  className="sr-only"
                 />
               </button>
               
@@ -136,64 +132,67 @@ export function PropertyRules({ form }: PropertyRulesProps) {
                 type="button"
                 onClick={() => toggleRule(rule.fieldName, false)}
                 className={cn(
-                  "flex-1 group relative flex items-center justify-center p-4 rounded-xl border-2 transition-all duration-200",
+                  "group relative flex items-center justify-center p-2.5 rounded-lg border-2 transition-all duration-200",
                   watch(rule.fieldName) === false
-                    ? "border-primary bg-primary/5 shadow-md"
+                    ? "border-primary bg-primary/5 shadow-sm"
                     : "border-gray-200 hover:border-gray-300 hover:shadow-sm"
                 )}
                 aria-pressed={watch(rule.fieldName) === false}
               >
                 <div className={cn(
-                  "w-8 h-8 rounded-full flex items-center justify-center mr-3 transition-all",
+                  "w-7 h-7 rounded-full flex items-center justify-center transition-all",
                   watch(rule.fieldName) === false
                     ? "bg-primary text-white"
                     : "bg-gray-100 text-gray-500 group-hover:bg-gray-200"
                 )}>
-                  <X size={16} />
+                  <X size={14} />
                 </div>
-                <span className="font-medium">{rule.noLabel || "No"}</span>
                 
                 <input
                   type="radio"
                   name={rule.fieldName}
                   checked={watch(rule.fieldName) === false}
                   onChange={() => {}}
-                  className="sr-only" // Hidden but keeps form functionality
+                  className="sr-only"
                 />
               </button>
             </div>
-            
-            {/* Show time inputs if quiet hours is selected */}
-            {rule.id === "quietHours" && watch("propertyRules.quietHours") && (
-              <div className="mt-4 grid grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <Label htmlFor="propertyRules.quietHoursStart">Start</Label>
-                  <Input
-                    id="propertyRules.quietHoursStart"
-                    type="time"
-                    defaultValue="22:00"
-                    {...register("propertyRules.quietHoursStart")}
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="propertyRules.quietHoursEnd">End</Label>
-                  <Input
-                    id="propertyRules.quietHoursEnd"
-                    type="time"
-                    defaultValue="07:00"
-                    {...register("propertyRules.quietHoursEnd")}
-                  />
-                </div>
-              </div>
-            )}
           </div>
         ))}
       </div>
       
+      {/* Show time inputs if quiet hours is selected */}
+      {watch("propertyRules.quietHours") && (
+        <div className="mt-4 grid grid-cols-2 gap-4 max-w-md mx-auto">
+          <div className="space-y-1.5">
+            <Label htmlFor="propertyRules.quietHoursStart">Start</Label>
+            <Input
+              id="propertyRules.quietHoursStart"
+              type="time"
+              defaultValue="22:00"
+              {...register("propertyRules.quietHoursStart")}
+              className="w-full"
+            />
+          </div>
+          <div className="space-y-1.5">
+            <Label htmlFor="propertyRules.quietHoursEnd">End</Label>
+            <Input
+              id="propertyRules.quietHoursEnd"
+              type="time"
+              defaultValue="07:00"
+              {...register("propertyRules.quietHoursEnd")}
+              className="w-full"
+            />
+          </div>
+        </div>
+      )}
+      
       {/* Additional rules textarea */}
-      <div className="mt-8 bg-white p-5 rounded-xl border border-gray-200">
-        <div className="flex items-center gap-2 mb-3">
-          <Plus size={20} className="text-gray-500" />
+      <div className="mt-6 bg-white p-5 rounded-xl border border-gray-200 max-w-2xl mx-auto">
+        <div className="flex items-center gap-2 mb-2">
+          <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
+            <Plus size={20} className="text-primary" />
+          </div>
           <Label htmlFor="propertyRules.additionalRules" className="text-base font-medium">
             Additional Rules (optional)
           </Label>

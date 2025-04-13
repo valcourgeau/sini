@@ -56,7 +56,9 @@ export function PropertyAmenities({ form }: PropertyAmenitiesProps) {
     { id: "tv", name: "TV", icon: Tv },
     { id: "aircon", name: "Air Conditioning", icon: Snowflake },
     { id: "heating", name: "Heating", icon: Flame },
-    { id: "accessibility", name: "Accessibility", icon: Accessibility }
+    { id: "accessibility", name: "Accessibility", icon: Accessibility },
+    { id: "bathtub", name: "Bathtub", icon: Bath },
+    { id: "shower", name: "Shower", icon: Droplet }
   ];
   
   // Additional amenities for multi-select
@@ -65,12 +67,10 @@ export function PropertyAmenities({ form }: PropertyAmenitiesProps) {
     { id: "pets", name: "Pets Allowed", icon: Dog },
     { id: "workspace", name: "Workspace", icon: Laptop },
     { id: "bbq", name: "BBQ", icon: Flame },
-    { id: "bikes", name: "Bikes", icon: Bike },
+    { id: "bikeStorage", name: "Bike Storage", icon: Bike },
     { id: "securitycam", name: "Security Cameras", icon: Lock },
     { id: "coffee", name: "Coffee Machine", icon: Coffee },
-    { id: "dishwasher", name: "Dishwasher", icon: Utensils },
-    { id: "bathtub", name: "Bathtub", icon: Bath },
-    { id: "shower", name: "Shower", icon: Droplet }
+    { id: "dishwasher", name: "Dishwasher", icon: Utensils }
   ];
   
   // Accessibility features

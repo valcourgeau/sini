@@ -220,44 +220,46 @@ export function PropertyDetails({ form }: PropertyDetailsProps) {
         
         {/* Counter fields (bedrooms, bathrooms, guests, size) - MOVED ABOVE DESCRIPTION */}
         <div className="pt-4 border-t">
-          <h3 className="text-lg font-medium mb-4">Features</h3>
+          <h3 className="text-lg font-medium mb-6 text-center">Features</h3>
           
-          <div className="space-y-6">
+          <div className="space-y-8">
             {counterFields.map((field) => (
-              <div key={field.id} className="flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <span className="text-gray-500">{field.icon}</span>
+              <div key={field.id} className="flex items-center justify-between max-w-md mx-auto w-full">
+                <div className="flex items-center gap-3">
+                  <div className="w-12 h-12 rounded-full bg-gray-100 flex items-center justify-center">
+                    <span className="text-gray-600">{field.icon}</span>
+                  </div>
                   <Label 
                     htmlFor={field.fieldName} 
-                    className="font-medium"
+                    className="font-medium text-lg"
                   >
                     {field.name}
                   </Label>
                 </div>
                 
-                <div className="flex items-center">
+                <div className="flex items-center gap-4">
                   <button
                     type="button"
                     onClick={() => decrementCounter(field.fieldName, field.min, field.increment || 1)}
                     className={cn(
-                      "p-1.5 rounded-full text-gray-500 hover:bg-gray-100 transition-colors",
+                      "p-2 rounded-full text-gray-500 hover:bg-gray-100 transition-colors",
                       watch(field.fieldName) <= field.min && "opacity-50 cursor-not-allowed"
                     )}
                     disabled={watch(field.fieldName) <= field.min}
                   >
-                    <MinusCircle size={24} />
+                    <MinusCircle size={28} />
                   </button>
                   
-                  <span className="w-12 text-center font-medium">
+                  <span className="w-16 text-center font-medium text-xl">
                     {watch(field.fieldName) || field.min}
                   </span>
                   
                   <button
                     type="button"
                     onClick={() => incrementCounter(field.fieldName, field.min, field.increment || 1)}
-                    className="p-1.5 rounded-full text-gray-500 hover:bg-gray-100 transition-colors"
+                    className="p-2 rounded-full text-gray-500 hover:bg-gray-100 transition-colors"
                   >
-                    <PlusCircle size={24} />
+                    <PlusCircle size={28} />
                   </button>
                   
                   <input
@@ -271,11 +273,11 @@ export function PropertyDetails({ form }: PropertyDetailsProps) {
           </div>
           
           {/* Error messages for counter fields */}
-          <div className="space-y-6 mt-2">
+          <div className="space-y-6 mt-4">
             {counterFields.map((field) => {
               const errorMessage = getErrorMessage(field.id);
               return (
-                <div key={`${field.id}-error`}>
+                <div key={`${field.id}-error`} className="text-center">
                   {errorMessage && (
                     <p className="text-sm text-red-500">
                       {errorMessage}

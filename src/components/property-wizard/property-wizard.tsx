@@ -81,13 +81,16 @@ const formSchema = z.object({
   
   // Step 7: Property Pricing
   propertyPricing: z.object({
-    price: z.number().min(1, "Price is required"),
-    pricePeriod: z.enum(["night", "week", "month"]),
-    cleaningFee: z.number().optional(),
-    securityDeposit: z.number().optional(),
+    prices: z.object({
+      night: z.number().min(1, "At least one price is required"),
+      week: z.number().min(0),
+      month: z.number().min(0),
+    }),
+    cleaningFee: z.number().optional().nullable(),
+    securityDeposit: z.number().optional().nullable(),
     discounts: z.object({
       hasLongTermDiscount: z.boolean().optional(),
-      longTermDiscountPercent: z.number().optional(),
+      longTermDiscountPercent: z.number().optional().nullable(),
     }).optional(),
   }),
   

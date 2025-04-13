@@ -1,8 +1,9 @@
 import { UseFormReturn } from "react-hook-form";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
-import { Calendar, Clock, Check } from "lucide-react";
+import { Calendar, Clock, Check, MinusCircle, PlusCircle } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useEffect } from "react";
 
 interface PropertyAvailabilityProps {
   form: UseFormReturn<any>;
@@ -10,11 +11,18 @@ interface PropertyAvailabilityProps {
 
 interface PropertyAvailabilityErrors {
   availableFrom?: { message?: string };
-  availableTo?: { message?: string };
   minStay?: { message?: string };
-  maxStay?: { message?: string };
   isFlexible?: { message?: string };
 }
+
+type CounterField = {
+  id: string;
+  name: string;
+  icon: React.ReactNode;
+  min: number;
+  fieldName: string;
+  increment?: number;
+};
 
 export function PropertyAvailability({ form }: PropertyAvailabilityProps) {
   const { register, setValue, watch, formState: { errors } } = form;
@@ -31,6 +39,57 @@ export function PropertyAvailability({ form }: PropertyAvailabilityProps) {
       shouldTouch: true
     });
   };
+  
+  // Initialize numeric values if they are undefined
+  useEffect(() => {
+    const fieldDefaults = {
+      "propertyAvailability.minStay": 1
+    };
+    
+    Object.entries(fieldDefaults).forEach(([field, defaultValue]) => {
+      const currentValue = watch(field);
+      if (currentValue === undefined || currentValue === null) {
+        setValue(field, defaultValue, {
+          shouldValidate: true,
+          shouldDirty: false,
+          shouldTouch: false
+        });
+      }
+    });
+  }, []);
+  
+  // Counter fields
+  const counterFields: CounterField[] = [
+    {
+      id: "minStay",
+      name: "Minimum stay duration",
+      icon: <Clock size={24} />,
+      min: 1,
+      fieldName: "propertyAvailability.minStay"
+    }
+  ];
+  
+  // Function to increment counter
+  const incrementCounter = (fieldName: string, min: number, increment: number = 1) => {
+    const currentValue = watch(fieldName) || min;
+    setValue(fieldName, currentValue + increment, {
+      shouldValidate: true,
+      shouldDirty: true,
+      shouldTouch: true
+    });
+  };
+  
+  // Function to decrement counter
+  const decrementCounter = (fieldName: string, min: number, increment: number = 1) => {
+    const currentValue = watch(fieldName) || min;
+    if (currentValue > min) {
+      setValue(fieldName, currentValue - increment, {
+        shouldValidate: true,
+        shouldDirty: true,
+        shouldTouch: true
+      });
+    }
+  };
 
   return (
     <div className="space-y-8">
@@ -43,110 +102,111 @@ export function PropertyAvailability({ form }: PropertyAvailabilityProps) {
 
       <div className="space-y-6">
         {/* Date fields */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {/* Available from */}
-          <div className="space-y-2">
-            <Label 
-              htmlFor="propertyAvailability.availableFrom" 
-              className="text-base font-medium flex items-center gap-2"
-            >
-              <Calendar size={18} className="text-gray-500" />
-              Available from
-            </Label>
-            <Input
-              id="propertyAvailability.availableFrom"
-              type="date"
-              {...register("propertyAvailability.availableFrom")}
-              className={cn(
-                availabilityErrors.availableFrom && "border-red-500 focus-visible:ring-red-500"
+        <div className="max-w-2xl mx-auto">
+          <div className="flex items-center justify-between max-w-md mx-auto w-full mb-6">
+            <div className="flex items-center gap-3">
+              <div className="w-12 h-12 rounded-full bg-gray-100 flex items-center justify-center">
+                <span className="text-gray-600"><Calendar size={24} /></span>
+              </div>
+              <Label 
+                htmlFor="propertyAvailability.availableFrom" 
+                className="font-medium text-lg"
+              >
+                Available from
+              </Label>
+            </div>
+            <div className="relative max-w-[180px]">
+              <Input
+                id="propertyAvailability.availableFrom"
+                type="date"
+                {...register("propertyAvailability.availableFrom")}
+                className={cn(
+                  "w-full pl-3 pr-3 py-2 text-base",
+                  availabilityErrors.availableFrom && "border-red-500 focus-visible:ring-red-500"
+                )}
+              />
+              {availabilityErrors.availableFrom && (
+                <p className="text-sm text-red-500 mt-1 absolute">
+                  {availabilityErrors.availableFrom.message}
+                </p>
               )}
-            />
-            {availabilityErrors.availableFrom && (
-              <p className="text-sm text-red-500 mt-1">
-                {availabilityErrors.availableFrom.message}
-              </p>
-            )}
-          </div>
-          
-          {/* Available to (optional) */}
-          <div className="space-y-2">
-            <Label 
-              htmlFor="propertyAvailability.availableTo" 
-              className="text-base font-medium flex items-center gap-2"
-            >
-              <Calendar size={18} className="text-gray-500" />
-              Available until (optional)
-            </Label>
-            <Input
-              id="propertyAvailability.availableTo"
-              type="date"
-              {...register("propertyAvailability.availableTo")}
-              className={cn(
-                availabilityErrors.availableTo && "border-red-500 focus-visible:ring-red-500"
-              )}
-            />
-            {availabilityErrors.availableTo && (
-              <p className="text-sm text-red-500 mt-1">
-                {availabilityErrors.availableTo.message}
-              </p>
-            )}
+            </div>
           </div>
         </div>
         
         {/* Duration fields */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6 pt-6 border-t">
-          <div className="space-y-2">
-            <Label 
-              htmlFor="propertyAvailability.minStay" 
-              className="text-base font-medium flex items-center gap-2"
-            >
-              <Clock size={18} className="text-gray-500" />
-              Minimum stay duration (days)
-            </Label>
-            <Input
-              id="propertyAvailability.minStay"
-              type="number"
-              min="1"
-              defaultValue="1"
-              {...register("propertyAvailability.minStay", { valueAsNumber: true })}
-              className={cn(
-                availabilityErrors.minStay && "border-red-500 focus-visible:ring-red-500"
-              )}
-            />
-            {availabilityErrors.minStay && (
-              <p className="text-sm text-red-500 mt-1">
-                {availabilityErrors.minStay.message}
-              </p>
-            )}
+        <div className="pt-4">
+          {/* <h3 className="text-lg font-medium mb-6 text-center">Stay Duration</h3> */}
+          
+          <div className="space-y-8 max-w-2xl mx-auto">
+            {counterFields.map((field) => (
+              <div key={field.id} className="flex items-center justify-between max-w-md mx-auto w-full">
+                <div className="flex items-center gap-3">
+                  <div className="w-12 h-12 rounded-full bg-gray-100 flex items-center justify-center">
+                    <span className="text-gray-600">{field.icon}</span>
+                  </div>
+                  <Label 
+                    htmlFor={field.fieldName} 
+                    className="font-medium text-lg"
+                  >
+                    {field.name}
+                  </Label>
+                </div>
+                
+                <div className="flex items-center gap-4">
+                  <button
+                    type="button"
+                    onClick={() => decrementCounter(field.fieldName, field.min, field.increment || 1)}
+                    className={cn(
+                      "p-2 rounded-full text-gray-500 hover:bg-gray-100 transition-colors",
+                      watch(field.fieldName) <= field.min && "opacity-50 cursor-not-allowed"
+                    )}
+                    disabled={watch(field.fieldName) <= field.min}
+                  >
+                    <MinusCircle size={28} />
+                  </button>
+                  
+                  <div className="w-16 text-center font-medium text-xl">
+                    {watch(field.fieldName) || field.min}
+                  </div>
+                  
+                  <button
+                    type="button"
+                    onClick={() => incrementCounter(field.fieldName, field.min, field.increment || 1)}
+                    className="p-2 rounded-full text-gray-500 hover:bg-gray-100 transition-colors"
+                  >
+                    <PlusCircle size={28} />
+                  </button>
+                  
+                  <input
+                    type="hidden"
+                    id={field.fieldName}
+                    {...register(field.fieldName, { valueAsNumber: true })}
+                  />
+                </div>
+              </div>
+            ))}
           </div>
           
-          <div className="space-y-2">
-            <Label 
-              htmlFor="propertyAvailability.maxStay" 
-              className="text-base font-medium flex items-center gap-2"
-            >
-              <Clock size={18} className="text-gray-500" />
-              Maximum stay duration (days, optional)
-            </Label>
-            <Input
-              id="propertyAvailability.maxStay"
-              type="number"
-              min="1"
-              {...register("propertyAvailability.maxStay", { valueAsNumber: true })}
-              className={cn(
-                availabilityErrors.maxStay && "border-red-500 focus-visible:ring-red-500"
-              )}
-            />
-            {availabilityErrors.maxStay && (
-              <p className="text-sm text-red-500 mt-1">
-                {availabilityErrors.maxStay.message}
-              </p>
-            )}
+          {/* Error messages for counter fields */}
+          <div className="space-y-6 mt-4">
+            {counterFields.map((field) => {
+              const errorMessage = availabilityErrors[field.id as keyof PropertyAvailabilityErrors]?.message;
+              return (
+                <div key={`${field.id}-error`} className="text-center">
+                  {errorMessage && (
+                    <p className="text-sm text-red-500">
+                      {errorMessage}
+                    </p>
+                  )}
+                </div>
+              );
+            })}
           </div>
         </div>
         
         {/* Flexibility option */}
-        <div className="mt-6 pt-6 border-t">
+        <div className="mt-6 pt-6 border-t max-w-2xl mx-auto">
           <h3 className="text-lg font-medium mb-4">Flexibility</h3>
           <p className="text-sm text-muted-foreground mb-4">
             Are you flexible with check-in and check-out dates?
