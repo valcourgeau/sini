@@ -28,18 +28,26 @@ export function Logo({ className, size = 'md' }: LogoProps) {
       >
         {/* Base */}
         <path d="M6 20h12" />
+        
         {/* Main tower */}
-        <path d="M12 3L12 20" />
+        <path d="M12 4v16" />
+        
+        {/* Tower structure - simple trapezoid */}
+        <path d="M9 20l3-16l3 16" />
+        
+        {/* Light chamber at top */}
+        <path d="M8 7h8" />
+        
         {/* Top */}
-        <path d="M9 3h6l-3-2z" />
-        {/* Light chamber */}
-        <path d="M8 8h8" />
-        {/* Windows/details */}
+        <path d="M10 4h4" />
+        
+        {/* Windows */}
         <path d="M10 12h4" />
-        <path d="M9 16h6" />
-        {/* Light beams */}
-        <path d="M6 8 L2 6" strokeDasharray="1 2" />
-        <path d="M18 8 L22 6" strokeDasharray="1 2" />
+        <path d="M10 16h4" />
+        
+        {/* Light beams - simplified */}
+        <path d="M6 7L3 5" strokeDasharray="1 1" />
+        <path d="M18 7L21 5" strokeDasharray="1 1" />
       </svg>
       
       {/* Pharewest Text */}
