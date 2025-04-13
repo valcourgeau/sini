@@ -1,15 +1,8 @@
 "use client";
 
-import { Metadata } from "next";
-import Link from "next/link";
 import { Building2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
-
-export const metadata = {
-  title: "Relocation Batch | Pharewest",
-  description: "Submit multiple relocation requests at once",
-};
 
 /**
  * Batch processing page for multiple relocation requests
