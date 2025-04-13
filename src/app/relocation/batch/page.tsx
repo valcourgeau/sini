@@ -1,5 +1,7 @@
 import { Metadata } from "next";
 import Link from "next/link";
+import { Building2 } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 export const metadata = {
   title: "Traitement par lots | Pharewest",
@@ -93,37 +95,24 @@ export default function BatchRelocationPage() {
               </div>
             </div>
 
-            <div className="rounded-lg bg-blue-50 p-6">
-              <div className="flex items-start space-x-4">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  className="h-6 w-6 text-blue-600"
-                >
-                  <circle cx="12" cy="12" r="10"></circle>
-                  <path d="M12 16v-4"></path>
-                  <path d="M12 8h.01"></path>
-                </svg>
-                <div className="space-y-2">
-                  <h3 className="text-lg font-medium text-blue-800">Vous êtes un professionnel?</h3>
-                  <p className="text-blue-700">
-                    Si vous êtes une régie immobilière, une compagnie d'assurance ou une autorité locale et que vous avez besoin de gérer plusieurs demandes de relogement, notre module de traitement par lots est fait pour vous. Contactez-nous pour en savoir plus sur nos solutions professionnelles.
+            <div className="rounded-lg bg-primary/5 p-6">
+              <div className="flex items-center gap-4">
+                <div className="rounded-full bg-primary/10 p-2">
+                  <Building2 className="h-6 w-6 text-primary/80" />
+                </div>
+                <div>
+                  <h3 className="text-lg font-medium text-primary/90">Vous êtes un professionnel?</h3>
+                  <p className="text-primary/80">
+                    Si vous êtes un professionnel (agent immobilier, administrateur, etc.), 
+                    veuillez utiliser notre formulaire dédié aux professionnels.
                   </p>
-                  <div className="pt-2">
-                    <Link 
-                      href="/contact" 
-                      className="inline-flex h-10 items-center justify-center rounded-md bg-blue-600 px-8 text-sm font-medium text-white shadow transition-colors hover:bg-blue-700 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
-                    >
-                      Demander une démo
-                    </Link>
-                  </div>
+                  <Button 
+                    variant="default"
+                    className="mt-4"
+                    onClick={() => window.location.href = '/relocation/batch/professional'}
+                  >
+                    Formulaire professionnel
+                  </Button>
                 </div>
               </div>
             </div>

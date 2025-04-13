@@ -99,7 +99,7 @@ export function SingleDisasterAddress({ form }: SingleDisasterAddressProps) {
               </SelectContent>
             </Select>
             {addressErrors.canton && (
-              <p className="text-sm text-red-500 mt-1">
+              <p className="text-sm text-destructive mt-1">
                 {addressErrors.canton.message as string}
               </p>
             )}
@@ -115,7 +115,7 @@ export function SingleDisasterAddress({ form }: SingleDisasterAddressProps) {
               defaultValue="Switzerland"
             />
             {addressErrors.country && (
-              <p className="text-sm text-red-500 mt-1">
+              <p className="text-sm text-destructive mt-1">
                 {addressErrors.country.message as string}
               </p>
             )}

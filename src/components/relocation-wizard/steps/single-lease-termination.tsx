@@ -178,8 +178,8 @@ export function SingleLeaseTermination({ form }: SingleLeaseTerminationProps) {
           </div>
         </div>
 
-        <div className="p-4 bg-blue-50 rounded-md border border-blue-100">
-          <p className="text-sm text-blue-700">
+        <div className="p-4 bg-primary/5 rounded-md border border-primary/10">
+          <p className="text-sm text-primary/80">
             <strong>Note:</strong> Your lease status information helps us understand your timeline and urgency. 
             If you haven't terminated your lease yet, we recommend consulting with your landlord or a legal advisor 
             about your options in light of the disaster circumstances.

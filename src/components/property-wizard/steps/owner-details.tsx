@@ -267,8 +267,8 @@ export function OwnerDetails({ form }: OwnerDetailsProps) {
           )}
         </div>
         
-        <div className="bg-blue-50 rounded-lg p-4 mt-6">
-          <p className="text-sm text-blue-700">
+        <div className="bg-primary/5 rounded-lg p-4 mt-6">
+          <p className="text-sm text-primary/80">
             <strong>Note:</strong> Your contact information will only be shared with individuals interested in your property, and only after your approval.
           </p>
         </div>

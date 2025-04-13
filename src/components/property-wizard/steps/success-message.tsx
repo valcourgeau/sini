@@ -14,12 +14,12 @@ export function SuccessMessage() {
         Thank you for making your property available. We have received your submission and will process it as soon as possible.
       </p>
       
-      <div className="bg-blue-50 rounded-lg p-6 max-w-md mb-8">
-        <div className="flex items-center gap-2 mb-3">
-          <Home className="text-blue-600" />
-          <h3 className="font-semibold text-blue-700">What happens next?</h3>
+      <div className="bg-primary/5 rounded-lg p-6 max-w-md mb-8">
+        <div className="flex items-center gap-4">
+          <Home className="text-primary/80" />
+          <h3 className="font-semibold text-primary/90">What happens next?</h3>
         </div>
-        <ul className="text-sm text-left space-y-2 text-blue-700">
+        <ul className="text-sm text-left space-y-2 text-primary/80 mt-4">
           <li className="flex gap-2">
             <span className="font-medium">1.</span>
             <span>We verify your property information</span>

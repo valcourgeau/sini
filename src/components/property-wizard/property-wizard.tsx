@@ -86,11 +86,11 @@ const formSchema = z.object({
       week: z.number().min(0),
       month: z.number().min(0),
     }),
-    cleaningFee: z.number().optional().nullable(),
-    securityDeposit: z.number().optional().nullable(),
+    cleaningFee: z.number().min(0).nullable().optional(),
+    securityDeposit: z.number().min(0).nullable().optional(),
     discounts: z.object({
       hasLongTermDiscount: z.boolean().optional(),
-      longTermDiscountPercent: z.number().optional().nullable(),
+      longTermDiscountPercent: z.number().min(0).max(100).nullable().optional(),
     }).optional(),
   }),
   
@@ -207,30 +207,30 @@ export function PropertyWizard() {
     console.log("Validating current step:", step);
     
     // Define the fields to validate for each step
-    const stepFields: Record<number, string> = {
-      1: "propertyType",
-      2: "propertyDetails",
-      3: "propertyLocation",
-      4: "propertyAmenities",
-      5: "propertyAvailability",
-      6: "propertyPhotos",
-      7: "propertyPricing",
-      8: "propertyRules",
-      9: "ownerDetails",
-      10: "confirmDetails"
+    const stepFields: Record<number, string[]> = {
+      1: ["propertyType"],
+      2: ["propertyDetails"],
+      3: ["propertyLocation"],
+      4: ["propertyAmenities"],
+      5: ["propertyAvailability"],
+      6: ["propertyPhotos"],
+      7: ["propertyPricing.prices"], // Only validate required price fields
+      8: ["propertyRules"],
+      9: ["ownerDetails"],
+      10: ["confirmDetails"]
     };
     
-    // Get the field to validate for the current step
-    const fieldToValidate = stepFields[step];
+    // Get the fields to validate for the current step
+    const fieldsToValidate = stepFields[step];
     
-    if (!fieldToValidate) {
-      console.log("No field to validate for step:", step);
+    if (!fieldsToValidate) {
+      console.log("No fields to validate for step:", step);
       return true;
     }
     
-    // Validate the field
-    console.log("Validating field:", fieldToValidate);
-    const isValid = await form.trigger(fieldToValidate as any);
+    // Validate the fields
+    console.log("Validating fields:", fieldsToValidate);
+    const isValid = await form.trigger(fieldsToValidate as any);
     
     console.log("Validation result:", isValid);
     if (!isValid) {

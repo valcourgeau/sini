@@ -161,7 +161,7 @@ export function SingleArrivalDetails({ form }: SingleArrivalDetailsProps) {
           </div>
           
           {arrivalErrors.estimatedDuration && (
-            <p className="text-sm text-red-500 mt-1">
+            <p className="text-sm text-destructive mt-1">
               {arrivalErrors.estimatedDuration.message}
             </p>
           )}
@@ -170,8 +170,8 @@ export function SingleArrivalDetails({ form }: SingleArrivalDetailsProps) {
           </p>
         </div>
 
-        <div className="p-4 bg-blue-50 rounded-md border border-blue-100 mt-6">
-          <p className="text-sm text-blue-700">
+        <div className="p-4 bg-primary/5 rounded-md border border-primary/10 mt-6">
+          <p className="text-sm text-primary/80">
             <strong>Note:</strong> Help us match you with appropriate relocation options. 
             If your circumstances change, you can always update this information later.
           </p>

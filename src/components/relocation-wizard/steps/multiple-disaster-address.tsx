@@ -97,7 +97,7 @@ export function MultipleDisasterAddress({ form }: MultipleDisasterAddressProps) 
               </SelectContent>
             </Select>
             {addressErrors.canton && (
-              <p className="text-sm text-red-500 mt-1">
+              <p className="text-sm text-destructive mt-1">
                 {addressErrors.canton.message as string}
               </p>
             )}
@@ -113,7 +113,7 @@ export function MultipleDisasterAddress({ form }: MultipleDisasterAddressProps) 
               defaultValue="Switzerland"
             />
             {addressErrors.country && (
-              <p className="text-sm text-red-500 mt-1">
+              <p className="text-sm text-destructive mt-1">
                 {addressErrors.country.message as string}
               </p>
             )}
@@ -121,8 +121,8 @@ export function MultipleDisasterAddress({ form }: MultipleDisasterAddressProps) 
         </div>
       </div>
 
-      <div className="p-4 bg-blue-50 rounded-md border border-blue-100">
-        <p className="text-sm text-blue-700">
+      <div className="p-4 bg-primary/5 rounded-md border border-primary/10">
+        <p className="text-sm text-primary/80">
           <strong>Note:</strong> This address should be the common location affected by the disaster. 
           In the next step, you'll be able to enter details for each individual requiring relocation.
         </p>

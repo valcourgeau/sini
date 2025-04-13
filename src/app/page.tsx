@@ -28,6 +28,22 @@ export default function HomePage() {
               <p className="text-muted-foreground">
                 Nous accompagnons les propriétaires et les locataires dans leurs démarches de relogement suite à un sinistre.
               </p>
+              <div className="flex flex-col sm:flex-row gap-4 pt-4">
+                <Link
+                  href="/relocation/new"
+                  className="inline-flex items-center justify-center rounded-md bg-primary px-8 py-3 text-sm font-medium text-primary-foreground shadow transition-colors hover:bg-primary/90"
+                >
+                  Demander un relogement
+                  <ArrowRight className="ml-2 h-4 w-4" />
+                </Link>
+                <Link
+                  href="/property/list"
+                  className="inline-flex items-center justify-center rounded-md border border-input bg-background px-8 py-3 text-sm font-medium shadow-sm transition-colors hover:bg-accent hover:text-accent-foreground"
+                >
+                  Proposer un logement
+                  <ArrowRight className="ml-2 h-4 w-4" />
+                </Link>
+              </div>
             </div>
             <div className="relative h-[300px] w-full overflow-hidden rounded-xl bg-gradient-to-r from-primary/5 to-primary/10 md:h-[400px] flex items-center justify-center">
               <div className="text-2xl font-bold text-primary">PHAREWEST</div>
@@ -79,15 +95,6 @@ export default function HomePage() {
             <p className="mt-4 text-lg text-muted-foreground">
               Notre équipe est disponible 24/7 pour vous accompagner dans vos démarches de relogement.
             </p>
-            <div className="mt-8">
-              <Link
-                href="/relocation/new"
-                className="inline-flex items-center justify-center rounded-md bg-primary px-8 py-3 text-sm font-medium text-primary-foreground shadow transition-colors hover:bg-primary/90"
-              >
-                Demander un relogement
-                <ArrowRight className="ml-2 h-4 w-4" />
-              </Link>
-            </div>
           </div>
         </div>
       </section>

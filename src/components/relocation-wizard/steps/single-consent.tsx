@@ -70,7 +70,7 @@ export function SingleConsent({ form }: SingleConsentProps) {
                 By checking this box, you confirm that you have read, understood, and agree to the terms outlined above.
               </p>
               {consentErrors.agreeToTerms && (
-                <p className="text-sm text-red-500">
+                <p className="text-sm text-destructive">
                   {consentErrors.agreeToTerms.message as string}
                 </p>
               )}
@@ -93,7 +93,7 @@ export function SingleConsent({ form }: SingleConsentProps) {
                 personal information as described in our data privacy policy.
               </p>
               {consentErrors.agreeToDataProcessing && (
-                <p className="text-sm text-red-500">
+                <p className="text-sm text-destructive">
                   {consentErrors.agreeToDataProcessing.message as string}
                 </p>
               )}
@@ -101,8 +101,8 @@ export function SingleConsent({ form }: SingleConsentProps) {
           </div>
         </div>
 
-        <div className="p-4 bg-amber-50 rounded-md border border-amber-100">
-          <p className="text-sm text-amber-700">
+        <div className="p-4 bg-primary/5 rounded-md border border-primary/10">
+          <p className="text-sm text-primary/80">
             <strong>Important:</strong> After submitting your request, you will receive a confirmation email 
             with a summary of your relocation request. Our team will contact you for next steps.
           </p>

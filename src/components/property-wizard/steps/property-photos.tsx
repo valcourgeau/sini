@@ -63,8 +63,8 @@ export function PropertyPhotos({ form }: PropertyPhotosProps) {
           className="border-2 border-dashed rounded-xl p-8 text-center hover:border-gray-400 transition-colors cursor-pointer"
           onClick={handleAddPhoto}
         >
-          <div className="mx-auto w-16 h-16 rounded-full bg-blue-50 flex items-center justify-center mb-4">
-            <ImagePlus className="h-8 w-8 text-blue-500" />
+          <div className="mx-auto w-16 h-16 rounded-full bg-primary/5 flex items-center justify-center mb-4">
+            <ImagePlus className="h-8 w-8 text-primary/80" />
           </div>
           
           <h3 className="text-lg font-medium mb-2">Add Photos</h3>

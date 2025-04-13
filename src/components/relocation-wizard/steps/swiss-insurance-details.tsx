@@ -754,8 +754,8 @@ export function SwissInsuranceDetails({ form }: SwissInsuranceDetailsProps) {
           </Accordion>
         </div>
 
-        <div className="p-3 bg-blue-50 rounded-md border border-blue-100">
-          <p className="text-sm text-blue-700">
+        <div className="p-3 bg-primary/5 rounded-md border border-primary/10">
+          <p className="text-sm text-primary/80">
             <strong>Important:</strong> We may need to verify your insurance coverage with your providers. By providing 
             this information, you authorize us to contact your insurance companies regarding your relocation claim.
             If you're unsure about any details, you can leave them blank and our team will assist you.
