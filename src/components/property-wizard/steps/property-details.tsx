@@ -222,7 +222,7 @@ export function PropertyDetails({ form }: PropertyDetailsProps) {
         <div className="pt-4 border-t">
           <h3 className="text-lg font-medium mb-4">Features</h3>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="space-y-6">
             {counterFields.map((field) => (
               <div key={field.id} className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
@@ -271,7 +271,7 @@ export function PropertyDetails({ form }: PropertyDetailsProps) {
           </div>
           
           {/* Error messages for counter fields */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-2">
+          <div className="space-y-6 mt-2">
             {counterFields.map((field) => {
               const errorMessage = getErrorMessage(field.id);
               return (
