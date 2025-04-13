@@ -1,8 +1,8 @@
 import { Metadata } from "next";
 import Link from "next/link";
 
-export const metadata: Metadata = {
-  title: "Traitement par lots | SINI",
+export const metadata = {
+  title: "Traitement par lots | Pharewest",
   description: "Module de traitement par lots pour les professionnels gérant plusieurs demandes de relogement.",
 };
 

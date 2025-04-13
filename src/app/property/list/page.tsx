@@ -1,8 +1,8 @@
 import { Metadata } from "next";
 import { PropertyWizard } from "@/components/property-wizard/property-wizard";
 
-export const metadata: Metadata = {
-  title: "Proposer un logement | SINI",
+export const metadata = {
+  title: "Proposer un logement | Pharewest",
   description: "Formulaire pour proposer un logement disponible pour les personnes touchées par des sinistres dans les cantons de Genève et Vaud.",
 };
 

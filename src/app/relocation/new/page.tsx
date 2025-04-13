@@ -1,8 +1,8 @@
 import { Metadata } from "next";
 import { RelocationWizard } from "@/components/relocation-wizard/relocation-wizard";
 
-export const metadata: Metadata = {
-  title: "Demande de relogement | SINI",
+export const metadata = {
+  title: "Demande de relogement | Pharewest",
   description: "Formulaire de demande de relogement suite à un sinistre dans les cantons de Genève et Vaud.",
 };
 
