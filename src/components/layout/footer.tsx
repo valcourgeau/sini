@@ -1,26 +1,27 @@
 import Link from "next/link";
+import { Logo } from "@/components/ui/logo";
 
 export function Footer() {
   const currentYear = new Date().getFullYear();
   
   return (
-    <footer className="bg-gray-50 border-t border-gray-200">
+    <footer className="bg-secondary/50 border-t border-border">
       <div className="container mx-auto px-4 md:px-6 py-8 md:py-12">
         <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
           <div className="space-y-4">
-            <h3 className="text-lg font-bold">SINI</h3>
-            <p className="text-sm text-gray-500">
+            <Logo size="sm" />
+            <p className="text-sm text-muted-foreground">
               Service d'Intervention et de Relogement d'Urgence pour les cantons de Genève et Vaud.
             </p>
           </div>
           
           <div className="space-y-4">
-            <h3 className="text-sm font-bold uppercase tracking-wider">Services</h3>
+            <h3 className="text-sm font-bold uppercase tracking-wider text-foreground">Services</h3>
             <ul className="space-y-2">
               <li>
                 <Link 
                   href="/relocation/new" 
-                  className="text-sm text-gray-500 hover:text-primary"
+                  className="text-sm text-muted-foreground hover:text-primary transition-colors"
                 >
                   Demander un relogement
                 </Link>
@@ -28,7 +29,7 @@ export function Footer() {
               <li>
                 <Link 
                   href="/relocation/batch" 
-                  className="text-sm text-gray-500 hover:text-primary"
+                  className="text-sm text-muted-foreground hover:text-primary transition-colors"
                 >
                   Traitement par lots
                 </Link>
@@ -37,12 +38,12 @@ export function Footer() {
           </div>
           
           <div className="space-y-4">
-            <h3 className="text-sm font-bold uppercase tracking-wider">Informations</h3>
+            <h3 className="text-sm font-bold uppercase tracking-wider text-foreground">Informations</h3>
             <ul className="space-y-2">
               <li>
                 <Link 
                   href="/about" 
-                  className="text-sm text-gray-500 hover:text-primary"
+                  className="text-sm text-muted-foreground hover:text-primary transition-colors"
                 >
                   À propos
                 </Link>
@@ -50,7 +51,7 @@ export function Footer() {
               <li>
                 <Link 
                   href="/contact" 
-                  className="text-sm text-gray-500 hover:text-primary"
+                  className="text-sm text-muted-foreground hover:text-primary transition-colors"
                 >
                   Contact
                 </Link>
@@ -59,12 +60,12 @@ export function Footer() {
           </div>
           
           <div className="space-y-4">
-            <h3 className="text-sm font-bold uppercase tracking-wider">Légal</h3>
+            <h3 className="text-sm font-bold uppercase tracking-wider text-foreground">Légal</h3>
             <ul className="space-y-2">
               <li>
                 <Link 
                   href="/privacy" 
-                  className="text-sm text-gray-500 hover:text-primary"
+                  className="text-sm text-muted-foreground hover:text-primary transition-colors"
                 >
                   Politique de confidentialité
                 </Link>
@@ -72,7 +73,7 @@ export function Footer() {
               <li>
                 <Link 
                   href="/terms" 
-                  className="text-sm text-gray-500 hover:text-primary"
+                  className="text-sm text-muted-foreground hover:text-primary transition-colors"
                 >
                   Conditions d'utilisation
                 </Link>
@@ -81,14 +82,14 @@ export function Footer() {
           </div>
         </div>
         
-        <div className="mt-8 pt-8 border-t border-gray-200 flex flex-col md:flex-row justify-between items-center">
-          <p className="text-sm text-gray-500">
-            &copy; {currentYear} SINI. Tous droits réservés.
+        <div className="mt-8 pt-8 border-t border-border flex flex-col md:flex-row justify-between items-center">
+          <p className="text-sm text-muted-foreground">
+            &copy; {currentYear} Pharewest. Tous droits réservés.
           </p>
           <div className="mt-4 md:mt-0 flex space-x-6">
             <Link 
               href="https://x.com" 
-              className="text-gray-400 hover:text-primary"
+              className="text-muted-foreground hover:text-primary transition-colors"
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -99,7 +100,7 @@ export function Footer() {
             </Link>
             <Link 
               href="https://linkedin.com" 
-              className="text-gray-400 hover:text-primary"
+              className="text-muted-foreground hover:text-primary transition-colors"
               target="_blank"
               rel="noopener noreferrer"
             >

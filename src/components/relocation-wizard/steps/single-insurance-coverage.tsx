@@ -3,6 +3,7 @@ import { Label } from "@/components/ui/label";
 import { RadioGroup } from "@/components/ui/radio-group";
 import { FieldError } from "react-hook-form";
 import { Check, ShieldCheck, ShieldQuestion, ShieldX } from "lucide-react";
+import { InfoBox } from "@/components/ui/info-box";
 
 interface SingleInsuranceCoverageProps {
   form: UseFormReturn<any>;
@@ -181,12 +182,9 @@ export function SingleInsuranceCoverage({ form }: SingleInsuranceCoverageProps) 
           )}
         </div>
 
-        <div className="p-4 bg-blue-50 rounded-md border border-blue-100">
-          <p className="text-sm text-blue-700">
-            <strong>Note:</strong> Insurance information helps us coordinate with your provider if applicable. 
-            If you're unsure about your coverage, select "I don't know" and we'll help you identify potential coverage options.
-          </p>
-        </div>
+        <InfoBox className="mt-6">
+          Les informations d'assurance nous permettent de faciliter la coordination avec votre assureur et d'accélérer le processus de relogement.
+        </InfoBox>
       </div>
     </div>
   );

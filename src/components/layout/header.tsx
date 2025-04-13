@@ -2,17 +2,18 @@
 
 import Link from "next/link";
 import { useState } from "react";
+import { Logo } from "@/components/ui/logo";
 
 export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
-    <header className="bg-white border-b border-gray-200">
+    <header className="bg-background border-b border-border">
       <div className="container mx-auto px-4 md:px-6">
         <div className="flex h-16 items-center justify-between">
           <div className="flex items-center">
             <Link href="/" className="flex items-center">
-              <span className="text-2xl font-bold text-primary">SINI</span>
+              <Logo />
             </Link>
           </div>
           
@@ -20,25 +21,25 @@ export function Header() {
           <nav className="hidden md:flex items-center gap-6">
             <Link 
               href="/relocation/new" 
-              className="text-sm font-medium text-gray-700 hover:text-primary"
+              className="text-sm font-medium text-foreground hover:text-primary transition-colors"
             >
               Demander un relogement
             </Link>
             <Link 
               href="/relocation/batch" 
-              className="text-sm font-medium text-gray-700 hover:text-primary"
+              className="text-sm font-medium text-foreground hover:text-primary transition-colors"
             >
               Traitement par lots
             </Link>
             <Link 
               href="/about" 
-              className="text-sm font-medium text-gray-700 hover:text-primary"
+              className="text-sm font-medium text-foreground hover:text-primary transition-colors"
             >
               À propos
             </Link>
             <Link 
               href="/contact" 
-              className="text-sm font-medium text-gray-700 hover:text-primary"
+              className="text-sm font-medium text-foreground hover:text-primary transition-colors"
             >
               Contact
             </Link>
@@ -46,7 +47,7 @@ export function Header() {
           
           {/* Mobile menu button */}
           <button
-            className="md:hidden flex items-center"
+            className="md:hidden flex items-center text-foreground"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
           >
             <svg
@@ -80,28 +81,28 @@ export function Header() {
           <div className="md:hidden py-4 space-y-2">
             <Link 
               href="/relocation/new" 
-              className="block text-sm font-medium text-gray-700 hover:text-primary py-2"
+              className="block text-sm font-medium text-foreground hover:text-primary transition-colors py-2"
               onClick={() => setIsMenuOpen(false)}
             >
               Demander un relogement
             </Link>
             <Link 
               href="/relocation/batch" 
-              className="block text-sm font-medium text-gray-700 hover:text-primary py-2"
+              className="block text-sm font-medium text-foreground hover:text-primary transition-colors py-2"
               onClick={() => setIsMenuOpen(false)}
             >
               Traitement par lots
             </Link>
             <Link 
               href="/about" 
-              className="block text-sm font-medium text-gray-700 hover:text-primary py-2"
+              className="block text-sm font-medium text-foreground hover:text-primary transition-colors py-2"
               onClick={() => setIsMenuOpen(false)}
             >
               À propos
             </Link>
             <Link 
               href="/contact" 
-              className="block text-sm font-medium text-gray-700 hover:text-primary py-2"
+              className="block text-sm font-medium text-foreground hover:text-primary transition-colors py-2"
               onClick={() => setIsMenuOpen(false)}
             >
               Contact
