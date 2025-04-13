@@ -23,24 +23,13 @@ jobs:
         run: npm ci
 
       - name: Build
-        run: |
-          npm run build
-          ls -la out
+        run: npm run build
         env:
           NODE_ENV: production
 
-      - name: Debug Build Output
-        run: |
-          echo "Contents of out directory:"
-          ls -R out/
-          echo "Checking if out directory exists:"
-          [ -d "out" ] && echo "out directory exists" || echo "out directory does not exist"
-
       - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3.9.3
+        uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./out
-          publish_branch: gh-pages
-          commit_message: "Deploy: ${{ github.event.head_commit.message }}"
-          allow_empty_commit: true 
+          publish_branch: gh-pages 
