@@ -14,14 +14,9 @@ import {
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
-import { AccommodationCheck } from "./steps/accommodation-check";
-import { RoleIdentification } from "./steps/role-identification";
 import { RelocationTypeSelection } from "./steps/relocation-type-selection";
-import { SingleDisasterAddress } from "./steps/single-disaster-address";
 import { SingleRelocationPreferences } from "./steps/single-relocation-preferences";
-import { SingleSpecialNeeds } from "./steps/single-special-needs";
 import { SingleArrivalDetails } from "./steps/single-arrival-details";
-import { SinglePersonalData } from "./steps/single-personal-data";
 import { SingleInsuranceCoverage } from "./steps/single-insurance-coverage";
 import { SingleInsuranceDetails } from "./steps/single-insurance-details";
 import { SingleLeaseTermination } from "./steps/single-lease-termination";
@@ -34,19 +29,14 @@ import { MultipleConsent } from "./steps/multiple-consent";
 import { SuccessMessage } from "./steps/success-message";
 import { SwissInsuranceDetails } from "./steps/swiss-insurance-details";
 import { UseFormReturn } from "react-hook-form";
+import { SingleAddressAndContact } from "./steps/single-address-and-contact";
 
 // Define the form schema using Zod
 const formSchema = z.object({
-  // Step 2: Accommodation Check
-  isAccommodationListed: z.enum(["yes", "no", "unknown"]),
-
-  // Step 3: Role Identification
-  role: z.enum(["tenant", "owner", "intermediary"]),
-
-  // Step 4: Relocation Type
+  // Step 1: Relocation Type
   relocationType: z.enum(["single", "multiple"]),
 
-  // Single Relocation path (5A-7A)
+  // Single Relocation path
   singleDisasterAddress: z.object({
     street: z.string().min(1, "Street is required"),
     city: z.string().min(1, "City is required"),
@@ -61,16 +51,10 @@ const formSchema = z.object({
     additionalNotes: z.string().optional(),
   }).optional(),
 
-  singleSpecialNeeds: z.object({
-    hasAnimals: z.boolean().optional(),
-    animalDetails: z.string().optional(),
-    hasAccessibilityNeeds: z.boolean().optional(),
-    accessibilityDetails: z.string().optional(),
-    otherSpecialNeeds: z.string().optional(),
-  }).optional(),
-
   singleArrivalDetails: z.object({
     arrivalDate: z.string().min(1, "Arrival date is required"),
+    departureDate: z.string().optional(),
+    useExactDates: z.boolean().default(false),
     estimatedDuration: z.string().min(1, "Estimated duration is required"),
   }).optional(),
 
@@ -82,7 +66,7 @@ const formSchema = z.object({
   }).optional(),
 
   singleInsuranceCoverage: z.object({
-    hasInsurance: z.boolean().nullable(),
+    hasInsurance: z.boolean(),
   }).optional(),
 
   singleInsuranceDetails: z.object({
@@ -136,7 +120,7 @@ const formSchema = z.object({
     }),
   }).optional(),
 
-  // Multiple Relocation path (5B-6B)
+  // Multiple Relocation path
   multipleDisasterAddress: z.object({
     street: z.string().min(1, "Street is required"),
     city: z.string().min(1, "City is required"),
@@ -181,16 +165,7 @@ export function RelocationWizard() {
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      isAccommodationListed: undefined,
-      role: undefined,
       relocationType: undefined,
-      singleSpecialNeeds: {
-        hasAnimals: false,
-        hasAccessibilityNeeds: false,
-        animalDetails: "",
-        accessibilityDetails: "",
-        otherSpecialNeeds: ""
-      }
     },
   });
 
@@ -198,9 +173,9 @@ export function RelocationWizard() {
   const getTotalSteps = () => {
     const relocationType = form.watch("relocationType");
     
-    if (!relocationType) return 14; // Default steps until relocation type selection
+    if (!relocationType) return 9; // Default steps until relocation type selection
     
-    return relocationType === "single" ? 14 : 8; // Single: 14 steps, Multiple: 8 steps
+    return relocationType === "single" ? 9 : 6; // Single: 9 steps (reduced from 10), Multiple: 6 steps
   };
 
   const totalSteps = getTotalSteps();
@@ -218,8 +193,6 @@ export function RelocationWizard() {
 
   const onSubmit = async (data: FormValues) => {
     console.log("onSubmit called with data:", data);
-    // This function is now just a wrapper for the direct submission handler
-    // The actual submission logic is in the handleSubmit function in renderNavigationButtons
     return data;
   };
 
@@ -227,90 +200,90 @@ export function RelocationWizard() {
   const renderStep = () => {
     const relocationType = form.watch("relocationType");
     const hasInsurance = form.watch("singleInsuranceCoverage")?.hasInsurance;
-    const insuranceUnknown = hasInsurance !== true && hasInsurance !== false;
-    const role = form.watch("role");
 
     switch (step) {
       case 1:
-        return <AccommodationCheck form={form} />;
-      case 2:
-        return <RoleIdentification form={form} />;
-      case 3:
         return <RelocationTypeSelection form={form} />;
-      case 4:
+      case 2:
         // Branch based on relocation type
         if (relocationType === "single") {
-          return <SingleDisasterAddress form={form} />;
+          return <SingleInsuranceCoverage form={form} />;
         } else if (relocationType === "multiple") {
           return <MultipleDisasterAddress form={form} />;
         }
         break;
-      case 5:
+      case 3:
         if (relocationType === "single") {
-          return <SingleRelocationPreferences form={form} />;
+          // Show insurance details only if they have insurance
+          if (hasInsurance) {
+            return <SingleInsuranceDetails form={form} />;
+          } else {
+            return <SingleAddressAndContact form={form} />;
+          }
         } else if (relocationType === "multiple") {
           return <MultipleRelocationRequests form={form} />;
         }
         break;
-      case 6:
+      case 4:
         if (relocationType === "single") {
-          return <SingleSpecialNeeds form={form} />;
+          if (hasInsurance) {
+            return <SingleAddressAndContact form={form} />;
+          } else {
+            return <SingleRelocationPreferences form={form} />;
+          }
         } else if (relocationType === "multiple") {
           return <MultipleReviewConfirm form={form} />;
         }
         break;
+      case 5:
+        if (relocationType === "single") {
+          if (hasInsurance) {
+            return <SingleRelocationPreferences form={form} />;
+          } else {
+            return <SingleArrivalDetails form={form} />;
+          }
+        } else if (relocationType === "multiple") {
+          return <MultipleConsent form={form} onSubmit={handleSubmit} isSubmitting={isSubmitting} />;
+        }
+        break;
+      case 6:
+        if (relocationType === "single") {
+          if (hasInsurance) {
+            return <SingleArrivalDetails form={form} />;
+          } else {
+            return <SingleLeaseTermination form={form} />;
+          }
+        } else if (relocationType === "multiple") {
+          return <SuccessMessage />;
+        }
+        break;
       case 7:
         if (relocationType === "single") {
-          return <SingleArrivalDetails form={form} />;
-        } else if (relocationType === "multiple") {
-          return <MultipleConsent form={form} />;
+          if (hasInsurance) {
+            return <SingleLeaseTermination form={form} />;
+          } else {
+            return <SingleReviewConfirm form={form} />;
+          }
         }
         break;
       case 8:
         if (relocationType === "single") {
-          return <SinglePersonalData form={form} />;
-        } else if (relocationType === "multiple") {
-          return <SuccessMessage />;
+          if (hasInsurance) {
+            return <SingleReviewConfirm form={form} />;
+          } else {
+            return <SingleConsent form={form} onSubmit={handleSubmit} isSubmitting={isSubmitting} />;
+          }
         }
         break;
       case 9:
-        return <SingleInsuranceCoverage form={form} />;
-      case 10:
-        // Show insurance details only if they have insurance
-        if (hasInsurance) {
-          return <SingleInsuranceDetails form={form} />;
-        } else if (insuranceUnknown) {
-          // Full insurance details form
-          return <SwissInsuranceDetails form={form} />;
-        } else {
-          return <SingleLeaseTermination form={form} />;
+        if (relocationType === "single") {
+          if (hasInsurance) {
+            return <SingleConsent form={form} onSubmit={handleSubmit} isSubmitting={isSubmitting} />;
+          } else {
+            return <SuccessMessage />;
+          }
         }
         break;
-      case 11:
-        if (hasInsurance) {
-          return <SingleLeaseTermination form={form} />;
-        } else if (insuranceUnknown) {
-          return <SingleLeaseTermination form={form} />;
-        } else {
-          return <SingleReviewConfirm form={form} />;
-        }
-        break;
-      case 12:
-        if (hasInsurance || insuranceUnknown) {
-          return <SingleReviewConfirm form={form} />;
-        } else {
-          return <SingleConsent form={form} />;
-        }
-        break;
-      case 13:
-        if (hasInsurance || insuranceUnknown) {
-          return <SingleConsent form={form} />;
-        } else {
-          return <SuccessMessage />;
-        }
-        break;
-      case 14:
-        return <SuccessMessage />;
       default:
         return null;
     }
@@ -322,41 +295,12 @@ export function RelocationWizard() {
     const hasInsurance = form.watch("singleInsuranceCoverage")?.hasInsurance;
     
     const isFinalStep = 
-      (relocationType === "single" && ((hasInsurance && step === 14) || (!hasInsurance && step === 13))) ||
-      (relocationType === "multiple" && step === 7);
+      (relocationType === "single" && ((hasInsurance && step === 9) || (!hasInsurance && step === 8))) ||
+      (relocationType === "multiple" && step === 5);
     
-    console.log("Navigation state:", { 
-      step, 
-      relocationType, 
-      hasInsurance, 
-      isFinalStep, 
-      isSubmitting, 
-      isSubmitted 
-    });
-      
-    // Direct form submission handler
-    const handleSubmit = async () => {
-      console.log("Submit button clicked");
-      setIsSubmitting(true);
-      
-      try {
-        // Get form data
-        const formData = form.getValues();
-        console.log("Form data:", formData);
-        
-        // Simulate API call
-        console.log("Starting simulated API call");
-        await new Promise(resolve => setTimeout(resolve, 1500));
-        
-        console.log("Form submitted successfully");
-        setIsSubmitting(false);
-        console.log("Setting isSubmitted to true");
-        setIsSubmitted(true);
-      } catch (error) {
-        console.error("Error submitting form:", error);
-        setIsSubmitting(false);
-      }
-    };
+    if (isFinalStep) {
+      return null; // Don't show navigation buttons on the final step
+    }
       
     return (
       <CardFooter className="flex justify-between pt-4 pb-6">
@@ -374,27 +318,40 @@ export function RelocationWizard() {
         </div>
         
         <div>
-          {isFinalStep ? (
-            <Button 
-              type="button" 
-              onClick={handleSubmit}
-              disabled={isSubmitting}
-              className="px-8 py-2 h-auto bg-primary hover:bg-primary/90"
-            >
-              {isSubmitting ? "Submitting..." : "Submit Request"}
-            </Button>
-          ) : (
-            <Button 
-              type="button" 
-              onClick={nextStep}
-              className="px-8 py-2 h-auto bg-primary hover:bg-primary/90"
-            >
-              {step === 1 ? "Start" : "Next"}
-            </Button>
-          )}
+          <Button 
+            type="button" 
+            onClick={nextStep}
+            className="px-8 py-2 h-auto bg-primary hover:bg-primary/90"
+          >
+            {step === 1 ? "Start" : "Next"}
+          </Button>
         </div>
       </CardFooter>
     );
+  };
+
+  // Direct form submission handler
+  const handleSubmit = async () => {
+    console.log("Submit button clicked");
+    setIsSubmitting(true);
+    
+    try {
+      // Get form data
+      const formData = form.getValues();
+      console.log("Form data:", formData);
+      
+      // Simulate API call
+      console.log("Starting simulated API call");
+      await new Promise(resolve => setTimeout(resolve, 1500));
+      
+      console.log("Form submitted successfully");
+      setIsSubmitting(false);
+      console.log("Setting isSubmitted to true");
+      setIsSubmitted(true);
+    } catch (error) {
+      console.error("Error submitting form:", error);
+      setIsSubmitting(false);
+    }
   };
 
   if (isSubmitted) {

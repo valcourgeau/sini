@@ -2,7 +2,7 @@ import { UseFormReturn } from "react-hook-form";
 import { Label } from "@/components/ui/label";
 import { RadioGroup } from "@/components/ui/radio-group";
 import { FieldError } from "react-hook-form";
-import { Check, ShieldCheck, ShieldQuestion, ShieldX } from "lucide-react";
+import { Check, ShieldCheck, ShieldX } from "lucide-react";
 import { InfoBox } from "@/components/ui/info-box";
 
 interface SingleInsuranceCoverageProps {
@@ -15,7 +15,7 @@ export function SingleInsuranceCoverage({ form }: SingleInsuranceCoverageProps) 
   
   // Get the current value to set the default
   const hasInsurance = watch("singleInsuranceCoverage.hasInsurance");
-  let selectedValue = "unknown";
+  let selectedValue = "no";
   
   if (hasInsurance === true) selectedValue = "yes";
   else if (hasInsurance === false) selectedValue = "no";
@@ -25,8 +25,6 @@ export function SingleInsuranceCoverage({ form }: SingleInsuranceCoverageProps) 
       setValue("singleInsuranceCoverage.hasInsurance", true);
     } else if (value === "no") {
       setValue("singleInsuranceCoverage.hasInsurance", false);
-    } else {
-      setValue("singleInsuranceCoverage.hasInsurance", null);
     }
   };
 
@@ -46,7 +44,7 @@ export function SingleInsuranceCoverage({ form }: SingleInsuranceCoverageProps) 
           <RadioGroup 
             value={selectedValue}
             onValueChange={handleSelection}
-            className="grid grid-cols-1 md:grid-cols-3 gap-4"
+            className="grid grid-cols-1 md:grid-cols-2 gap-4"
           >
             <div className="relative">
               <button
@@ -68,9 +66,6 @@ export function SingleInsuranceCoverage({ form }: SingleInsuranceCoverageProps) 
                 </div>
 
                 <h3 className="text-lg font-medium mb-1">Yes</h3>
-                {/* <p className="text-sm text-center text-muted-foreground">
-                  e.g. Home or rental insurance may cover relocation expenses.
-                </p> */}
 
                 {selectedValue === "yes" && (
                   <div className="absolute top-3 right-3 bg-primary text-white rounded-full p-0.5">
@@ -86,48 +81,6 @@ export function SingleInsuranceCoverage({ form }: SingleInsuranceCoverageProps) 
                   onChange={() => handleSelection("yes")}
                   className="sr-only"
                   id="insurance-yes"
-                />
-              </button>
-            </div>
-
-            <div className="relative">
-              <button
-                type="button"
-                onClick={() => handleSelection("unknown")}
-                className={`group relative flex flex-col items-center p-6 rounded-xl border-2 transition-all duration-200 w-full ${
-                  selectedValue === "unknown"
-                    ? "border-primary bg-primary/5 shadow-md" 
-                    : "border-gray-200 hover:border-gray-300 hover:shadow-sm"
-                }`}
-                aria-pressed={selectedValue === "unknown"}
-              >
-                <div className={`w-16 h-16 rounded-full flex items-center justify-center mb-4 transition-all ${
-                  selectedValue === "unknown" 
-                    ? "bg-primary text-white" 
-                    : "bg-gray-100 text-gray-500 group-hover:bg-gray-200"
-                }`}>
-                  <ShieldQuestion size={32} />
-                </div>
-
-                <h3 className="text-lg font-medium mb-1">I don't know</h3>
-                {/* <p className="text-sm text-center text-muted-foreground">
-                  I am unsure if I have insurance coverage for relocation expenses.
-                </p> */}
-
-                {selectedValue === "unknown" && (
-                  <div className="absolute top-3 right-3 bg-primary text-white rounded-full p-0.5">
-                    <Check size={16} />
-                  </div>
-                )}
-
-                <input
-                  type="radio"
-                  name="singleInsuranceCoverage.hasInsurance"
-                  value="unknown"
-                  checked={selectedValue === "unknown"}
-                  onChange={() => handleSelection("unknown")}
-                  className="sr-only"
-                  id="insurance-unknown"
                 />
               </button>
             </div>
@@ -152,9 +105,6 @@ export function SingleInsuranceCoverage({ form }: SingleInsuranceCoverageProps) 
                 </div>
 
                 <h3 className="text-lg font-medium mb-1">No</h3>
-                {/* <p className="text-sm text-center text-muted-foreground">
-                  I do not have insurance coverage for relocation expenses.
-                </p> */}
 
                 {selectedValue === "no" && (
                   <div className="absolute top-3 right-3 bg-primary text-white rounded-full p-0.5">

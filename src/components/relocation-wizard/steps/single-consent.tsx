@@ -1,8 +1,11 @@
 import { UseFormReturn } from "react-hook-form";
 import { Label } from "@/components/ui/label";
+import { Button } from "@/components/ui/button";
 
 interface SingleConsentProps {
   form: UseFormReturn<any>;
+  onSubmit: () => Promise<void>;
+  isSubmitting: boolean;
 }
 
 interface ConsentErrors {
@@ -10,7 +13,7 @@ interface ConsentErrors {
   agreeToDataProcessing?: { message?: string };
 }
 
-export function SingleConsent({ form }: SingleConsentProps) {
+export function SingleConsent({ form, onSubmit, isSubmitting }: SingleConsentProps) {
   const { register, formState: { errors } } = form;
   const consentErrors = (errors.singleConsent || {}) as ConsentErrors;
   
@@ -106,6 +109,17 @@ export function SingleConsent({ form }: SingleConsentProps) {
             <strong>Important:</strong> After submitting your request, you will receive a confirmation email 
             with a summary of your relocation request. Our team will contact you for next steps.
           </p>
+        </div>
+
+        <div className="flex justify-end pt-4">
+          <Button 
+            type="button" 
+            onClick={onSubmit}
+            disabled={isSubmitting}
+            className="px-8 py-2 h-auto bg-primary hover:bg-primary/90"
+          >
+            {isSubmitting ? "Submitting..." : "Submit Request"}
+          </Button>
         </div>
       </div>
     </div>

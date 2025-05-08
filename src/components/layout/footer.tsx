@@ -11,7 +11,7 @@ export function Footer() {
           <div className="space-y-4">
             <Logo size="sm" />
             <p className="text-sm text-muted-foreground">
-              Service d'Intervention et de Relogement d'Urgence pour les cantons de Genève et Vaud.
+              Service de Relogement d'Urgence pour le canton de Genève.
             </p>
           </div>
           

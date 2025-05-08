@@ -9,10 +9,10 @@ export default function HomePage() {
         <div className="container">
           <div className="mx-auto max-w-[980px] text-center">
             <h1 className="text-3xl font-bold leading-tight tracking-tighter md:text-5xl lg:leading-[1.1]">
-              Service d'Intervention et de Relogement d'Urgence
+              Service de Relogement d'Urgence
             </h1>
             <p className="mt-4 text-xl text-muted-foreground">
-              Pour les cantons de Genève et Vaud
+              Pour le canton de Genève
             </p>
           </div>
         </div>
@@ -61,7 +61,7 @@ export default function HomePage() {
               </IconBox>
               <h3 className="mt-4 text-xl font-bold">Relogement d'urgence</h3>
               <p className="mt-2 text-muted-foreground">
-                Solutions rapides et adaptées pour un relogement temporaire suite à un sinistre.
+                Solutions rapides et adaptées pour un relogement temporaire suite à un sinistre sous 24 heures.
               </p>
             </div>
             <div className="text-center md:text-left">

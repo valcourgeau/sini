@@ -202,13 +202,21 @@ export function SingleReviewConfirm({ form }: SingleReviewConfirmProps) {
           <h3 className={titleClass}>Arrival & Duration</h3>
           <div className="space-y-0.5">
             <div className={detailRowClass}>
-              <span className={labelClass}>Desired Arrival Date:</span>
+              <span className={labelClass}>Preferred Arrival Date:</span>
               <span className={valueClass}>{formatDate(getValue("singleArrivalDetails.arrivalDate"))}</span>
             </div>
-            <div className={detailRowClass}>
-              <span className={labelClass}>Estimated Duration:</span>
-              <span className={valueClass}>{getValue("singleArrivalDetails.estimatedDuration")}</span>
-            </div>
+            {getValue("singleArrivalDetails.useExactDates") === true && getValue("singleArrivalDetails.departureDate") && (
+              <div className={detailRowClass}>
+                <span className={labelClass}>Departure Date:</span>
+                <span className={valueClass}>{formatDate(getValue("singleArrivalDetails.departureDate"))}</span>
+              </div>
+            )}
+            {getValue("singleArrivalDetails.useExactDates") !== true && (
+              <div className={detailRowClass}>
+                <span className={labelClass}>Estimated Duration:</span>
+                <span className={valueClass}>{getValue("singleArrivalDetails.estimatedDuration")}</span>
+              </div>
+            )}
           </div>
         </div>
         
