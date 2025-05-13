@@ -12,6 +12,13 @@ import {
   TableHeader, 
   TableRow 
 } from "@/components/ui/table";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { 
   Trash2, 
   UserPlus, 
@@ -22,17 +29,23 @@ import {
   Clock,
   HelpCircle,
   FastForward,
-  TrafficCone
+  TrafficCone,
+  Bed,
+  Bath,
+  Baby,
+  PawPrint,
+  Accessibility,
+  Car as CarIcon,
+  MinusCircle,
+  PlusCircle,
+  Calendar,
+  Clock as ClockIcon,
+  User,
+  Home,
+  Bath as BathIcon
 } from "lucide-react";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 
 interface RelocationRequest {
   firstName: string;
@@ -40,7 +53,14 @@ interface RelocationRequest {
   email: string;
   phone: string;
   estimatedDuration: string;
-  hasInsurance: boolean;
+  arrivalDate: Date | undefined;
+  bedrooms: number;
+  bathrooms: number;
+  adults: number;
+  children: number;
+  hasAnimals: boolean;
+  hasAccessibilityNeeds: boolean;
+  needsParking: boolean;
 }
 
 interface MultipleRelocationRequestsProps {
@@ -64,7 +84,14 @@ export function MultipleRelocationRequests({ form }: MultipleRelocationRequestsP
         email: "",
         phone: "",
         estimatedDuration: "",
-        hasInsurance: false,
+        arrivalDate: undefined,
+        bedrooms: 1,
+        bathrooms: 1,
+        adults: 1,
+        children: 0,
+        hasAnimals: false,
+        hasAccessibilityNeeds: false,
+        needsParking: false,
       };
       setValue("multipleRelocationRequests", [initialPerson]);
     }
@@ -101,6 +128,38 @@ export function MultipleRelocationRequests({ form }: MultipleRelocationRequestsP
       icon: <HelpCircle size={18} strokeWidth={1.5} />
     },
   ];
+
+  // Counter fields configuration
+  const counterFields = [
+    {
+      id: "bedrooms",
+      name: "Bedrooms",
+      icon: <Bed size={20} />,
+      min: 0,
+      fieldName: "bedrooms"
+    },
+    {
+      id: "bathrooms",
+      name: "Bathrooms",
+      icon: <Bath size={20} />,
+      min: 0,
+      fieldName: "bathrooms"
+    },
+    {
+      id: "adults",
+      name: "Adults",
+      icon: <Users size={20} />,
+      min: 1,
+      fieldName: "adults"
+    },
+    {
+      id: "children",
+      name: "Children",
+      icon: <Baby size={20} />,
+      min: 0,
+      fieldName: "children"
+    }
+  ];
   
   // Add a new person
   const addPerson = () => {
@@ -110,7 +169,14 @@ export function MultipleRelocationRequests({ form }: MultipleRelocationRequestsP
       email: "",
       phone: "",
       estimatedDuration: "",
-      hasInsurance: false,
+      arrivalDate: undefined,
+      bedrooms: 1,
+      bathrooms: 1,
+      adults: 1,
+      children: 0,
+      hasAnimals: false,
+      hasAccessibilityNeeds: false,
+      needsParking: false,
     };
     
     setValue("multipleRelocationRequests", [...requests, newPerson]);
@@ -134,19 +200,36 @@ export function MultipleRelocationRequests({ form }: MultipleRelocationRequestsP
     toast.success("Person duplicated");
   };
 
-  // Save changes
-  const saveChanges = () => {
-    // Validate required fields
-    const hasErrors = requests.some((request: RelocationRequest) => {
-      return !request.firstName || !request.lastName || !request.email || !request.phone;
+  // Function to increment counter
+  const incrementCounter = (index: number, fieldName: string, min: number) => {
+    const currentValue = watch(`multipleRelocationRequests.${index}.${fieldName}`) || min;
+    setValue(`multipleRelocationRequests.${index}.${fieldName}`, currentValue + 1, {
+      shouldValidate: true,
+      shouldDirty: true,
+      shouldTouch: true
     });
-
-    if (hasErrors) {
-      toast.error("Please fill in all required fields");
-      return;
+  };
+  
+  // Function to decrement counter
+  const decrementCounter = (index: number, fieldName: string, min: number) => {
+    const currentValue = watch(`multipleRelocationRequests.${index}.${fieldName}`) || min;
+    if (currentValue > min) {
+      setValue(`multipleRelocationRequests.${index}.${fieldName}`, currentValue - 1, {
+        shouldValidate: true,
+        shouldDirty: true,
+        shouldTouch: true
+      });
     }
+  };
 
-    toast.success("Changes saved successfully");
+  // Function to toggle special need
+  const toggleSpecialNeed = (index: number, fieldName: string) => {
+    const currentValue = watch(`multipleRelocationRequests.${index}.${fieldName}`) || false;
+    setValue(`multipleRelocationRequests.${index}.${fieldName}`, !currentValue, {
+      shouldValidate: true,
+      shouldDirty: true,
+      shouldTouch: true
+    });
   };
 
   // Helper function to safely access error messages
@@ -158,14 +241,10 @@ export function MultipleRelocationRequests({ form }: MultipleRelocationRequestsP
     return undefined;
   };
 
-  // Function to handle duration selection
-  const handleDurationSelect = (index: number, value: string) => {
-    setValue(`multipleRelocationRequests.${index}.estimatedDuration`, value, { 
-      shouldValidate: true, 
-      shouldDirty: true,
-      shouldTouch: true
-    });
-  };
+  // Calculate tomorrow's date for the min attribute
+  const tomorrow = new Date();
+  tomorrow.setDate(tomorrow.getDate() + 1);
+  const tomorrowStr = tomorrow.toISOString().split('T')[0];
 
   return (
     <div className="space-y-6">
@@ -182,13 +261,70 @@ export function MultipleRelocationRequests({ form }: MultipleRelocationRequestsP
             <Table>
               <TableHeader>
                 <TableRow className="bg-muted/50">
-                  <TableHead className="w-[100px] text-gray-900 font-medium">First Name</TableHead>
-                  <TableHead className="w-[100px] text-gray-900 font-medium">Last Name</TableHead>
-                  <TableHead className="w-[200px] text-gray-900 font-medium">Email</TableHead>
-                  <TableHead className="w-[150px] text-gray-900 font-medium">Phone</TableHead>
-                  <TableHead className="w-[100px] text-gray-900 font-medium">Duration</TableHead>
-                  <TableHead className="w-[50px] text-gray-900 font-medium">Insurance</TableHead>
-                  <TableHead className="w-[80px] text-gray-900 font-medium text-right">Actions</TableHead>
+                  {/* Contact Information Column */}
+                  <TableHead className="w-[200px] text-gray-900 font-medium text-sm whitespace-nowrap">Name</TableHead>
+                  <TableHead className="w-[200px] text-gray-900 font-medium text-sm whitespace-nowrap">Surname</TableHead>
+                  <TableHead className="w-[3500px] text-gray-900 font-medium text-sm whitespace-nowrap">Email</TableHead>
+                  <TableHead className="w-[1900px] text-gray-900 font-medium text-sm whitespace-nowrap">Phone</TableHead>
+                  <TableHead className="w-[120px] text-gray-900 font-medium text-sm whitespace-nowrap">
+                    <div className="flex items-center gap-2">
+                      <Calendar className="h-5 w-5" />
+                      <span>Arrival</span>
+                    </div>
+                  </TableHead>
+                  <TableHead className="w-[120px] text-gray-900 font-medium text-sm whitespace-nowrap">
+                    <div className="flex items-center gap-2">
+                      <ClockIcon className="h-5 w-5" />
+                      <span className="sr-only">Duration</span>
+                    </div>
+                  </TableHead>
+
+                  {/* Property Requirements Column */}
+                  <TableHead className="w-[200px] text-gray-900 font-medium text-sm">
+                    <div className="flex items-center gap-2">
+                      <Bed className="h-5 w-5" />
+                      <span className="sr-only">Bedrooms</span>
+                    </div>
+                  </TableHead>
+                  <TableHead className="w-[20px] text-gray-900 font-medium text-sm">
+                    <div className="flex items-center gap-2">
+                      <BathIcon className="h-5 w-5" />
+                      <span className="sr-only">Bathrooms</span>
+                    </div>
+                  </TableHead>
+                  <TableHead className="w-[200px] text-gray-900 font-medium text-sm">
+                    <div className="flex items-center gap-2">
+                      <User className="h-5 w-5" />
+                      <span className="sr-only">Adults</span>
+                    </div>
+                  </TableHead>
+                  <TableHead className="w-[200px] text-gray-900 font-medium text-sm">
+                    <div className="flex items-center gap-2">
+                      <Baby className="h-5 w-5" />
+                      <span className="sr-only">Children</span>
+                    </div>
+                  </TableHead>
+
+                  {/* Special Needs Column */}
+                  <TableHead className="w-[200px] text-gray-900 font-medium text-center text-sm">
+                    <div className="flex items-center justify-center gap-2">
+                      <PawPrint className="h-5 w-5" />
+                      <span className="sr-only">Pets</span>
+                    </div>
+                  </TableHead>
+                  <TableHead className="w-[200px] text-gray-900 font-medium text-center text-sm">
+                    <div className="flex items-center justify-center gap-2">
+                      <Accessibility className="h-5 w-5" />
+                      <span className="sr-only">Accessibility</span>
+                    </div>
+                  </TableHead>
+                  <TableHead className="w-[200px] text-gray-900 font-medium text-center text-sm">
+                    <div className="flex items-center justify-center gap-2">
+                      <CarIcon className="h-5 w-5" />
+                      <span className="sr-only">Parking</span>
+                    </div>
+                  </TableHead>
+                  <TableHead className="w-[100px] text-gray-900 font-medium text-right text-sm">Actions</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -202,7 +338,7 @@ export function MultipleRelocationRequests({ form }: MultipleRelocationRequestsP
                           })}
                           placeholder="Paul"
                           className={cn(
-                            "h-8 px-2 py-1 text-sm",
+                            "h-8 px-2 py-1 text-xs",
                             getErrorMessage(index, 'firstName') ? "border-red-500" : ""
                           )}
                         />
@@ -222,7 +358,7 @@ export function MultipleRelocationRequests({ form }: MultipleRelocationRequestsP
                           })}
                           placeholder="Dupont"
                           className={cn(
-                            "h-8 px-2 py-1 text-sm",
+                            "h-8 px-2 py-1 text-xs",
                             getErrorMessage(index, 'lastName') ? "border-red-500" : ""
                           )}
                         />
@@ -241,7 +377,7 @@ export function MultipleRelocationRequests({ form }: MultipleRelocationRequestsP
                           {...register(`multipleRelocationRequests.${index}.email`)}
                           placeholder="paul.dupont@gmail.com"
                           className={cn(
-                            "h-8 px-2 py-1 text-sm",
+                            "h-8 px-2 py-1 text-xs",
                             getErrorMessage(index, 'email') ? "border-red-500" : ""
                           )}
                         />
@@ -260,7 +396,7 @@ export function MultipleRelocationRequests({ form }: MultipleRelocationRequestsP
                           {...register(`multipleRelocationRequests.${index}.phone`)}
                           placeholder="+41 XX XXX XX XX"
                           className={cn(
-                            "h-8 px-2 py-1 text-sm",
+                            "h-8 px-2 py-1 text-xs",
                             getErrorMessage(index, 'phone') ? "border-red-500" : ""
                           )}
                         />
@@ -273,11 +409,28 @@ export function MultipleRelocationRequests({ form }: MultipleRelocationRequestsP
                       </div>
                     </TableCell>
                     <TableCell>
+                      <div className="space-y-0.5">
+                        <input
+                          type="date"
+                          min={tomorrowStr}
+                          {...register(`multipleRelocationRequests.${index}.arrivalDate`)}
+                          className="w-[130px] rounded-md border border-input bg-background px-3 py-2 text-xs ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                          defaultValue={tomorrowStr}
+                        />
+                        {getErrorMessage(index, 'arrivalDate') && (
+                          <p className="text-xs text-red-500 flex items-center gap-1">
+                            <AlertCircle className="h-3 w-3" />
+                            {getErrorMessage(index, 'arrivalDate')}
+                          </p>
+                        )}
+                      </div>
+                    </TableCell>
+                    <TableCell>
                       <Select
                         value={watch(`multipleRelocationRequests.${index}.estimatedDuration`) || ""}
-                        onValueChange={(value) => handleDurationSelect(index, value)}
+                        onValueChange={(value) => setValue(`multipleRelocationRequests.${index}.estimatedDuration`, value)}
                       >
-                        <SelectTrigger className="h-8 px-2 py-1 text-sm w-[145px]">
+                        <SelectTrigger className="h-8 px-2 py-1 text-xs w-[130px]">
                           <SelectValue placeholder="Select duration" className="text-muted-foreground" />
                         </SelectTrigger>
                         <SelectContent>
@@ -292,22 +445,66 @@ export function MultipleRelocationRequests({ form }: MultipleRelocationRequestsP
                         </SelectContent>
                       </Select>
                     </TableCell>
-                    <TableCell>
-                      <div className="flex items-center space-x-1.5">
-                        <Checkbox
-                          id={`multipleRelocationRequests.${index}.hasInsurance`}
-                          checked={watch(`multipleRelocationRequests.${index}.hasInsurance`)}
-                          onCheckedChange={(checked) => {
-                            setValue(`multipleRelocationRequests.${index}.hasInsurance`, checked);
-                          }}
-                          className="h-4 w-4 border-black"
-                        />
-                        <Label 
-                          htmlFor={`multipleRelocationRequests.${index}.hasInsurance`} 
-                          className="text-sm cursor-pointer"
+                    {counterFields.map((field) => (
+                      <TableCell key={field.id}>
+                        <Select
+                          value={watch(`multipleRelocationRequests.${index}.${field.fieldName}`)?.toString() || field.min.toString()}
+                          onValueChange={(value) => setValue(`multipleRelocationRequests.${index}.${field.fieldName}`, parseInt(value))}
                         >
-                          Yes
-                        </Label>
+                          <SelectTrigger className="h-8 px-2 py-1 text-xs w-[45px]">
+                            <SelectValue />
+                          </SelectTrigger>
+                          <SelectContent>
+                            {field.fieldName === 'adults' ? 
+                              [1, 2, 3, 4, 5, 6, 7, 8].map((num) => (
+                                <SelectItem key={num} value={num.toString()}>
+                                  {num}
+                                </SelectItem>
+                              )) :
+                              [0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map((num) => (
+                                <SelectItem key={num} value={num.toString()}>
+                                  {num}
+                                </SelectItem>
+                              ))
+                            }
+                          </SelectContent>
+                        </Select>
+                      </TableCell>
+                    ))}
+                    <TableCell>
+                      <div className="flex items-center justify-center">
+                        <Checkbox
+                          id={`multipleRelocationRequests.${index}.hasAnimals`}
+                          checked={watch(`multipleRelocationRequests.${index}.hasAnimals`)}
+                          onCheckedChange={(checked) => {
+                            setValue(`multipleRelocationRequests.${index}.hasAnimals`, checked);
+                          }}
+                          className="h-4 w-4"
+                        />
+                      </div>
+                    </TableCell>
+                    <TableCell>
+                      <div className="flex items-center justify-center">
+                        <Checkbox
+                          id={`multipleRelocationRequests.${index}.hasAccessibilityNeeds`}
+                          checked={watch(`multipleRelocationRequests.${index}.hasAccessibilityNeeds`)}
+                          onCheckedChange={(checked) => {
+                            setValue(`multipleRelocationRequests.${index}.hasAccessibilityNeeds`, checked);
+                          }}
+                          className="h-4 w-4"
+                        />
+                      </div>
+                    </TableCell>
+                    <TableCell>
+                      <div className="flex items-center justify-center">
+                        <Checkbox
+                          id={`multipleRelocationRequests.${index}.needsParking`}
+                          checked={watch(`multipleRelocationRequests.${index}.needsParking`)}
+                          onCheckedChange={(checked) => {
+                            setValue(`multipleRelocationRequests.${index}.needsParking`, checked);
+                          }}
+                          className="h-4 w-4"
+                        />
                       </div>
                     </TableCell>
                     <TableCell className="text-right">
@@ -356,18 +553,6 @@ export function MultipleRelocationRequests({ form }: MultipleRelocationRequestsP
             <UserPlus className="h-4 w-4 mr-2" />
             Add Person
           </Button>
-          
-          {requests.length > 0 && (
-            <Button 
-              type="button" 
-              variant="outline" 
-              onClick={saveChanges}
-              className="flex-1"
-            >
-              <Check className="h-4 w-4 mr-2" />
-              Save Changes
-            </Button>
-          )}
         </div>
 
         {requests.length > 0 && (

@@ -6,6 +6,7 @@ interface MultipleConsentProps {
   form: UseFormReturn<any>;
   onSubmit: () => Promise<void>;
   isSubmitting: boolean;
+  onBack: () => void;
 }
 
 interface ConsentErrors {
@@ -13,7 +14,7 @@ interface ConsentErrors {
   agreeToDataProcessing?: { message?: string };
 }
 
-export function MultipleConsent({ form, onSubmit, isSubmitting }: MultipleConsentProps) {
+export function MultipleConsent({ form, onSubmit, isSubmitting, onBack }: MultipleConsentProps) {
   const { register, formState: { errors } } = form;
   const consentErrors = (errors.multipleConsent || {}) as ConsentErrors;
   
@@ -111,7 +112,15 @@ export function MultipleConsent({ form, onSubmit, isSubmitting }: MultipleConsen
           </p>
         </div>
 
-        <div className="flex justify-end pt-4">
+        <div className="flex justify-between pt-4">
+          <Button 
+            type="button" 
+            variant="outline"
+            onClick={onBack}
+            className="px-6 py-2 h-auto"
+          >
+            Back
+          </Button>
           <Button 
             type="button" 
             onClick={onSubmit}

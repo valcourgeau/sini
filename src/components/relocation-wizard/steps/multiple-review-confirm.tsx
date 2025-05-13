@@ -99,8 +99,8 @@ export function MultipleReviewConfirm({ form }: MultipleReviewConfirmProps) {
                   Person {index + 1}: {request.firstName} {request.lastName}
                 </h4>
                 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm">
-                  {/* Left Column */}
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-3 text-sm">
+                  {/* Contact & Timing Column */}
                   <div>
                     <div className="grid grid-cols-3 gap-1">
                       <span className="text-xs text-muted-foreground">Email:</span>
@@ -108,42 +108,43 @@ export function MultipleReviewConfirm({ form }: MultipleReviewConfirmProps) {
                       
                       <span className="text-xs text-muted-foreground">Phone:</span>
                       <span className="col-span-2">{request.phone || "Not provided"}</span>
+                      
+                      <span className="text-xs text-muted-foreground">Arrival:</span>
+                      <span className="col-span-2">{formatDate(request.arrivalDate)}</span>
+                      
+                      <span className="text-xs text-muted-foreground">Duration:</span>
+                      <span className="col-span-2">{request.estimatedDuration || "Not specified"}</span>
                     </div>
                   </div>
                   
-                  {/* Right Column */}
+                  {/* Property Requirements Column */}
                   <div>
                     <div className="grid grid-cols-3 gap-1">
-                      <span className="text-xs text-muted-foreground">Insurance:</span>
-                      <span className="col-span-2">{request.hasInsurance ? "Yes" : "No"}</span>
+                      <span className="text-xs text-muted-foreground">Bedrooms:</span>
+                      <span className="col-span-2">{request.bedrooms}</span>
                       
-                      {request.hasInsurance && request.insuranceDetails && (
-                        <>
-                          <span className="text-xs text-muted-foreground">Details:</span>
-                          <span className="col-span-2">{request.insuranceDetails}</span>
-                        </>
-                      )}
+                      <span className="text-xs text-muted-foreground">Bathrooms:</span>
+                      <span className="col-span-2">{request.bathrooms}</span>
                       
-                      {request.arrivalDate && (
-                        <>
-                          <span className="text-xs text-muted-foreground">Arrival:</span>
-                          <span className="col-span-2">{formatDate(request.arrivalDate)}</span>
-                        </>
-                      )}
+                      <span className="text-xs text-muted-foreground">Adults:</span>
+                      <span className="col-span-2">{request.adults}</span>
                       
-                      {request.estimatedDuration && (
-                        <>
-                          <span className="text-xs text-muted-foreground">Duration:</span>
-                          <span className="col-span-2">{request.estimatedDuration}</span>
-                        </>
-                      )}
+                      <span className="text-xs text-muted-foreground">Children:</span>
+                      <span className="col-span-2">{request.children}</span>
+                    </div>
+                  </div>
+
+                  {/* Special Needs Column */}
+                  <div>
+                    <div className="grid grid-cols-3 gap-1">
+                      <span className="text-xs text-muted-foreground">Pets:</span>
+                      <span className="col-span-2">{request.hasAnimals ? "Yes" : "No"}</span>
                       
-                      {request.specialNeeds && (
-                        <>
-                          <span className="text-xs text-muted-foreground">Special Needs:</span>
-                          <span className="col-span-2">{request.specialNeeds}</span>
-                        </>
-                      )}
+                      <span className="text-xs text-muted-foreground">Accessibility:</span>
+                      <span className="col-span-2">{request.hasAccessibilityNeeds ? "Yes" : "No"}</span>
+                      
+                      <span className="text-xs text-muted-foreground">Parking:</span>
+                      <span className="col-span-2">{request.needsParking ? "Yes" : "No"}</span>
                     </div>
                   </div>
                 </div>

@@ -30,6 +30,7 @@ import { SuccessMessage } from "./steps/success-message";
 import { SwissInsuranceDetails } from "./steps/swiss-insurance-details";
 import { UseFormReturn } from "react-hook-form";
 import { SingleAddressAndContact } from "./steps/single-address-and-contact";
+import { cn } from "@/lib/utils";
 
 // Define the form schema using Zod
 const formSchema = z.object({
@@ -247,7 +248,7 @@ export function RelocationWizard() {
             return <SingleArrivalDetails form={form} />;
           }
         } else if (relocationType === "multiple") {
-          return <MultipleConsent form={form} onSubmit={handleSubmit} isSubmitting={isSubmitting} />;
+          return <MultipleConsent form={form} onSubmit={handleSubmit} isSubmitting={isSubmitting} onBack={prevStep} />;
         }
         break;
       case 6:
@@ -362,8 +363,19 @@ export function RelocationWizard() {
     return <SuccessMessage />;
   }
 
+  // Use wider container (max-w-7xl) only for the multiple relocation requests table
+  // to accommodate the larger table layout, while keeping other steps at max-w-5xl
+  // 
+  // Conditions for wider container:
+  // - step === 3: This is the step where we show the multiple relocation requests table
+  // - relocationType === "multiple": Only applies to the multiple relocation flow
+  const shouldUseWiderContainer = form.watch("relocationType") === "multiple" && step === 3;
+
   return (
-    <div className="container mx-auto py-8 px-4 md:px-0 max-w-5xl">
+    <div className={cn(
+      "container mx-auto py-8 px-4 md:px-0",
+      shouldUseWiderContainer ? "max-w-9xl" : "max-w-5xl"
+    )}>
       <Card className="border-2 shadow-lg">
         <CardHeader className="pb-6">
           <CardTitle className="text-2xl font-bold text-center">Relocation Assistance Request</CardTitle>
