@@ -62,7 +62,6 @@ export interface RelocationRequest {
     city: string;
     canton: string;
   };
-  acceptableDistance: RelocationDistance;
   specialNeeds: SpecialNeeds;
   arrivalDate: Date;
   approximateDuration: string; // e.g., "3 months", "6 months"
