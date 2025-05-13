@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { UseFormReturn, FieldError, FieldErrorsImpl } from "react-hook-form";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
@@ -54,6 +54,21 @@ export function MultipleRelocationRequests({ form }: MultipleRelocationRequestsP
   const requests = watch("multipleRelocationRequests") || [];
   // Cast errors to any to avoid type issues
   const requestErrors = (errors.multipleRelocationRequests as any) || [];
+  
+  // Initialize with one person when component mounts
+  useEffect(() => {
+    if (requests.length === 0) {
+      const initialPerson: RelocationRequest = {
+        firstName: "",
+        lastName: "",
+        email: "",
+        phone: "",
+        estimatedDuration: "",
+        hasInsurance: false,
+      };
+      setValue("multipleRelocationRequests", [initialPerson]);
+    }
+  }, []);
   
   // Duration options with icons and labels
   const durationOptions = [

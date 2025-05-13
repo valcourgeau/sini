@@ -41,28 +41,28 @@ export function SingleArrivalDetails({ form }: SingleArrivalDetailsProps) {
       value: "A few days", 
       label: "A few days",
       subLabel: "Urgent and short stay",
-      icon: <Clock size={32} />
+      icon: <Clock size={28} />
     },
     { 
       id: "few-weeks", 
       value: "A few weeks", 
       label: "A few weeks",
       subLabel: "Temporary stay",
-      icon: <Clock size={32} />
+      icon: <Clock size={28} />
     },
     { 
       id: "few-months", 
       value: "A few months", 
       label: "A few months",
       subLabel: "Transitional housing",
-      icon: <Calendar size={32} />
+      icon: <Calendar size={28} />
     },
     { 
       id: "unknown", 
       value: "Unknown / Not sure",
       label: "Unknown / Not sure",
       subLabel: "Flexible duration",
-      icon: <HelpCircle size={32} />
+      icon: <HelpCircle size={28} />
     },
   ];
 
@@ -130,10 +130,7 @@ export function SingleArrivalDetails({ form }: SingleArrivalDetailsProps) {
             )}>
               <CalendarRange size={32} />
             </div>
-            <h3 className="text-lg font-medium mb-1">I Know the Exact Dates</h3>
-            <p className="text-sm text-center text-muted-foreground">
-              Arrival and departure dates
-            </p>
+            <h3 className="text-lg font-medium mb-1">I know the exact dates</h3>
             
             {useExactDates && (
               <div className="absolute top-3 right-3 bg-primary text-white rounded-full p-0.5">
@@ -162,10 +159,7 @@ export function SingleArrivalDetails({ form }: SingleArrivalDetailsProps) {
             )}>
               <Clock size={32} />
             </div>
-            <h3 className="text-lg font-medium mb-1">I Need Flexible Dates</h3>
-            <p className="text-sm text-center text-muted-foreground">
-              Arrival date and Estimated duration
-            </p>
+            <h3 className="text-lg font-medium mb-1">I need flexible dates</h3>
             
             {!useExactDates && (
               <div className="absolute top-3 right-3 bg-primary text-white rounded-full p-0.5">
@@ -254,14 +248,14 @@ export function SingleArrivalDetails({ form }: SingleArrivalDetailsProps) {
             </Label>
             
             {/* Duration selection cards */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
               {durationOptions.map((option) => (
                 <button
                   key={option.id}
                   type="button"
                   onClick={() => handleDurationSelect(option.value)}
                   className={cn(
-                    "group relative flex flex-col items-center p-6 rounded-xl border-2 transition-all duration-200",
+                    "group relative flex flex-col items-center p-4 rounded-lg border-2 transition-all duration-200",
                     selectedDuration === option.value
                       ? "border-primary bg-primary/5 shadow-md" 
                       : "border-gray-200 hover:border-gray-300 hover:shadow-sm"
@@ -269,21 +263,21 @@ export function SingleArrivalDetails({ form }: SingleArrivalDetailsProps) {
                   aria-pressed={selectedDuration === option.value}
                 >
                   <div className={cn(
-                    "w-16 h-16 rounded-full flex items-center justify-center mb-4 transition-all",
+                    "w-12 h-12 rounded-full flex items-center justify-center mb-3 transition-all",
                     selectedDuration === option.value 
                       ? "bg-primary text-white" 
                       : "bg-gray-100 text-gray-500 group-hover:bg-gray-200"
                   )}>
                     {option.icon}
                   </div>
-                  <h3 className="text-lg font-medium mb-1">{option.label}</h3>
-                  <p className="text-sm text-center text-muted-foreground">
+                  <h3 className="text-base font-medium mb-0.5">{option.label}</h3>
+                  <p className="text-xs text-center text-muted-foreground">
                     {option.subLabel}
                   </p>
                   
                   {selectedDuration === option.value && (
-                    <div className="absolute top-3 right-3 bg-primary text-white rounded-full p-0.5">
-                      <Check size={16} />
+                    <div className="absolute top-2 right-2 bg-primary text-white rounded-full p-0.5">
+                      <Check size={14} />
                     </div>
                   )}
                   
@@ -293,7 +287,7 @@ export function SingleArrivalDetails({ form }: SingleArrivalDetailsProps) {
                     value={option.value}
                     checked={selectedDuration === option.value}
                     onChange={() => handleDurationSelect(option.value)}
-                    className="sr-only" // Hidden but keeps form functionality
+                    className="sr-only"
                   />
                 </button>
               ))}

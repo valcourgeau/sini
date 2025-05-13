@@ -4,21 +4,15 @@ import { cn } from "@/lib/utils";
 import { useState, useEffect } from "react";
 import { 
   Check, 
-  Home, 
-  Building2, 
-  Globe, 
-  Map, 
-  Plus, 
+  Bed, 
+  Bath, 
+  Users, 
+  Baby, 
   PawPrint, 
   Accessibility, 
-  Dog, 
-  Cat, 
-  Bird, 
-  Rabbit, 
-  HelpCircle, 
-  LucideIcon, 
-  Stethoscope, 
-  HeartHandshake 
+  Car as CarIcon,
+  MinusCircle, 
+  PlusCircle 
 } from "lucide-react";
 import { Input } from '@/components/ui/input';
 
@@ -26,284 +20,133 @@ interface SingleRelocationPreferencesProps {
   form: UseFormReturn<any>;
 }
 
-// Define distance taxonomy mapping for easier future adjustments
-const DISTANCE_TAXONOMY = {
-  QUARTIER: {
-    id: "quartier",
-    label: "Quartier",
-    value: 5, // km
-    subLabel: "0-5 km",
-    description: "Walking distance"
-  },
-  VILLE: {
-    id: "ville",
-    label: "Ville",
-    value: 10, // km
-    subLabel: "5-10 km",
-    description: "City limits"
-  },
-  CANTON: {
-    id: "canton",
-    label: "Canton",
-    value: 20, // km
-    subLabel: "10-20 km",
-    description: "Cantonal area"
-  },
-  REGION: {
-    id: "region",
-    label: "Région",
-    value: 25, // km
-    subLabel: "max 25 km",
-    description: "Regional area"
-  }
-};
-
-interface PetType {
+type CounterField = {
   id: string;
   name: string;
-  icon: LucideIcon;
-}
+  icon: React.ReactNode;
+  min: number;
+  fieldName: string;
+  increment?: number;
+};
 
-interface AccessibilityType {
+interface SpecialNeedCard {
   id: string;
-  label: string;
-  icon: LucideIcon;
+  name: string;
+  icon: React.ReactNode;
+  fieldName: string;
   description?: string;
 }
 
 export function SingleRelocationPreferences({ form }: SingleRelocationPreferencesProps) {
-  const { register, setValue, getValues, watch, formState: { errors } } = form;
-  const preferencesErrors = errors.singleRelocationPreferences as Record<string, any> || {};
-  const specialNeedsErrors = errors.singleSpecialNeeds || {};
+  const { register, setValue, watch, formState: { errors } } = form;
+  const preferencesErrors = errors.singleRelocationPreferences || {};
   
-  // Get current selected distance value or default to Canton (20km)
-  const [selectedDistance, setSelectedDistance] = useState<number>(
-    getValues("singleRelocationPreferences.maxDistance") || DISTANCE_TAXONOMY.CANTON.value
-  );
+  // Initialize numeric values if they are undefined
+  const initializeNumericValues = () => {
+    const fieldDefaults = {
+      "singleRelocationPreferences.bedrooms": 1,
+      "singleRelocationPreferences.bathrooms": 1,
+      "singleRelocationPreferences.adults": 1,
+      "singleRelocationPreferences.children": 0
+    };
+    
+    Object.entries(fieldDefaults).forEach(([field, defaultValue]) => {
+      const currentValue = watch(field);
+      if (currentValue === undefined || currentValue === null) {
+        setValue(field, defaultValue, {
+          shouldValidate: true,
+          shouldDirty: false,
+          shouldTouch: false
+        });
+      }
+    });
+  };
 
-  // Watch the boolean values for special needs
-  const hasAnimals = watch("singleSpecialNeeds.hasAnimals");
-  const hasAccessibilityNeeds = watch("singleSpecialNeeds.hasAccessibilityNeeds");
-  
-  // State for pet type selection
-  const [selectedPetTypes, setSelectedPetTypes] = useState<string[]>([]);
-  const [petDetails, setPetDetails] = useState<Record<string, string>>({});
-  
-  // State for accessibility requirements
-  const [selectedAccessibilityTypes, setSelectedAccessibilityTypes] = useState<string[]>([]);
-  const [accessibilityDetails, setAccessibilityDetails] = useState<Record<string, string>>({});
-
-  // Ensure form fields are initialized with proper boolean values
+  // Call initialization on first render
   useEffect(() => {
-    // Initialize hasAnimals with false if undefined
-    if (hasAnimals === undefined) {
-      setValue("singleSpecialNeeds.hasAnimals", false, { 
-        shouldDirty: true, 
-        shouldTouch: true, 
-        shouldValidate: true 
-      });
-    }
-    
-    // Initialize hasAccessibilityNeeds with false if undefined
-    if (hasAccessibilityNeeds === undefined) {
-      setValue("singleSpecialNeeds.hasAccessibilityNeeds", false, { 
-        shouldDirty: true, 
-        shouldTouch: true, 
-        shouldValidate: true 
-      });
-    }
-  }, [hasAnimals, hasAccessibilityNeeds, setValue]);
+    initializeNumericValues();
+  }, []);
 
-  // Available distance options with icons
-  const distanceOptions = [
-    { 
-      ...DISTANCE_TAXONOMY.QUARTIER,
-      icon: <Home size={32} />,
+  // Counter fields
+  const counterFields: CounterField[] = [
+    {
+      id: "bedrooms",
+      name: "Bedrooms",
+      icon: <Bed size={24} />,
+      min: 0,
+      fieldName: "singleRelocationPreferences.bedrooms"
     },
-    { 
-      ...DISTANCE_TAXONOMY.VILLE,
-      icon: <Building2 size={32} />,
+    {
+      id: "bathrooms",
+      name: "Bathrooms",
+      icon: <Bath size={24} />,
+      min: 0,
+      fieldName: "singleRelocationPreferences.bathrooms"
     },
-    { 
-      ...DISTANCE_TAXONOMY.CANTON,
-      icon: <Map size={32} />,
+    {
+      id: "adults",
+      name: "Adults",
+      icon: <Users size={24} />,
+      min: 1,
+      fieldName: "singleRelocationPreferences.adults"
     },
-    { 
-      ...DISTANCE_TAXONOMY.REGION,
-      icon: <Globe size={32} />,
+    {
+      id: "children",
+      name: "Children",
+      icon: <Baby size={24} />,
+      min: 0,
+      fieldName: "singleRelocationPreferences.children"
     }
   ];
 
-  // Pet type options
-  const petTypes: PetType[] = [
-    { id: "dog", name: "Dog", icon: Dog },
-    { id: "cat", name: "Cat", icon: Cat },
-    { id: "bird", name: "Bird", icon: Bird },
-    { id: "small", name: "Small Animal", icon: Rabbit },
-    { id: "other", name: "Other", icon: HelpCircle }
+  // Special needs cards
+  const specialNeedCards: SpecialNeedCard[] = [
+    {
+      id: "animals",
+      name: "Pets",
+      icon: <PawPrint size={28} />,
+      fieldName: "singleRelocationPreferences.hasAnimals"
+    },
+    {
+      id: "accessibility",
+      name: "Accessibility",
+      icon: <Accessibility size={28} />,
+      fieldName: "singleRelocationPreferences.hasAccessibilityNeeds"
+    },
+    {
+      id: "parking",
+      name: "Parking",
+      icon: <CarIcon size={28} />,
+      fieldName: "singleRelocationPreferences.needsParking"
+    }
   ];
-
-  // Accessibility type options
-  const accessibilityTypeOptions: AccessibilityType[] = [
-    {
-      id: 'wheelchair',
-      label: 'Wheelchair Access',
-      icon: Accessibility,
-    },
-    {
-      id: 'medical',
-      label: 'Medical Care',
-      icon: Stethoscope,
-    },
-    {
-      id: 'elevator',
-      label: 'Elevator Access',
-      icon: Building2,
-    },
-    {
-      id: 'other',
-      label: 'Other',
-      icon: Accessibility,
-    },
-  ];
-
-  // Find a distance option by its value
-  const findDistanceOption = (value: number) => {
-    return distanceOptions.find(option => option.value === value);
-  };
-
-  // Function to handle distance selection
-  const handleDistanceSelect = (value: number) => {
-    const selectedOption = findDistanceOption(value);
-    
-    setSelectedDistance(value);
-    
-    // Store all relevant distance information in the form
-    setValue("singleRelocationPreferences.maxDistance", value, { 
-      shouldValidate: true, 
+  
+  // Function to increment counter
+  const incrementCounter = (fieldName: string, min: number, increment: number = 1) => {
+    const currentValue = watch(fieldName) || min;
+    setValue(fieldName, currentValue + increment, {
+      shouldValidate: true,
       shouldDirty: true,
       shouldTouch: true
     });
-    
-    if (selectedOption) {
-      setValue("singleRelocationPreferences.distanceLabel", selectedOption.label, {
-        shouldDirty: true
-      });
-      
-      setValue("singleRelocationPreferences.distanceSubLabel", selectedOption.subLabel, {
-        shouldDirty: true
+  };
+  
+  // Function to decrement counter
+  const decrementCounter = (fieldName: string, min: number, increment: number = 1) => {
+    const currentValue = watch(fieldName) || min;
+    if (currentValue > min) {
+      setValue(fieldName, currentValue - increment, {
+        shouldValidate: true,
+        shouldDirty: true,
+        shouldTouch: true
       });
     }
   };
 
-  // Handler for selecting/deselecting special needs options
-  const handleSpecialNeedToggle = (field: string, value: boolean) => {
-    setValue(field, value === true, {
-      shouldValidate: true,
-      shouldDirty: true,
-      shouldTouch: true
-    });
-    
-    // If turning off the option, clear the related details
-    if (value === false) {
-      if (field === "singleSpecialNeeds.hasAnimals") {
-        setValue("singleSpecialNeeds.animalDetails", "", {
-          shouldValidate: true,
-          shouldDirty: true,
-          shouldTouch: true
-        });
-        // Reset pet type selection
-        setSelectedPetTypes([]);
-        setPetDetails({});
-      } else if (field === "singleSpecialNeeds.hasAccessibilityNeeds") {
-        setValue("singleSpecialNeeds.accessibilityDetails", "", {
-          shouldValidate: true,
-          shouldDirty: true,
-          shouldTouch: true
-        });
-        // Reset accessibility type selection
-        setSelectedAccessibilityTypes([]);
-        setAccessibilityDetails({});
-      }
-    }
-  };
-
-  // Handler for toggling pet type selection
-  const handlePetTypeToggle = (typeId: string) => {
-    const updatedTypes = selectedPetTypes.includes(typeId)
-      ? selectedPetTypes.filter(id => id !== typeId)
-      : [...selectedPetTypes, typeId];
-    
-    setSelectedPetTypes(updatedTypes);
-    
-    // Update form value
-    const details = updatedTypes.map(type => {
-      const pet = petTypes.find(p => p.id === type);
-      return pet ? pet.name : type;
-    }).join(", ");
-    
-    setValue("singleSpecialNeeds.animalDetails", details, {
-      shouldValidate: true,
-      shouldDirty: true,
-      shouldTouch: true
-    });
-  };
-
-  // Handler for pet details change
-  const handlePetDetailsChange = (typeId: string, value: string) => {
-    setPetDetails(prev => ({ ...prev, [typeId]: value }));
-    
-    // Update the animalDetails field with the selected pet types and custom input
-    const petTypeLabels = selectedPetTypes.map(type => {
-      const pet = petTypes.find(p => p.id === type);
-      if (type === 'other') {
-        return `Other (${value})`;
-      }
-      return pet ? pet.name : type;
-    });
-    
-    setValue("singleSpecialNeeds.animalDetails", petTypeLabels.join(", "), {
-      shouldValidate: true,
-      shouldDirty: true,
-      shouldTouch: true
-    });
-  };
-
-  // Handler for toggling accessibility type selection
-  const handleAccessibilityTypeToggle = (typeId: string) => {
-    const updatedTypes = selectedAccessibilityTypes.includes(typeId)
-      ? selectedAccessibilityTypes.filter(id => id !== typeId)
-      : [...selectedAccessibilityTypes, typeId];
-    
-    setSelectedAccessibilityTypes(updatedTypes);
-    
-    // Update form value
-    const details = updatedTypes.map(type => {
-      const option = accessibilityTypeOptions.find(opt => opt.id === type);
-      return option ? option.label : type;
-    }).join(", ");
-    
-    setValue("singleSpecialNeeds.accessibilityDetails", details, {
-      shouldValidate: true,
-      shouldDirty: true,
-      shouldTouch: true
-    });
-  };
-
-  // Handler for accessibility details change
-  const handleAccessibilityDetailsChange = (typeId: string, value: string) => {
-    setAccessibilityDetails(prev => ({ ...prev, [typeId]: value }));
-    
-    // Update the accessibilityDetails field with the selected types and custom input
-    const accessibilityTypeLabels = selectedAccessibilityTypes.map(type => {
-      const option = accessibilityTypeOptions.find(opt => opt.id === type);
-      if (type === 'other') {
-        return `Other (${value})`;
-      }
-      return option ? option.label : type;
-    });
-    
-    setValue("singleSpecialNeeds.accessibilityDetails", accessibilityTypeLabels.join(", "), {
+  // Function to toggle special need
+  const toggleSpecialNeed = (fieldName: string) => {
+    const currentValue = watch(fieldName) || false;
+    setValue(fieldName, !currentValue, {
       shouldValidate: true,
       shouldDirty: true,
       shouldTouch: true
@@ -313,281 +156,121 @@ export function SingleRelocationPreferences({ form }: SingleRelocationPreference
   return (
     <div className="space-y-8">
       <div className="text-center">
-        <h2 className="text-xl font-semibold mb-2">Relocation Preferences & Special Needs</h2>
+        <h2 className="text-xl font-semibold mb-2">Relocation Preferences</h2>
         <p className="text-sm text-muted-foreground max-w-lg mx-auto">
-          Please specify your preferences for the relocation and any special needs or requirements.
+          Please specify your requirements for the relocation property.
         </p>
       </div>
 
-      {/* Distance Selection Section */}
-      <div className="space-y-6">
-        <div className="space-y-4">
-          <Label htmlFor="singleRelocationPreferences.maxDistance" className="text-base font-medium">
-            Maximum Distance from Current Location
-          </Label>
-          
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-            {distanceOptions.map((option) => (
-              <button
-                key={option.id}
-                type="button"
-                onClick={() => handleDistanceSelect(option.value)}
-                className={`group relative flex flex-col items-center p-6 rounded-xl border-2 transition-all duration-200 ${
-                  selectedDistance === option.value
-                    ? "border-primary bg-primary/5 shadow-md" 
-                    : "border-gray-200 hover:border-gray-300 hover:shadow-sm"
-                }`}
-                aria-pressed={selectedDistance === option.value}
-              >
-                <div className={`w-16 h-16 rounded-full flex items-center justify-center mb-4 transition-all ${
-                  selectedDistance === option.value 
-                    ? "bg-primary text-white" 
-                    : "bg-gray-100 text-gray-500 group-hover:bg-gray-200"
-                }`}>
-                  {option.icon}
-                </div>
-                <h3 className="text-lg font-medium mb-1">{option.label}</h3>
-                <p className="text-sm text-center text-muted-foreground mb-1">
-                  {option.subLabel}
-                </p>
-                <p className="text-xs text-center text-muted-foreground">
-                  {option.description}
-                </p>
-                
-                {selectedDistance === option.value && (
-                  <div className="absolute top-3 right-3 bg-primary text-white rounded-full p-0.5">
-                    <Check size={16} />
-                  </div>
-                )}
-                
-                <input
-                  type="radio"
-                  name="singleRelocationPreferences.maxDistance"
-                  value={option.value}
-                  checked={selectedDistance === option.value}
-                  onChange={() => handleDistanceSelect(option.value)}
-                  className="sr-only"
-                />
-              </button>
-            ))}
-          </div>
-          
-          {preferencesErrors.maxDistance && (
-            <p className="text-sm text-red-500 mt-1">
-              {preferencesErrors.maxDistance.message}
-            </p>
-          )}
-        </div>
-
-        {/* Preferred Areas Section */}
-        <div className="space-y-2">
-          <Label htmlFor="singleRelocationPreferences.preferredAreas" className="text-base font-medium">
-            Preferred Areas (Optional)
-          </Label>
-          <input
-            id="singleRelocationPreferences.preferredAreas"
-            {...register("singleRelocationPreferences.preferredAreas")}
-            className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-            placeholder="E.g., Lausanne, Geneva, Zurich"
-            defaultValue={form.watch("singleDisasterAddress.city") || ""}
-          />
-          <p className="text-xs text-muted-foreground mt-1">
-            Enter your preferred cities or areas, separated by commas.
-          </p>
-        </div>
-
-        {/* Special Needs Section */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 auto-rows-min">
-          {/* Animals Card */}
-          <div
-            className={cn(
-              "group relative flex flex-col p-6 rounded-xl border-2 transition-all duration-200",
-              hasAnimals
-                ? "border-primary bg-primary/5 shadow-md"
-                : "border-gray-200 hover:border-gray-300 hover:shadow-sm h-[160px]"
-            )}
-          >
-            <button
-              type="button"
-              onClick={() => handleSpecialNeedToggle("singleSpecialNeeds.hasAnimals", !hasAnimals)}
-              className="flex flex-col items-center w-full"
-              aria-pressed={hasAnimals}
-            >
-              <div className={cn(
-                "w-16 h-16 rounded-full flex items-center justify-center mb-4 transition-all",
-                hasAnimals ? "bg-primary text-white" : "bg-gray-100 text-gray-500 group-hover:bg-gray-200"
-              )}>
-                <PawPrint size={32} />
-              </div>
-              <h3 className="text-lg font-medium mb-1">Pets or Animals</h3>
-              
-              {hasAnimals && (
-                <div className="absolute top-3 right-3 bg-primary text-white rounded-full p-0.5">
-                  <Check size={16} />
-                </div>
-              )}
-            </button>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        {/* Left Column - Property Requirements */}
+        <div className="space-y-6">
+          <div className="pt-4 border-t">
+            <h3 className="text-lg font-medium mb-6 text-center">Property Requirements</h3>
             
-            {/* Pet Selection Content */}
-            {hasAnimals && (
-              <div className="mt-6 pt-6 border-t border-gray-200">
-                <div className="flex items-center gap-2 mb-3">
-                  <PawPrint className="text-primary" size={20} />
-                  <Label className="text-base font-medium">
-                    What types of pets do you have?
-                  </Label>
-                </div>
-                
-                <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-4">
-                  {petTypes.map((pet) => {
-                    const isSelected = selectedPetTypes.includes(pet.id);
-                    return (
-                      <button
-                        key={pet.id}
-                        type="button"
-                        onClick={() => handlePetTypeToggle(pet.id)}
-                        className={cn(
-                          "flex flex-col items-center p-3 rounded-xl border transition-all",
-                          isSelected
-                            ? "border-primary bg-primary/5 shadow-sm"
-                            : "border-gray-200 hover:border-gray-300"
-                        )}
-                      >
-                        <div className={cn(
-                          "w-10 h-10 rounded-full flex items-center justify-center mb-2",
-                          isSelected ? "bg-primary text-white" : "bg-gray-100 text-gray-500"
-                        )}>
-                          <pet.icon className="h-6 w-6" />
-                        </div>
-                        <span className="text-sm font-medium">{pet.name}</span>
-                        {isSelected && (
-                          <div className="absolute top-1 right-1 bg-primary text-white rounded-full p-0.5">
-                            <Check size={12} />
-                          </div>
-                        )}
-                      </button>
-                    );
-                  })}
-                </div>
-                
-                {selectedPetTypes.includes('other') && (
-                  <div className="space-y-2 mt-4">
-                    <Label htmlFor="pet-details-other">Specify Pet Type</Label>
-                    <Input
-                      id="pet-details-other"
-                      placeholder="Enter pet type"
-                      value={petDetails['other'] || ''}
-                      onChange={(e) => handlePetDetailsChange('other', e.target.value)}
+            <div className="space-y-8">
+              {counterFields.map((field) => (
+                <div key={field.id} className="flex items-center justify-between max-w-md mx-auto w-full">
+                  <div className="flex items-center gap-3">
+                    <div className="w-12 h-12 rounded-full bg-gray-100 flex items-center justify-center">
+                      <span className="text-gray-600">{field.icon}</span>
+                    </div>
+                    <Label 
+                      htmlFor={field.fieldName} 
+                      className="font-medium text-lg"
+                    >
+                      {field.name}
+                    </Label>
+                  </div>
+                  
+                  <div className="flex items-center gap-4">
+                    <button
+                      type="button"
+                      onClick={() => decrementCounter(field.fieldName, field.min, field.increment || 1)}
+                      className={cn(
+                        "p-2 rounded-full text-gray-500 hover:bg-gray-100 transition-colors",
+                        watch(field.fieldName) <= field.min && "opacity-50 cursor-not-allowed"
+                      )}
+                      disabled={watch(field.fieldName) <= field.min}
+                    >
+                      <MinusCircle size={28} />
+                    </button>
+                    
+                    <span className="w-16 text-center font-medium text-xl">
+                      {watch(field.fieldName) || field.min}
+                    </span>
+                    
+                    <button
+                      type="button"
+                      onClick={() => incrementCounter(field.fieldName, field.min, field.increment || 1)}
+                      className="p-2 rounded-full text-gray-500 hover:bg-gray-100 transition-colors"
+                    >
+                      <PlusCircle size={28} />
+                    </button>
+                    
+                    <input
+                      type="hidden"
+                      id={field.fieldName}
+                      {...register(field.fieldName, { valueAsNumber: true })}
                     />
                   </div>
-                )}
-              </div>
-            )}
-          </div>
-
-          {/* Accessibility Card */}
-          <div
-            className={cn(
-              "group relative flex flex-col p-6 rounded-xl border-2 transition-all duration-200",
-              hasAccessibilityNeeds
-                ? "border-primary bg-primary/5 shadow-md"
-                : "border-gray-200 hover:border-gray-300 hover:shadow-sm h-[160px]"
-            )}
-          >
-            <button
-              type="button"
-              onClick={() => handleSpecialNeedToggle("singleSpecialNeeds.hasAccessibilityNeeds", !hasAccessibilityNeeds)}
-              className="flex flex-col items-center w-full"
-              aria-pressed={hasAccessibilityNeeds}
-            >
-              <div className={cn(
-                "w-16 h-16 rounded-full flex items-center justify-center mb-4 transition-all",
-                hasAccessibilityNeeds ? "bg-primary text-white" : "bg-gray-100 text-gray-500 group-hover:bg-gray-200"
-              )}>
-                <HeartHandshake size={32} />
-              </div>
-              <h3 className="text-lg font-medium">Accessibility Requirements</h3>
-              
-              {hasAccessibilityNeeds && (
-                <div className="absolute top-3 right-3 bg-primary text-white rounded-full p-0.5">
-                  <Check size={16} />
                 </div>
-              )}
-            </button>
-            
-            {/* Accessibility Selection Content */}
-            {hasAccessibilityNeeds && (
-              <div className="mt-6 pt-6 border-t border-gray-200">
-                <div className="flex items-center gap-2 mb-3">
-                  <Accessibility className="text-primary" size={20} />
-                  <Label className="text-base font-medium">
-                    What accessibility requirements do you need?
-                  </Label>
-                </div>
-                
-                <div className="grid grid-cols-2 gap-3 mb-4">
-                  {accessibilityTypeOptions.map((type) => {
-                    const isSelected = selectedAccessibilityTypes.includes(type.id);
-                    return (
-                      <button
-                        key={type.id}
-                        type="button"
-                        onClick={() => handleAccessibilityTypeToggle(type.id)}
-                        className={cn(
-                          "flex flex-col items-center p-3 rounded-xl border transition-all",
-                          isSelected
-                            ? "border-primary bg-primary/5 shadow-sm"
-                            : "border-gray-200 hover:border-gray-300"
-                        )}
-                      >
-                        <div className={cn(
-                          "w-10 h-10 rounded-full flex items-center justify-center mb-2",
-                          isSelected ? "bg-primary text-white" : "bg-gray-100 text-gray-500"
-                        )}>
-                          <type.icon className="h-6 w-6" />
-                        </div>
-                        <span className="text-sm font-medium">{type.label}</span>
-                        {isSelected && (
-                          <div className="absolute top-1 right-1 bg-primary text-white rounded-full p-0.5">
-                            <Check size={12} />
-                          </div>
-                        )}
-                      </button>
-                    );
-                  })}
-                </div>
-                
-                {selectedAccessibilityTypes.includes('other') && (
-                  <div className="space-y-2 mt-4">
-                    <Label htmlFor="accessibility-details-other">Specify Requirements</Label>
-                    <Input
-                      id="accessibility-details-other"
-                      placeholder="Enter specific accessibility requirements"
-                      value={accessibilityDetails['other'] || ''}
-                      onChange={(e) => handleAccessibilityDetailsChange('other', e.target.value)}
-                    />
-                  </div>
-                )}
-              </div>
-            )}
+              ))}
+            </div>
           </div>
         </div>
 
-        {/* Additional Notes Section */}
-        <div className="bg-white p-5 rounded-xl border border-gray-200">
-          <div className="flex items-center gap-2 mb-3">
-            <Plus className="text-gray-500" size={20} />
-            <Label htmlFor="singleSpecialNeeds.otherSpecialNeeds" className="text-base font-medium">
-              Additional Notes (Optional)
-            </Label>
+        {/* Right Column - Special Requirements Cards */}
+        <div className="space-y-6">
+          <div className="pt-4 border-t">
+            <h3 className="text-lg font-medium mb-6 text-center">Special Requirements</h3>
+            
+            <div className="grid grid-cols-1 gap-6 max-w-[220px] mx-auto mt-10">
+              {specialNeedCards.map((card) => {
+                const isSelected = watch(card.fieldName) || false;
+                
+                return (
+                  <button
+                    key={card.id}
+                    type="button"
+                    onClick={() => toggleSpecialNeed(card.fieldName)}
+                    className={cn(
+                      "group relative flex items-center p-3 rounded-lg border-2 transition-all duration-200",
+                      isSelected
+                        ? "border-primary bg-primary/5 shadow-md" 
+                        : "border-gray-200 hover:border-gray-300 hover:shadow-sm"
+                    )}
+                    aria-pressed={isSelected}
+                  >
+                    <div className={cn(
+                      "w-10 h-10 rounded-full flex items-center justify-center mr-3 transition-all shrink-0",
+                      isSelected 
+                        ? "bg-primary text-white" 
+                        : "bg-gray-100 text-gray-500 group-hover:bg-gray-200"
+                    )}>
+                      {card.icon}
+                    </div>
+                    
+                    <h3 className="text-lg font-medium text-center">{card.name}</h3>
+                    
+                    {isSelected && (
+                      <div className="absolute top-2 right-2 bg-primary text-white rounded-full p-0.5">
+                        <Check size={14} />
+                      </div>
+                    )}
+                    
+                    <input
+                      type="checkbox"
+                      name={card.fieldName}
+                      checked={isSelected}
+                      onChange={() => toggleSpecialNeed(card.fieldName)}
+                      className="sr-only"
+                    />
+                  </button>
+                );
+              })}
+            </div>
           </div>
-          <textarea
-            id="singleSpecialNeeds.otherSpecialNeeds"
-            {...register("singleSpecialNeeds.otherSpecialNeeds")}
-            rows={4}
-            className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-            placeholder="Any additional preferences or requirements for your relocation"
-          />
         </div>
       </div>
     </div>

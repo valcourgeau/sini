@@ -143,28 +143,46 @@ export function SingleReviewConfirm({ form }: SingleReviewConfirmProps) {
           <h3 className={titleClass}>Relocation Preferences</h3>
           <div className="space-y-0.5">
             <div className={detailRowClass}>
-              <span className={labelClass}>Maximum Distance:</span>
+              <span className={labelClass}>Bedrooms:</span>
+              <span className={valueClass}>{getValue("singleRelocationPreferences.bedrooms")}</span>
+            </div>
+            <div className={detailRowClass}>
+              <span className={labelClass}>Bathrooms:</span>
+              <span className={valueClass}>{getValue("singleRelocationPreferences.bathrooms")}</span>
+            </div>
+            <div className={detailRowClass}>
+              <span className={labelClass}>Adults:</span>
+              <span className={valueClass}>{getValue("singleRelocationPreferences.adults")}</span>
+            </div>
+            <div className={detailRowClass}>
+              <span className={labelClass}>Children:</span>
+              <span className={valueClass}>{getValue("singleRelocationPreferences.children")}</span>
+            </div>
+          </div>
+        </div>
+        
+        {/* Special Requirements */}
+        <div className={sectionClass}>
+          <h3 className={titleClass}>Special Requirements</h3>
+          <div className="space-y-0.5">
+            <div className={detailRowClass}>
+              <span className={labelClass}>Pets:</span>
               <span className={valueClass}>
-                {getValue("singleRelocationPreferences.distanceLabel") !== "Not provided" ? (
-                  <span>
-                    {getValue("singleRelocationPreferences.distanceLabel")}{" "}
-                    ({getValue("singleRelocationPreferences.distanceSubLabel", "")})
-                  </span>
-                ) : (
-                  `Up to ${getValue("singleRelocationPreferences.maxDistance")} km`
-                )}
+                {getBooleanValue("singleRelocationPreferences.hasAnimals") ? "Yes" : "No"}
               </span>
             </div>
             <div className={detailRowClass}>
-              <span className={labelClass}>Preferred Areas:</span>
-              <span className={valueClass}>{getValue("singleRelocationPreferences.preferredAreas")}</span>
+              <span className={labelClass}>Accessibility:</span>
+              <span className={valueClass}>
+                {getBooleanValue("singleRelocationPreferences.hasAccessibilityNeeds") ? "Yes" : "No"}
+              </span>
             </div>
-            {getValue("singleRelocationPreferences.additionalNotes") !== "Not provided" && (
-              <div className={detailRowClass}>
-                <span className={labelClass}>Additional Notes:</span>
-                <span className={valueClass}>{getValue("singleRelocationPreferences.additionalNotes")}</span>
-              </div>
-            )}
+            <div className={detailRowClass}>
+              <span className={labelClass}>Parking:</span>
+              <span className={valueClass}>
+                {getBooleanValue("singleRelocationPreferences.needsParking") ? "Yes" : "No"}
+              </span>
+            </div>
           </div>
         </div>
         

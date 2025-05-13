@@ -9,16 +9,6 @@ export enum UserRole {
 }
 
 /**
- * Relocation distance preferences
- */
-export enum RelocationDistance {
-  QUARTIER = "quartier", // 0-5km
-  VILLE = "ville", // 5-10km
-  CANTON = "canton", // 10-20km
-  REGION = "region", // max 25km
-}
-
-/**
  * Special needs for relocation
  */
 export interface SpecialNeeds {

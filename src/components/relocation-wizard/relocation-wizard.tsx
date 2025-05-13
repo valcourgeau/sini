@@ -46,9 +46,13 @@ const formSchema = z.object({
   }).optional(),
 
   singleRelocationPreferences: z.object({
-    maxDistance: z.number().min(0, "Distance must be positive"),
-    preferredAreas: z.array(z.string()).optional(),
-    additionalNotes: z.string().optional(),
+    bedrooms: z.number().min(0, "Number of bedrooms must be positive"),
+    bathrooms: z.number().min(0, "Number of bathrooms must be positive"),
+    adults: z.number().min(1, "At least one adult is required"),
+    children: z.number().min(0, "Number of children must be positive"),
+    hasAnimals: z.boolean().optional(),
+    hasAccessibilityNeeds: z.boolean().optional(),
+    needsParking: z.boolean().optional(),
   }).optional(),
 
   singleArrivalDetails: z.object({
@@ -271,14 +275,14 @@ export function RelocationWizard() {
           if (hasInsurance) {
             return <SingleReviewConfirm form={form} />;
           } else {
-            return <SingleConsent form={form} onSubmit={handleSubmit} isSubmitting={isSubmitting} />;
+            return <SingleConsent form={form} onSubmit={handleSubmit} isSubmitting={isSubmitting} onBack={prevStep} />;
           }
         }
         break;
       case 9:
         if (relocationType === "single") {
           if (hasInsurance) {
-            return <SingleConsent form={form} onSubmit={handleSubmit} isSubmitting={isSubmitting} />;
+            return <SingleConsent form={form} onSubmit={handleSubmit} isSubmitting={isSubmitting} onBack={prevStep} />;
           } else {
             return <SuccessMessage />;
           }
