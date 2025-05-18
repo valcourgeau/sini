@@ -80,44 +80,45 @@ export function PropertyRules({ form }: PropertyRulesProps) {
         </p>
       </div>
 
-      <div className="space-y-4 max-w-2xl mx-auto">
+      <div className="space-y-6">
         {rulesOptions.map((rule) => (
           <div key={rule.id} className="flex items-center justify-between gap-4">
-            <div className="flex items-center gap-3 flex-1">
+            <div className="flex items-center gap-4">
               <div className={cn(
-                "w-12 h-12 rounded-full flex items-center justify-center",
-                watch(rule.fieldName) !== undefined
+                "w-12 h-12 rounded-full flex items-center justify-center transition-all",
+                watch(rule.fieldName) === true
                   ? "bg-primary text-white"
                   : "bg-gray-100 text-gray-500"
               )}>
                 {rule.icon}
               </div>
               <div>
-                <h3 className="text-base font-medium">{rule.name}</h3>
+                <h4 className="text-lg font-medium">{rule.name}</h4>
                 <p className="text-sm text-muted-foreground">{rule.description}</p>
               </div>
             </div>
             
-            <div className="flex gap-1.5">
+            <div className="flex gap-2">
               <button
                 type="button"
                 onClick={() => toggleRule(rule.fieldName, true)}
                 className={cn(
-                  "group relative flex items-center justify-center p-2.5 rounded-lg border-2 transition-all duration-200",
+                  "group relative flex items-center justify-center p-4 rounded-xl border-2 transition-all duration-200",
                   watch(rule.fieldName) === true
-                    ? "border-primary bg-primary/5 shadow-sm"
+                    ? "border-primary bg-primary/5 shadow-md"
                     : "border-gray-200 hover:border-gray-300 hover:shadow-sm"
                 )}
                 aria-pressed={watch(rule.fieldName) === true}
               >
                 <div className={cn(
-                  "w-7 h-7 rounded-full flex items-center justify-center transition-all",
+                  "w-8 h-8 rounded-full flex items-center justify-center mr-3 transition-all",
                   watch(rule.fieldName) === true
                     ? "bg-primary text-white"
                     : "bg-gray-100 text-gray-500 group-hover:bg-gray-200"
                 )}>
-                  <Check size={14} />
+                  <Check size={16} />
                 </div>
+                <span className="font-medium">Yes</span>
                 
                 <input
                   type="radio"
@@ -132,21 +133,22 @@ export function PropertyRules({ form }: PropertyRulesProps) {
                 type="button"
                 onClick={() => toggleRule(rule.fieldName, false)}
                 className={cn(
-                  "group relative flex items-center justify-center p-2.5 rounded-lg border-2 transition-all duration-200",
+                  "group relative flex items-center justify-center p-4 rounded-xl border-2 transition-all duration-200",
                   watch(rule.fieldName) === false
-                    ? "border-primary bg-primary/5 shadow-sm"
+                    ? "border-primary bg-primary/5 shadow-md"
                     : "border-gray-200 hover:border-gray-300 hover:shadow-sm"
                 )}
                 aria-pressed={watch(rule.fieldName) === false}
               >
                 <div className={cn(
-                  "w-7 h-7 rounded-full flex items-center justify-center transition-all",
+                  "w-8 h-8 rounded-full flex items-center justify-center mr-3 transition-all",
                   watch(rule.fieldName) === false
                     ? "bg-primary text-white"
                     : "bg-gray-100 text-gray-500 group-hover:bg-gray-200"
                 )}>
-                  <X size={14} />
+                  <X size={16} />
                 </div>
+                <span className="font-medium">No</span>
                 
                 <input
                   type="radio"

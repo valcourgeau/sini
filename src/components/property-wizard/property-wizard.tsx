@@ -16,7 +16,6 @@ import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { PropertyType } from "./steps/property-type";
 import { PropertyDetails } from "./steps/property-details";
-import { PropertyLocation } from "./steps/property-location";
 import { PropertyAmenities } from "./steps/property-amenities";
 import { PropertyAvailability } from "./steps/property-availability";
 import { PropertyPhotos } from "./steps/property-photos";
@@ -25,33 +24,31 @@ import { PropertyRules } from "./steps/property-rules";
 import { OwnerDetails } from "./steps/owner-details";
 import { ReviewAndConfirm } from "./steps/review-and-confirm";
 import { SuccessMessage } from "./steps/success-message";
+import { cn } from "@/lib/utils";
 
 // Define the form schema using Zod
 const formSchema = z.object({
   // Step 1: Property Type
   propertyType: z.enum(["apartment", "house", "room", "studio", "other"]),
   
-  // Step 2: Property Details
+  // Step 2: Property Details and Location
   propertyDetails: z.object({
     title: z.string().min(5, "Title is required (min 5 chars)"),
-    description: z.string().min(10, "Description is required (min 10 chars)"),
     bedrooms: z.number().min(0, "Must be 0 or more"),
     bathrooms: z.number().min(0, "Must be 0 or more"),
     maxGuests: z.number().min(1, "At least 1 guest required"),
-    squareMeters: z.number().min(1, "Size is required"),
   }),
   
-  // Step 3: Property Location
+  // Property Location (now part of Step 2)
   propertyLocation: z.object({
     street: z.string().min(1, "Street is required"),
     city: z.string().min(1, "City is required"),
     postalCode: z.string().min(4, "Valid postal code is required"),
     canton: z.string().min(1, "Canton is required"),
     country: z.string().min(1, "Country is required"),
-    showExactLocation: z.boolean().default(true),
   }),
   
-  // Step 4: Property Amenities
+  // Step 3: Property Amenities
   propertyAmenities: z.object({
     features: z.array(z.string()),
     hasWifi: z.boolean().optional(),
@@ -65,7 +62,7 @@ const formSchema = z.object({
     accessibilityFeatures: z.array(z.string()).optional(),
   }),
   
-  // Step 5: Property Availability
+  // Step 4: Property Availability
   propertyAvailability: z.object({
     availableFrom: z.string(),
     availableTo: z.string().optional(),
@@ -74,54 +71,55 @@ const formSchema = z.object({
     isFlexible: z.boolean().optional(),
   }),
   
-  // Step 6: Property Photos
+  // Step 5: Property Photos
   propertyPhotos: z.object({
     photos: z.array(z.string()).min(0, "At least one photo is required"),
   }),
   
-  // Step 7: Property Pricing
+  // Step 6: Property Pricing
   propertyPricing: z.object({
     prices: z.object({
-      night: z.number().min(1, "At least one price is required"),
-      week: z.number().min(0),
-      month: z.number().min(0),
+      night: z.number().min(0, "Night price is required"),
+      week: z.number().min(0, "Week price is required"),
+      month: z.number().min(0, "Month price is required"),
     }),
-    cleaningFee: z.number().min(0).nullable().optional(),
-    securityDeposit: z.number().min(0).nullable().optional(),
-    discounts: z.object({
-      hasLongTermDiscount: z.boolean().optional(),
-      longTermDiscountPercent: z.number().min(0).max(100).nullable().optional(),
-    }).optional(),
+    currency: z.string().default("CHF"),
+    includesUtilities: z.boolean().optional(),
+    utilitiesIncluded: z.array(z.string()).optional(),
+    additionalFees: z.array(z.object({
+      name: z.string(),
+      amount: z.number(),
+      frequency: z.enum(["one-time", "per-night", "per-week", "per-month"]),
+    })).optional(),
   }),
   
-  // Step 8: Property Rules
+  // Step 7: Property Rules
   propertyRules: z.object({
-    allowChildren: z.boolean().optional(),
-    allowPets: z.boolean().optional(),
-    allowSmoking: z.boolean().optional(),
-    allowEvents: z.boolean().optional(),
-    quietHours: z.boolean().optional(),
-    quietHoursStart: z.string().optional(),
-    quietHoursEnd: z.string().optional(),
+    houseRules: z.array(z.string()),
+    checkInTime: z.string(),
+    checkOutTime: z.string(),
+    smokingAllowed: z.boolean().optional(),
+    petsAllowed: z.boolean().optional(),
+    partiesAllowed: z.boolean().optional(),
     additionalRules: z.string().optional(),
   }),
   
-  // Step 9: Owner Details
+  // Step 8: Owner Details
   ownerDetails: z.object({
     firstName: z.string().min(1, "First name is required"),
     lastName: z.string().min(1, "Last name is required"),
     email: z.string().email("Valid email is required"),
-    phone: z.string().min(10, "Valid phone number is required"),
-    preferredContact: z.enum(["email", "phone", "both"]),
+    phone: z.string().min(1, "Phone number is required"),
+    preferredContactMethod: z.enum(["email", "phone", "both"]).default("email"),
   }),
   
-  // Step 10: Review and Confirm
+  // Step 9: Confirmation
   confirmDetails: z.object({
-    agreeToTerms: z.boolean().refine(val => val === true, {
-      message: "You must agree to the terms to continue",
+    agreeToTerms: z.boolean().refine((val) => val === true, {
+      message: "You must agree to the terms of service",
     }),
-    agreeToDataPolicy: z.boolean().refine(val => val === true, {
-      message: "You must agree to the data policy to continue",
+    agreeToDataPolicy: z.boolean().refine((val) => val === true, {
+      message: "You must agree to the privacy policy",
     }),
   }),
 });
@@ -138,54 +136,63 @@ export function PropertyWizard() {
     console.log("isSubmitted state changed:", isSubmitted);
   }, [isSubmitted]);
 
-  const totalSteps = 10; // Total number of steps in our wizard
-  
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
+    mode: "onChange",
     defaultValues: {
-      propertyType: undefined,
+      propertyType: "apartment",
+      propertyDetails: {
+        title: "",
+        bedrooms: 1,
+        bathrooms: 1,
+        maxGuests: 2,
+      },
+      propertyLocation: {
+        street: "",
+        city: "",
+        postalCode: "",
+        canton: "",
+        country: "Switzerland",
+      },
       propertyAmenities: {
         features: [],
-        hasWifi: false,
-        hasParking: false,
-        hasKitchen: false,
-        hasWashingMachine: false,
-        hasTv: false,
-        hasAirConditioning: false,
-        hasHeating: false,
-        hasAccessibility: false,
-        accessibilityFeatures: [],
       },
-      propertyRules: {
-        allowChildren: true,
-        allowPets: false,
-        allowSmoking: false,
-        allowEvents: false,
-        quietHours: false,
+      propertyAvailability: {
+        availableFrom: "",
+        minStay: 1,
       },
       propertyPhotos: {
         photos: [],
       },
+      propertyPricing: {
+        prices: {
+          night: 0,
+          week: 0,
+          month: 0,
+        },
+        currency: "CHF",
+      },
+      propertyRules: {
+        houseRules: [],
+        checkInTime: "15:00",
+        checkOutTime: "11:00",
+      },
+      ownerDetails: {
+        firstName: "",
+        lastName: "",
+        email: "",
+        phone: "",
+        preferredContactMethod: "email",
+      },
+      confirmDetails: {
+        agreeToTerms: false,
+        agreeToDataPolicy: false,
+      },
     },
-    mode: "onChange",
   });
-  
-  // Add debugging for form state changes
-  useEffect(() => {
-    const subscription = form.watch((value, { name, type }) => {
-      console.log("Form value changed:", { name, type, value });
-    });
-    
-    return () => subscription.unsubscribe();
-  }, [form]);
-  
-  // Add debugging for form errors
-  useEffect(() => {
-    console.log("Form errors:", form.formState.errors);
-  }, [form.formState.errors]);
-  
+
   // Calculate progress percentage
-  const progressPercentage = (step / totalSteps) * 100;
+  const progressPercentage = (step / 9) * 100;
 
   const nextStep = () => {
     setStep(prevStep => prevStep + 1);
@@ -195,13 +202,6 @@ export function PropertyWizard() {
     setStep(prevStep => prevStep - 1);
   };
 
-  const onSubmit = async (data: FormValues) => {
-    console.log("onSubmit called with data:", data);
-    // This function is now just a wrapper for the direct submission handler
-    // The actual submission logic is in the handleSubmit function in renderNavigationButtons
-    return data;
-  };
-
   // Add a function to validate the current step
   const validateCurrentStep = async () => {
     console.log("Validating current step:", step);
@@ -209,15 +209,14 @@ export function PropertyWizard() {
     // Define the fields to validate for each step
     const stepFields: Record<number, string[]> = {
       1: ["propertyType"],
-      2: ["propertyDetails"],
-      3: ["propertyLocation"],
-      4: ["propertyAmenities"],
-      5: ["propertyAvailability"],
-      6: ["propertyPhotos"],
-      7: ["propertyPricing.prices"], // Only validate required price fields
-      8: ["propertyRules"],
-      9: ["ownerDetails"],
-      10: ["confirmDetails"]
+      2: ["propertyDetails", "propertyLocation"],
+      3: ["propertyAmenities"],
+      4: ["propertyAvailability"],
+      5: ["propertyPhotos"],
+      6: ["propertyPricing.prices"],
+      7: ["propertyRules"],
+      8: ["ownerDetails"],
+      9: ["confirmDetails"]
     };
     
     // Get the fields to validate for the current step
@@ -242,100 +241,45 @@ export function PropertyWizard() {
 
   // Determine which step component to render
   const renderStep = () => {
-    // Render the appropriate step component
     switch (step) {
       case 1:
         return <PropertyType form={form} />;
       case 2:
         return <PropertyDetails form={form} />;
       case 3:
-        return <PropertyLocation form={form} />;
-      case 4:
         return <PropertyAmenities form={form} />;
-      case 5:
+      case 4:
         return <PropertyAvailability form={form} />;
-      case 6:
+      case 5:
         return <PropertyPhotos form={form} />;
-      case 7:
+      case 6:
         return <PropertyPricing form={form} />;
-      case 8:
+      case 7:
         return <PropertyRules form={form} />;
-      case 9:
+      case 8:
         return <OwnerDetails form={form} />;
+      case 9:
+        return <ReviewAndConfirm 
+          form={form} 
+          onSubmit={handleSubmit}
+          isSubmitting={isSubmitting}
+          onBack={prevStep}
+        />;
       case 10:
-        return <ReviewAndConfirm form={form} />;
-      case 11:
         return <SuccessMessage />;
       default:
         return <PropertyType form={form} />;
     }
   };
 
-  // Navigation buttons based on current step
+  // Handle conditional button logic
   const renderNavigationButtons = () => {
-    // If on the success message step, don't show navigation buttons
-    if (step === 11) return null;
+    const isFinalStep = step === 9;
     
-    const isFinalStep = step === 10;
-    
-    console.log("Navigation state:", { 
-      step, 
-      isFinalStep, 
-      isSubmitting, 
-      isSubmitted 
-    });
+    if (isFinalStep) {
+      return null; // Don't show navigation buttons on the final step
+    }
       
-    // Direct form submission handler
-    const handleSubmit = async () => {
-      console.log("Submit button clicked");
-      setIsSubmitting(true);
-      
-      try {
-        // Validate the entire form before submission
-        console.log("Validating entire form before submission");
-        const isFormValid = await form.trigger();
-        
-        if (!isFormValid) {
-          console.log("Form validation failed:", form.formState.errors);
-          setIsSubmitting(false);
-          return;
-        }
-        
-        // Get form data
-        const formData = form.getValues();
-        console.log("Form data:", formData);
-        
-        // Simulate API call
-        console.log("Starting simulated API call");
-        await new Promise(resolve => setTimeout(resolve, 1500));
-        
-        console.log("Form submitted successfully");
-        setIsSubmitting(false);
-        console.log("Setting isSubmitted to true");
-        setIsSubmitted(true);
-        // Move to success message
-        setStep(11);
-      } catch (error) {
-        console.error("Error submitting form:", error);
-        setIsSubmitting(false);
-      }
-    };
-
-    // Function to validate current step and proceed
-    const validateAndProceed = async () => {
-      console.log("Validating step:", step);
-      
-      // Validate the current step
-      const isValid = await validateCurrentStep();
-      
-      if (isValid) {
-        console.log("Step validation successful, proceeding to next step");
-        nextStep();
-      } else {
-        console.log("Step validation failed, showing errors");
-      }
-    };
-
     return (
       <CardFooter className="flex justify-between pt-4 pb-6">
         <div>
@@ -352,38 +296,45 @@ export function PropertyWizard() {
         </div>
         
         <div>
-          {isFinalStep ? (
-            <Button 
-              type="button" 
-              onClick={async () => {
-                console.log("Final step - validating form before submission");
-                // Validate the current step before submission
-                const isValid = await validateCurrentStep();
-                
-                if (isValid) {
-                  console.log("Final step validation successful, proceeding with submission");
-                  handleSubmit();
-                } else {
-                  console.log("Final step validation failed:", form.formState.errors);
-                }
-              }}
-              disabled={isSubmitting}
-              className="px-8 py-2 h-auto bg-primary hover:bg-primary/90"
-            >
-              {isSubmitting ? "Submitting..." : "Submit Property"}
-            </Button>
-          ) : (
-            <Button 
-              type="button" 
-              onClick={validateAndProceed}
-              className="px-8 py-2 h-auto bg-primary hover:bg-primary/90"
-            >
-              {step === 1 ? "Start" : "Next"}
-            </Button>
-          )}
+          <Button 
+            type="button" 
+            onClick={async () => {
+              const isValid = await validateCurrentStep();
+              if (isValid) {
+                nextStep();
+              }
+            }}
+            className="px-8 py-2 h-auto bg-primary hover:bg-primary/90"
+          >
+            {step === 1 ? "Start" : "Next"}
+          </Button>
         </div>
       </CardFooter>
     );
+  };
+
+  // Direct form submission handler
+  const handleSubmit = async () => {
+    console.log("Submit button clicked");
+    setIsSubmitting(true);
+    
+    try {
+      // Get form data
+      const formData = form.getValues();
+      console.log("Form data:", formData);
+      
+      // Simulate API call
+      console.log("Starting simulated API call");
+      await new Promise(resolve => setTimeout(resolve, 1500));
+      
+      console.log("Form submitted successfully");
+      setIsSubmitting(false);
+      console.log("Setting isSubmitted to true");
+      setIsSubmitted(true);
+    } catch (error) {
+      console.error("Error submitting form:", error);
+      setIsSubmitting(false);
+    }
   };
 
   if (isSubmitted) {
@@ -394,42 +345,20 @@ export function PropertyWizard() {
     <div className="container mx-auto py-8 px-4 md:px-0 max-w-5xl">
       <Card className="border-2 shadow-lg">
         <CardHeader className="pb-6">
-          <CardTitle className="text-2xl font-bold text-center">
-            {step === 1 && "Property Type"}
-            {step === 2 && "Property Details"}
-            {step === 3 && "Property Location"}
-            {step === 4 && "Amenities"}
-            {step === 5 && "Availability"}
-            {step === 6 && "Photos"}
-            {step === 7 && "Price"}
-            {step === 8 && "Rules"}
-            {step === 9 && "Contact Information"}
-            {step === 10 && "Review and Confirmation"}
-            {step === 11 && "Thank you for your submission!"}
-          </CardTitle>
+          <CardTitle className="text-2xl font-bold text-center">List Your Property</CardTitle>
           <CardDescription className="text-center text-base">
-            {step === 1 && "Select the type of property you wish to make available."}
-            {step === 2 && "Describe your property in detail."}
-            {step === 3 && "Indicate where your property is located."}
-            {step === 4 && "What amenities do you offer?"}
-            {step === 5 && "When is your property available?"}
-            {step === 6 && "Add photos of your property."}
-            {step === 7 && "Set the price of your property."}
-            {step === 8 && "Establish the rules for your property."}
-            {step === 9 && "Provide your contact information."}
-            {step === 10 && "Verify all details before submitting."}
-            {step === 11 && "Your property has been successfully added."}
+            Follow the steps below to list your property for emergency housing.
           </CardDescription>
           <div className="mt-12">
             <Progress value={progressPercentage} className="h-2.5" />
             <p className="text-sm text-right mt-2 text-muted-foreground">
-              Step {step} of {totalSteps}
+              Step {step} of 9
             </p>
           </div>
         </CardHeader>
         
         <CardContent className="pb-8">
-          <form onSubmit={(e) => e.preventDefault()}>
+          <form>
             {renderStep()}
           </form>
         </CardContent>

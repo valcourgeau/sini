@@ -156,7 +156,7 @@ export function PropertyAmenities({ form }: PropertyAmenitiesProps) {
                 type="button"
                 onClick={() => toggleEssentialAmenity(amenity.id)}
                 className={cn(
-                  "group relative flex flex-col items-center p-4 rounded-xl border-2 transition-all duration-200",
+                  "group relative flex flex-col items-center p-6 rounded-xl border-2 transition-all duration-200",
                   isSelected
                     ? "border-primary bg-primary/5 shadow-md"
                     : "border-gray-200 hover:border-gray-300 hover:shadow-sm"
@@ -164,18 +164,18 @@ export function PropertyAmenities({ form }: PropertyAmenitiesProps) {
                 aria-pressed={isSelected}
               >
                 <div className={cn(
-                  "w-12 h-12 rounded-full flex items-center justify-center mb-3 transition-all",
+                  "w-16 h-16 rounded-full flex items-center justify-center mb-4 transition-all",
                   isSelected
                     ? "bg-primary text-white"
                     : "bg-gray-100 text-gray-500 group-hover:bg-gray-200"
                 )}>
-                  <amenity.icon size={24} />
+                  <amenity.icon size={32} />
                 </div>
-                <h4 className="text-base font-medium">{amenity.name}</h4>
+                <h4 className="text-lg font-medium mb-1">{amenity.name}</h4>
                 
                 {isSelected && (
-                  <div className="absolute top-2 right-2 bg-primary text-white rounded-full p-0.5">
-                    <Check size={14} />
+                  <div className="absolute top-3 right-3 bg-primary text-white rounded-full p-0.5">
+                    <Check size={16} />
                   </div>
                 )}
                 
@@ -195,7 +195,7 @@ export function PropertyAmenities({ form }: PropertyAmenitiesProps) {
       {/* Additional amenities - Uses multi-select cards */}
       <div className="space-y-4 mt-8">
         <h3 className="text-lg font-medium">Additional Amenities</h3>
-        <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {additionalAmenities.map((amenity) => {
             const isSelected = selectedAmenities.includes(amenity.id);
             
@@ -205,7 +205,7 @@ export function PropertyAmenities({ form }: PropertyAmenitiesProps) {
                 type="button"
                 onClick={() => toggleAdditionalAmenity(amenity.id)}
                 className={cn(
-                  "group relative flex flex-col items-center p-3 rounded-xl border-2 transition-all duration-200",
+                  "group relative flex flex-col items-center p-6 rounded-xl border-2 transition-all duration-200",
                   isSelected
                     ? "border-primary bg-primary/5 shadow-md"
                     : "border-gray-200 hover:border-gray-300 hover:shadow-sm"
@@ -213,18 +213,18 @@ export function PropertyAmenities({ form }: PropertyAmenitiesProps) {
                 aria-pressed={isSelected}
               >
                 <div className={cn(
-                  "w-10 h-10 rounded-full flex items-center justify-center mb-2 transition-all",
+                  "w-16 h-16 rounded-full flex items-center justify-center mb-4 transition-all",
                   isSelected
                     ? "bg-primary text-white"
                     : "bg-gray-100 text-gray-500 group-hover:bg-gray-200"
                 )}>
-                  <amenity.icon size={20} />
+                  <amenity.icon size={32} />
                 </div>
-                <h4 className="text-sm font-medium text-center">{amenity.name}</h4>
+                <h4 className="text-lg font-medium mb-1">{amenity.name}</h4>
                 
                 {isSelected && (
-                  <div className="absolute top-2 right-2 bg-primary text-white rounded-full p-0.5">
-                    <Check size={12} />
+                  <div className="absolute top-3 right-3 bg-primary text-white rounded-full p-0.5">
+                    <Check size={16} />
                   </div>
                 )}
               </button>
@@ -252,7 +252,7 @@ export function PropertyAmenities({ form }: PropertyAmenitiesProps) {
                   type="button"
                   onClick={() => toggleAccessibilityFeature(feature.id)}
                   className={cn(
-                    "group relative flex flex-col items-center p-4 rounded-xl border-2 transition-all duration-200",
+                    "group relative flex flex-col items-center p-6 rounded-xl border-2 transition-all duration-200",
                     isSelected
                       ? "border-primary bg-primary/5 shadow-md"
                       : "border-gray-200 hover:border-gray-300 hover:shadow-sm"
@@ -260,18 +260,18 @@ export function PropertyAmenities({ form }: PropertyAmenitiesProps) {
                   aria-pressed={isSelected}
                 >
                   <div className={cn(
-                    "w-12 h-12 rounded-full flex items-center justify-center mb-3 transition-all",
+                    "w-16 h-16 rounded-full flex items-center justify-center mb-4 transition-all",
                     isSelected
                       ? "bg-primary text-white"
                       : "bg-gray-100 text-gray-500 group-hover:bg-gray-200"
                   )}>
-                    <feature.icon size={24} />
+                    <feature.icon size={32} />
                   </div>
-                  <h4 className="text-base font-medium text-center">{feature.name}</h4>
+                  <h4 className="text-lg font-medium mb-1">{feature.name}</h4>
                   
                   {isSelected && (
-                    <div className="absolute top-2 right-2 bg-primary text-white rounded-full p-0.5">
-                      <Check size={14} />
+                    <div className="absolute top-3 right-3 bg-primary text-white rounded-full p-0.5">
+                      <Check size={16} />
                     </div>
                   )}
                 </button>

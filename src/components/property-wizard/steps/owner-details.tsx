@@ -48,7 +48,7 @@ export function OwnerDetails({ form }: OwnerDetailsProps) {
           <div className="space-y-2">
             <Label 
               htmlFor="ownerDetails.firstName" 
-              className="text-base font-medium"
+              className="text-sm font-medium"
             >
               First Name
             </Label>
@@ -70,7 +70,7 @@ export function OwnerDetails({ form }: OwnerDetailsProps) {
           <div className="space-y-2">
             <Label 
               htmlFor="ownerDetails.lastName" 
-              className="text-base font-medium"
+              className="text-sm font-medium"
             >
               Last Name
             </Label>
@@ -95,9 +95,8 @@ export function OwnerDetails({ form }: OwnerDetailsProps) {
           <div className="space-y-2">
             <Label 
               htmlFor="ownerDetails.email" 
-              className="text-base font-medium flex items-center gap-2"
+              className="text-sm font-medium flex items-center gap-2"
             >
-              <Mail size={18} className="text-gray-500" />
               Email
             </Label>
             <Input
@@ -119,9 +118,8 @@ export function OwnerDetails({ form }: OwnerDetailsProps) {
           <div className="space-y-2">
             <Label 
               htmlFor="ownerDetails.phone" 
-              className="text-base font-medium flex items-center gap-2"
+              className="text-sm font-medium flex items-center gap-2"
             >
-              <Phone size={18} className="text-gray-500" />
               Phone
             </Label>
             <Input
@@ -152,7 +150,7 @@ export function OwnerDetails({ form }: OwnerDetailsProps) {
               type="button"
               onClick={() => setPreferredContact("email")}
               className={cn(
-                "group relative flex flex-col items-center p-4 rounded-xl border-2 transition-all duration-200",
+                "group relative flex flex-col items-center p-6 rounded-xl border-2 transition-all duration-200",
                 preferredContact === "email"
                   ? "border-primary bg-primary/5 shadow-md"
                   : "border-gray-200 hover:border-gray-300 hover:shadow-sm"
@@ -160,18 +158,18 @@ export function OwnerDetails({ form }: OwnerDetailsProps) {
               aria-pressed={preferredContact === "email"}
             >
               <div className={cn(
-                "w-12 h-12 rounded-full flex items-center justify-center mb-3 transition-all",
+                "w-16 h-16 rounded-full flex items-center justify-center mb-4 transition-all",
                 preferredContact === "email"
                   ? "bg-primary text-white"
                   : "bg-gray-100 text-gray-500 group-hover:bg-gray-200"
               )}>
-                <Mail size={24} />
+                <Mail size={28} />
               </div>
-              <h4 className="text-base font-medium">Email</h4>
+              <h4 className="text-lg font-medium mb-1">Email</h4>
               
               {preferredContact === "email" && (
                 <div className="absolute top-3 right-3 bg-primary text-white rounded-full p-0.5">
-                  <Check size={14} />
+                  <Check size={16} />
                 </div>
               )}
               
@@ -189,7 +187,7 @@ export function OwnerDetails({ form }: OwnerDetailsProps) {
               type="button"
               onClick={() => setPreferredContact("phone")}
               className={cn(
-                "group relative flex flex-col items-center p-4 rounded-xl border-2 transition-all duration-200",
+                "group relative flex flex-col items-center p-6 rounded-xl border-2 transition-all duration-200",
                 preferredContact === "phone"
                   ? "border-primary bg-primary/5 shadow-md"
                   : "border-gray-200 hover:border-gray-300 hover:shadow-sm"
@@ -197,18 +195,18 @@ export function OwnerDetails({ form }: OwnerDetailsProps) {
               aria-pressed={preferredContact === "phone"}
             >
               <div className={cn(
-                "w-12 h-12 rounded-full flex items-center justify-center mb-3 transition-all",
+                "w-16 h-16 rounded-full flex items-center justify-center mb-4 transition-all",
                 preferredContact === "phone"
                   ? "bg-primary text-white"
                   : "bg-gray-100 text-gray-500 group-hover:bg-gray-200"
               )}>
-                <Phone size={24} />
+                <Phone size={28} />
               </div>
-              <h4 className="text-base font-medium">Phone</h4>
+              <h4 className="text-lg font-medium mb-1">Phone</h4>
               
               {preferredContact === "phone" && (
                 <div className="absolute top-3 right-3 bg-primary text-white rounded-full p-0.5">
-                  <Check size={14} />
+                  <Check size={16} />
                 </div>
               )}
               
@@ -226,7 +224,7 @@ export function OwnerDetails({ form }: OwnerDetailsProps) {
               type="button"
               onClick={() => setPreferredContact("both")}
               className={cn(
-                "group relative flex flex-col items-center p-4 rounded-xl border-2 transition-all duration-200",
+                "group relative flex flex-col items-center p-6 rounded-xl border-2 transition-all duration-200",
                 preferredContact === "both"
                   ? "border-primary bg-primary/5 shadow-md"
                   : "border-gray-200 hover:border-gray-300 hover:shadow-sm"
@@ -234,18 +232,18 @@ export function OwnerDetails({ form }: OwnerDetailsProps) {
               aria-pressed={preferredContact === "both"}
             >
               <div className={cn(
-                "w-12 h-12 rounded-full flex items-center justify-center mb-3 transition-all",
+                "w-16 h-16 rounded-full flex items-center justify-center mb-4 transition-all",
                 preferredContact === "both"
                   ? "bg-primary text-white"
                   : "bg-gray-100 text-gray-500 group-hover:bg-gray-200"
               )}>
-                <MessageSquare size={24} />
+                <MessageSquare size={28} />
               </div>
-              <h4 className="text-base font-medium">Both</h4>
+              <h4 className="text-lg font-medium mb-1">Both</h4>
               
               {preferredContact === "both" && (
                 <div className="absolute top-3 right-3 bg-primary text-white rounded-full p-0.5">
-                  <Check size={14} />
+                  <Check size={16} />
                 </div>
               )}
               

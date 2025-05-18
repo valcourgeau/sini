@@ -117,7 +117,7 @@ export function PropertyPricing({ form }: PropertyPricingProps) {
               </Label>
               <div className="relative flex items-center gap-4">
                 <div className="flex items-center">
-                  <DollarSign className="h-5 w-5 text-gray-400 mr-2" />
+                  <span className="text-gray-400 mr-2 font-medium">CHF</span>
                 </div>
                 <button
                   type="button"
@@ -164,7 +164,7 @@ export function PropertyPricing({ form }: PropertyPricingProps) {
               </Label>
               <div className="relative flex items-center gap-4">
                 <div className="flex items-center">
-                  <DollarSign className="h-5 w-5 text-gray-400 mr-2" />
+                  <span className="text-gray-400 mr-2 font-medium">CHF</span>
                 </div>
                 <button
                   type="button"
@@ -211,7 +211,7 @@ export function PropertyPricing({ form }: PropertyPricingProps) {
               </Label>
               <div className="relative flex items-center gap-4">
                 <div className="flex items-center">
-                  <DollarSign className="h-5 w-5 text-gray-400 mr-2" />
+                  <span className="text-gray-400 mr-2 font-medium">CHF</span>
                 </div>
                 <button
                   type="button"
@@ -272,14 +272,14 @@ export function PropertyPricing({ form }: PropertyPricingProps) {
               </Label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                  <DollarSign className="h-5 w-5 text-gray-400" />
+                  <span className="text-gray-400 font-medium">CHF</span>
                 </div>
                 <Input
                   id="propertyPricing.cleaningFee"
                   type="number"
                   min="0"
                   placeholder="0"
-                  className="pl-10"
+                  className="pl-16 min-w-[180px]"
                   {...register("propertyPricing.cleaningFee", { valueAsNumber: true })}
                 />
               </div>
@@ -295,14 +295,14 @@ export function PropertyPricing({ form }: PropertyPricingProps) {
               </Label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                  <DollarSign className="h-5 w-5 text-gray-400" />
+                  <span className="text-gray-400 font-medium">CHF</span>
                 </div>
                 <Input
                   id="propertyPricing.securityDeposit"
                   type="number"
                   min="0"
                   placeholder="0"
-                  className="pl-10"
+                  className="pl-16 min-w-[180px]"
                   {...register("propertyPricing.securityDeposit", { valueAsNumber: true })}
                 />
               </div>

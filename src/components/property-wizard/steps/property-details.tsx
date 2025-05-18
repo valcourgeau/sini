@@ -5,15 +5,23 @@ import {
   Bed, 
   Bath, 
   Users, 
-  SquareCode, 
   MinusCircle, 
-  PlusCircle 
+  PlusCircle,
+  MapPin
 } from "lucide-react";
 import { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
 
 interface PropertyDetailsProps {
   form: UseFormReturn<any>;
+}
+
+interface PropertyLocationErrors {
+  street?: { message?: string };
+  city?: { message?: string };
+  postalCode?: { message?: string };
+  canton?: { message?: string };
+  country?: { message?: string };
 }
 
 type CounterField = {
@@ -25,22 +33,37 @@ type CounterField = {
   increment?: number;
 };
 
+const swissCantons = [
+  { value: "geneve", label: "Geneva" },
+  { value: "vaud", label: "Vaud" },
+  { value: "neuchatel", label: "Neuchâtel" },
+  { value: "fribourg", label: "Fribourg" },
+  { value: "valais", label: "Valais" },
+  { value: "berne", label: "Bern" },
+  { value: "jura", label: "Jura" },
+  { value: "zurich", label: "Zurich" },
+  { value: "bale", label: "Basel" },
+  { value: "tessin", label: "Ticino" }
+];
+
 export function PropertyDetails({ form }: PropertyDetailsProps) {
   const { register, setValue, watch, formState: { errors } } = form;
   
   // Safely access nested errors
   const detailsErrors = errors.propertyDetails || {};
+  const locationErrors = (errors.propertyLocation || {}) as PropertyLocationErrors;
   
   // Log form state for debugging
   useEffect(() => {
     console.log("PropertyDetails - Form errors:", errors);
     console.log("PropertyDetails - Details errors:", detailsErrors);
-  }, [errors, detailsErrors]);
+    console.log("PropertyDetails - Location errors:", locationErrors);
+  }, [errors, detailsErrors, locationErrors]);
   
   // Log form values for debugging
   useEffect(() => {
     const subscription = form.watch((value, { name, type }) => {
-      if (name?.startsWith('propertyDetails')) {
+      if (name?.startsWith('propertyDetails') || name?.startsWith('propertyLocation')) {
         console.log(`PropertyDetails - Form value changed: ${name}`, value[name]);
       }
     });
@@ -52,14 +75,17 @@ export function PropertyDetails({ form }: PropertyDetailsProps) {
   const validateStep = async () => {
     console.log("Validating PropertyDetails step");
     
-    // Validate all fields in the propertyDetails object
+    // Validate all fields in both propertyDetails and propertyLocation objects
     const isValid = await form.trigger([
       "propertyDetails.title",
-      "propertyDetails.description",
       "propertyDetails.bedrooms",
       "propertyDetails.bathrooms",
       "propertyDetails.maxGuests",
-      "propertyDetails.squareMeters"
+      "propertyLocation.street",
+      "propertyLocation.city",
+      "propertyLocation.postalCode",
+      "propertyLocation.canton",
+      "propertyLocation.country"
     ]);
     
     console.log("PropertyDetails validation result:", isValid);
@@ -82,8 +108,7 @@ export function PropertyDetails({ form }: PropertyDetailsProps) {
     const fieldDefaults = {
       "propertyDetails.bedrooms": 1,
       "propertyDetails.bathrooms": 1,
-      "propertyDetails.maxGuests": 2,
-      "propertyDetails.squareMeters": 50
+      "propertyDetails.maxGuests": 2
     };
     
     console.log("Initializing numeric values");
@@ -130,14 +155,6 @@ export function PropertyDetails({ form }: PropertyDetailsProps) {
       icon: <Users size={24} />,
       min: 1,
       fieldName: "propertyDetails.maxGuests"
-    },
-    {
-      id: "squareMeters",
-      name: "Area (m²)",
-      icon: <SquareCode size={24} />,
-      min: 5,
-      fieldName: "propertyDetails.squareMeters",
-      increment: 5
     }
   ];
   
@@ -186,7 +203,7 @@ export function PropertyDetails({ form }: PropertyDetailsProps) {
       <div className="text-center mb-6">
         <h2 className="text-xl font-semibold mb-2">Property Details</h2>
         <p className="text-sm text-muted-foreground max-w-lg mx-auto">
-          Describe your property to help travelers find what they're looking for.
+          Provide information about your property to help travelers find what they're looking for.
         </p>
       </div>
 
@@ -218,7 +235,141 @@ export function PropertyDetails({ form }: PropertyDetailsProps) {
           </p>
         </div>
         
-        {/* Counter fields (bedrooms, bathrooms, guests, size) - MOVED ABOVE DESCRIPTION */}
+        {/* Location Section */}
+        <div className="pt-4 border-t">
+          <div className="space-y-6">
+            {/* Street */}
+            <div className="space-y-2">
+              <Label 
+                htmlFor="propertyLocation.street" 
+                className="text-base font-medium"
+              >
+                Property Address
+              </Label>
+              <Input
+                id="propertyLocation.street"
+                {...register("propertyLocation.street")}
+                placeholder="Ex: Mont-Blanc Street 18"
+                defaultValue="18 Rue du Lac"
+                className={cn(
+                  locationErrors.street && "border-red-500 focus-visible:ring-red-500"
+                )}
+              />
+              {locationErrors.street && (
+                <p className="text-sm text-red-500 mt-1">
+                  {locationErrors.street.message}
+                </p>
+              )}
+            </div>
+            
+            {/* City, Postal Code, Canton and Country in one row */}
+            <div className="grid grid-cols-4 gap-4">
+              {/* City */}
+              <div className="space-y-2">
+                <Label 
+                  htmlFor="propertyLocation.city" 
+                  className="text-base font-medium"
+                >
+                  City
+                </Label>
+                <Input
+                  id="propertyLocation.city"
+                  {...register("propertyLocation.city")}
+                  placeholder="Ex: Geneva"
+                  defaultValue="Geneva"
+                  className={cn(
+                    locationErrors.city && "border-red-500 focus-visible:ring-red-500"
+                  )}
+                />
+                {locationErrors.city && (
+                  <p className="text-sm text-red-500 mt-1">
+                    {locationErrors.city.message}
+                  </p>
+                )}
+              </div>
+              
+              {/* Postal Code */}
+              <div className="space-y-2">
+                <Label 
+                  htmlFor="propertyLocation.postalCode" 
+                  className="text-base font-medium"
+                >
+                  Postal Code
+                </Label>
+                <Input
+                  id="propertyLocation.postalCode"
+                  {...register("propertyLocation.postalCode")}
+                  placeholder="Ex: 1201"
+                  defaultValue="1201"
+                  className={cn(
+                    locationErrors.postalCode && "border-red-500 focus-visible:ring-red-500"
+                  )}
+                />
+                {locationErrors.postalCode && (
+                  <p className="text-sm text-red-500 mt-1">
+                    {locationErrors.postalCode.message}
+                  </p>
+                )}
+              </div>
+              
+              {/* Canton */}
+              <div className="space-y-2">
+                <Label 
+                  htmlFor="propertyLocation.canton" 
+                  className="text-base font-medium"
+                >
+                  Canton
+                </Label>
+                <select
+                  id="propertyLocation.canton"
+                  {...register("propertyLocation.canton")}
+                  defaultValue="geneve"
+                  className={cn(
+                    "flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50",
+                    locationErrors.canton && "border-destructive focus-visible:ring-destructive"
+                  )}
+                >
+                  <option value="">Select a canton</option>
+                  {swissCantons.map((canton) => (
+                    <option key={canton.value} value={canton.value}>
+                      {canton.label}
+                    </option>
+                  ))}
+                </select>
+                {locationErrors.canton && (
+                  <p className="text-sm text-destructive mt-1">
+                    {locationErrors.canton.message}
+                  </p>
+                )}
+              </div>
+
+              {/* Country */}
+              <div className="space-y-2">
+                <Label 
+                  htmlFor="propertyLocation.country" 
+                  className="text-base font-medium"
+                >
+                  Country
+                </Label>
+                <Input
+                  id="propertyLocation.country"
+                  defaultValue="Switzerland"
+                  {...register("propertyLocation.country")}
+                  className={cn(
+                    locationErrors.country && "border-red-500 focus-visible:ring-red-500"
+                  )}
+                />
+                {locationErrors.country && (
+                  <p className="text-sm text-red-500 mt-1">
+                    {locationErrors.country.message}
+                  </p>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        {/* Features Section */}
         <div className="pt-4 border-t">
           <h3 className="text-lg font-medium mb-6 text-center">Features</h3>
           
@@ -287,35 +438,6 @@ export function PropertyDetails({ form }: PropertyDetailsProps) {
               );
             })}
           </div>
-        </div>
-        
-        {/* Description field - MOVED BELOW FEATURES */}
-        <div className="space-y-2">
-          <Label 
-            htmlFor="propertyDetails.description" 
-            className="text-base font-medium"
-          >
-            Description
-          </Label>
-          <textarea
-            id="propertyDetails.description"
-            {...register("propertyDetails.description")}
-            rows={5}
-            placeholder="Describe your property in detail, mention what makes it unique..."
-            defaultValue="This is a beautiful apartment in the city center. It has a balcony and a view of the lake."
-            className={cn(
-              "w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50",
-              getErrorMessage("description") && "border-red-500 focus-visible:ring-red-500"
-            )}
-          />
-          {getErrorMessage("description") && (
-            <p className="text-sm text-red-500 mt-1">
-              {getErrorMessage("description")}
-            </p>
-          )}
-          <p className="text-xs text-muted-foreground mt-1">
-            A detailed description will help travelers better understand what you're offering.
-          </p>
         </div>
       </div>
     </div>

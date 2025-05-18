@@ -3,9 +3,13 @@ import { CheckCircle, MapPin, Calendar, DollarSign, Home, User, Check } from "lu
 import { cn } from "@/lib/utils";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
+import { Button } from "@/components/ui/button";
 
 interface ReviewAndConfirmProps {
   form: UseFormReturn<any>;
+  onSubmit: () => Promise<void>;
+  isSubmitting: boolean;
+  onBack: () => void;
 }
 
 interface ConfirmErrors {
@@ -13,7 +17,7 @@ interface ConfirmErrors {
   agreeToDataPolicy?: { message?: string };
 }
 
-export function ReviewAndConfirm({ form }: ReviewAndConfirmProps) {
+export function ReviewAndConfirm({ form, onSubmit, isSubmitting, onBack }: ReviewAndConfirmProps) {
   const { register, setValue, watch, formState: { errors } } = form;
   const confirmErrors = (errors.confirmDetails || {}) as ConfirmErrors;
   
@@ -217,6 +221,26 @@ export function ReviewAndConfirm({ form }: ReviewAndConfirmProps) {
           <p className="text-sm text-green-700">
             By clicking "Submit" below, your property will be added to our platform and can be booked by people in need of emergency housing.
           </p>
+        </div>
+
+        {/* Navigation buttons */}
+        <div className="flex justify-between pt-4">
+          <Button 
+            type="button" 
+            variant="outline"
+            onClick={onBack}
+            className="px-6 py-2 h-auto"
+          >
+            Back
+          </Button>
+          <Button 
+            type="button" 
+            onClick={onSubmit}
+            disabled={isSubmitting}
+            className="px-8 py-2 h-auto bg-primary hover:bg-primary/90"
+          >
+            {isSubmitting ? "Submitting..." : "Submit Property"}
+          </Button>
         </div>
       </div>
     </div>
