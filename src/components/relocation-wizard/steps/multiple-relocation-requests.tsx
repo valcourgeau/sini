@@ -251,7 +251,7 @@ export function MultipleRelocationRequests({ form }: MultipleRelocationRequestsP
       <div>
         <h2 className="text-lg font-medium mb-4">Multiple Relocation Requests</h2>
         <p className="text-sm text-muted-foreground mb-6">
-          Please provide information for each person requiring relocation assistance.
+          Please kindly provide information for each household requiring relocation assistance. Note that a single entry per household is preferred.
         </p>
       </div>
 
@@ -262,11 +262,11 @@ export function MultipleRelocationRequests({ form }: MultipleRelocationRequestsP
               <TableHeader>
                 <TableRow className="bg-muted/50">
                   {/* Contact Information Column */}
-                  <TableHead className="w-[200px] text-gray-900 font-medium text-sm whitespace-nowrap">Name</TableHead>
-                  <TableHead className="w-[200px] text-gray-900 font-medium text-sm whitespace-nowrap">Surname</TableHead>
-                  <TableHead className="w-[3500px] text-gray-900 font-medium text-sm whitespace-nowrap">Email</TableHead>
-                  <TableHead className="w-[1900px] text-gray-900 font-medium text-sm whitespace-nowrap">Phone</TableHead>
-                  <TableHead className="w-[120px] text-gray-900 font-medium text-sm whitespace-nowrap">
+                  <TableHead className="w-[500px] text-gray-900 font-medium text-sm whitespace-nowrap">Name</TableHead>
+                  <TableHead className="w-[500px] text-gray-900 font-medium text-sm whitespace-nowrap">Surname</TableHead>
+                  <TableHead className="w-[2500px] text-gray-900 font-medium text-sm whitespace-nowrap">Email</TableHead>
+                  <TableHead className="w-[1000px] text-gray-900 font-medium text-sm whitespace-nowrap">Phone</TableHead>
+                  <TableHead className="w-[100px] text-gray-900 font-medium text-sm whitespace-nowrap">
                     <div className="flex items-center gap-2">
                       <Calendar className="h-5 w-5" />
                       <span>Arrival</span>
