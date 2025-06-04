@@ -44,38 +44,38 @@ export default function HomePage() {
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div className="space-y-8">
               <div>
-                <h2 className="text-5xl font-bold mb-6 text-white">Sinistrés</h2>
-                <p className="text-xl text-white/90 mb-8">
+                <h2 className="text-5xl font-bold mb-6 text-secondary">Sinistrés</h2>
+                <p className="text-xl text-secondary/90 mb-8">
                   Votre partenaire de confiance pour un relogement rapide et serein
                 </p>
               </div>
 
               <div className="space-y-6">
                 <div className="flex items-start gap-4">
-                  <Clock className="h-6 w-6 text-white/90 mt-1 flex-shrink-0" />
+                  <Clock className="h-6 w-6 text-secondary/90 mt-1 flex-shrink-0" />
                   <div>
-                    <h3 className="text-xl font-bold mb-2 text-white">Relogement sous 24h</h3>
-                    <p className="text-white/90">
+                    <h3 className="text-xl font-bold mb-2 text-secondary">Relogement sous 24h</h3>
+                    <p className="text-secondary/90">
                       Une solution d'hébergement temporaire adaptée en moins de 24 heures.
                     </p>
                   </div>
                 </div>
 
                 <div className="flex items-start gap-4">
-                  <CheckCircle2 className="h-6 w-6 text-white/90 mt-1 flex-shrink-0" />
+                  <CheckCircle2 className="h-6 w-6 text-secondary/90 mt-1 flex-shrink-0" />
                   <div>
-                    <h3 className="text-xl font-bold mb-2 text-white">Accompagnement personnalisé</h3>
-                    <p className="text-white/90">
+                    <h3 className="text-xl font-bold mb-2 text-secondary">Accompagnement personnalisé</h3>
+                    <p className="text-secondary/90">
                       Un interlocuteur unique qui facilite vos démarches administratives.
                     </p>
                   </div>
                 </div>
 
                 <div className="flex items-start gap-4">
-                  <Home className="h-6 w-6 text-white/90 mt-1 flex-shrink-0" />
+                  <Home className="h-6 w-6 text-secondary/90 mt-1 flex-shrink-0" />
                   <div>
-                    <h3 className="text-xl font-bold mb-2 text-white">Logements adaptés</h3>
-                    <p className="text-white/90">
+                    <h3 className="text-xl font-bold mb-2 text-secondary">Logements adaptés</h3>
+                    <p className="text-secondary/90">
                       Des appartements meublés et équipés, proches de votre lieu de vie habituel.
                     </p>
                   </div>
@@ -85,7 +85,7 @@ export default function HomePage() {
               <div className="pt-6">
                 <Link 
                   href="/relocation/new"
-                  className="group inline-flex items-center gap-2 bg-white text-primary px-8 py-4 rounded-full text-lg font-semibold hover:bg-white/90 transition-colors"
+                  className="group inline-flex items-center gap-2 bg-secondary text-primary px-8 py-4 rounded-full text-lg font-semibold hover:bg-secondary/90 transition-colors"
                 >
                   Demander un relogement
                   <ArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-transform" />
@@ -129,7 +129,7 @@ export default function HomePage() {
                   <div>
                     <h3 className="text-xl font-bold mb-2">Plateforme dédiée</h3>
                     <p className="text-muted-foreground">
-                      Accédez à notre interface sécurisée pour gérer l'ensemble des dossiers de vos assurés.
+                      Accédez à notre interface pour gérer les dossiers de vos assurés.
                     </p>
                   </div>
                 </div>
@@ -139,7 +139,7 @@ export default function HomePage() {
                   <div>
                     <h3 className="text-xl font-bold mb-2">Suivi en temps réel</h3>
                     <p className="text-muted-foreground">
-                      Suivez l'état d'avancement des relogements et gérez vos priorités instantanément.
+                      Suivez l'état d'avancement des relogements et gérez vos priorités.
                     </p>
                   </div>
                 </div>
@@ -157,7 +157,7 @@ export default function HomePage() {
 
               <div className="pt-6">
                 <Link 
-                  href="/relocation/batch"
+                  href="/relocation/new"
                   className="group inline-flex items-center gap-2 bg-primary text-primary-foreground px-8 py-4 rounded-full text-lg font-semibold hover:bg-primary/90 transition-colors"
                 >
                   Accéder à la plateforme
