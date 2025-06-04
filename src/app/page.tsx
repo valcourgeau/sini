@@ -1,100 +1,182 @@
-import { Home, Users, Building2, ArrowRight } from "lucide-react";
-import Link from "next/link";
+import { Home, Users, Building2, Clock, CheckCircle2, Phone, ArrowRight } from "lucide-react";
 import { IconBox } from "@/components/ui/icon-box";
+import { ScrollButton } from "@/components/ui/scroll-button";
+import { NavigationArrow } from "@/components/ui/navigation-arrow";
+import Link from "next/link";
 
 export default function HomePage() {
   return (
-    <main>
-      <section className="relative bg-gradient-to-b from-secondary/50 to-background py-16 md:py-24">
+    <main className="min-h-screen scroll-smooth">
+      {/* First Section - Sand Background */}
+      <section id="home" className="relative bg-secondary min-h-[calc(100vh-4rem)] flex items-center justify-center">
         <div className="container">
           <div className="mx-auto max-w-[980px] text-center">
-            <h1 className="text-3xl font-bold leading-tight tracking-tighter md:text-5xl lg:leading-[1.1]">
+            <h1 className="text-3xl font-bold leading-tight tracking-tighter md:text-5xl lg:text-6xl lg:leading-[1.1] mb-8 whitespace-nowrap">
               Service de Relogement d'Urgence
             </h1>
-            <p className="mt-4 text-xl text-muted-foreground">
+            <p className="text-2xl text-muted-foreground mb-16">
               Pour le canton de Genève
             </p>
+            <div className="grid md:grid-cols-2 gap-8 max-w-3xl mx-auto">
+              <ScrollButton
+                iconName="alert-triangle"
+                title="Sinistrés"
+                description="Affecté(e) par un sinistre ? Nous vous accompagnons."
+                sectionId="sinistres"
+              />
+              <ScrollButton
+                iconName="shield"
+                title="Assurances"
+                description="Professionnel de l'assurance ? Accédez à nos services."
+                sectionId="assurances"
+              />
+            </div>
           </div>
         </div>
+        <NavigationArrow direction="down" targetId="sinistres" position="bottom" />
       </section>
 
-      <section className="py-16 md:py-20">
+      {/* Second Section - Blue Background */}
+      <section id="sinistres" className="relative bg-primary min-h-[100vh] flex items-center justify-center text-primary-foreground">
+        <NavigationArrow direction="up" targetId="home" position="top" />
+        
         <div className="container">
-          <div className="grid gap-6 md:grid-cols-2 lg:gap-10">
-            <div className="space-y-4">
-              <h2 className="text-2xl font-bold tracking-tight md:text-3xl">
-                Votre partenaire de confiance
-              </h2>
-              <p className="text-muted-foreground">
-                Nous accompagnons les propriétaires et les locataires dans leurs démarches de relogement suite à un sinistre.
-              </p>
-              <div className="flex flex-col sm:flex-row gap-4 pt-4">
-                <Link
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+            <div className="space-y-8">
+              <div>
+                <h2 className="text-5xl font-bold mb-6 text-white">Sinistrés</h2>
+                <p className="text-xl text-white/90 mb-8">
+                  Votre partenaire de confiance pour un relogement rapide et serein
+                </p>
+              </div>
+
+              <div className="space-y-6">
+                <div className="flex items-start gap-4">
+                  <Clock className="h-6 w-6 text-white/90 mt-1 flex-shrink-0" />
+                  <div>
+                    <h3 className="text-xl font-bold mb-2 text-white">Relogement sous 24h</h3>
+                    <p className="text-white/90">
+                      Une solution d'hébergement temporaire adaptée en moins de 24 heures.
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-4">
+                  <CheckCircle2 className="h-6 w-6 text-white/90 mt-1 flex-shrink-0" />
+                  <div>
+                    <h3 className="text-xl font-bold mb-2 text-white">Accompagnement personnalisé</h3>
+                    <p className="text-white/90">
+                      Un interlocuteur unique qui facilite vos démarches administratives.
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-4">
+                  <Home className="h-6 w-6 text-white/90 mt-1 flex-shrink-0" />
+                  <div>
+                    <h3 className="text-xl font-bold mb-2 text-white">Logements adaptés</h3>
+                    <p className="text-white/90">
+                      Des appartements meublés et équipés, proches de votre lieu de vie habituel.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="pt-6">
+                <Link 
                   href="/relocation/new"
-                  className="inline-flex items-center justify-center rounded-md bg-primary px-8 py-3 text-sm font-medium text-primary-foreground shadow transition-colors hover:bg-primary/90"
+                  className="group inline-flex items-center gap-2 bg-white text-primary px-8 py-4 rounded-full text-lg font-semibold hover:bg-white/90 transition-colors"
                 >
                   Demander un relogement
-                  <ArrowRight className="ml-2 h-4 w-4" />
-                </Link>
-                <Link
-                  href="/property/list"
-                  className="inline-flex items-center justify-center rounded-md border border-input bg-background px-8 py-3 text-sm font-medium shadow-sm transition-colors hover:bg-accent hover:text-accent-foreground"
-                >
-                  Proposer un logement
-                  <ArrowRight className="ml-2 h-4 w-4" />
+                  <ArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-transform" />
                 </Link>
               </div>
             </div>
-            <div className="relative h-[300px] w-full overflow-hidden rounded-xl bg-gradient-to-r from-primary/5 to-primary/10 md:h-[400px] flex items-center justify-center">
-              <div className="text-2xl font-bold text-primary">PHAREWEST</div>
+
+            <div className="relative aspect-video rounded-2xl overflow-hidden bg-white/10">
+              <div className="absolute inset-0 flex items-center justify-center">
+                <div className="text-center">
+                  <div className="w-16 h-16 rounded-full bg-white/20 flex items-center justify-center mx-auto mb-4">
+                    <Phone className="h-8 w-8 text-white" />
+                  </div>
+                  <p className="text-lg font-medium text-white">Vidéo de présentation</p>
+                  <p className="text-sm text-white/60 mt-2">Découvrez notre service en action</p>
+                </div>
+              </div>
             </div>
           </div>
         </div>
+
+        <NavigationArrow direction="down" targetId="assurances" position="bottom" />
       </section>
 
-      <section className="py-16 md:py-20">
+      {/* Third Section - Sand Background */}
+      <section id="assurances" className="relative bg-secondary min-h-[100vh] flex items-center justify-center">
+        <NavigationArrow direction="up" targetId="sinistres" position="top" />
         <div className="container">
-          <div className="grid gap-12 md:grid-cols-3">
-            <div className="text-center md:text-left">
-              <IconBox>
-                <Home />
-              </IconBox>
-              <h3 className="mt-4 text-xl font-bold">Relogement d'urgence</h3>
-              <p className="mt-2 text-muted-foreground">
-                Solutions rapides et adaptées pour un relogement temporaire suite à un sinistre sous 24 heures.
-              </p>
-            </div>
-            <div className="text-center md:text-left">
-              <IconBox>
-                <Users />
-              </IconBox>
-              <h3 className="mt-4 text-xl font-bold">Accompagnement personnalisé</h3>
-              <p className="mt-2 text-muted-foreground">
-                Une équipe dédiée pour vous guider dans toutes vos démarches.
-              </p>
-            </div>
-            <div className="text-center md:text-left">
-              <IconBox>
-                <Building2 />
-              </IconBox>
-              <h3 className="mt-4 text-xl font-bold">Réseau d'hébergement</h3>
-              <p className="mt-2 text-muted-foreground">
-                Un vaste réseau de logements temporaires dans toute la région.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+            <div className="space-y-8">
+              <div>
+                <h2 className="text-5xl font-bold mb-6">Assurances</h2>
+                <p className="text-xl text-muted-foreground mb-8">
+                  Une solution complète pour la gestion des relogements d'urgence
+                </p>
+              </div>
 
-      <section className="bg-secondary/50 py-12 md:py-16 lg:py-20">
-        <div className="container">
-          <div className="mx-auto max-w-[800px] text-center">
-            <h2 className="text-2xl font-bold md:text-3xl">
-              Besoin d'assistance ?
-            </h2>
-            <p className="mt-4 text-lg text-muted-foreground">
-              Notre équipe est disponible 24/7 pour vous accompagner dans vos démarches de relogement.
-            </p>
+              <div className="space-y-6">
+                <div className="flex items-start gap-4">
+                  <Building2 className="h-6 w-6 text-primary mt-1 flex-shrink-0" />
+                  <div>
+                    <h3 className="text-xl font-bold mb-2">Plateforme dédiée</h3>
+                    <p className="text-muted-foreground">
+                      Accédez à notre interface sécurisée pour gérer l'ensemble des dossiers de vos assurés.
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-4">
+                  <Clock className="h-6 w-6 text-primary mt-1 flex-shrink-0" />
+                  <div>
+                    <h3 className="text-xl font-bold mb-2">Suivi en temps réel</h3>
+                    <p className="text-muted-foreground">
+                      Suivez l'état d'avancement des relogements et gérez vos priorités instantanément.
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-4">
+                  <Users className="h-6 w-6 text-primary mt-1 flex-shrink-0" />
+                  <div>
+                    <h3 className="text-xl font-bold mb-2">Équipe dédiée</h3>
+                    <p className="text-muted-foreground">
+                      Bénéficiez d'un interlocuteur unique pour tous vos dossiers de relogement.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="pt-6">
+                <Link 
+                  href="/relocation/batch"
+                  className="group inline-flex items-center gap-2 bg-primary text-primary-foreground px-8 py-4 rounded-full text-lg font-semibold hover:bg-primary/90 transition-colors"
+                >
+                  Accéder à la plateforme
+                  <ArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-transform" />
+                </Link>
+              </div>
+            </div>
+
+            <div className="relative aspect-video rounded-2xl overflow-hidden bg-primary/10">
+              <div className="absolute inset-0 flex items-center justify-center">
+                <div className="text-center">
+                  <div className="w-16 h-16 rounded-full bg-primary/20 flex items-center justify-center mx-auto mb-4">
+                    <Building2 className="h-8 w-8 text-primary" />
+                  </div>
+                  <p className="text-lg font-medium">Démonstration</p>
+                  <p className="text-sm text-muted-foreground mt-2">Découvrez notre plateforme en action</p>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
