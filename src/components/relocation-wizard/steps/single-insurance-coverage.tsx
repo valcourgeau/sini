@@ -133,7 +133,7 @@ export function SingleInsuranceCoverage({ form }: SingleInsuranceCoverageProps) 
         </div>
 
         <InfoBox className="mt-6">
-          Les informations d'assurance nous permettent de faciliter la coordination avec votre assureur et d'accélérer le processus de relogement.
+          Insurance information helps us coordinate with your insurer and speed up the relocation process.
         </InfoBox>
       </div>
     </div>

@@ -465,32 +465,6 @@ export function SingleReviewConfirm({ form }: SingleReviewConfirmProps) {
             )}
           </div>
         </div>
-        
-        {/* Lease Information */}
-        <div className={sectionClass}>
-          <h3 className={titleClass}>Lease Information</h3>
-          <div className="space-y-0.5">
-            <div className={detailRowClass}>
-              <span className={labelClass}>Lease Terminated:</span>
-              <span className={valueClass}>
-                {getBooleanValue("singleLeaseTermination.hasTerminatedLease") ? "Yes" : "No"}
-                {getBooleanValue("singleLeaseTermination.hasTerminatedLease") && (
-                  <> (Termination Date: {formatDate(getValue("singleLeaseTermination.terminationDate"))})</>
-                )}
-              </span>
-            </div>
-            
-            <div className={detailRowClass}>
-              <span className={labelClass}>Landlord Notified:</span>
-              <span className={valueClass}>
-                {getBooleanValue("singleLeaseTermination.hasNotifiedLandlord") ? "Yes" : "No"}
-                {getBooleanValue("singleLeaseTermination.hasNotifiedLandlord") && (
-                  <> (Notification Date: {formatDate(getValue("singleLeaseTermination.notificationDate"))})</>
-                )}
-              </span>
-            </div>
-          </div>
-        </div>
       </div>
 
       <div className="p-4 bg-amber-50 rounded-md border border-amber-100">
