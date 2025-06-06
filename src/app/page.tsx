@@ -1,10 +1,27 @@
-import { Home, Users, Building2, Clock, CheckCircle2, Phone, ArrowRight } from "lucide-react";
+"use client";
+
+import { Home, Users, Building2, Clock, CheckCircle2, Phone, ArrowRight, Loader2 } from "lucide-react";
 import { IconBox } from "@/components/ui/icon-box";
 import { ScrollButton } from "@/components/ui/scroll-button";
 import { NavigationArrow } from "@/components/ui/navigation-arrow";
 import Link from "next/link";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 export default function HomePage() {
+  const [isLoading, setIsLoading] = useState(false);
+  const router = useRouter();
+
+  const handleRelocationClick = async (e: React.MouseEvent) => {
+    e.preventDefault();
+    setIsLoading(true);
+    
+    // Add a small delay to show the loading state
+    await new Promise(resolve => setTimeout(resolve, 800));
+    
+    router.push("/relocation/new?type=single");
+  };
+
   return (
     <main className="min-h-screen scroll-smooth">
       {/* First Section - Sand Background */}
@@ -90,13 +107,23 @@ export default function HomePage() {
               </div>
 
               <div className="pt-6">
-                <Link 
-                  href="/relocation/new?type=single"
-                  className="group inline-flex items-center gap-2 bg-secondary text-primary px-8 py-4 rounded-full text-lg font-semibold hover:bg-secondary/90 transition-colors"
+                <button 
+                  onClick={handleRelocationClick}
+                  disabled={isLoading}
+                  className="group inline-flex items-center gap-2 bg-secondary text-primary px-8 py-4 rounded-full text-lg font-semibold hover:bg-secondary/90 transition-colors disabled:opacity-70 disabled:cursor-not-allowed"
                 >
-                  Demander un relogement
-                  <ArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-transform" />
-                </Link>
+                  {isLoading ? (
+                    <>
+                      <Loader2 className="h-5 w-5 animate-spin" />
+                      Chargement...
+                    </>
+                  ) : (
+                    <>
+                      Demander un relogement
+                      <ArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-transform" />
+                    </>
+                  )}
+                </button>
               </div>
             </div>
 

@@ -244,14 +244,28 @@ export function SingleInsuranceCoverage({ form }: SingleInsuranceCoverageProps) 
                       Please submit your claim through your insurance provider and return with the claim document.
                     </p>
                     
-                    
                     {selectedProvider === "Other" && (
                       <p className="text-sm text-muted-foreground">
                         Please contact your insurance provider directly to submit your claim.
                       </p>
                     )}
                     
-                    
+                    <div className="space-y-2">
+                      <div className="flex flex-wrap gap-2 justify-center">
+                        {INSURANCE_PROVIDERS.filter(provider => provider.name !== "Other").map((provider) => (
+                          <a
+                            key={provider.name}
+                            href={provider.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center px-3 py-1 text-xs font-medium text-gray-600 bg-white border border-gray-200 rounded-full hover:bg-gray-50 hover:border-gray-300 transition-colors duration-200"
+                            onClick={(e) => e.stopPropagation()}
+                          >
+                            {provider.name}
+                          </a>
+                        ))}
+                      </div>
+                    </div>
                   </div>
                 )}
               </div>
