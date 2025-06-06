@@ -72,9 +72,10 @@ export function SingleInsuranceCoverage({ form }: SingleInsuranceCoverageProps) 
       setValue("singleInsuranceCoverage.hasInsurance", true);
     } else if (value === "no") {
       setValue("singleInsuranceCoverage.hasInsurance", false);
-      // Clear the file when switching to "no"
+      // Clear the file and upload status when switching to "no"
       setSelectedFile(null);
       setValue("singleInsuranceCoverage.claimDocument", undefined);
+      setValue("singleInsuranceCoverage.hasUploadedClaim", false);
     }
   };
 
@@ -83,6 +84,7 @@ export function SingleInsuranceCoverage({ form }: SingleInsuranceCoverageProps) 
     if (file) {
       setSelectedFile(file);
       setValue("singleInsuranceCoverage.claimDocument", file);
+      setValue("singleInsuranceCoverage.hasUploadedClaim", true);
     }
   };
 

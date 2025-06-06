@@ -1,4 +1,5 @@
 import { Metadata } from "next";
+import { Suspense } from "react";
 import { RelocationWizard } from "@/components/relocation-wizard/relocation-wizard";
 
 export const metadata = {
@@ -23,7 +24,9 @@ export default function NewRelocationPage() {
         </div>
         
         <div className="mt-12">
-          <RelocationWizard />
+          <Suspense fallback={<div>Loading...</div>}>
+            <RelocationWizard />
+          </Suspense>
         </div>
       </div>
     </main>

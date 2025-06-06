@@ -225,22 +225,14 @@ export function SingleReviewConfirm({ form }: SingleReviewConfirmProps) {
             </div>
             
             {getValue("singleInsuranceCoverage.hasInsurance") === true && (
-              <>
-                <div className={detailRowClass}>
-                  <span className={labelClass}>Insurance Company:</span>
-                  <span className={valueClass}>{getValue("singleInsuranceDetails.insuranceCompany")}</span>
-                </div>
-                <div className={detailRowClass}>
-                  <span className={labelClass}>Policy Number:</span>
-                  <span className={valueClass}>{getValue("singleInsuranceDetails.policyNumber")}</span>
-                </div>
-                {getValue("singleInsuranceDetails.agentContact") !== "Not provided" && (
-                  <div className={detailRowClass}>
-                    <span className={labelClass}>Agent Contact:</span>
-                    <span className={valueClass}>{getValue("singleInsuranceDetails.agentContact")}</span>
-                  </div>
-                )}
-              </>
+              <div className={detailRowClass}>
+                <span className={labelClass}>Claim Document Uploaded:</span>
+                <span className={valueClass}>
+                  {getValue("singleInsuranceCoverage.hasUploadedClaim") === true 
+                    ? "Yes" 
+                    : "No"}
+                </span>
+              </div>
             )}
             
             {getValue("singleInsuranceCoverage.hasInsurance") !== true && getValue("singleInsuranceCoverage.hasInsurance") !== false && (
