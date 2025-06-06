@@ -186,35 +186,6 @@ export function SingleReviewConfirm({ form }: SingleReviewConfirmProps) {
           </div>
         </div>
         
-        {/* Special Needs */}
-        <div className={sectionClass}>
-          <h3 className={titleClass}>Special Needs</h3>
-          <div className="space-y-0.5">
-            <div className={detailRowClass}>
-              <span className={labelClass}>Pets/Animals:</span>
-              <span className={valueClass}>
-                {getBooleanValue("singleSpecialNeeds.hasAnimals") ? "Yes" : "No"}
-                {getBooleanValue("singleSpecialNeeds.hasAnimals") && getValue("singleSpecialNeeds.animalDetails") !== "Not provided" && 
-                  ` - ${getValue("singleSpecialNeeds.animalDetails")}`}
-              </span>
-            </div>
-            <div className={detailRowClass}>
-              <span className={labelClass}>Accessibility Requirements:</span>
-              <span className={valueClass}>
-                {getBooleanValue("singleSpecialNeeds.hasAccessibilityNeeds") ? "Yes" : "No"}
-                {getBooleanValue("singleSpecialNeeds.hasAccessibilityNeeds") && getValue("singleSpecialNeeds.accessibilityDetails") !== "Not provided" && 
-                  ` - ${getValue("singleSpecialNeeds.accessibilityDetails")}`}
-              </span>
-            </div>
-            {getValue("singleSpecialNeeds.otherSpecialNeeds") !== "Not provided" && (
-              <div className={detailRowClass}>
-                <span className={labelClass}>Other Special Needs:</span>
-                <span className={valueClass}>{getValue("singleSpecialNeeds.otherSpecialNeeds")}</span>
-              </div>
-            )}
-          </div>
-        </div>
-        
         {/* Arrival & Duration */}
         <div className={sectionClass}>
           <h3 className={titleClass}>Arrival & Duration</h3>

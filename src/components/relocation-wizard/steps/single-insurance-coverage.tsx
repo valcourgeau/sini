@@ -2,15 +2,65 @@ import { UseFormReturn } from "react-hook-form";
 import { Label } from "@/components/ui/label";
 import { RadioGroup } from "@/components/ui/radio-group";
 import { FieldError } from "react-hook-form";
-import { Check, ShieldCheck, ShieldX } from "lucide-react";
+import { Check, ShieldCheck, ShieldX, Upload, ExternalLink } from "lucide-react";
 import { InfoBox } from "@/components/ui/info-box";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { useState } from "react";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 interface SingleInsuranceCoverageProps {
   form: UseFormReturn<any>;
 }
 
+// Insurance providers with their claim submission URLs
+const INSURANCE_PROVIDERS = [
+  {
+    name: "Helvetia",
+    url: "https://www.helvetia.com/en/web/en/private-customers/claims.html",
+  },
+  {
+    name: "Swiss Life",
+    url: "https://www.swisslife.ch/en/private/claims.html",
+  },
+  {
+    name: "Baloise",
+    url: "https://www.baloise.ch/en/private/claims.html",
+  },
+  {
+    name: "CSS",
+    url: "https://www.css.ch/en/private-customers/claims.html",
+  },
+  {
+    name: "Swiss Re",
+    url: "https://www.swissre.com/claims.html",
+  },
+  {
+    name: "Vaudoise Assurances",
+    url: "https://www.vaudoise.ch/en/private/claims.html",
+  },
+  {
+    name: "Chubb",
+    url: "https://www.chubb.com/ch-fr/claims.html",
+  },
+  {
+    name: "Securitas",
+    url: "https://www.securitas.ch/en/claims.html",
+  },
+  {
+    name: "Other",
+    url: "",
+  },
+];
+
 export function SingleInsuranceCoverage({ form }: SingleInsuranceCoverageProps) {
-  const { setValue, watch, formState: { errors } } = form;
+  const { setValue, watch, register, formState: { errors } } = form;
   const insuranceErrors = errors.singleInsuranceCoverage as Record<string, FieldError> || {};
   
   // Get the current value to set the default
@@ -19,27 +69,48 @@ export function SingleInsuranceCoverage({ form }: SingleInsuranceCoverageProps) 
   
   if (hasInsurance === true) selectedValue = "yes";
   else if (hasInsurance === false) selectedValue = "no";
+
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [selectedProvider, setSelectedProvider] = useState<string>("");
   
   const handleSelection = (value: string) => {
     if (value === "yes") {
       setValue("singleInsuranceCoverage.hasInsurance", true);
     } else if (value === "no") {
       setValue("singleInsuranceCoverage.hasInsurance", false);
+      // Clear the file when switching to "no"
+      setSelectedFile(null);
+      setValue("singleInsuranceCoverage.claimDocument", undefined);
+    }
+  };
+
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      setSelectedFile(file);
+      setValue("singleInsuranceCoverage.claimDocument", file);
+    }
+  };
+
+  const handleInsuranceWebsiteRedirect = () => {
+    const provider = INSURANCE_PROVIDERS.find(p => p.name === selectedProvider);
+    if (provider && provider.url) {
+      window.open(provider.url, "_blank");
     }
   };
 
   return (
     <div className="space-y-6">
       <div className="text-center">
-        <h2 className="text-xl font-semibold mb-2">Insurance Coverage</h2>
+        <h2 className="text-xl font-semibold mb-2">Insurance Claim Document</h2>
         <p className="text-sm text-muted-foreground mb-6 max-w-2xl mx-auto">
-          Please indicate whether you have insurance that may cover your relocation expenses.
+          Please upload your insurance claim document ("Déclaration de Sinistre").
         </p>
       </div>
 
       <div className="space-y-6">
         <div className="space-y-4">
-          <Label>Do you have insurance that covers relocation due to the disaster?</Label>
+          <Label>Do you have your insurance claim document?</Label>
           
           <RadioGroup 
             value={selectedValue}
@@ -47,15 +118,20 @@ export function SingleInsuranceCoverage({ form }: SingleInsuranceCoverageProps) 
             className="grid grid-cols-1 md:grid-cols-2 gap-4"
           >
             <div className="relative">
-              <button
-                type="button"
+              <div
+                role="button"
+                tabIndex={0}
                 onClick={() => handleSelection("yes")}
-                className={`group relative flex flex-col items-center p-6 rounded-xl border-2 transition-all duration-200 w-full ${
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    handleSelection("yes");
+                  }
+                }}
+                className={`group relative flex flex-col items-center p-6 rounded-xl border-2 transition-all duration-200 w-full cursor-pointer ${
                   selectedValue === "yes"
                     ? "border-primary bg-primary/5 shadow-md" 
                     : "border-gray-200 hover:border-gray-300 hover:shadow-sm"
                 }`}
-                aria-pressed={selectedValue === "yes"}
               >
                 <div className={`w-16 h-16 rounded-full flex items-center justify-center mb-4 transition-all ${
                   selectedValue === "yes" 
@@ -65,7 +141,7 @@ export function SingleInsuranceCoverage({ form }: SingleInsuranceCoverageProps) 
                   <ShieldCheck size={32} />
                 </div>
 
-                <h3 className="text-lg font-medium mb-1">Yes</h3>
+                <h3 className="text-lg font-medium mb-1">Yes, I have it</h3>
 
                 {selectedValue === "yes" && (
                   <div className="absolute top-3 right-3 bg-primary text-white rounded-full p-0.5">
@@ -82,19 +158,61 @@ export function SingleInsuranceCoverage({ form }: SingleInsuranceCoverageProps) 
                   className="sr-only"
                   id="insurance-yes"
                 />
-              </button>
+
+                {selectedValue === "yes" && (
+                  <div className="mt-4 pt-4 border-t border-border w-full">
+                    <div className="flex items-center justify-center w-full">
+                      <label
+                        htmlFor="claim-document"
+                        className="flex flex-col items-center justify-center w-full h-32 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100"
+                        onClick={(e) => e.stopPropagation()}
+                      >
+                        <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                          <Upload className="w-8 h-8 mb-3 text-gray-400" />
+                          <p className="mb-2 text-sm text-gray-500">
+                            <span className="font-semibold">Click to upload</span> or drag and drop
+                          </p>
+                          <p className="text-xs text-gray-500">PDF, DOC, or DOCX (MAX. 10MB)</p>
+                        </div>
+                        <input
+                          id="claim-document"
+                          type="file"
+                          className="hidden"
+                          accept=".pdf,.doc,.docx"
+                          onChange={handleFileChange}
+                        />
+                      </label>
+                    </div>
+                    {selectedFile && (
+                      <p className="mt-2 text-sm text-gray-500 text-center">
+                        Selected file: {selectedFile.name}
+                      </p>
+                    )}
+                    {insuranceErrors.claimDocument && (
+                      <p className="mt-2 text-sm text-red-500 text-center">
+                        {insuranceErrors.claimDocument.message as string}
+                      </p>
+                    )}
+                  </div>
+                )}
+              </div>
             </div>
 
             <div className="relative">
-              <button
-                type="button"
+              <div
+                role="button"
+                tabIndex={0}
                 onClick={() => handleSelection("no")}
-                className={`group relative flex flex-col items-center p-6 rounded-xl border-2 transition-all duration-200 w-full ${
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    handleSelection("no");
+                  }
+                }}
+                className={`group relative flex flex-col items-center p-6 rounded-xl border-2 transition-all duration-200 w-full cursor-pointer ${
                   selectedValue === "no"
                     ? "border-primary bg-primary/5 shadow-md" 
                     : "border-gray-200 hover:border-gray-300 hover:shadow-sm"
                 }`}
-                aria-pressed={selectedValue === "no"}
               >
                 <div className={`w-16 h-16 rounded-full flex items-center justify-center mb-4 transition-all ${
                   selectedValue === "no" 
@@ -104,7 +222,7 @@ export function SingleInsuranceCoverage({ form }: SingleInsuranceCoverageProps) 
                   <ShieldX size={32} />
                 </div>
 
-                <h3 className="text-lg font-medium mb-1">No</h3>
+                <h3 className="text-lg font-medium mb-1">No, not yet.</h3>
 
                 {selectedValue === "no" && (
                   <div className="absolute top-3 right-3 bg-primary text-white rounded-full p-0.5">
@@ -121,7 +239,54 @@ export function SingleInsuranceCoverage({ form }: SingleInsuranceCoverageProps) 
                   className="sr-only"
                   id="insurance-no"
                 />
-              </button>
+
+                {selectedValue === "no" && (
+                  <div className="mt-4 pt-4 border-t border-border w-full text-center space-y-4">
+                    <div className="space-y-2">
+                      <Label htmlFor="insurance-provider">Select your insurance provider</Label>
+                      <Select
+                        value={selectedProvider}
+                        onValueChange={setSelectedProvider}
+                      >
+                        <SelectTrigger className="w-full">
+                          <SelectValue placeholder="Select your insurance provider" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {INSURANCE_PROVIDERS.map((provider) => (
+                            <SelectItem key={provider.name} value={provider.name}>
+                              {provider.name}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </div>
+                    
+                    {selectedProvider && selectedProvider !== "Other" && (
+                      <Button
+                        type="button"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleInsuranceWebsiteRedirect();
+                        }}
+                        className="inline-flex items-center gap-2"
+                      >
+                        <ExternalLink className="w-4 h-4" />
+                        Go to {selectedProvider} Claims Page
+                      </Button>
+                    )}
+                    
+                    {selectedProvider === "Other" && (
+                      <p className="text-sm text-muted-foreground">
+                        Please contact your insurance provider directly to submit your claim.
+                      </p>
+                    )}
+                    
+                    <p className="text-sm text-muted-foreground">
+                      Please submit your claim through your insurance provider and return with the claim document.
+                    </p>
+                  </div>
+                )}
+              </div>
             </div>
           </RadioGroup>
           
@@ -133,7 +298,7 @@ export function SingleInsuranceCoverage({ form }: SingleInsuranceCoverageProps) 
         </div>
 
         <InfoBox className="mt-6">
-          Insurance information helps us coordinate with your insurer and speed up the relocation process.
+          The insurance claim document is required to process your relocation request. If you don't have it yet, please submit a claim through your insurance provider and return with the document.
         </InfoBox>
       </div>
     </div>

@@ -91,7 +91,7 @@ export default function HomePage() {
 
               <div className="pt-6">
                 <Link 
-                  href="/relocation/new"
+                  href="/relocation/new?type=single"
                   className="group inline-flex items-center gap-2 bg-secondary text-primary px-8 py-4 rounded-full text-lg font-semibold hover:bg-secondary/90 transition-colors"
                 >
                   Demander un relogement

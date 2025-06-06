@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useSearchParams } from "next/navigation";
 import { 
   Card, 
   CardHeader, 
@@ -19,7 +20,6 @@ import { SingleRelocationPreferences } from "./steps/single-relocation-preferenc
 import { SingleArrivalDetails } from "./steps/single-arrival-details";
 import { SingleInsuranceCoverage } from "./steps/single-insurance-coverage";
 import { SingleInsuranceDetails } from "./steps/single-insurance-details";
-import { SingleLeaseTermination } from "./steps/single-lease-termination";
 import { SingleReviewConfirm } from "./steps/single-review-confirm";
 import { SingleConsent } from "./steps/single-consent";
 import { MultipleDisasterAddress } from "./steps/multiple-disaster-address";
@@ -72,6 +72,7 @@ const formSchema = z.object({
 
   singleInsuranceCoverage: z.object({
     hasInsurance: z.boolean(),
+    claimDocument: z.instanceof(File).optional(),
   }).optional(),
 
   singleInsuranceDetails: z.object({
@@ -107,13 +108,6 @@ const formSchema = z.object({
     // Additional Information
     agentContact: z.string().optional(),
     additionalNotes: z.string().optional(),
-  }).optional(),
-
-  singleLeaseTermination: z.object({
-    hasTerminatedLease: z.boolean().optional(),
-    terminationDate: z.string().optional(),
-    hasNotifiedLandlord: z.boolean().optional(),
-    notificationDate: z.string().optional(),
   }).optional(),
 
   singleConsent: z.object({
@@ -161,6 +155,8 @@ export function RelocationWizard() {
   const [step, setStep] = useState(1);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const searchParams = useSearchParams();
+  const typeParam = searchParams.get("type");
 
   // Add debugging for isSubmitted state changes
   useEffect(() => {
@@ -170,17 +166,24 @@ export function RelocationWizard() {
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      relocationType: undefined,
+      relocationType: typeParam === "single" ? "single" : undefined,
     },
   });
+
+  // If type is single, start at step 2 (insurance coverage)
+  useEffect(() => {
+    if (typeParam === "single") {
+      setStep(2);
+    }
+  }, [typeParam]);
 
   // Calculate total steps based on the selected path
   const getTotalSteps = () => {
     const relocationType = form.watch("relocationType");
     
-    if (!relocationType) return 9; // Default steps until relocation type selection
+    if (!relocationType) return 8; // Default steps until relocation type selection
     
-    return relocationType === "single" ? 9 : 6; // Single: 9 steps (reduced from 10), Multiple: 6 steps
+    return relocationType === "single" ? 8 : 6; // Single: 8 steps (reduced from 9), Multiple: 6 steps
   };
 
   const totalSteps = getTotalSteps();
@@ -256,7 +259,7 @@ export function RelocationWizard() {
           if (hasInsurance) {
             return <SingleArrivalDetails form={form} />;
           } else {
-            return <SingleLeaseTermination form={form} />;
+            return <SingleReviewConfirm form={form} />;
           }
         } else if (relocationType === "multiple") {
           return <SuccessMessage />;
@@ -265,28 +268,24 @@ export function RelocationWizard() {
       case 7:
         if (relocationType === "single") {
           if (hasInsurance) {
-            return <SingleLeaseTermination form={form} />;
-          } else {
             return <SingleReviewConfirm form={form} />;
+          } else {
+            return <SingleConsent form={form} onSubmit={handleSubmit} isSubmitting={isSubmitting} onBack={prevStep} />;
           }
         }
         break;
       case 8:
         if (relocationType === "single") {
           if (hasInsurance) {
-            return <SingleReviewConfirm form={form} />;
-          } else {
             return <SingleConsent form={form} onSubmit={handleSubmit} isSubmitting={isSubmitting} onBack={prevStep} />;
+          } else {
+            return <SuccessMessage />;
           }
         }
         break;
       case 9:
         if (relocationType === "single") {
-          if (hasInsurance) {
-            return <SingleConsent form={form} onSubmit={handleSubmit} isSubmitting={isSubmitting} onBack={prevStep} />;
-          } else {
-            return <SuccessMessage />;
-          }
+          return <SuccessMessage />;
         }
         break;
       default:
@@ -303,8 +302,9 @@ export function RelocationWizard() {
       (relocationType === "single" && ((hasInsurance && step === 9) || (!hasInsurance && step === 8))) ||
       (relocationType === "multiple" && step === 5);
     
-    if (isFinalStep) {
-      return null; // Don't show navigation buttons on the final step
+    // Don't show navigation buttons on the final step or consent step
+    if (isFinalStep || (relocationType === "single" && ((hasInsurance && step === 8) || (!hasInsurance && step === 7)))) {
+      return null;
     }
       
     return (
@@ -373,7 +373,7 @@ export function RelocationWizard() {
 
   return (
     <div className={cn(
-      "container mx-auto py-8 px-4 md:px-0",
+      "container mx-auto py-8 px-4 md:px-0 bg-sand/5",
       shouldUseWiderContainer ? "max-w-9xl" : "max-w-5xl"
     )}>
       <Card className="border-2 shadow-lg">
