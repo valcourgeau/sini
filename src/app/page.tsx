@@ -19,7 +19,7 @@ export default function HomePage() {
             </p>
             <div className="grid md:grid-cols-2 gap-8 max-w-3xl mx-auto">
               <ScrollButton
-                iconName="alert-triangle"
+                iconName="siren"
                 title="Sinistrés"
                 description="Affecté(e) par un sinistre ? Nous vous accompagnons."
                 sectionId="sinistres"
