@@ -23,39 +23,33 @@ interface SingleInsuranceCoverageProps {
 const INSURANCE_PROVIDERS = [
   {
     name: "Helvetia",
-    url: "https://www.helvetia.com/en/web/en/private-customers/claims.html",
+    url: "https://www.helvetia.com/ch/web/en/private-customers/contact/report-claim.html",
+    fallbackUrl: "https://www.helvetia.com/ch/",
   },
   {
     name: "Swiss Life",
-    url: "https://www.swisslife.ch/en/private/claims.html",
+    url: "https://www.swisslife.fr/home/Landing/MySwissLife/Premiers-pas-sur-MySwissLife/mon-foyer.html",
+    fallbackUrl: "https://www.swisslife.ch/fr/",
   },
   {
     name: "Baloise",
-    url: "https://www.baloise.ch/en/private/claims.html",
+    url: "https://www.baloise.ch/fr/clients-prives/contact-services/sinistre.html",
+    fallbackUrl: "https://www.baloise.ch/fr/",
   },
   {
     name: "CSS",
-    url: "https://www.css.ch/en/private-customers/claims.html",
-  },
-  {
-    name: "Swiss Re",
-    url: "https://www.swissre.com/claims.html",
+    url: "https://www.css.ch/en/private-customers/quick-easy.html",
+    fallbackUrl: "https://www.css.ch/",
   },
   {
     name: "Vaudoise Assurances",
-    url: "https://www.vaudoise.ch/en/private/claims.html",
-  },
-  {
-    name: "Chubb",
-    url: "https://www.chubb.com/ch-fr/claims.html",
-  },
-  {
-    name: "Securitas",
-    url: "https://www.securitas.ch/en/claims.html",
+    url: "https://www.vaudoise.ch/fr/service-center/declarer-un-sinistre",
+    fallbackUrl: "https://www.vaudoise.ch/fr/",
   },
   {
     name: "Other",
     url: "",
+    fallbackUrl: "",
   },
 ];
 
@@ -94,8 +88,12 @@ export function SingleInsuranceCoverage({ form }: SingleInsuranceCoverageProps) 
 
   const handleInsuranceWebsiteRedirect = () => {
     const provider = INSURANCE_PROVIDERS.find(p => p.name === selectedProvider);
-    if (provider && provider.url) {
-      window.open(provider.url, "_blank");
+    if (provider) {
+      // Try to open the claims page first, if it fails, open the fallback URL
+      const claimsWindow = window.open(provider.url, "_blank");
+      if (!claimsWindow || claimsWindow.closed || typeof claimsWindow.closed === 'undefined') {
+        window.open(provider.fallbackUrl, "_blank");
+      }
     }
   };
 
@@ -242,38 +240,10 @@ export function SingleInsuranceCoverage({ form }: SingleInsuranceCoverageProps) 
 
                 {selectedValue === "no" && (
                   <div className="mt-4 pt-4 border-t border-border w-full text-center space-y-4">
-                    <div className="space-y-2">
-                      <Label htmlFor="insurance-provider">Select your insurance provider</Label>
-                      <Select
-                        value={selectedProvider}
-                        onValueChange={setSelectedProvider}
-                      >
-                        <SelectTrigger className="w-full">
-                          <SelectValue placeholder="Select your insurance provider" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          {INSURANCE_PROVIDERS.map((provider) => (
-                            <SelectItem key={provider.name} value={provider.name}>
-                              {provider.name}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                    </div>
+                    <p className="text-sm text-muted-foreground">
+                      Please submit your claim through your insurance provider and return with the claim document.
+                    </p>
                     
-                    {selectedProvider && selectedProvider !== "Other" && (
-                      <Button
-                        type="button"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          handleInsuranceWebsiteRedirect();
-                        }}
-                        className="inline-flex items-center gap-2"
-                      >
-                        <ExternalLink className="w-4 h-4" />
-                        Go to {selectedProvider} Claims Page
-                      </Button>
-                    )}
                     
                     {selectedProvider === "Other" && (
                       <p className="text-sm text-muted-foreground">
@@ -281,9 +251,7 @@ export function SingleInsuranceCoverage({ form }: SingleInsuranceCoverageProps) 
                       </p>
                     )}
                     
-                    <p className="text-sm text-muted-foreground">
-                      Please submit your claim through your insurance provider and return with the claim document.
-                    </p>
+                    
                   </div>
                 )}
               </div>

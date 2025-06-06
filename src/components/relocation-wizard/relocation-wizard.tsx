@@ -373,7 +373,7 @@ export function RelocationWizard() {
 
   return (
     <div className={cn(
-      "container mx-auto py-8 px-4 md:px-0 bg-sand/5",
+      "container mx-auto py-8 px-4 md:px-0 bg-sand",
       shouldUseWiderContainer ? "max-w-9xl" : "max-w-5xl"
     )}>
       <Card className="border-2 shadow-lg">
