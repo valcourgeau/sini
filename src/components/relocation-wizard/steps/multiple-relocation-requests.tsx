@@ -42,7 +42,11 @@ import {
   Clock as ClockIcon,
   User,
   Home,
-  Bath as BathIcon
+  Bath as BathIcon,
+  Paperclip,
+  CircleCheckBig,
+  X,
+  Upload
 } from "lucide-react";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
@@ -61,6 +65,8 @@ interface RelocationRequest {
   hasAnimals: boolean;
   hasAccessibilityNeeds: boolean;
   needsParking: boolean;
+  claimDocument?: File;
+  hasUploadedClaim?: boolean;
 }
 
 interface MultipleRelocationRequestsProps {
@@ -103,29 +109,25 @@ export function MultipleRelocationRequests({ form }: MultipleRelocationRequestsP
       id: "short-term", 
       value: "A few days", 
       label: "A few days",
-      subLabel: "Urgent and short stay",
-      icon: <FastForward size={18} strokeWidth={1.5} />
+      subLabel: "Urgent and short stay"
     },
     { 
       id: "few-weeks", 
       value: "A few weeks", 
       label: "A few weeks",
-      subLabel: "Temporary stay",
-      icon: <Clock size={18} strokeWidth={1.5} />
+      subLabel: "Temporary stay"
     },
     { 
       id: "few-months", 
       value: "A few months", 
       label: "A few months",
-      subLabel: "Transitional housing",
-      icon: <TrafficCone size={18} strokeWidth={1.5} />
+      subLabel: "Transitional housing"
     },
     { 
       id: "unknown", 
       value: "Unknown / Not sure",
       label: "Unknown / Not sure",
-      subLabel: "Flexible duration",
-      icon: <HelpCircle size={18} strokeWidth={1.5} />
+      subLabel: "Flexible duration"
     },
   ];
 
@@ -246,6 +248,39 @@ export function MultipleRelocationRequests({ form }: MultipleRelocationRequestsP
   tomorrow.setDate(tomorrow.getDate() + 1);
   const tomorrowStr = tomorrow.toISOString().split('T')[0];
 
+  // Function to handle file upload
+  const handleFileUpload = (index: number, event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      setValue(`multipleRelocationRequests.${index}.claimDocument`, file, {
+        shouldValidate: true,
+        shouldDirty: true,
+        shouldTouch: true
+      });
+      setValue(`multipleRelocationRequests.${index}.hasUploadedClaim`, true, {
+        shouldValidate: true,
+        shouldDirty: true,
+        shouldTouch: true
+      });
+      toast.success("Claim document uploaded successfully");
+    }
+  };
+
+  // Function to remove uploaded file
+  const handleRemoveFile = (index: number) => {
+    setValue(`multipleRelocationRequests.${index}.claimDocument`, undefined, {
+      shouldValidate: true,
+      shouldDirty: true,
+      shouldTouch: true
+    });
+    setValue(`multipleRelocationRequests.${index}.hasUploadedClaim`, false, {
+      shouldValidate: true,
+      shouldDirty: true,
+      shouldTouch: true
+    });
+    toast.success("Claim document removed");
+  };
+
   return (
     <div className="space-y-6">
       <div>
@@ -262,25 +297,25 @@ export function MultipleRelocationRequests({ form }: MultipleRelocationRequestsP
               <TableHeader>
                 <TableRow className="bg-muted/50">
                   {/* Contact Information Column */}
-                  <TableHead className="w-[500px] text-gray-900 font-medium text-sm whitespace-nowrap">Name</TableHead>
-                  <TableHead className="w-[500px] text-gray-900 font-medium text-sm whitespace-nowrap">Surname</TableHead>
-                  <TableHead className="w-[2500px] text-gray-900 font-medium text-sm whitespace-nowrap">Email</TableHead>
-                  <TableHead className="w-[1000px] text-gray-900 font-medium text-sm whitespace-nowrap">Phone</TableHead>
-                  <TableHead className="w-[100px] text-gray-900 font-medium text-sm whitespace-nowrap">
+                  <TableHead className="w-[150px] text-gray-900 font-medium text-sm whitespace-nowrap">Name</TableHead>
+                  <TableHead className="w-[150px] text-gray-900 font-medium text-sm whitespace-nowrap">Surname</TableHead>
+                  <TableHead className="w-[200px] text-gray-900 font-medium text-sm whitespace-nowrap">Email</TableHead>
+                  <TableHead className="w-[150px] text-gray-900 font-medium text-sm whitespace-nowrap">Phone</TableHead>
+                  <TableHead className="w-[120px] text-gray-900 font-medium text-sm whitespace-nowrap">
                     <div className="flex items-center gap-2">
-                      <Calendar className="h-5 w-5" />
+                      {/* <Calendar className="h-5 w-5" /> */}
                       <span>Arrival</span>
                     </div>
                   </TableHead>
                   <TableHead className="w-[120px] text-gray-900 font-medium text-sm whitespace-nowrap">
                     <div className="flex items-center gap-2">
-                      <ClockIcon className="h-5 w-5" />
-                      <span className="sr-only">Duration</span>
+                      {/* <ClockIcon className="h-5 w-5" /> */}
+                      <span>Duration</span>
                     </div>
                   </TableHead>
 
                   {/* Property Requirements Column */}
-                  <TableHead className="w-[200px] text-gray-900 font-medium text-sm">
+                  <TableHead className="w-[20px] text-gray-900 font-medium text-sm">
                     <div className="flex items-center gap-2">
                       <Bed className="h-5 w-5" />
                       <span className="sr-only">Bedrooms</span>
@@ -292,13 +327,13 @@ export function MultipleRelocationRequests({ form }: MultipleRelocationRequestsP
                       <span className="sr-only">Bathrooms</span>
                     </div>
                   </TableHead>
-                  <TableHead className="w-[200px] text-gray-900 font-medium text-sm">
+                  <TableHead className="w-[20px] text-gray-900 font-medium text-sm">
                     <div className="flex items-center gap-2">
                       <User className="h-5 w-5" />
                       <span className="sr-only">Adults</span>
                     </div>
                   </TableHead>
-                  <TableHead className="w-[200px] text-gray-900 font-medium text-sm">
+                  <TableHead className="w-[20px] text-gray-900 font-medium text-sm">
                     <div className="flex items-center gap-2">
                       <Baby className="h-5 w-5" />
                       <span className="sr-only">Children</span>
@@ -306,22 +341,28 @@ export function MultipleRelocationRequests({ form }: MultipleRelocationRequestsP
                   </TableHead>
 
                   {/* Special Needs Column */}
-                  <TableHead className="w-[200px] text-gray-900 font-medium text-center text-sm">
+                  <TableHead className="w-[80px] text-gray-900 font-medium text-center text-sm">
                     <div className="flex items-center justify-center gap-2">
                       <PawPrint className="h-5 w-5" />
                       <span className="sr-only">Pets</span>
                     </div>
                   </TableHead>
-                  <TableHead className="w-[200px] text-gray-900 font-medium text-center text-sm">
+                  <TableHead className="w-[80px] text-gray-900 font-medium text-center text-sm">
                     <div className="flex items-center justify-center gap-2">
                       <Accessibility className="h-5 w-5" />
                       <span className="sr-only">Accessibility</span>
                     </div>
                   </TableHead>
-                  <TableHead className="w-[200px] text-gray-900 font-medium text-center text-sm">
+                  <TableHead className="w-[80px] text-gray-900 font-medium text-center text-sm">
                     <div className="flex items-center justify-center gap-2">
                       <CarIcon className="h-5 w-5" />
                       <span className="sr-only">Parking</span>
+                    </div>
+                  </TableHead>
+                  <TableHead className="w-[80px] text-gray-900 font-medium text-center text-sm">
+                    <div className="flex items-center justify-center gap-2">
+                      <Paperclip className="h-5 w-5" />
+                      <span className="sr-only">Claim Document</span>
                     </div>
                   </TableHead>
                   <TableHead className="w-[100px] text-gray-900 font-medium text-right text-sm">Actions</TableHead>
@@ -430,14 +471,13 @@ export function MultipleRelocationRequests({ form }: MultipleRelocationRequestsP
                         value={watch(`multipleRelocationRequests.${index}.estimatedDuration`) || ""}
                         onValueChange={(value) => setValue(`multipleRelocationRequests.${index}.estimatedDuration`, value)}
                       >
-                        <SelectTrigger className="h-8 px-2 py-1 text-xs w-[130px]">
+                        <SelectTrigger className="h-8 px-2 py-1 text-xs w-[110px]">
                           <SelectValue placeholder="Select duration" className="text-muted-foreground" />
                         </SelectTrigger>
-                        <SelectContent>
+                        <SelectContent className="py-1">
                           {durationOptions.map((option) => (
-                            <SelectItem key={option.id} value={option.value}>
-                              <div className="flex items-center gap-2">
-                                {option.icon}
+                            <SelectItem key={option.id} value={option.value} className="py-1">
+                              <div className="flex items-center">
                                 <span className="whitespace-nowrap">{option.label}</span>
                               </div>
                             </SelectItem>
@@ -505,6 +545,42 @@ export function MultipleRelocationRequests({ form }: MultipleRelocationRequestsP
                           }}
                           className="h-4 w-4"
                         />
+                      </div>
+                    </TableCell>
+                    <TableCell>
+                      <div className="flex items-center justify-center">
+                        {request.hasUploadedClaim ? (
+                          <div className="flex items-center justify-center">
+                            <div className="flex items-center bg-white border border-gray-200 rounded-full px-1">
+                              <CircleCheckBig className="h-4 w-4 text-green-500" />
+                              <Button
+                                variant="ghost"
+                                size="icon"
+                                onClick={() => handleRemoveFile(index)}
+                                type="button"
+                                className="h-6 w-6 text-red-500 hover:text-red-700 hover:bg-red-50"
+                              >
+                                <X className="h-3 w-3" />
+                              </Button>
+                            </div>
+                          </div>
+                        ) : (
+                          <div className="relative">
+                            <input
+                              type="file"
+                              id={`claim-document-${index}`}
+                              className="hidden"
+                              accept=".pdf,.doc,.docx"
+                              onChange={(e) => handleFileUpload(index, e)}
+                            />
+                            <label
+                              htmlFor={`claim-document-${index}`}
+                              className="flex items-center justify-center gap-2 px-3 py-1 text-xs text-gray-600 bg-white border border-gray-200 rounded-full hover:bg-gray-50 cursor-pointer transition-colors"
+                            >
+                              <Upload className="h-4 w-4" />
+                            </label>
+                          </div>
+                        )}
                       </div>
                     </TableCell>
                     <TableCell className="text-right">

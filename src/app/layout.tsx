@@ -7,7 +7,7 @@ import { Footer } from "@/components/layout/footer";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Pharewest - Service de Relogement d'Urgence",
+  title: "Pharewest - Service de relogement d'urgence",
   description: "Plateforme de relogement pour les personnes touchées par des sinistres dans les cantons de Genève et Vaud, Suisse.",
   keywords: ["relogement", "urgence", "sinistre", "Genève", "Vaud", "Suisse", "assurance", "propriétaire", "locataire"],
 };

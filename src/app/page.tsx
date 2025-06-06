@@ -29,7 +29,7 @@ export default function HomePage() {
         <div className="container">
           <div className="mx-auto max-w-[980px] text-center">
             <h1 className="text-3xl font-bold leading-tight tracking-tighter md:text-5xl lg:text-6xl lg:leading-[1.1] mb-8 whitespace-nowrap">
-              Service de Relogement d'Urgence
+              Service de relogement d'urgence
             </h1>
             <p className="text-2xl text-muted-foreground mb-16">
               Pour le canton de Genève

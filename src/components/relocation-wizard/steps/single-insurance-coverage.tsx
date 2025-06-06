@@ -47,6 +47,11 @@ const INSURANCE_PROVIDERS = [
     fallbackUrl: "https://www.vaudoise.ch/fr/",
   },
   {
+    name: "AXA",
+    url: "https://www.axa.ch/en/private-customers/claims/everything-about-claiming/file-claim.html",
+    fallbackUrl: "https://www.axa.ch/",
+  },
+  {
     name: "Other",
     url: "",
     fallbackUrl: "",
