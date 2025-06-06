@@ -1,9 +1,9 @@
 'use client';
 
-import { AlertTriangle, Shield, Siren, LucideIcon } from "lucide-react";
+import { AlertTriangle, Shield, Siren, Building2, LucideIcon } from "lucide-react";
 
 interface ScrollButtonProps {
-  iconName: 'alert-triangle' | 'shield' | 'siren';
+  iconName: 'alert-triangle' | 'shield' | 'siren' | 'building2';
   title: string;
   description: string;
   sectionId: string;
@@ -13,6 +13,7 @@ const iconMap: Record<ScrollButtonProps['iconName'], LucideIcon> = {
   'alert-triangle': AlertTriangle,
   'shield': Shield,
   'siren': Siren,
+  'building2': Building2,
 };
 
 export function ScrollButton({ iconName, title, description, sectionId }: ScrollButtonProps) {
@@ -31,7 +32,7 @@ export function ScrollButton({ iconName, title, description, sectionId }: Scroll
       <div className="relative z-10">
         <Icon className="h-16 w-16 mb-6 mx-auto" />
         <h2 className="text-3xl font-bold mb-4">{title}</h2>
-        <p className="text-lg text-primary-foreground/80">
+        <p className="text-1xl text-primary-foreground/80">
           {description}
         </p>
       </div>

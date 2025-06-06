@@ -19,26 +19,33 @@ export default function HomePage() {
             </p>
             <div className="grid md:grid-cols-2 gap-8 max-w-3xl mx-auto">
               <ScrollButton
-                iconName="siren"
+                iconName="alert-triangle"
                 title="Sinistrés"
-                description="Affecté(e) par un sinistre ? Nous vous accompagnons."
+                description="Affecté(e) par un sinistre ?"
                 sectionId="sinistres"
               />
               <ScrollButton
-                iconName="shield"
+                iconName="building2"
                 title="Assurances"
-                description="Professionnel de l'assurance ? Accédez à nos services."
+                description="Professionnel de l'assurance."
                 sectionId="assurances"
               />
             </div>
           </div>
         </div>
-        <NavigationArrow direction="down" targetId="sinistres" position="bottom" />
+        <div className="absolute bottom-8 right-8">
+          <NavigationArrow direction="down" targetId="sinistres" position="bottom" />
+        </div>
       </section>
 
       {/* Second Section - Blue Background */}
       <section id="sinistres" className="relative bg-primary min-h-[100vh] flex items-center justify-center text-primary-foreground">
-        <NavigationArrow direction="up" targetId="home" position="top" />
+        <div className="absolute top-8 right-8">
+          <NavigationArrow direction="up" targetId="header" position="top" />
+        </div>
+        <div className="absolute bottom-8 right-8">
+          <NavigationArrow direction="down" targetId="assurances" position="bottom" />
+        </div>
         
         <div className="container">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
@@ -106,13 +113,13 @@ export default function HomePage() {
             </div>
           </div>
         </div>
-
-        <NavigationArrow direction="down" targetId="assurances" position="bottom" />
       </section>
 
       {/* Third Section - Sand Background */}
       <section id="assurances" className="relative bg-secondary min-h-[100vh] flex items-center justify-center">
-        <NavigationArrow direction="up" targetId="sinistres" position="top" />
+        <div className="absolute top-8 right-8">
+          <NavigationArrow direction="up" targetId="sinistres" position="top" />
+        </div>
         <div className="container">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div className="space-y-8">
