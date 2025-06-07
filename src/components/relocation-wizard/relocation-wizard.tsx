@@ -137,6 +137,8 @@ const formSchema = z.object({
     estimatedDuration: z.string().optional(),
     hasInsurance: z.boolean().optional(),
     insuranceDetails: z.string().optional(),
+    claimDocument: z.instanceof(File).optional(),
+    hasUploadedClaim: z.boolean().optional(),
   })).optional(),
 
   multipleConsent: z.object({

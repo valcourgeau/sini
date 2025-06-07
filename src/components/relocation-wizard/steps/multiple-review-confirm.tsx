@@ -1,5 +1,5 @@
 import { UseFormReturn } from "react-hook-form";
-import { Users, Users2 } from "lucide-react";
+import { Users, Users2, CircleCheckBig, X } from "lucide-react";
 
 interface MultipleReviewConfirmProps {
   form: UseFormReturn<any>;
@@ -114,6 +114,18 @@ export function MultipleReviewConfirm({ form }: MultipleReviewConfirmProps) {
                       
                       <span className="text-xs text-muted-foreground">Duration:</span>
                       <span className="col-span-2">{request.estimatedDuration || "Not specified"}</span>
+
+                      <span className="text-xs text-muted-foreground">Claim Document:</span>
+                      <span className="col-span-2 flex items-center gap-1.5">
+                        {request.hasUploadedClaim ? (
+                          <>
+                            <CircleCheckBig className="h-4 w-4 text-green-500" />
+                            <span>({request.claimDocument?.name})</span>
+                          </>
+                        ) : (
+                          <X className="h-4 w-4 text-red-500" />
+                        )}
+                      </span>
                     </div>
                   </div>
                   
