@@ -64,7 +64,7 @@ export function SingleInsuranceCoverage({ form }: SingleInsuranceCoverageProps) 
   
   // Get the current value to set the default
   const hasInsurance = watch("singleInsuranceCoverage.hasInsurance");
-  let selectedValue = "no";
+  let selectedValue = "";
   
   if (hasInsurance === true) selectedValue = "yes";
   else if (hasInsurance === false) selectedValue = "no";
