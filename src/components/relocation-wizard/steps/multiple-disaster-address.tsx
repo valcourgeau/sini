@@ -22,9 +22,9 @@ export function MultipleDisasterAddress({ form }: MultipleDisasterAddressProps) 
   return (
     <div className="space-y-6">
       <div>
-        <h2 className="text-lg font-medium mb-4">Common Disaster Address</h2>
+        <h2 className="text-lg font-medium mb-4">Adresse commune du sinistre</h2>
         <p className="text-sm text-muted-foreground mb-6">
-          Please provide the address of the property affected by the disaster that requires multiple relocations.
+          Veuillez fournir l'adresse du bien affecté par le sinistre nécessitant plusieurs relogements.
         </p>
       </div>
 
@@ -123,8 +123,8 @@ export function MultipleDisasterAddress({ form }: MultipleDisasterAddressProps) 
 
       <div className="p-4 bg-primary/5 rounded-md border border-primary/10">
         <p className="text-sm text-primary/80">
-          <strong>Note:</strong> This address should be the common location affected by the disaster. 
-          In the next step, you'll be able to enter details for each individual requiring relocation.
+          <strong>Note :</strong> Cette adresse doit être l'emplacement commun affecté par le sinistre. 
+          Dans l'étape suivante, vous pourrez saisir les détails pour chaque personne nécessitant un relogement.
         </p>
       </div>
     </div>

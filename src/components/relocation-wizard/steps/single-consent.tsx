@@ -17,7 +17,7 @@ interface ConsentErrors {
 export function SingleConsent({ form, onSubmit, isSubmitting, onBack }: SingleConsentProps) {
   const { register, formState: { errors } } = form;
   const consentErrors = (errors.singleConsent || {}) as ConsentErrors;
-  
+
   return (
     <div className="space-y-6">
       <div>

@@ -10,7 +10,7 @@ export function MultipleReviewConfirm({ form }: MultipleReviewConfirmProps) {
   const requests = formValues.multipleRelocationRequests || [];
   
   // Helper function to safely get nested values
-  const getValue = (path: string, defaultValue: string = "Not provided") => {
+  const getValue = (path: string, defaultValue: string = "Non fourni") => {
     const pathParts = path.split(".");
     let value = formValues;
     
@@ -23,11 +23,11 @@ export function MultipleReviewConfirm({ form }: MultipleReviewConfirmProps) {
   };
   
   const formatDate = (dateStr: string) => {
-    if (!dateStr) return "Not provided";
+    if (!dateStr) return "Non fourni";
     
     try {
       const date = new Date(dateStr);
-      return new Intl.DateTimeFormat("en-GB", {
+      return new Intl.DateTimeFormat("fr-FR", {
         day: "numeric",
         month: "long",
         year: "numeric"
@@ -47,10 +47,10 @@ export function MultipleReviewConfirm({ form }: MultipleReviewConfirmProps) {
   return (
     <div className="space-y-6">
       <div>
-        <h2 className="text-lg font-medium mb-4">Review Multiple Requests</h2>
+        <h2 className="text-lg font-medium mb-4">Vérification des demandes multiples</h2>
         <p className="text-sm text-muted-foreground mb-6">
-          Please review the details of all relocation requests before submitting. If you need to make 
-          changes, you can navigate back to the relevant sections.
+          Veuillez vérifier les détails de toutes les demandes de relogement avant de soumettre. Si vous devez apporter des modifications, 
+          vous pouvez revenir aux sections concernées.
         </p>
       </div>
 
@@ -58,26 +58,26 @@ export function MultipleReviewConfirm({ form }: MultipleReviewConfirmProps) {
         {/* Disaster Address */}
         <div className="bg-muted/20 p-5 rounded-md border border-border">
           <div className={sectionClass}>
-            <h3 className={titleClass}>Common Disaster Address</h3>
+            <h3 className={titleClass}>Adresse commune du sinistre</h3>
             <div className="space-y-0.5">
               <div className={detailRowClass}>
-                <span className={labelClass}>Street:</span>
+                <span className={labelClass}>Rue :</span>
                 <span className={valueClass}>{getValue("multipleDisasterAddress.street")}</span>
               </div>
               <div className={detailRowClass}>
-                <span className={labelClass}>City:</span>
+                <span className={labelClass}>Ville :</span>
                 <span className={valueClass}>{getValue("multipleDisasterAddress.city")}</span>
               </div>
               <div className={detailRowClass}>
-                <span className={labelClass}>Postal Code:</span>
+                <span className={labelClass}>Code postal :</span>
                 <span className={valueClass}>{getValue("multipleDisasterAddress.postalCode")}</span>
               </div>
               <div className={detailRowClass}>
-                <span className={labelClass}>Canton:</span>
+                <span className={labelClass}>Canton :</span>
                 <span className={valueClass}>{getValue("multipleDisasterAddress.canton")}</span>
               </div>
               <div className={detailRowClass}>
-                <span className={labelClass}>Country:</span>
+                <span className={labelClass}>Pays :</span>
                 <span className={valueClass}>{getValue("multipleDisasterAddress.country")}</span>
               </div>
             </div>
@@ -104,10 +104,10 @@ export function MultipleReviewConfirm({ form }: MultipleReviewConfirmProps) {
                   <div>
                     <div className="grid grid-cols-3 gap-1">
                       <span className="text-xs text-muted-foreground">Email:</span>
-                      <span className="col-span-2">{request.email || "Not provided"}</span>
+                      <span className="col-span-2">{request.email || "Non fourni"}</span>
                       
                       <span className="text-xs text-muted-foreground">Phone:</span>
-                      <span className="col-span-2">{request.phone || "Not provided"}</span>
+                      <span className="col-span-2">{request.phone || "Non fourni"}</span>
                       
                       <span className="text-xs text-muted-foreground">Arrival:</span>
                       <span className="col-span-2">{formatDate(request.arrivalDate)}</span>

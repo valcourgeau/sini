@@ -21,14 +21,14 @@ export function RelocationTypeSelection({ form }: RelocationTypeSelectionProps) 
     {
       value: "single",
       icon: <Home size={32} />,
-      label: "Single Relocation",
-      description: "For myself or a single household."
+      label: "Relogement individuel",
+      description: "Pour moi-même ou un foyer unique."
     },
     {
       value: "multiple",
       icon: <Users size={32} />,
-      label: "Multiple Relocations",
-      description: "For multiple individuals or households."
+      label: "Relogements multiples",
+      description: "Pour plusieurs personnes ou foyers."
     }
   ];
 
@@ -43,9 +43,9 @@ export function RelocationTypeSelection({ form }: RelocationTypeSelectionProps) 
   return (
     <div className="space-y-6">
       <div className="text-center">
-        <h2 className="text-xl font-semibold mb-2">Type of Relocation Request</h2>
+        <h2 className="text-xl font-semibold mb-2">Type de demande de relogement</h2>
         <p className="text-sm text-muted-foreground mb-6 max-w-lg mx-auto">
-          Are you submitting a request for a single relocation or for multiple people?
+          Soumettez-vous une demande pour un relogement individuel ou pour plusieurs personnes ?
         </p>
       </div>
 

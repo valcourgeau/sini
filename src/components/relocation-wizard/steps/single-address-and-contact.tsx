@@ -20,45 +20,43 @@ export function SingleAddressAndContact({ form }: SingleAddressAndContactProps) 
   
   // Swiss cantons
   const swissCantons = [
-    "Aargau", "Appenzell Ausserrhoden", "Appenzell Innerrhoden", "Basel-Landschaft", 
-    "Basel-Stadt", "Bern", "Fribourg", "Geneva", "Glarus", "Graubünden", "Jura", 
-    "Lucerne", "Neuchâtel", "Nidwalden", "Obwalden", "Schaffhausen", "Schwyz", 
-    "Solothurn", "St. Gallen", "Thurgau", "Ticino", "Uri", "Valais", "Vaud", 
-    "Zug", "Zürich"
+    "Argovie", "Appenzell Rhodes-Extérieures", "Appenzell Rhodes-Intérieures", "Bâle-Campagne", 
+    "Bâle-Ville", "Berne", "Fribourg", "Genève", "Glaris", "Grisons", "Jura", 
+    "Lucerne", "Neuchâtel", "Nidwald", "Obwald", "Schaffhouse", "Schwytz", 
+    "Soleure", "Saint-Gall", "Thurgovie", "Tessin", "Uri", "Valais", "Vaud", 
+    "Zoug", "Zurich"
   ];
   
   return (
     <div className="space-y-8">
       <div className="text-center">
-        <h2 className="text-xl font-semibold mb-2">Address and Contact Information</h2>
+        <h2 className="text-xl font-semibold mb-2">Adresse et coordonnées</h2>
         <p className="text-sm text-muted-foreground mb-6 max-w-lg mx-auto">
-          Please provide the address of the affected property and your contact information.
+          Veuillez fournir l'adresse du bien affecté et vos coordonnées.
         </p>
       </div>
 
       {/* Disaster Address Section */}
       <div className="space-y-6">
-        <h3 className="text-lg font-medium">Adresse du sinistre</h3>
-        <div className="space-y-4">
-          {/* Street Address */}
-          <div className="space-y-2">
-            <Label htmlFor="singleDisasterAddress.street">Street Address</Label>
-            <input
-              id="singleDisasterAddress.street"
-              {...register("singleDisasterAddress.street")}
-              className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-              placeholder="Street address"
-              defaultValue="1 Rue de la Gare"
-            />
-            {addressErrors.street && (
-              <p className="text-sm text-red-500 mt-1">
-                {addressErrors.street.message as string}
-              </p>
-            )}
-          </div>
+        <div className="pt-4 border-t">
+          <h3 className="text-lg font-medium mb-6 text-center">Adresse du sinistre</h3>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="space-y-2">
+              <Label htmlFor="singleDisasterAddress.street">Rue</Label>
+              <input
+                id="singleDisasterAddress.street"
+                {...register("singleDisasterAddress.street")}
+                className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                placeholder="Rue et numéro"
+              />
+              {addressErrors.street && (
+                <p className="text-sm text-destructive mt-1">
+                  {addressErrors.street.message as string}
+                </p>
+              )}
+            </div>
 
-          {/* City, Postal Code, Canton, Country in one row */}
-          <div className="grid grid-cols-4 gap-4">
             <div className="space-y-2">
               <Label htmlFor="singleDisasterAddress.city">Ville</Label>
               <input
@@ -66,10 +64,9 @@ export function SingleAddressAndContact({ form }: SingleAddressAndContactProps) 
                 {...register("singleDisasterAddress.city")}
                 className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
                 placeholder="Ville"
-                defaultValue="Genève"
               />
               {addressErrors.city && (
-                <p className="text-sm text-red-500 mt-1">
+                <p className="text-sm text-destructive mt-1">
                   {addressErrors.city.message as string}
                 </p>
               )}
@@ -81,11 +78,10 @@ export function SingleAddressAndContact({ form }: SingleAddressAndContactProps) 
                 id="singleDisasterAddress.postalCode"
                 {...register("singleDisasterAddress.postalCode")}
                 className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-                placeholder="Code postal" 
-                defaultValue="1204"
+                placeholder="Code postal"
               />
               {addressErrors.postalCode && (
-                <p className="text-sm text-red-500 mt-1">
+                <p className="text-sm text-destructive mt-1">
                   {addressErrors.postalCode.message as string}
                 </p>
               )}
@@ -98,10 +94,10 @@ export function SingleAddressAndContact({ form }: SingleAddressAndContactProps) 
                 defaultValue="none"
               >
                 <SelectTrigger className="w-full">
-                  <SelectValue placeholder="Select canton" />
+                  <SelectValue placeholder="Sélectionner un canton" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="none">Not applicable</SelectItem>
+                  <SelectItem value="none">Non applicable</SelectItem>
                   {swissCantons.map((canton) => (
                     <SelectItem key={canton} value={canton}>
                       {canton}
@@ -117,13 +113,13 @@ export function SingleAddressAndContact({ form }: SingleAddressAndContactProps) 
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="singleDisasterAddress.country">Country</Label>
+              <Label htmlFor="singleDisasterAddress.country">Pays</Label>
               <input
                 id="singleDisasterAddress.country"
                 {...register("singleDisasterAddress.country")}
                 className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-                placeholder="Country"
-                defaultValue="Switzerland"
+                placeholder="Pays"
+                defaultValue="Suisse"
               />
               {addressErrors.country && (
                 <p className="text-sm text-destructive mt-1">

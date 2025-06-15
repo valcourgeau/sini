@@ -107,15 +107,15 @@ export function SingleInsuranceCoverage({ form }: SingleInsuranceCoverageProps) 
   return (
     <div className="space-y-6">
       <div className="text-center">
-        <h2 className="text-xl font-semibold mb-2">Insurance Claim Document</h2>
+        <h2 className="text-xl font-semibold mb-2">Document de déclaration de sinistre</h2>
         <p className="text-sm text-muted-foreground mb-6 max-w-2xl mx-auto">
-          Please upload your insurance claim document ("Déclaration de Sinistre").
+          Veuillez télécharger votre document de déclaration de sinistre.
         </p>
       </div>
 
       <div className="space-y-6">
         <div className="space-y-4">
-          <Label>Do you have your insurance claim document?</Label>
+          <Label>Possédez-vous votre document de déclaration de sinistre ?</Label>
           
           <RadioGroup 
             value={selectedValue}
@@ -146,7 +146,7 @@ export function SingleInsuranceCoverage({ form }: SingleInsuranceCoverageProps) 
                   <ShieldCheck size={32} />
                 </div>
 
-                <h3 className="text-lg font-medium mb-1">Yes, I have it</h3>
+                <h3 className="text-lg font-medium mb-1">Oui</h3>
 
                 {selectedValue === "yes" && (
                   <div className="absolute top-3 right-3 bg-primary text-white rounded-full p-0.5">
@@ -175,9 +175,9 @@ export function SingleInsuranceCoverage({ form }: SingleInsuranceCoverageProps) 
                         <div className="flex flex-col items-center justify-center pt-5 pb-6">
                           <Upload className="w-8 h-8 mb-3 text-gray-400" />
                           <p className="mb-2 text-sm text-gray-500">
-                            <span className="font-semibold">Click to upload</span> or drag and drop
+                            <span className="font-semibold">Cliquez pour télécharger</span> ou glissez-déposez
                           </p>
-                          <p className="text-xs text-gray-500">PDF, DOC, or DOCX (MAX. 10MB)</p>
+                          <p className="text-xs text-gray-500">PDF, DOC, ou DOCX (MAX. 10MB)</p>
                         </div>
                         <input
                           id="claim-document"
@@ -190,7 +190,7 @@ export function SingleInsuranceCoverage({ form }: SingleInsuranceCoverageProps) 
                     </div>
                     {selectedFile && (
                       <p className="mt-2 text-sm text-gray-500 text-center">
-                        Selected file: {selectedFile.name}
+                        Fichier sélectionné : {selectedFile.name}
                       </p>
                     )}
                     {insuranceErrors.claimDocument && (
@@ -227,7 +227,7 @@ export function SingleInsuranceCoverage({ form }: SingleInsuranceCoverageProps) 
                   <ShieldX size={32} />
                 </div>
 
-                <h3 className="text-lg font-medium mb-1">Non, pas encore.</h3>
+                <h3 className="text-lg font-medium mb-1">Non</h3>
 
                 {selectedValue === "no" && (
                   <div className="absolute top-3 right-3 bg-primary text-white rounded-full p-0.5">
@@ -248,12 +248,12 @@ export function SingleInsuranceCoverage({ form }: SingleInsuranceCoverageProps) 
                 {selectedValue === "no" && (
                   <div className="mt-4 pt-4 border-t border-border w-full text-center space-y-4">
                     <p className="text-sm text-muted-foreground">
-                      Please submit your claim through your insurance provider and return with the claim document.
+                      Veuillez soumettre votre déclaration de sinistre auprès de votre assureur et revenir avec le document.
                     </p>
                     
                     {selectedProvider === "Other" && (
                       <p className="text-sm text-muted-foreground">
-                        Please contact your insurance provider directly to submit your claim.
+                        Veuillez contacter directement votre assureur pour soumettre votre déclaration de sinistre.
                       </p>
                     )}
                     

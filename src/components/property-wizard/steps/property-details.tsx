@@ -381,38 +381,50 @@ export function PropertyDetails({ form }: PropertyDetailsProps) {
           
           <div className="space-y-8">
             {counterFields.map((field) => (
-              <div key={field.id} className="space-y-2">
-                <Label 
-                  htmlFor={field.fieldName} 
-                  className="text-base font-medium"
-                >
-                  {field.name}
-                </Label>
-                <div className="flex items-center space-x-4">
+              <div key={field.id} className="flex items-center justify-between max-w-md mx-auto w-full">
+                <div className="flex items-center gap-3">
+                  <div className="w-12 h-12 rounded-full bg-gray-100 flex items-center justify-center">
+                    <span className="text-gray-600">{field.icon}</span>
+                  </div>
+                  <Label 
+                    htmlFor={field.fieldName} 
+                    className="font-medium text-lg"
+                  >
+                    {field.name}
+                  </Label>
+                </div>
+                
+                <div className="flex items-center gap-4">
                   <button
                     type="button"
                     onClick={() => decrementCounter(field.fieldName, field.min)}
-                    className="p-2 rounded-full hover:bg-gray-100"
+                    className={cn(
+                      "p-2 rounded-full text-gray-500 hover:bg-gray-100 transition-colors",
+                      watch(field.fieldName) <= field.min && "opacity-50 cursor-not-allowed"
+                    )}
                     disabled={watch(field.fieldName) <= field.min}
                   >
-                    <MinusCircle size={24} className="text-gray-500" />
+                    <MinusCircle size={28} />
                   </button>
-                  <span className="text-lg font-medium w-8 text-center">
+                  
+                  <span className="w-16 text-center font-medium text-xl">
                     {watch(field.fieldName) || field.min}
                   </span>
+                  
                   <button
                     type="button"
                     onClick={() => incrementCounter(field.fieldName, field.min)}
-                    className="p-2 rounded-full hover:bg-gray-100"
+                    className="p-2 rounded-full text-gray-500 hover:bg-gray-100 transition-colors"
                   >
-                    <PlusCircle size={24} className="text-gray-500" />
+                    <PlusCircle size={28} />
                   </button>
+                  
+                  <input
+                    type="hidden"
+                    id={field.fieldName}
+                    {...register(field.fieldName, { valueAsNumber: true })}
+                  />
                 </div>
-                {getErrorMessage(field.id) && (
-                  <p className="text-sm text-red-500 mt-1">
-                    {getErrorMessage(field.id)}
-                  </p>
-                )}
               </div>
             ))}
           </div>

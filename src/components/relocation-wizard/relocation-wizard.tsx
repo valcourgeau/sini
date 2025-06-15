@@ -39,35 +39,35 @@ const formSchema = z.object({
 
   // Single Relocation path
   singleDisasterAddress: z.object({
-    street: z.string().min(1, "Street is required"),
-    city: z.string().min(1, "City is required"),
-    postalCode: z.string().min(4, "Valid postal code is required"),
-    country: z.string().min(1, "Country is required"),
+    street: z.string().min(1, "La rue est requise"),
+    city: z.string().min(1, "La ville est requise"),
+    postalCode: z.string().min(4, "Un code postal valide est requis"),
+    country: z.string().min(1, "Le pays est requis"),
     canton: z.string().optional(),
   }).optional(),
 
   singleRelocationPreferences: z.object({
-    bedrooms: z.number().min(0, "Number of bedrooms must be positive"),
-    bathrooms: z.number().min(0, "Number of bathrooms must be positive"),
-    adults: z.number().min(1, "At least one adult is required"),
-    children: z.number().min(0, "Number of children must be positive"),
+    bedrooms: z.number().min(0, "Le nombre de chambres doit être positif"),
+    bathrooms: z.number().min(0, "Le nombre de salles de bain doit être positif"),
+    adults: z.number().min(1, "Au moins un adulte est requis"),
+    children: z.number().min(0, "Le nombre d'enfants doit être positif"),
     hasAnimals: z.boolean().optional(),
     hasAccessibilityNeeds: z.boolean().optional(),
     needsParking: z.boolean().optional(),
   }).optional(),
 
   singleArrivalDetails: z.object({
-    arrivalDate: z.string().min(1, "Arrival date is required"),
+    arrivalDate: z.string().min(1, "La date d'arrivée est requise"),
     departureDate: z.string().optional(),
     useExactDates: z.boolean().default(false),
-    estimatedDuration: z.string().min(1, "Estimated duration is required"),
+    estimatedDuration: z.string().min(1, "La durée estimée est requise"),
   }).optional(),
 
   singlePersonalData: z.object({
-    firstName: z.string().min(1, "First name is required"),
-    lastName: z.string().min(1, "Last name is required"),
-    email: z.string().email("Valid email is required"),
-    phone: z.string().min(10, "Valid phone number is required"),
+    firstName: z.string().min(1, "Le prénom est requis"),
+    lastName: z.string().min(1, "Le nom est requis"),
+    email: z.string().email("Un email valide est requis"),
+    phone: z.string().min(10, "Un numéro de téléphone valide est requis"),
   }).optional(),
 
   singleInsuranceCoverage: z.object({
@@ -76,8 +76,8 @@ const formSchema = z.object({
   }).optional(),
 
   singleInsuranceDetails: z.object({
-    insuranceCompany: z.string().min(1, "Insurance company is required"),
-    policyNumber: z.string().min(1, "Policy number is required"),
+    insuranceCompany: z.string().min(1, "La compagnie d'assurance est requise"),
+    policyNumber: z.string().min(1, "Le numéro de police est requis"),
     agentContact: z.string().optional(),
   }).optional(),
 
@@ -112,26 +112,26 @@ const formSchema = z.object({
 
   singleConsent: z.object({
     agreeToTerms: z.boolean().refine(val => val === true, {
-      message: "You must agree to the terms to continue",
+      message: "Vous devez accepter les conditions pour continuer",
     }),
     agreeToDataProcessing: z.boolean().refine(val => val === true, {
-      message: "You must agree to data processing to continue",
+      message: "Vous devez accepter le traitement des données pour continuer",
     }),
   }).optional(),
 
   // Multiple Relocation path
   multipleDisasterAddress: z.object({
-    street: z.string().min(1, "Street is required"),
-    city: z.string().min(1, "City is required"),
-    postalCode: z.string().min(4, "Valid postal code is required"),
-    country: z.string().min(1, "Country is required"),
+    street: z.string().min(1, "La rue est requise"),
+    city: z.string().min(1, "La ville est requise"),
+    postalCode: z.string().min(4, "Un code postal valide est requis"),
+    country: z.string().min(1, "Le pays est requis"),
   }).optional(),
 
   multipleRelocationRequests: z.array(z.object({
-    firstName: z.string().min(1, "First name is required"),
-    lastName: z.string().min(1, "Last name is required"),
-    email: z.string().email("Valid email is required"),
-    phone: z.string().min(10, "Valid phone number is required"),
+    firstName: z.string().min(1, "Le prénom est requis"),
+    lastName: z.string().min(1, "Le nom est requis"),
+    email: z.string().email("Un email valide est requis"),
+    phone: z.string().min(10, "Un numéro de téléphone valide est requis"),
     specialNeeds: z.string().optional(),
     arrivalDate: z.string().optional(),
     estimatedDuration: z.string().optional(),
@@ -143,10 +143,10 @@ const formSchema = z.object({
 
   multipleConsent: z.object({
     agreeToTerms: z.boolean().refine(val => val === true, {
-      message: "You must agree to the terms to continue",
+      message: "Vous devez accepter les conditions pour continuer",
     }),
     agreeToDataProcessing: z.boolean().refine(val => val === true, {
-      message: "You must agree to data processing to continue",
+      message: "Vous devez accepter le traitement des données pour continuer",
     }),
   }).optional(),
 });

@@ -24,7 +24,7 @@ export default function NewRelocationPage() {
         </div>
         
         <div className="mt-12">
-          <Suspense fallback={<div>Loading...</div>}>
+          <Suspense fallback={<div>Chargement...</div>}>
             <RelocationWizard />
           </Suspense>
         </div>

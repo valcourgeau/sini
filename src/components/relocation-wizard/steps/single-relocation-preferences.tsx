@@ -71,28 +71,28 @@ export function SingleRelocationPreferences({ form }: SingleRelocationPreference
   const counterFields: CounterField[] = [
     {
       id: "bedrooms",
-      name: "Bedrooms",
+      name: "Chambres",
       icon: <Bed size={24} />,
       min: 0,
       fieldName: "singleRelocationPreferences.bedrooms"
     },
     {
       id: "bathrooms",
-      name: "Bathrooms",
+      name: "Salles de bain",
       icon: <Bath size={24} />,
       min: 0,
       fieldName: "singleRelocationPreferences.bathrooms"
     },
     {
       id: "adults",
-      name: "Adults",
+      name: "Adultes",
       icon: <Users size={24} />,
       min: 1,
       fieldName: "singleRelocationPreferences.adults"
     },
     {
       id: "children",
-      name: "Children",
+      name: "Enfants",
       icon: <Baby size={24} />,
       min: 0,
       fieldName: "singleRelocationPreferences.children"
@@ -103,19 +103,19 @@ export function SingleRelocationPreferences({ form }: SingleRelocationPreference
   const specialNeedCards: SpecialNeedCard[] = [
     {
       id: "animals",
-      name: "Pets",
+      name: "Animaux",
       icon: <PawPrint size={28} />,
       fieldName: "singleRelocationPreferences.hasAnimals"
     },
     {
       id: "accessibility",
-      name: "Accessibility",
+      name: "Accessibilité",
       icon: <Accessibility size={28} />,
       fieldName: "singleRelocationPreferences.hasAccessibilityNeeds"
     },
     {
       id: "parking",
-      name: "Parking",
+      name: "Stationnement",
       icon: <CarIcon size={28} />,
       fieldName: "singleRelocationPreferences.needsParking"
     }
@@ -156,9 +156,9 @@ export function SingleRelocationPreferences({ form }: SingleRelocationPreference
   return (
     <div className="space-y-8">
       <div className="text-center">
-        <h2 className="text-xl font-semibold mb-2">Relocation Preferences</h2>
+        <h2 className="text-xl font-semibold mb-2">Préférences de relogement</h2>
         <p className="text-sm text-muted-foreground max-w-lg mx-auto">
-          Please specify your requirements for the relocation property.
+          Veuillez spécifier vos besoins pour le logement de relogement.
         </p>
       </div>
 
@@ -166,7 +166,7 @@ export function SingleRelocationPreferences({ form }: SingleRelocationPreference
         {/* Left Column - Property Requirements */}
         <div className="space-y-6">
           <div className="pt-4 border-t">
-            <h3 className="text-lg font-medium mb-6 text-center">Property Requirements</h3>
+            <h3 className="text-lg font-medium mb-6 text-center">Besoins du logement</h3>
             
             <div className="space-y-8">
               {counterFields.map((field) => (
@@ -223,7 +223,7 @@ export function SingleRelocationPreferences({ form }: SingleRelocationPreference
         {/* Right Column - Special Requirements Cards */}
         <div className="space-y-6">
           <div className="pt-4 border-t">
-            <h3 className="text-lg font-medium mb-6 text-center">Special Requirements</h3>
+            <h3 className="text-lg font-medium mb-6 text-center">Besoins particuliers</h3>
             
             <div className="grid grid-cols-1 gap-6 max-w-[220px] mx-auto mt-10">
               {specialNeedCards.map((card) => {

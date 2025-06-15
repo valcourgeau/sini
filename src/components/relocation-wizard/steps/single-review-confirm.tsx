@@ -19,7 +19,7 @@ export function SingleReviewConfirm({ form }: SingleReviewConfirmProps) {
   }, [form]);
   
   // Helper functions to handle optional nested objects safely
-  const getValue = (path: string, defaultValue: string = "Not provided") => {
+  const getValue = (path: string, defaultValue: string = "Non fourni") => {
     const pathParts = path.split(".");
     let value = formData; // Use formData instead of calling getValues directly
     
@@ -51,11 +51,11 @@ export function SingleReviewConfirm({ form }: SingleReviewConfirmProps) {
   };
   
   const formatDate = (dateStr: string) => {
-    if (!dateStr) return "Not provided";
+    if (!dateStr) return "Non fourni";
     
     try {
       const date = new Date(dateStr);
-      return new Intl.DateTimeFormat("en-GB", {
+      return new Intl.DateTimeFormat("fr-FR", {
         day: "numeric",
         month: "long",
         year: "numeric"
@@ -92,20 +92,20 @@ export function SingleReviewConfirm({ form }: SingleReviewConfirmProps) {
       <div className="space-y-4 bg-muted/20 p-5 rounded-md border border-border">
         {/* Personal Information */}
         <div className={sectionClass}>
-          <h3 className={titleClass}>Personal Information</h3>
+          <h3 className={titleClass}>Informations personnelles</h3>
           <div className="space-y-0.5">
             <div className={detailRowClass}>
-              <span className={labelClass}>Name:</span>
+              <span className={labelClass}>Nom :</span>
               <span className={valueClass}>
                 {getValue("singlePersonalData.firstName")} {getValue("singlePersonalData.lastName")}
               </span>
             </div>
             <div className={detailRowClass}>
-              <span className={labelClass}>Email:</span>
+              <span className={labelClass}>Email :</span>
               <span className={valueClass}>{getValue("singlePersonalData.email")}</span>
             </div>
             <div className={detailRowClass}>
-              <span className={labelClass}>Phone:</span>
+              <span className={labelClass}>Téléphone :</span>
               <span className={valueClass}>{getValue("singlePersonalData.phone")}</span>
             </div>
           </div>
@@ -113,26 +113,26 @@ export function SingleReviewConfirm({ form }: SingleReviewConfirmProps) {
         
         {/* Disaster Address */}
         <div className={sectionClass}>
-          <h3 className={titleClass}>Disaster Address</h3>
+          <h3 className={titleClass}>Adresse du sinistre</h3>
           <div className="space-y-0.5">
             <div className={detailRowClass}>
-              <span className={labelClass}>Street:</span>
+              <span className={labelClass}>Rue :</span>
               <span className={valueClass}>{getValue("singleDisasterAddress.street")}</span>
             </div>
             <div className={detailRowClass}>
-              <span className={labelClass}>City:</span>
+              <span className={labelClass}>Ville :</span>
               <span className={valueClass}>{getValue("singleDisasterAddress.city")}</span>
             </div>
             <div className={detailRowClass}>
-              <span className={labelClass}>Postal Code:</span>
+              <span className={labelClass}>Code postal :</span>
               <span className={valueClass}>{getValue("singleDisasterAddress.postalCode")}</span>
             </div>
             <div className={detailRowClass}>
-              <span className={labelClass}>Country:</span>
+              <span className={labelClass}>Pays :</span>
               <span className={valueClass}>{getValue("singleDisasterAddress.country")}</span>
             </div>
             <div className={detailRowClass}>
-              <span className={labelClass}>Role:</span>
+              <span className={labelClass}>Rôle :</span>
               <span className={valueClass}>{getValue("role")}</span>
             </div>
           </div>
@@ -140,22 +140,22 @@ export function SingleReviewConfirm({ form }: SingleReviewConfirmProps) {
         
         {/* Relocation Preferences */}
         <div className={sectionClass}>
-          <h3 className={titleClass}>Relocation Preferences</h3>
+          <h3 className={titleClass}>Préférences de relogement</h3>
           <div className="space-y-0.5">
             <div className={detailRowClass}>
-              <span className={labelClass}>Bedrooms:</span>
+              <span className={labelClass}>Chambres :</span>
               <span className={valueClass}>{getValue("singleRelocationPreferences.bedrooms")}</span>
             </div>
             <div className={detailRowClass}>
-              <span className={labelClass}>Bathrooms:</span>
+              <span className={labelClass}>Salles de bain :</span>
               <span className={valueClass}>{getValue("singleRelocationPreferences.bathrooms")}</span>
             </div>
             <div className={detailRowClass}>
-              <span className={labelClass}>Adults:</span>
+              <span className={labelClass}>Adultes :</span>
               <span className={valueClass}>{getValue("singleRelocationPreferences.adults")}</span>
             </div>
             <div className={detailRowClass}>
-              <span className={labelClass}>Children:</span>
+              <span className={labelClass}>Enfants :</span>
               <span className={valueClass}>{getValue("singleRelocationPreferences.children")}</span>
             </div>
           </div>
@@ -163,46 +163,40 @@ export function SingleReviewConfirm({ form }: SingleReviewConfirmProps) {
         
         {/* Special Requirements */}
         <div className={sectionClass}>
-          <h3 className={titleClass}>Special Requirements</h3>
+          <h3 className={titleClass}>Besoins spéciaux</h3>
           <div className="space-y-0.5">
             <div className={detailRowClass}>
-              <span className={labelClass}>Pets:</span>
-              <span className={valueClass}>
-                {getBooleanValue("singleRelocationPreferences.hasAnimals") ? "Yes" : "No"}
-              </span>
+              <span className={labelClass}>Animaux :</span>
+              <span className={valueClass}>{getValue("singleRelocationPreferences.hasAnimals") ? "Oui" : "Non"}</span>
             </div>
             <div className={detailRowClass}>
-              <span className={labelClass}>Accessibility:</span>
-              <span className={valueClass}>
-                {getBooleanValue("singleRelocationPreferences.hasAccessibilityNeeds") ? "Yes" : "No"}
-              </span>
+              <span className={labelClass}>Accessibilité :</span>
+              <span className={valueClass}>{getValue("singleRelocationPreferences.hasAccessibilityNeeds") ? "Oui" : "Non"}</span>
             </div>
             <div className={detailRowClass}>
-              <span className={labelClass}>Parking:</span>
-              <span className={valueClass}>
-                {getBooleanValue("singleRelocationPreferences.needsParking") ? "Yes" : "No"}
-              </span>
+              <span className={labelClass}>Stationnement :</span>
+              <span className={valueClass}>{getValue("singleRelocationPreferences.needsParking") ? "Oui" : "Non"}</span>
             </div>
           </div>
         </div>
         
         {/* Arrival & Duration */}
         <div className={sectionClass}>
-          <h3 className={titleClass}>Arrival & Duration</h3>
+          <h3 className={titleClass}>Arrivée & Durée</h3>
           <div className="space-y-0.5">
             <div className={detailRowClass}>
-              <span className={labelClass}>Preferred Arrival Date:</span>
+              <span className={labelClass}>Date d'arrivée souhaitée :</span>
               <span className={valueClass}>{formatDate(getValue("singleArrivalDetails.arrivalDate"))}</span>
             </div>
             {getValue("singleArrivalDetails.useExactDates") === true && getValue("singleArrivalDetails.departureDate") && (
               <div className={detailRowClass}>
-                <span className={labelClass}>Departure Date:</span>
+                <span className={labelClass}>Date de départ :</span>
                 <span className={valueClass}>{formatDate(getValue("singleArrivalDetails.departureDate"))}</span>
               </div>
             )}
             {getValue("singleArrivalDetails.useExactDates") !== true && (
               <div className={detailRowClass}>
-                <span className={labelClass}>Estimated Duration:</span>
+                <span className={labelClass}>Durée estimée :</span>
                 <span className={valueClass}>{getValue("singleArrivalDetails.estimatedDuration")}</span>
               </div>
             )}
@@ -246,9 +240,9 @@ export function SingleReviewConfirm({ form }: SingleReviewConfirmProps) {
                     getValue("swissInsuranceDetails.hasMenageInsurance") !== undefined ||
                     getValue("swissInsuranceDetails.hasNaturalDisasterInsurance") !== undefined ||
                     getValue("swissInsuranceDetails.hasBuildingInsurance") !== undefined ||
-                    getValue("swissInsuranceDetails.ecaPolicyNumber") !== "Not provided" ||
-                    getValue("swissInsuranceDetails.agentContact") !== "Not provided" ||
-                    getValue("swissInsuranceDetails.additionalNotes") !== "Not provided") ? (
+                    getValue("swissInsuranceDetails.ecaPolicyNumber") !== "Non fourni" ||
+                    getValue("swissInsuranceDetails.agentContact") !== "Non fourni" ||
+                    getValue("swissInsuranceDetails.additionalNotes") !== "Non fourni") ? (
                     <div className="space-y-4">
                       {/* RC Insurance */}
                       <div className="ml-2 rounded-md bg-gray-50 p-3 border-l-2 border-gray-300">
@@ -273,7 +267,7 @@ export function SingleReviewConfirm({ form }: SingleReviewConfirmProps) {
                               <span className={labelClass}>Policy Number:</span>
                               <span className={valueClass}>{getValue("swissInsuranceDetails.rcPolicyNumber")}</span>
                             </div>
-                            {getValue("swissInsuranceDetails.rcContactPerson") !== "Not provided" && (
+                            {getValue("swissInsuranceDetails.rcContactPerson") !== "Non fourni" && (
                               <div className={detailRowClass}>
                                 <span className={labelClass}>Contact details:</span>
                                 <span className={valueClass}>{getValue("swissInsuranceDetails.rcContactPerson")}</span>
@@ -306,7 +300,7 @@ export function SingleReviewConfirm({ form }: SingleReviewConfirmProps) {
                               <span className={labelClass}>Policy Number:</span>
                               <span className={valueClass}>{getValue("swissInsuranceDetails.menagePolicyNumber")}</span>
                             </div>
-                            {getValue("swissInsuranceDetails.menageContactPerson") !== "Not provided" && (
+                            {getValue("swissInsuranceDetails.menageContactPerson") !== "Non fourni" && (
                               <div className={detailRowClass}>
                                 <span className={labelClass}>Contact details:</span>
                                 <span className={valueClass}>{getValue("swissInsuranceDetails.menageContactPerson")}</span>
@@ -318,30 +312,30 @@ export function SingleReviewConfirm({ form }: SingleReviewConfirmProps) {
                       
                       {/* Natural Disaster Insurance */}
                       <div className="ml-2 rounded-md bg-gray-50 p-3 border-l-2 border-gray-300">
-                        <div className="font-medium text-sm text-gray-700">Natural Disaster Insurance</div>
+                        <div className="font-medium text-sm text-gray-700">Assurance catastrophes naturelles</div>
                         <div className={detailRowClass}>
-                          <span className={labelClass}>Has Natural Disaster Insurance:</span>
+                          <span className={labelClass}>Assurance catastrophes naturelles :</span>
                           <span className={valueClass}>
                             {getValue("swissInsuranceDetails.hasNaturalDisasterInsurance") === true 
-                              ? "Yes" 
+                              ? "Oui" 
                               : getValue("swissInsuranceDetails.hasNaturalDisasterInsurance") === false 
-                                ? "No" 
-                                : "Not specified"}
+                                ? "Non" 
+                                : "Non spécifié"}
                           </span>
                         </div>
                         {getValue("swissInsuranceDetails.hasNaturalDisasterInsurance") === true && (
                           <>
                             <div className={detailRowClass}>
-                              <span className={labelClass}>Insurance Company:</span>
+                              <span className={labelClass}>Compagnie d'assurance :</span>
                               <span className={valueClass}>{getValue("swissInsuranceDetails.naturalDisasterInsuranceCompany")}</span>
                             </div>
                             <div className={detailRowClass}>
-                              <span className={labelClass}>Policy Number:</span>
+                              <span className={labelClass}>Numéro de police :</span>
                               <span className={valueClass}>{getValue("swissInsuranceDetails.naturalDisasterPolicyNumber")}</span>
                             </div>
-                            {getValue("swissInsuranceDetails.naturalDisasterContactPerson") !== "Not provided" && (
+                            {getValue("swissInsuranceDetails.naturalDisasterContactPerson") !== "Non fourni" && (
                               <div className={detailRowClass}>
-                                <span className={labelClass}>Contact details:</span>
+                                <span className={labelClass}>Coordonnées :</span>
                                 <span className={valueClass}>{getValue("swissInsuranceDetails.naturalDisasterContactPerson")}</span>
                               </div>
                             )}
@@ -352,15 +346,15 @@ export function SingleReviewConfirm({ form }: SingleReviewConfirmProps) {
                       {/* Building Insurance - Only show if user is an owner */}
                       {getValue("role") === "owner" && (
                         <div className="ml-2 rounded-md bg-gray-50 p-3 border-l-2 border-gray-300">
-                          <div className="font-medium text-sm text-gray-700">Building Insurance</div>
+                          <div className="font-medium text-sm text-gray-700">Assurance bâtiment</div>
                           <div className={detailRowClass}>
-                            <span className={labelClass}>Has Building Insurance:</span>
+                            <span className={labelClass}>Assurance bâtiment :</span>
                             <span className={valueClass}>
                               {getValue("swissInsuranceDetails.hasBuildingInsurance") === true 
-                                ? "Yes" 
+                                ? "Oui" 
                                 : getValue("swissInsuranceDetails.hasBuildingInsurance") === false 
-                                  ? "No" 
-                                  : "Not specified"}
+                                  ? "Non" 
+                                  : "Non spécifié"}
                             </span>
                           </div>
                           {getValue("swissInsuranceDetails.hasBuildingInsurance") === true && (
@@ -373,7 +367,7 @@ export function SingleReviewConfirm({ form }: SingleReviewConfirmProps) {
                                 <span className={labelClass}>Policy Number:</span>
                                 <span className={valueClass}>{getValue("swissInsuranceDetails.buildingPolicyNumber")}</span>
                               </div>
-                              {getValue("swissInsuranceDetails.buildingContactPerson") !== "Not provided" && (
+                              {getValue("swissInsuranceDetails.buildingContactPerson") !== "Non fourni" && (
                                 <div className={detailRowClass}>
                                   <span className={labelClass}>Contact details:</span>
                                   <span className={valueClass}>{getValue("swissInsuranceDetails.buildingContactPerson")}</span>
@@ -398,20 +392,20 @@ export function SingleReviewConfirm({ form }: SingleReviewConfirmProps) {
                       )}
                       
                       {/* Additional Information */}
-                      {(getValue("swissInsuranceDetails.agentContact") !== "Not provided" || 
-                        getValue("swissInsuranceDetails.additionalNotes") !== "Not provided") && (
+                      {(getValue("swissInsuranceDetails.agentContact") !== "Non fourni" || 
+                        getValue("swissInsuranceDetails.additionalNotes") !== "Non fourni") && (
                         <div className="ml-2 mt-4 p-3 border-t border-border/50 bg-gray-50 rounded-md">
-                          <div className="font-medium text-sm mb-1">Additional Information</div>
-                          {getValue("swissInsuranceDetails.agentContact") !== "Not provided" && (
+                          <div className="font-medium text-sm mb-1">Informations supplémentaires</div>
+                          {getValue("swissInsuranceDetails.agentContact") !== "Non fourni" && (
                             <div className={detailRowClass}>
-                              <span className={labelClass}>Agent Contact:</span>
+                              <span className={labelClass}>Contact agent :</span>
                               <span className={valueClass}>{getValue("swissInsuranceDetails.agentContact")}</span>
                             </div>
                           )}
                           
-                          {getValue("swissInsuranceDetails.additionalNotes") !== "Not provided" && (
+                          {getValue("swissInsuranceDetails.additionalNotes") !== "Non fourni" && (
                             <div className={detailRowClass}>
-                              <span className={labelClass}>Additional Notes:</span>
+                              <span className={labelClass}>Notes supplémentaires :</span>
                               <span className={valueClass}>{getValue("swissInsuranceDetails.additionalNotes")}</span>
                             </div>
                           )}
@@ -420,7 +414,7 @@ export function SingleReviewConfirm({ form }: SingleReviewConfirmProps) {
                     </div>
                   ) : (
                     <p className="text-sm text-muted-foreground ml-2">
-                      No insurance information provided. Our team will help you identify potential coverage options.
+                      Aucune information d'assurance fournie. Notre équipe vous aidera à identifier les options de couverture potentielles.
                     </p>
                   )}
                 </div>

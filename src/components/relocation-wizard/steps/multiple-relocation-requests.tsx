@@ -107,27 +107,27 @@ export function MultipleRelocationRequests({ form }: MultipleRelocationRequestsP
   const durationOptions = [
     { 
       id: "short-term", 
-      value: "A few days", 
-      label: "A few days",
-      subLabel: "Urgent and short stay"
+      value: "Quelques jours", 
+      label: "Quelques jours",
+      subLabel: "Séjour urgent et court"
     },
     { 
       id: "few-weeks", 
-      value: "A few weeks", 
-      label: "A few weeks",
-      subLabel: "Temporary stay"
+      value: "Quelques semaines", 
+      label: "Quelques semaines",
+      subLabel: "Séjour temporaire"
     },
     { 
       id: "few-months", 
-      value: "A few months", 
-      label: "A few months",
-      subLabel: "Transitional housing"
+      value: "Quelques mois", 
+      label: "Quelques mois",
+      subLabel: "Logement transitoire"
     },
     { 
       id: "unknown", 
-      value: "Unknown / Not sure",
-      label: "Unknown / Not sure",
-      subLabel: "Flexible duration"
+      value: "Inconnu / Pas sûr",
+      label: "Inconnu / Pas sûr",
+      subLabel: "Durée flexible"
     },
   ];
 
@@ -135,28 +135,28 @@ export function MultipleRelocationRequests({ form }: MultipleRelocationRequestsP
   const counterFields = [
     {
       id: "bedrooms",
-      name: "Bedrooms",
+      name: "Chambres",
       icon: <Bed size={20} />,
       min: 0,
       fieldName: "bedrooms"
     },
     {
       id: "bathrooms",
-      name: "Bathrooms",
+      name: "Salles de bain",
       icon: <Bath size={20} />,
       min: 0,
       fieldName: "bathrooms"
     },
     {
       id: "adults",
-      name: "Adults",
+      name: "Adultes",
       icon: <Users size={20} />,
       min: 1,
       fieldName: "adults"
     },
     {
       id: "children",
-      name: "Children",
+      name: "Enfants",
       icon: <Baby size={20} />,
       min: 0,
       fieldName: "children"
@@ -182,7 +182,7 @@ export function MultipleRelocationRequests({ form }: MultipleRelocationRequestsP
     };
     
     setValue("multipleRelocationRequests", [...requests, newPerson]);
-    toast.success("New person added to the list");
+    toast.success("Nouvelle personne ajoutée à la liste");
   };
   
   // Remove a person by index
@@ -190,7 +190,7 @@ export function MultipleRelocationRequests({ form }: MultipleRelocationRequestsP
     const updatedRequests = [...requests];
     updatedRequests.splice(index, 1);
     setValue("multipleRelocationRequests", updatedRequests);
-    toast.success("Person removed from the list");
+    toast.success("Personne retirée de la liste");
   };
 
   // Duplicate a person
@@ -199,7 +199,7 @@ export function MultipleRelocationRequests({ form }: MultipleRelocationRequestsP
     const updatedRequests = [...requests];
     updatedRequests.splice(index + 1, 0, personToDuplicate);
     setValue("multipleRelocationRequests", updatedRequests);
-    toast.success("Person duplicated");
+    toast.success("Personne dupliquée");
   };
 
   // Function to increment counter
@@ -262,7 +262,7 @@ export function MultipleRelocationRequests({ form }: MultipleRelocationRequestsP
         shouldDirty: true,
         shouldTouch: true
       });
-      toast.success("Claim document uploaded successfully");
+      toast.success("Document de déclaration de sinistre téléchargé avec succès");
     }
   };
 
@@ -278,15 +278,15 @@ export function MultipleRelocationRequests({ form }: MultipleRelocationRequestsP
       shouldDirty: true,
       shouldTouch: true
     });
-    toast.success("Claim document removed");
+    toast.success("Document de déclaration de sinistre supprimé");
   };
 
   return (
     <div className="space-y-6">
       <div>
-        <h2 className="text-lg font-medium mb-4">Multiple Relocation Requests</h2>
+        <h2 className="text-lg font-medium mb-4">Demandes de relogement multiples</h2>
         <p className="text-sm text-muted-foreground mb-6">
-          Please kindly provide information for each household requiring relocation assistance. Note that a single entry per household is preferred.
+          Veuillez fournir les informations pour chaque foyer nécessitant une assistance au relogement. Notez qu'une seule entrée par foyer est préférée.
         </p>
       </div>
 
@@ -297,20 +297,18 @@ export function MultipleRelocationRequests({ form }: MultipleRelocationRequestsP
               <TableHeader>
                 <TableRow className="bg-muted/50">
                   {/* Contact Information Column */}
-                  <TableHead className="w-[150px] text-gray-900 font-medium text-sm whitespace-nowrap">Name</TableHead>
-                  <TableHead className="w-[150px] text-gray-900 font-medium text-sm whitespace-nowrap">Surname</TableHead>
+                  <TableHead className="w-[150px] text-gray-900 font-medium text-sm whitespace-nowrap">Prénom</TableHead>
+                  <TableHead className="w-[150px] text-gray-900 font-medium text-sm whitespace-nowrap">Nom</TableHead>
                   <TableHead className="w-[200px] text-gray-900 font-medium text-sm whitespace-nowrap">Email</TableHead>
-                  <TableHead className="w-[150px] text-gray-900 font-medium text-sm whitespace-nowrap">Phone</TableHead>
+                  <TableHead className="w-[150px] text-gray-900 font-medium text-sm whitespace-nowrap">Téléphone</TableHead>
                   <TableHead className="w-[120px] text-gray-900 font-medium text-sm whitespace-nowrap">
                     <div className="flex items-center gap-2">
-                      {/* <Calendar className="h-5 w-5" /> */}
-                      <span>Arrival</span>
+                      <span>Arrivée</span>
                     </div>
                   </TableHead>
                   <TableHead className="w-[120px] text-gray-900 font-medium text-sm whitespace-nowrap">
                     <div className="flex items-center gap-2">
-                      {/* <ClockIcon className="h-5 w-5" /> */}
-                      <span>Duration</span>
+                      <span>Durée</span>
                     </div>
                   </TableHead>
 
@@ -318,25 +316,25 @@ export function MultipleRelocationRequests({ form }: MultipleRelocationRequestsP
                   <TableHead className="w-[20px] text-gray-900 font-medium text-sm">
                     <div className="flex items-center gap-2">
                       <Bed className="h-5 w-5" />
-                      <span className="sr-only">Bedrooms</span>
+                      <span className="sr-only">Chambres</span>
                     </div>
                   </TableHead>
                   <TableHead className="w-[20px] text-gray-900 font-medium text-sm">
                     <div className="flex items-center gap-2">
                       <BathIcon className="h-5 w-5" />
-                      <span className="sr-only">Bathrooms</span>
+                      <span className="sr-only">Salles de bain</span>
                     </div>
                   </TableHead>
                   <TableHead className="w-[20px] text-gray-900 font-medium text-sm">
                     <div className="flex items-center gap-2">
                       <User className="h-5 w-5" />
-                      <span className="sr-only">Adults</span>
+                      <span className="sr-only">Adultes</span>
                     </div>
                   </TableHead>
                   <TableHead className="w-[20px] text-gray-900 font-medium text-sm">
                     <div className="flex items-center gap-2">
                       <Baby className="h-5 w-5" />
-                      <span className="sr-only">Children</span>
+                      <span className="sr-only">Enfants</span>
                     </div>
                   </TableHead>
 
@@ -344,25 +342,25 @@ export function MultipleRelocationRequests({ form }: MultipleRelocationRequestsP
                   <TableHead className="w-[80px] text-gray-900 font-medium text-center text-sm">
                     <div className="flex items-center justify-center gap-2">
                       <PawPrint className="h-5 w-5" />
-                      <span className="sr-only">Pets</span>
+                      <span className="sr-only">Animaux</span>
                     </div>
                   </TableHead>
                   <TableHead className="w-[80px] text-gray-900 font-medium text-center text-sm">
                     <div className="flex items-center justify-center gap-2">
                       <Accessibility className="h-5 w-5" />
-                      <span className="sr-only">Accessibility</span>
+                      <span className="sr-only">Accessibilité</span>
                     </div>
                   </TableHead>
                   <TableHead className="w-[80px] text-gray-900 font-medium text-center text-sm">
                     <div className="flex items-center justify-center gap-2">
                       <CarIcon className="h-5 w-5" />
-                      <span className="sr-only">Parking</span>
+                      <span className="sr-only">Stationnement</span>
                     </div>
                   </TableHead>
                   <TableHead className="w-[80px] text-gray-900 font-medium text-center text-sm">
                     <div className="flex items-center justify-center gap-2">
                       <Paperclip className="h-5 w-5" />
-                      <span className="sr-only">Claim Document</span>
+                      <span className="sr-only">Document de déclaration</span>
                     </div>
                   </TableHead>
                   <TableHead className="w-[100px] text-gray-900 font-medium text-right text-sm">Actions</TableHead>
@@ -375,7 +373,7 @@ export function MultipleRelocationRequests({ form }: MultipleRelocationRequestsP
                       <div className="space-y-0.5">
                         <Input
                           {...register(`multipleRelocationRequests.${index}.firstName`, {
-                            required: "First name is required"
+                            required: "Le prénom est requis"
                           })}
                           placeholder="Paul"
                           className={cn(
@@ -395,7 +393,7 @@ export function MultipleRelocationRequests({ form }: MultipleRelocationRequestsP
                       <div className="space-y-0.5">
                         <Input
                           {...register(`multipleRelocationRequests.${index}.lastName`, {
-                            required: "Last name is required"
+                            required: "Le nom est requis"
                           })}
                           placeholder="Dupont"
                           className={cn(
@@ -472,7 +470,7 @@ export function MultipleRelocationRequests({ form }: MultipleRelocationRequestsP
                         onValueChange={(value) => setValue(`multipleRelocationRequests.${index}.estimatedDuration`, value)}
                       >
                         <SelectTrigger className="h-8 px-2 py-1 text-xs w-[110px]">
-                          <SelectValue placeholder="Select duration" className="text-muted-foreground" />
+                          <SelectValue placeholder="Sélectionner la durée" className="text-muted-foreground" />
                         </SelectTrigger>
                         <SelectContent className="py-1">
                           {durationOptions.map((option) => (

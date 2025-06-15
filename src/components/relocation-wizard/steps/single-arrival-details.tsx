@@ -38,30 +38,30 @@ export function SingleArrivalDetails({ form }: SingleArrivalDetailsProps) {
   const durationOptions = [
     { 
       id: "short-term", 
-      value: "A few days", 
-      label: "A few days",
-      subLabel: "Urgent and short stay",
+      value: "Quelques jours", 
+      label: "Quelques jours",
+      subLabel: "Séjour urgent et court",
       icon: <Clock size={28} />
     },
     { 
       id: "few-weeks", 
-      value: "A few weeks", 
-      label: "A few weeks",
-      subLabel: "Temporary stay",
+      value: "Quelques semaines", 
+      label: "Quelques semaines",
+      subLabel: "Séjour temporaire",
       icon: <Clock size={28} />
     },
     { 
       id: "few-months", 
-      value: "A few months", 
-      label: "A few months",
-      subLabel: "Transitional housing",
+      value: "Quelques mois", 
+      label: "Quelques mois",
+      subLabel: "Logement transitoire",
       icon: <Calendar size={28} />
     },
     { 
       id: "unknown", 
-      value: "Unknown / Not sure",
-      label: "Unknown / Not sure",
-      subLabel: "Flexible duration",
+      value: "Inconnu / Pas sûr",
+      label: "Inconnu / Pas sûr",
+      subLabel: "Durée flexible",
       icon: <HelpCircle size={28} />
     },
   ];
@@ -101,9 +101,9 @@ export function SingleArrivalDetails({ form }: SingleArrivalDetailsProps) {
   return (
     <div className="space-y-8">
       <div className="text-center">
-        <h2 className="text-xl font-semibold mb-2">Arrival & Duration Details</h2>
+        <h2 className="text-xl font-semibold mb-2">Détails d'arrivée</h2>
         <p className="text-sm text-muted-foreground mb-6 max-w-lg mx-auto">
-          Please provide information about when you need to arrive and how long you anticipate needing accommodation.
+          Veuillez spécifier quand vous souhaitez emménager et la durée prévue de votre séjour.
         </p>
       </div>
 
@@ -130,7 +130,7 @@ export function SingleArrivalDetails({ form }: SingleArrivalDetailsProps) {
             )}>
               <CalendarRange size={32} />
             </div>
-            <h3 className="text-lg font-medium mb-1">I know the exact dates</h3>
+            <h3 className="text-lg font-medium mb-1">Je connais les dates exactes</h3>
             
             {useExactDates && (
               <div className="absolute top-3 right-3 bg-primary text-white rounded-full p-0.5">
@@ -159,7 +159,7 @@ export function SingleArrivalDetails({ form }: SingleArrivalDetailsProps) {
             )}>
               <Clock size={32} />
             </div>
-            <h3 className="text-lg font-medium mb-1">I need flexible dates</h3>
+            <h3 className="text-lg font-medium mb-1">J'ai besoin de dates flexibles</h3>
             
             {!useExactDates && (
               <div className="absolute top-3 right-3 bg-primary text-white rounded-full p-0.5">
@@ -175,7 +175,7 @@ export function SingleArrivalDetails({ form }: SingleArrivalDetailsProps) {
             <div className="grid grid-cols-2 gap-8">
               <div className="flex items-center gap-4">
                 <Label htmlFor="singleArrivalDetails.arrivalDate" className="text-base font-medium whitespace-nowrap">
-                  Preferred Arrival Date <span className="text-red-500">*</span>
+                  Date d'arrivée souhaitée <span className="text-red-500">*</span>
                 </Label>
                 <div>
                   <input
@@ -196,7 +196,7 @@ export function SingleArrivalDetails({ form }: SingleArrivalDetailsProps) {
 
               <div className="flex items-center gap-4">
                 <Label htmlFor="singleArrivalDetails.departureDate" className="text-base font-medium whitespace-nowrap">
-                  Departure Date
+                  Date de départ
                 </Label>
                 <div>
                   <input
@@ -217,7 +217,7 @@ export function SingleArrivalDetails({ form }: SingleArrivalDetailsProps) {
           ) : (
             <div className="flex items-center gap-4">
               <Label htmlFor="singleArrivalDetails.arrivalDate" className="text-base font-medium whitespace-nowrap">
-                Preferred Arrival Date <span className="text-red-500">*</span>
+                Date d'arrivée souhaitée <span className="text-red-500">*</span>
               </Label>
               <div>
                 <input
@@ -237,14 +237,14 @@ export function SingleArrivalDetails({ form }: SingleArrivalDetailsProps) {
             </div>
           )}
           <p className="text-xs text-muted-foreground -mt-2">
-            The earliest date you would need to move into the new accommodation.
+            La date la plus proche à laquelle vous auriez besoin d'emménager dans le nouveau logement.
           </p>
         </div>
 
         {!useExactDates && (
           <div className="space-y-4 mt-6">
             <Label htmlFor="singleArrivalDetails.estimatedDuration" className="text-base font-medium">
-              Estimated Duration <span className="text-red-500">*</span>
+              Durée estimée <span className="text-red-500">*</span>
             </Label>
             
             {/* Duration selection cards */}
@@ -299,15 +299,15 @@ export function SingleArrivalDetails({ form }: SingleArrivalDetailsProps) {
               </p>
             )}
             <p className="text-xs text-muted-foreground mt-1">
-              How long do you anticipate needing the accommodation? This helps us find the most suitable options.
+              Combien de temps prévoyez-vous d'avoir besoin du logement ? Cela nous aide à trouver les options les plus adaptées.
             </p>
           </div>
         )}
 
         <div className="p-4 bg-primary/5 rounded-md border border-primary/10 mt-6">
           <p className="text-sm text-primary/80">
-            <strong>Note:</strong> Help us match you with appropriate relocation options. 
-            If your circumstances change, you can always update this information later.
+            <strong>Note :</strong> Aidez-nous à vous proposer des options de relogement appropriées. 
+            Si votre situation change, vous pourrez toujours mettre à jour ces informations ultérieurement.
           </p>
         </div>
       </div>
