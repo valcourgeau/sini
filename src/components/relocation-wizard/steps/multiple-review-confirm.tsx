@@ -120,10 +120,13 @@ export function MultipleReviewConfirm({ form }: MultipleReviewConfirmProps) {
                         {request.hasUploadedClaim ? (
                           <>
                             <CircleCheckBig className="h-4 w-4 text-green-500" />
-                            <span>({request.claimDocument?.name})</span>
+                            <span>Uploaded ({request.claimDocument?.name})</span>
                           </>
                         ) : (
-                          <X className="h-4 w-4 text-red-500" />
+                          <>
+                            <X className="h-4 w-4 text-red-500" />
+                            <span>Not uploaded</span>
+                          </>
                         )}
                       </span>
                     </div>

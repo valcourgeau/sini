@@ -28,10 +28,10 @@ export function Footer() {
               </li>
               <li>
                 <Link 
-                  href="/relocation/batch" 
+                  href="/relocation/new" 
                   className="text-sm text-muted-foreground hover:text-primary transition-colors"
                 >
-                  Traitement par lots
+                  Plateforme Assurances
                 </Link>
               </li>
             </ul>

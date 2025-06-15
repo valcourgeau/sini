@@ -38,7 +38,7 @@ export default function HomePage() {
               <ScrollButton
                 iconName="alert-triangle"
                 title="Sinistrés"
-                description="Affecté(e) par un sinistre ?"
+                description="Particulier Affecté(e) par un sinistre ?"
                 sectionId="sinistres"
               />
               <ScrollButton

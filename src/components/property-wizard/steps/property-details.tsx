@@ -207,36 +207,37 @@ export function PropertyDetails({ form }: PropertyDetailsProps) {
         </p>
       </div>
 
-      <div className="space-y-6">
-        {/* Title field */}
-        <div className="space-y-2">
-          <Label 
-            htmlFor="propertyDetails.title" 
-            className="text-base font-medium"
-          >
-            Title
-          </Label>
-          <Input
-            id="propertyDetails.title"
-            {...register("propertyDetails.title")}
-            defaultValue="Beautiful bright apartment in the city center"
-            placeholder="Ex: Beautiful bright apartment in the city center"
-            className={cn(
-              getErrorMessage("title") && "border-red-500 focus-visible:ring-red-500"
-            )}
-          />
-          {getErrorMessage("title") && (
-            <p className="text-sm text-red-500 mt-1">
-              {getErrorMessage("title")}
-            </p>
+      {/* Title field spanning both columns */}
+      <div className="space-y-2">
+        <Label 
+          htmlFor="propertyDetails.title" 
+          className="text-base font-medium"
+        >
+          Title
+        </Label>
+        <Input
+          id="propertyDetails.title"
+          {...register("propertyDetails.title")}
+          defaultValue="Beautiful bright apartment in the city center"
+          placeholder="Ex: Beautiful bright apartment in the city center"
+          className={cn(
+            getErrorMessage("title") && "border-red-500 focus-visible:ring-red-500"
           )}
-          <p className="text-xs text-muted-foreground mt-1">
-            A short, catchy title that describes your property.
+        />
+        {getErrorMessage("title") && (
+          <p className="text-sm text-red-500 mt-1">
+            {getErrorMessage("title")}
           </p>
-        </div>
-        
-        {/* Location Section */}
-        <div className="pt-4 border-t">
+        )}
+        <p className="text-xs text-muted-foreground mt-1">
+          A short, catchy title that describes your property.
+        </p>
+      </div>
+
+      <div className="grid grid-cols-2 gap-8">
+        {/* Left Column - Property Details */}
+        <div className="space-y-6">
+          {/* Location Section */}
           <div className="space-y-6">
             {/* Street */}
             <div className="space-y-2">
@@ -262,8 +263,8 @@ export function PropertyDetails({ form }: PropertyDetailsProps) {
               )}
             </div>
             
-            {/* City, Postal Code, Canton and Country in one row */}
-            <div className="grid grid-cols-4 gap-4">
+            {/* City and Postal Code */}
+            <div className="grid grid-cols-2 gap-4">
               {/* City */}
               <div className="space-y-2">
                 <Label 
@@ -311,7 +312,10 @@ export function PropertyDetails({ form }: PropertyDetailsProps) {
                   </p>
                 )}
               </div>
-              
+            </div>
+            
+            {/* Canton and Country */}
+            <div className="grid grid-cols-2 gap-4">
               {/* Canton */}
               <div className="space-y-2">
                 <Label 
@@ -368,14 +372,14 @@ export function PropertyDetails({ form }: PropertyDetailsProps) {
             </div>
           </div>
         </div>
-        
-        {/* Features Section */}
-        <div className="pt-4 border-t">
+
+        {/* Right Column - Features */}
+        <div className="space-y-6">
           <h3 className="text-lg font-medium mb-6 text-center">Features</h3>
           
           <div className="space-y-8">
             {counterFields.map((field) => (
-              <div key={field.id} className="flex items-center justify-between max-w-md mx-auto w-full">
+              <div key={field.id} className="flex items-center justify-between w-full">
                 <div className="flex items-center gap-3">
                   <div className="w-12 h-12 rounded-full bg-gray-100 flex items-center justify-center">
                     <span className="text-gray-600">{field.icon}</span>
