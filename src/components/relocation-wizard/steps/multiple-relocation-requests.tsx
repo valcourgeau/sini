@@ -634,8 +634,8 @@ export function MultipleRelocationRequests({ form }: MultipleRelocationRequestsP
         {requests.length > 0 && (
           <div className="p-4 bg-amber-50 rounded-md border border-amber-100">
             <p className="text-sm text-amber-700">
-              <strong>Note:</strong> Please ensure that you've added all individuals requiring relocation assistance. 
-              You can add, duplicate, or remove people using the buttons above.
+              <strong>Note :</strong> Assurez-vous d'avoir ajouté toutes les personnes nécessitant une assistance au relogement. 
+              Vous pouvez ajouter, dupliquer ou supprimer des personnes en utilisant les boutons ci-dessus.
             </p>
           </div>
         )}

@@ -21,39 +21,39 @@ export function MultipleConsent({ form, onSubmit, isSubmitting, onBack }: Multip
   return (
     <div className="space-y-6">
       <div>
-        <h2 className="text-lg font-medium mb-4">Consent & Authorization</h2>
+        <h2 className="text-lg font-medium mb-4">Consentement et autorisation</h2>
         <p className="text-sm text-muted-foreground mb-6">
-          Please review and agree to the following terms to submit your relocation requests.
+          Veuillez examiner et accepter les conditions suivantes pour soumettre vos demandes de relogement.
         </p>
       </div>
 
       <div className="space-y-6">
         <div className="p-4 bg-muted rounded-md border border-border">
           <div className="space-y-4 max-h-60 overflow-y-auto pr-2">
-            <h3 className="font-medium">Terms of Service</h3>
+            <h3 className="font-medium">Conditions d'utilisation</h3>
             <p className="text-sm text-muted-foreground">
-              By using our relocation assistance service, you agree to the following terms:
+              En utilisant notre service d'assistance au relogement, vous acceptez les conditions suivantes :
             </p>
             <ul className="list-disc list-outside ml-5 text-sm text-muted-foreground space-y-1">
-              <li>The information provided in this form is accurate and complete to the best of your knowledge.</li>
-              <li>You authorize us to use this information to assist in finding suitable relocation options.</li>
-              <li>You understand that submission of this form does not guarantee relocation assistance.</li>
-              <li>You agree to respond promptly to any follow-up communications regarding the requests.</li>
-              <li>You acknowledge that relocation options are subject to availability and eligibility criteria.</li>
-              <li>You understand that any false or misleading information may result in the rejection of the requests.</li>
+              <li>Les informations fournies dans ce formulaire sont exactes et complètes à votre connaissance.</li>
+              <li>Vous nous autorisez à utiliser ces informations pour vous aider à trouver des options de relogement adaptées.</li>
+              <li>Vous comprenez que la soumission de ce formulaire ne garantit pas l'assistance au relogement.</li>
+              <li>Vous acceptez de répondre rapidement à toute communication de suivi concernant les demandes.</li>
+              <li>Vous reconnaissez que les options de relogement sont soumises à disponibilité et critères d'éligibilité.</li>
+              <li>Vous comprenez que toute information fausse ou trompeuse peut entraîner le rejet des demandes.</li>
             </ul>
             
-            <h3 className="font-medium mt-6">Data Privacy Policy</h3>
+            <h3 className="font-medium mt-6">Politique de confidentialité</h3>
             <p className="text-sm text-muted-foreground">
-              We are committed to protecting your privacy. Here's how we handle your data:
+              Nous nous engageons à protéger votre vie privée. Voici comment nous traitons vos données :
             </p>
             <ul className="list-disc list-outside ml-5 text-sm text-muted-foreground space-y-1">
-              <li>Personal information will only be used for processing relocation requests and related services.</li>
-              <li>We may share information with relocation partners, housing providers, and relevant authorities as necessary.</li>
-              <li>If insurance information was provided, we may contact insurance providers to verify coverage.</li>
-              <li>Data will be stored securely and retained for the duration required by applicable laws.</li>
-              <li>Individuals have the right to access, correct, or request deletion of their personal information.</li>
-              <li>For full details on how we handle data, please refer to our complete Privacy Policy.</li>
+              <li>Les informations personnelles ne seront utilisées que pour traiter les demandes de relogement et les services associés.</li>
+              <li>Nous pouvons partager les informations avec des partenaires de relogement, des fournisseurs de logement et les autorités compétentes si nécessaire.</li>
+              <li>Si des informations d'assurance ont été fournies, nous pouvons contacter les assureurs pour vérifier la couverture.</li>
+              <li>Les données seront stockées de manière sécurisée et conservées pendant la durée requise par les lois applicables.</li>
+              <li>Les personnes concernées ont le droit d'accéder, de corriger ou de demander la suppression de leurs informations personnelles.</li>
+              <li>Pour plus de détails sur le traitement des données, veuillez consulter notre Politique de confidentialité complète.</li>
             </ul>
           </div>
         </div>
@@ -68,10 +68,10 @@ export function MultipleConsent({ form, onSubmit, isSubmitting, onBack }: Multip
             />
             <div className="space-y-1">
               <Label htmlFor="multipleConsent.agreeToTerms" className="text-base font-medium">
-                I agree to the Terms of Service <span className="text-red-500">*</span>
+                J'accepte les conditions d'utilisation <span className="text-red-500">*</span>
               </Label>
               <p className="text-sm text-muted-foreground">
-                By checking this box, you confirm that you have read, understood, and agree to the terms outlined above.
+                En cochant cette case, vous confirmez avoir lu, compris et accepté les conditions ci-dessus.
               </p>
               {consentErrors.agreeToTerms && (
                 <p className="text-sm text-destructive">
@@ -90,11 +90,11 @@ export function MultipleConsent({ form, onSubmit, isSubmitting, onBack }: Multip
             />
             <div className="space-y-1">
               <Label htmlFor="multipleConsent.agreeToDataProcessing" className="text-base font-medium">
-                I consent to the processing of personal data <span className="text-red-500">*</span>
+                Je consens au traitement des données personnelles <span className="text-red-500">*</span>
               </Label>
               <p className="text-sm text-muted-foreground">
-                By checking this box, you give your consent for the collection, use, and sharing of personal 
-                information as described in our data privacy policy.
+                En cochant cette case, vous donnez votre consentement pour la collecte, l'utilisation et le partage des 
+                informations personnelles comme décrit dans notre politique de confidentialité.
               </p>
               {consentErrors.agreeToDataProcessing && (
                 <p className="text-sm text-destructive">
@@ -107,8 +107,8 @@ export function MultipleConsent({ form, onSubmit, isSubmitting, onBack }: Multip
 
         <div className="p-4 bg-primary/5 rounded-md border border-primary/10">
           <p className="text-sm text-primary/80">
-            <strong>Important:</strong> After submitting the requests, you will receive a confirmation email 
-            with a summary of all relocation requests. Our team will contact you for next steps.
+            <strong>Important :</strong> Après avoir soumis les demandes, vous recevrez un email de confirmation 
+            avec un résumé de toutes les demandes de relogement. Notre équipe vous contactera pour les prochaines étapes.
           </p>
         </div>
 
@@ -119,7 +119,7 @@ export function MultipleConsent({ form, onSubmit, isSubmitting, onBack }: Multip
             onClick={onBack}
             className="px-6 py-2 h-auto"
           >
-            Back
+            Retour
           </Button>
           <Button 
             type="button" 
@@ -127,7 +127,7 @@ export function MultipleConsent({ form, onSubmit, isSubmitting, onBack }: Multip
             disabled={isSubmitting}
             className="px-8 py-2 h-auto bg-primary hover:bg-primary/90"
           >
-            {isSubmitting ? "Submitting..." : "Submit Requests"}
+            {isSubmitting ? "Envoi en cours..." : "Valider les demandes"}
           </Button>
         </div>
       </div>

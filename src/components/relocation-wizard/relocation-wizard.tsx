@@ -380,14 +380,14 @@ export function RelocationWizard() {
     )}>
       <Card className="border-2 shadow-lg">
         <CardHeader className="pb-6">
-          <CardTitle className="text-2xl font-bold text-center">Relocation Assistance Request</CardTitle>
+          <CardTitle className="text-2xl font-bold text-center">Demande d'assistance au relogement</CardTitle>
           <CardDescription className="text-center text-base">
-            Please complete this form to request relocation assistance.
+            Veuillez remplir ce formulaire pour demander une assistance au relogement.
           </CardDescription>
           <div className="mt-12">
             <Progress value={progressPercentage} className="h-2.5" />
             <p className="text-sm text-right mt-2 text-muted-foreground">
-              Step {step} of {totalSteps}
+              Étape {step} sur {totalSteps}
             </p>
           </div>
         </CardHeader>

@@ -19,6 +19,12 @@ export function Header() {
           
           {/* Desktop navigation */}
           <nav className="hidden md:flex items-center gap-6">
+            <Link
+              href="/property/list"
+              className="inline-flex items-center bg-primary text-primary-foreground px-6 py-2.5 rounded-lg text-base font-semibold hover:bg-primary/90 transition-colors"
+            >
+              Devenir Hôte
+            </Link>
             <Link 
               href="/about" 
               className="text-sm font-medium text-foreground hover:text-primary transition-colors"
@@ -30,12 +36,6 @@ export function Header() {
               className="text-sm font-medium text-foreground hover:text-primary transition-colors"
             >
               Contact
-            </Link>
-            <Link
-              href="/property/list"
-              className="inline-flex items-center bg-primary text-primary-foreground px-4 py-2 rounded-lg text-sm font-semibold hover:bg-primary/90 transition-colors"
-            >
-              Devenir Hôte
             </Link>
           </nav>
           
@@ -73,6 +73,13 @@ export function Header() {
         {/* Mobile navigation */}
         {isMenuOpen && (
           <div className="md:hidden py-4 space-y-2">
+            <Link
+              href="/property/list"
+              className="flex items-center bg-primary text-primary-foreground px-6 py-2.5 rounded-lg text-base font-semibold hover:bg-primary/90 transition-colors"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              Devenir Hôte
+            </Link>
             <Link 
               href="/about" 
               className="block text-sm font-medium text-foreground hover:text-primary transition-colors py-2"
@@ -86,13 +93,6 @@ export function Header() {
               onClick={() => setIsMenuOpen(false)}
             >
               Contact
-            </Link>
-            <Link
-              href="/property/list"
-              className="flex items-center bg-primary text-primary-foreground px-4 py-2 rounded-lg text-sm font-semibold hover:bg-primary/90 transition-colors"
-              onClick={() => setIsMenuOpen(false)}
-            >
-              Devenir Hôte
             </Link>
           </div>
         )}

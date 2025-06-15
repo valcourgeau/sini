@@ -227,7 +227,7 @@ export function SingleInsuranceCoverage({ form }: SingleInsuranceCoverageProps) 
                   <ShieldX size={32} />
                 </div>
 
-                <h3 className="text-lg font-medium mb-1">No, not yet.</h3>
+                <h3 className="text-lg font-medium mb-1">Non, pas encore.</h3>
 
                 {selectedValue === "no" && (
                   <div className="absolute top-3 right-3 bg-primary text-white rounded-full p-0.5">
@@ -287,7 +287,7 @@ export function SingleInsuranceCoverage({ form }: SingleInsuranceCoverageProps) 
         </div>
 
         <InfoBox className="mt-6">
-          The insurance claim document is required to process your relocation request. If you don't have it yet, please submit a claim through your insurance provider and return with the document.
+          Le document de sinistre est nécessaire pour traiter votre demande de relogement. Si vous ne l'avez pas encore, veuillez soumettre une déclaration auprès de votre assureur et revenir avec le document.
         </InfoBox>
       </div>
     </div>

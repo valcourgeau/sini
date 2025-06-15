@@ -33,19 +33,19 @@ const formSchema = z.object({
   
   // Step 2: Property Details and Location
   propertyDetails: z.object({
-    title: z.string().min(5, "Title is required (min 5 chars)"),
-    bedrooms: z.number().min(0, "Must be 0 or more"),
-    bathrooms: z.number().min(0, "Must be 0 or more"),
-    maxGuests: z.number().min(1, "At least 1 guest required"),
+    title: z.string().min(5, "Le titre est requis (minimum 5 caractères)"),
+    bedrooms: z.number().min(0, "Doit être 0 ou plus"),
+    bathrooms: z.number().min(0, "Doit être 0 ou plus"),
+    maxGuests: z.number().min(1, "Au moins 1 invité requis"),
   }),
   
   // Property Location (now part of Step 2)
   propertyLocation: z.object({
-    street: z.string().min(1, "Street is required"),
-    city: z.string().min(1, "City is required"),
-    postalCode: z.string().min(4, "Valid postal code is required"),
-    canton: z.string().min(1, "Canton is required"),
-    country: z.string().min(1, "Country is required"),
+    street: z.string().min(1, "La rue est requise"),
+    city: z.string().min(1, "La ville est requise"),
+    postalCode: z.string().min(4, "Un code postal valide est requis"),
+    canton: z.string().min(1, "Le canton est requis"),
+    country: z.string().min(1, "Le pays est requis"),
   }),
   
   // Step 3: Property Amenities
@@ -66,22 +66,22 @@ const formSchema = z.object({
   propertyAvailability: z.object({
     availableFrom: z.string(),
     availableTo: z.string().optional(),
-    minStay: z.number().min(1, "Minimum stay required"),
+    minStay: z.number().min(1, "Séjour minimum requis"),
     maxStay: z.number().optional(),
     isFlexible: z.boolean().optional(),
   }),
   
   // Step 5: Property Photos
   propertyPhotos: z.object({
-    photos: z.array(z.string()).min(0, "At least one photo is required"),
+    photos: z.array(z.string()).min(0, "Au moins une photo est requise"),
   }),
   
   // Step 6: Property Pricing
   propertyPricing: z.object({
     prices: z.object({
-      night: z.number().min(0, "Night price is required"),
-      week: z.number().min(0, "Week price is required"),
-      month: z.number().min(0, "Month price is required"),
+      night: z.number().min(0, "Le prix par nuit est requis"),
+      week: z.number().min(0, "Le prix par semaine est requis"),
+      month: z.number().min(0, "Le prix par mois est requis"),
     }),
     currency: z.string().default("CHF"),
     includesUtilities: z.boolean().optional(),
@@ -106,20 +106,20 @@ const formSchema = z.object({
   
   // Step 8: Owner Details
   ownerDetails: z.object({
-    firstName: z.string().min(1, "First name is required"),
-    lastName: z.string().min(1, "Last name is required"),
-    email: z.string().email("Valid email is required"),
-    phone: z.string().min(1, "Phone number is required"),
+    firstName: z.string().min(1, "Le prénom est requis"),
+    lastName: z.string().min(1, "Le nom est requis"),
+    email: z.string().email("Un email valide est requis"),
+    phone: z.string().min(1, "Le numéro de téléphone est requis"),
     preferredContactMethod: z.enum(["email", "phone", "both"]).default("email"),
   }),
   
   // Step 9: Confirmation
   confirmDetails: z.object({
     agreeToTerms: z.boolean().refine((val) => val === true, {
-      message: "You must agree to the terms of service",
+      message: "Vous devez accepter les conditions d'utilisation",
     }),
     agreeToDataPolicy: z.boolean().refine((val) => val === true, {
-      message: "You must agree to the privacy policy",
+      message: "Vous devez accepter la politique de confidentialité",
     }),
   }),
 });
@@ -342,17 +342,17 @@ export function PropertyWizard() {
   }
 
   return (
-    <div className="container mx-auto py-8 px-4 md:px-0 max-w-5xl">
+    <div className="container mx-auto py-8 px-4 md:px-0 bg-sand/50 max-w-5xl">
       <Card className="border-2 shadow-lg">
         <CardHeader className="pb-6">
-          <CardTitle className="text-2xl font-bold text-center">List Your Property</CardTitle>
+          <CardTitle className="text-2xl font-bold text-center">Ajouter un bien</CardTitle>
           <CardDescription className="text-center text-base">
-            Follow the steps below to list your property for emergency housing.
+            Veuillez remplir ce formulaire pour ajouter votre bien à notre plateforme.
           </CardDescription>
           <div className="mt-12">
             <Progress value={progressPercentage} className="h-2.5" />
             <p className="text-sm text-right mt-2 text-muted-foreground">
-              Step {step} of 9
+              Étape {step} sur 9
             </p>
           </div>
         </CardHeader>

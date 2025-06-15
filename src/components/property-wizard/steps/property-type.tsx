@@ -29,14 +29,14 @@ export function PropertyType({ form }: PropertyTypeProps) {
   const propertyTypes: PropertyTypeOption[] = [
     {
       id: "apartment",
-      name: "Apartment",
-      description: "A unit in an apartment building",
+      name: "Appartement",
+      description: "Un logement dans un immeuble",
       icon: <Building size={32} />
     },
     {
       id: "house",
-      name: "House",
-      description: "A single-family or semi-detached house",
+      name: "Maison",
+      description: "Une maison individuelle ou mitoyenne",
       icon: <Home size={32} />
     },
     // {
@@ -48,7 +48,7 @@ export function PropertyType({ form }: PropertyTypeProps) {
     {
       id: "studio",
       name: "Studio",
-      description: "A one-room living space",
+      description: "Un espace de vie en une seule pièce",
       icon: <Building2 size={32} />
     },
     // {
@@ -77,9 +77,9 @@ export function PropertyType({ form }: PropertyTypeProps) {
   return (
     <div className="space-y-8">
       <div className="text-center mb-6">
-        <h2 className="text-xl font-semibold mb-2">What type of property are you offering?</h2>
+        <h2 className="text-xl font-semibold mb-2">Quel type de bien proposez-vous ?</h2>
         <p className="text-sm text-muted-foreground max-w-lg mx-auto">
-          Select the type of property you wish to make available.
+          Sélectionnez le type de bien que vous souhaitez rendre disponible.
         </p>
       </div>
 
@@ -130,7 +130,7 @@ export function PropertyType({ form }: PropertyTypeProps) {
       
       {errors.propertyType && (
         <p className="text-sm text-red-500 mt-1">
-          Please select a property type
+          Veuillez sélectionner un type de bien
         </p>
       )}
     </div>

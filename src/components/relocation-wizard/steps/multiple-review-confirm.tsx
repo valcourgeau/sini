@@ -169,15 +169,15 @@ export function MultipleReviewConfirm({ form }: MultipleReviewConfirmProps) {
         ) : (
           <div className="text-center p-8 border border-dashed rounded-md bg-muted/10">
             <p className="text-sm text-muted-foreground">
-              No relocation requests have been added. Please go back and add at least one person.
+              Aucune demande de relogement n'a été ajoutée. Veuillez revenir en arrière et ajouter au moins une personne.
             </p>
           </div>
         )}
 
         <div className="p-4 bg-amber-50 rounded-md border border-amber-100 mt-6">
           <p className="text-sm text-amber-700">
-            <strong>Please verify:</strong> Check that all the information above is correct before proceeding to the 
-            next step. You will be asked to provide consent for processing these requests on the next screen.
+            <strong>Veuillez vérifier :</strong> Assurez-vous que toutes les informations ci-dessus sont correctes avant de passer à l'étape suivante. 
+            Vous serez invité à donner votre consentement pour le traitement de ces demandes à l'écran suivant.
           </p>
         </div>
       </div>

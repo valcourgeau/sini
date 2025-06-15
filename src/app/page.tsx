@@ -10,6 +10,7 @@ import { useRouter } from "next/navigation";
 
 export default function HomePage() {
   const [isLoading, setIsLoading] = useState(false);
+  const [isManagementLoading, setIsManagementLoading] = useState(false);
   const router = useRouter();
 
   const handleRelocationClick = async (e: React.MouseEvent) => {
@@ -40,6 +41,16 @@ export default function HomePage() {
     await new Promise(resolve => setTimeout(resolve, 800));
     
     router.push("/property/new");
+  };
+
+  const handleManagementClick = async (e: React.MouseEvent) => {
+    e.preventDefault();
+    setIsManagementLoading(true);
+    
+    // Add a small delay to show the loading state
+    await new Promise(resolve => setTimeout(resolve, 800));
+    
+    router.push("/property/management");
   };
 
   return (
@@ -286,14 +297,41 @@ export default function HomePage() {
                 </div>
               </div>
 
-              <div className="pt-6">
-                <Link
-                  href="/property/list"
-                  className="group inline-flex items-center gap-2 bg-secondary text-primary px-8 py-4 rounded-full text-lg font-semibold hover:bg-secondary/90 transition-colors"
+              <div className="pt-6 flex gap-4">
+                <button
+                  onClick={handleRelocationClick}
+                  disabled={isLoading || isManagementLoading}
+                  className="group inline-flex items-center gap-2 bg-secondary text-primary px-8 py-4 rounded-full text-lg font-semibold hover:bg-secondary/90 transition-colors disabled:opacity-70 disabled:cursor-not-allowed"
                 >
-                  Devenir hôte
-                  <ArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-transform" />
-                </Link>
+                  {isLoading ? (
+                    <>
+                      <Loader2 className="h-5 w-5 animate-spin" />
+                      Chargement...
+                    </>
+                  ) : (
+                    <>
+                      Devenir hôte
+                      <ArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-transform" />
+                    </>
+                  )}
+                </button>
+                <button
+                  onClick={handleManagementClick}
+                  disabled={isLoading || isManagementLoading}
+                  className="group inline-flex items-center gap-2 bg-white/20 text-white px-8 py-4 rounded-full text-lg font-semibold hover:bg-white/20 transition-colors disabled:opacity-70 disabled:cursor-not-allowed"
+                >
+                  {isManagementLoading ? (
+                    <>
+                      <Loader2 className="h-5 w-5 animate-spin" />
+                      Chargement...
+                    </>
+                  ) : (
+                    <>
+                      Gérer mes biens
+                      <ArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-transform" />
+                    </>
+                  )}
+                </button>
               </div>
             </div>
 

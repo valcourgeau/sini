@@ -199,10 +199,10 @@ export function ReviewAndConfirm({ form, onSubmit, isSubmitting, onBack }: Revie
                   htmlFor="confirmDetails.agreeToDataPolicy"
                   className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
                 >
-                  I agree to the privacy policy
+                  J'accepte la politique de confidentialité
                 </Label>
                 <p className="text-sm text-muted-foreground">
-                  By checking this box, you agree to our privacy policy regarding the processing of your personal data.
+                  En cochant cette case, vous acceptez notre politique de confidentialité concernant le traitement de vos données personnelles.
                 </p>
               </div>
             </div>
@@ -219,19 +219,19 @@ export function ReviewAndConfirm({ form, onSubmit, isSubmitting, onBack }: Revie
         <div className="mt-8 bg-green-50 rounded-lg p-4 flex gap-3">
           <CheckCircle className="text-green-500 mt-0.5 h-5 w-5 flex-shrink-0" />
           <p className="text-sm text-green-700">
-            By clicking "Submit" below, your property will be added to our platform and can be booked by people in need of emergency housing.
+            En cliquant sur "Valider" ci-dessous, votre bien sera ajouté à notre plateforme et pourra être réservé par des personnes ayant besoin d'un logement d'urgence.
           </p>
         </div>
 
         {/* Navigation buttons */}
-        <div className="flex justify-between pt-4">
+        <div className="flex justify-between pt-6">
           <Button 
             type="button" 
             variant="outline"
             onClick={onBack}
             className="px-6 py-2 h-auto"
           >
-            Back
+            Retour
           </Button>
           <Button 
             type="button" 
@@ -239,7 +239,7 @@ export function ReviewAndConfirm({ form, onSubmit, isSubmitting, onBack }: Revie
             disabled={isSubmitting}
             className="px-8 py-2 h-auto bg-primary hover:bg-primary/90"
           >
-            {isSubmitting ? "Submitting..." : "Submit Property"}
+            {isSubmitting ? "Envoi en cours..." : "Valider"}
           </Button>
         </div>
       </div>

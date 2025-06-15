@@ -12,22 +12,22 @@ export function SingleInsuranceDetails({ form }: SingleInsuranceDetailsProps) {
   return (
     <div className="space-y-6">
       <div className="text-center">
-        <h2 className="text-xl font-semibold mb-2">Insurance Details</h2>
+        <h2 className="text-xl font-semibold mb-2">Détails de l'assurance</h2>
         <p className="text-sm text-muted-foreground mb-6 max-w-lg mx-auto">
-          Please provide information about your insurance policy that may cover relocation expenses.
+          Veuillez fournir les informations concernant votre police d'assurance qui pourrait couvrir les frais de relogement.
         </p>
       </div>
 
       <div className="space-y-6">
         <div className="space-y-2">
           <Label htmlFor="singleInsuranceDetails.insuranceCompany">
-            Insurance Company <span className="text-red-500">*</span>
+            Compagnie d'assurance <span className="text-red-500">*</span>
           </Label>
           <input
             id="singleInsuranceDetails.insuranceCompany"
             {...register("singleInsuranceDetails.insuranceCompany")}
             className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-            placeholder="e.g., Zurich Insurance, AXA, Swiss Life"
+            placeholder="Ex: Zurich Insurance, AXA, Swiss Life"
           />
           {insuranceErrors.insuranceCompany && (
             <p className="text-sm text-red-500 mt-1">
@@ -38,13 +38,13 @@ export function SingleInsuranceDetails({ form }: SingleInsuranceDetailsProps) {
 
         <div className="space-y-2">
           <Label htmlFor="singleInsuranceDetails.policyNumber">
-            Policy Number <span className="text-red-500">*</span>
+            Numéro de police <span className="text-red-500">*</span>
           </Label>
           <input
             id="singleInsuranceDetails.policyNumber"
             {...register("singleInsuranceDetails.policyNumber")}
             className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-            placeholder="Your insurance policy number"
+            placeholder="Votre numéro de police d'assurance"
           />
           {insuranceErrors.policyNumber && (
             <p className="text-sm text-red-500 mt-1">
@@ -52,22 +52,22 @@ export function SingleInsuranceDetails({ form }: SingleInsuranceDetailsProps) {
             </p>
           )}
           <p className="text-xs text-muted-foreground mt-1">
-            This can usually be found on your insurance documents or online account.
+            Vous pouvez généralement le trouver sur vos documents d'assurance ou votre compte en ligne.
           </p>
         </div>
 
         <div className="space-y-2">
           <Label htmlFor="singleInsuranceDetails.agentContact">
-            Insurance Agent Contact (Optional)
+            Contact de l'agent d'assurance (Optionnel)
           </Label>
           <input
             id="singleInsuranceDetails.agentContact"
             {...register("singleInsuranceDetails.agentContact")}
             className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-            placeholder="Name and contact details of your insurance agent"
+            placeholder="Nom et coordonnées de votre agent d'assurance"
           />
           <p className="text-xs text-muted-foreground mt-1">
-            If you have a specific agent handling your claim, providing their details can help expedite the process.
+            Si vous avez un agent spécifique qui gère votre dossier, fournir ses coordonnées peut aider à accélérer le processus.
           </p>
         </div>
 

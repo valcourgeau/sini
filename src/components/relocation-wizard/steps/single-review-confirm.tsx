@@ -432,8 +432,8 @@ export function SingleReviewConfirm({ form }: SingleReviewConfirmProps) {
 
       <div className="p-4 bg-amber-50 rounded-md border border-amber-100">
         <p className="text-sm text-amber-700">
-          <strong>Please verify:</strong> Check that all the information above is correct before proceeding to the 
-          next step. You will be asked to provide consent for processing your request on the next screen.
+          <strong>Veuillez vérifier :</strong> Assurez-vous que toutes les informations ci-dessus sont correctes avant de passer à l'étape suivante. 
+          Vous serez invité à donner votre consentement pour le traitement de votre demande à l'écran suivant.
         </p>
       </div>
     </div>

@@ -38,7 +38,7 @@ export function SingleAddressAndContact({ form }: SingleAddressAndContactProps) 
 
       {/* Disaster Address Section */}
       <div className="space-y-6">
-        <h3 className="text-lg font-medium">Disaster Address</h3>
+        <h3 className="text-lg font-medium">Adresse du sinistre</h3>
         <div className="space-y-4">
           {/* Street Address */}
           <div className="space-y-2">
@@ -60,13 +60,13 @@ export function SingleAddressAndContact({ form }: SingleAddressAndContactProps) 
           {/* City, Postal Code, Canton, Country in one row */}
           <div className="grid grid-cols-4 gap-4">
             <div className="space-y-2">
-              <Label htmlFor="singleDisasterAddress.city">City</Label>
+              <Label htmlFor="singleDisasterAddress.city">Ville</Label>
               <input
                 id="singleDisasterAddress.city"
                 {...register("singleDisasterAddress.city")}
                 className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-                placeholder="City"
-                defaultValue="Geneva"
+                placeholder="Ville"
+                defaultValue="Genève"
               />
               {addressErrors.city && (
                 <p className="text-sm text-red-500 mt-1">
@@ -76,12 +76,12 @@ export function SingleAddressAndContact({ form }: SingleAddressAndContactProps) 
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="singleDisasterAddress.postalCode">Postal Code</Label>
+              <Label htmlFor="singleDisasterAddress.postalCode">Code postal</Label>
               <input
                 id="singleDisasterAddress.postalCode"
                 {...register("singleDisasterAddress.postalCode")}
                 className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-                placeholder="Postal code" 
+                placeholder="Code postal" 
                 defaultValue="1204"
               />
               {addressErrors.postalCode && (
@@ -137,19 +137,19 @@ export function SingleAddressAndContact({ form }: SingleAddressAndContactProps) 
 
       {/* Personal Information Section */}
       <div className="space-y-6">
-        <h3 className="text-lg font-medium">Contact Information</h3>
+        <h3 className="text-lg font-medium">Informations de contact</h3>
         <div className="space-y-4">
           {/* Name fields row */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="space-y-2">
               <Label htmlFor="singlePersonalData.firstName">
-                First Name <span className="text-red-500">*</span>
+                Prénom <span className="text-red-500">*</span>
               </Label>
               <input
                 id="singlePersonalData.firstName"
                 {...register("singlePersonalData.firstName")}
                 className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-                placeholder="Your first name"
+                placeholder="Votre prénom"
                 defaultValue="Valentin"
               />
               {personalErrors.firstName && (
@@ -161,13 +161,13 @@ export function SingleAddressAndContact({ form }: SingleAddressAndContactProps) 
 
             <div className="space-y-2">
               <Label htmlFor="singlePersonalData.lastName">
-                Last Name <span className="text-red-500">*</span>
+                Nom <span className="text-red-500">*</span>
               </Label>
               <input
                 id="singlePersonalData.lastName"
                 {...register("singlePersonalData.lastName")}
                 className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-                placeholder="Your last name"
+                placeholder="Votre nom"
                 defaultValue="Garnier"
               />
               {personalErrors.lastName && (
@@ -182,14 +182,14 @@ export function SingleAddressAndContact({ form }: SingleAddressAndContactProps) 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="space-y-2">
               <Label htmlFor="singlePersonalData.email">
-                Email Address <span className="text-red-500">*</span>
+                Adresse email <span className="text-red-500">*</span>
               </Label>
               <input
                 id="singlePersonalData.email"
                 type="email"
                 {...register("singlePersonalData.email")}
                 className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-                placeholder="your.email@example.com"
+                placeholder="votre.email@exemple.com"
                 defaultValue="valentin.garnier@gmail.com"
               />
               {personalErrors.email && (
@@ -198,13 +198,13 @@ export function SingleAddressAndContact({ form }: SingleAddressAndContactProps) 
                 </p>
               )}
               <p className="text-xs text-muted-foreground mt-1">
-                We'll use this email to send you updates about your relocation request.
+                Nous utiliserons cet email pour vous envoyer des mises à jour concernant votre demande de relogement.
               </p>
             </div>
 
             <div className="space-y-2">
               <Label htmlFor="singlePersonalData.phone">
-                Phone Number <span className="text-red-500">*</span>
+                Numéro de téléphone <span className="text-red-500">*</span>
               </Label>
               <input
                 id="singlePersonalData.phone"
@@ -220,7 +220,7 @@ export function SingleAddressAndContact({ form }: SingleAddressAndContactProps) 
                 </p>
               )}
               <p className="text-xs text-muted-foreground mt-1">
-                Please include the country code (e.g., +41 for Switzerland).
+                Veuillez inclure l'indicatif du pays (ex: +41 pour la Suisse).
               </p>
             </div>
           </div>
@@ -229,9 +229,9 @@ export function SingleAddressAndContact({ form }: SingleAddressAndContactProps) 
 
       <div className="p-4 bg-amber-50 rounded-md border border-amber-100">
         <p className="text-sm text-amber-700">
-          <strong>Privacy Note:</strong> Your personal information will only be used to process your relocation 
-          request and communicate with you about your accommodation needs. We handle your data in accordance 
-          with our privacy policy.
+          <strong>Note de confidentialité :</strong> Vos informations personnelles ne seront utilisées que pour traiter votre demande 
+          de relogement et communiquer avec vous concernant vos besoins en logement. Nous traitons vos données conformément 
+          à notre politique de confidentialité.
         </p>
       </div>
     </div>
