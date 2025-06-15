@@ -10,7 +10,7 @@ export function MultipleReviewConfirm({ form }: MultipleReviewConfirmProps) {
   const requests = formValues.multipleRelocationRequests || [];
   
   // Helper function to safely get nested values
-  const getValue = (path: string, defaultValue: string = "Non fourni") => {
+  const getValue = (path: string, defaultValue: string = "Non spécifié") => {
     const pathParts = path.split(".");
     let value = formValues;
     
@@ -23,7 +23,7 @@ export function MultipleReviewConfirm({ form }: MultipleReviewConfirmProps) {
   };
   
   const formatDate = (dateStr: string) => {
-    if (!dateStr) return "Non fourni";
+    if (!dateStr) return "Non spécifié";
     
     try {
       const date = new Date(dateStr);
@@ -104,28 +104,28 @@ export function MultipleReviewConfirm({ form }: MultipleReviewConfirmProps) {
                   <div>
                     <div className="grid grid-cols-3 gap-1">
                       <span className="text-xs text-muted-foreground">Email:</span>
-                      <span className="col-span-2">{request.email || "Non fourni"}</span>
+                      <span className="col-span-2">{request.email || "Non spécifié"}</span>
                       
                       <span className="text-xs text-muted-foreground">Phone:</span>
-                      <span className="col-span-2">{request.phone || "Non fourni"}</span>
+                      <span className="col-span-2">{request.phone || "Non spécifié"}</span>
                       
                       <span className="text-xs text-muted-foreground">Arrival:</span>
                       <span className="col-span-2">{formatDate(request.arrivalDate)}</span>
                       
                       <span className="text-xs text-muted-foreground">Duration:</span>
-                      <span className="col-span-2">{request.estimatedDuration || "Not specified"}</span>
+                      <span className="col-span-2">{request.estimatedDuration || "Non spécifié"}</span>
 
                       <span className="text-xs text-muted-foreground">Claim Document:</span>
                       <span className="col-span-2 flex items-center gap-1.5">
                         {request.hasUploadedClaim ? (
                           <>
                             <CircleCheckBig className="h-4 w-4 text-green-500" />
-                            <span>Uploaded ({request.claimDocument?.name})</span>
+                            <span>Téléchargé ({request.claimDocument?.name})</span>
                           </>
                         ) : (
                           <>
                             <X className="h-4 w-4 text-red-500" />
-                            <span>Not uploaded</span>
+                            <span>Non téléchargé</span>
                           </>
                         )}
                       </span>
@@ -153,13 +153,13 @@ export function MultipleReviewConfirm({ form }: MultipleReviewConfirmProps) {
                   <div>
                     <div className="grid grid-cols-3 gap-1">
                       <span className="text-xs text-muted-foreground">Pets:</span>
-                      <span className="col-span-2">{request.hasAnimals ? "Yes" : "No"}</span>
+                      <span className="col-span-2">{request.hasAnimals ? "Oui" : "Non"}</span>
                       
                       <span className="text-xs text-muted-foreground">Accessibility:</span>
-                      <span className="col-span-2">{request.hasAccessibilityNeeds ? "Yes" : "No"}</span>
+                      <span className="col-span-2">{request.hasAccessibilityNeeds ? "Oui" : "Non"}</span>
                       
                       <span className="text-xs text-muted-foreground">Parking:</span>
-                      <span className="col-span-2">{request.needsParking ? "Yes" : "No"}</span>
+                      <span className="col-span-2">{request.needsParking ? "Oui" : "Non"}</span>
                     </div>
                   </div>
                 </div>
