@@ -62,7 +62,7 @@ export function PropertyAvailability({ form }: PropertyAvailabilityProps) {
   const counterFields: CounterField[] = [
     {
       id: "minStay",
-      name: "Minimum stay duration",
+      name: "Durée minimum de séjour",
       icon: <Clock size={24} />,
       min: 1,
       fieldName: "propertyAvailability.minStay"
@@ -94,9 +94,9 @@ export function PropertyAvailability({ form }: PropertyAvailabilityProps) {
   return (
     <div className="space-y-8">
       <div className="text-center mb-6">
-        <h2 className="text-xl font-semibold mb-2">Property Availability</h2>
+        <h2 className="text-xl font-semibold mb-2">Disponibilité du bien</h2>
         <p className="text-sm text-muted-foreground max-w-lg mx-auto">
-          When is your property available and for how long?
+          Quand votre bien est-il disponible et pour quelle durée ?
         </p>
       </div>
 
@@ -112,7 +112,7 @@ export function PropertyAvailability({ form }: PropertyAvailabilityProps) {
                 htmlFor="propertyAvailability.availableFrom" 
                 className="font-medium text-lg"
               >
-                Available from
+                Disponible à partir du
               </Label>
             </div>
             <div className="relative max-w-[180px]">
@@ -207,9 +207,9 @@ export function PropertyAvailability({ form }: PropertyAvailabilityProps) {
         
         {/* Flexibility option */}
         <div className="mt-6 pt-6 border-t max-w-2xl mx-auto">
-          <h3 className="text-lg font-medium mb-4">Flexibility</h3>
+          <h3 className="text-lg font-medium mb-4">Flexibilité</h3>
           <p className="text-sm text-muted-foreground mb-4">
-            Are you flexible with check-in and check-out dates?
+            Êtes-vous flexible concernant les dates d'arrivée et de départ ?
           </p>
           
           <div className="flex gap-4">
@@ -232,7 +232,7 @@ export function PropertyAvailability({ form }: PropertyAvailabilityProps) {
               )}>
                 <Check size={16} />
               </div>
-              <span className="font-medium">Yes, I'm flexible</span>
+              <span className="font-medium">Oui, je suis flexible</span>
               
               <input
                 type="radio"
@@ -260,9 +260,9 @@ export function PropertyAvailability({ form }: PropertyAvailabilityProps) {
                   ? "bg-primary text-white"
                   : "bg-gray-100 text-gray-500 group-hover:bg-gray-200"
               )}>
-                <Calendar size={16} />
+                <MinusCircle size={16} />
               </div>
-              <span className="font-medium">No, fixed dates</span>
+              <span className="font-medium">Non, dates fixes</span>
               
               <input
                 type="radio"
