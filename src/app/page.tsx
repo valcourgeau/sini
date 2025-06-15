@@ -1,6 +1,6 @@
 "use client";
 
-import { Home, Users, Building2, Clock, CheckCircle2, Phone, ArrowRight, Loader2 } from "lucide-react";
+import { Home, Users, Building2, Clock, CheckCircle2, Phone, ArrowRight, Loader2, HandCoins, Timer, UserRound, Video, Calendar, Heart } from "lucide-react";
 import { IconBox } from "@/components/ui/icon-box";
 import { ScrollButton } from "@/components/ui/scroll-button";
 import { NavigationArrow } from "@/components/ui/navigation-arrow";
@@ -107,7 +107,7 @@ export default function HomePage() {
 
               <div className="space-y-6">
                 <div className="flex items-start gap-4">
-                  <Clock className="h-6 w-6 text-secondary/90 mt-1 flex-shrink-0" />
+                  <Timer className="h-6 w-6 text-secondary/90 mt-1 flex-shrink-0" />
                   <div>
                     <h3 className="text-xl font-bold mb-2 text-secondary">Relogement sous 24h</h3>
                     <p className="text-secondary/90">
@@ -117,7 +117,7 @@ export default function HomePage() {
                 </div>
 
                 <div className="flex items-start gap-4">
-                  <CheckCircle2 className="h-6 w-6 text-secondary/90 mt-1 flex-shrink-0" />
+                  <UserRound className="h-6 w-6 text-secondary/90 mt-1 flex-shrink-0" />
                   <div>
                     <h3 className="text-xl font-bold mb-2 text-secondary">Accompagnement personnalisé</h3>
                     <p className="text-secondary/90">
@@ -162,7 +162,7 @@ export default function HomePage() {
               <div className="absolute inset-0 flex items-center justify-center">
                 <div className="text-center">
                   <div className="w-16 h-16 rounded-full bg-white/20 flex items-center justify-center mx-auto mb-4">
-                    <Phone className="h-8 w-8 text-white" />
+                    <Video className="h-8 w-8 text-white" />
                   </div>
                   <p className="text-lg font-medium text-white">Vidéo de présentation</p>
                   <p className="text-sm text-white/60 mt-2">Découvrez notre service en action</p>
@@ -238,7 +238,7 @@ export default function HomePage() {
               <div className="absolute inset-0 flex items-center justify-center">
                 <div className="text-center">
                   <div className="w-16 h-16 rounded-full bg-primary/20 flex items-center justify-center mx-auto mb-4">
-                    <Building2 className="h-8 w-8 text-primary" />
+                    <Users className="h-8 w-8 text-primary" />
                   </div>
                   <p className="text-lg font-medium">Démonstration</p>
                   <p className="text-sm text-muted-foreground mt-2">Découvrez notre plateforme en action</p>
@@ -267,31 +267,31 @@ export default function HomePage() {
 
               <div className="space-y-6">
                 <div className="flex items-start gap-4">
-                  <Home className="h-6 w-6 text-secondary/90 mt-1 flex-shrink-0" />
+                  <HandCoins className="h-6 w-6 text-secondary/90 mt-1 flex-shrink-0" />
                   <div>
-                    <h3 className="text-xl font-bold mb-2 text-secondary">Logements adaptés</h3>
+                    <h3 className="text-xl font-bold mb-2 text-secondary">Augmenter vos revenus</h3>
                     <p className="text-secondary/90">
-                      Mettez en location votre bien meublé pour aider les sinistrés.
+                      Générez des revenus complémentaires en logeant des sinistrés.
                     </p>
                   </div>
                 </div>
 
                 <div className="flex items-start gap-4">
-                  <CheckCircle2 className="h-6 w-6 text-secondary/90 mt-1 flex-shrink-0" />
+                  <Calendar className="h-6 w-6 text-secondary/90 mt-1 flex-shrink-0" />
                   <div>
-                    <h3 className="text-xl font-bold mb-2 text-secondary">Sécurité garantie</h3>
+                    <h3 className="text-xl font-bold mb-2 text-secondary">Gestion centralisée de vos annonces</h3>
                     <p className="text-secondary/90">
-                      Bénéficiez d'une assurance et d'un accompagnement professionnel.
+                      Un calendrier centralisé pour les disponibilités et les réservations de vos biens.
                     </p>
                   </div>
                 </div>
 
                 <div className="flex items-start gap-4">
-                  <Clock className="h-6 w-6 text-secondary/90 mt-1 flex-shrink-0" />
+                  <Heart className="h-6 w-6 text-secondary/90 mt-1 flex-shrink-0" />
                   <div>
-                    <h3 className="text-xl font-bold mb-2 text-secondary">Flexibilité</h3>
+                    <h3 className="text-xl font-bold mb-2 text-secondary">Solidarité locale</h3>
                     <p className="text-secondary/90">
-                      Choisissez la durée de mise à disposition qui vous convient.
+                      Venez en aide aux sinistrés de votre région en mettant votre bien à disposition.
                     </p>
                   </div>
                 </div>
