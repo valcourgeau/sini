@@ -2,7 +2,7 @@ import { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "À propos | Pharewest",
-  description: "À propos de Pharewest, service de relogement d'urgence pour les cantons de Genève et Vaud.",
+  description: "À propos de Pharewest, service de relogement de Sinistrés pour les cantons de Genève et Vaud.",
 };
 
 /**
