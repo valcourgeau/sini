@@ -32,7 +32,7 @@ export function ScrollButton({ iconName, title, description, sectionId }: Scroll
       <div className="relative z-10">
         <Icon className="h-16 w-16 mb-6 mx-auto" />
         <h2 className="text-3xl font-bold mb-4">{title}</h2>
-        <p className="text-1xl text-primary-foreground/80">
+        <p className="text-1xl text-primary-foreground/80 whitespace-nowrap">
           {description}
         </p>
       </div>
