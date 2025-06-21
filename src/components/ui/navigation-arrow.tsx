@@ -12,9 +12,10 @@ export function NavigationArrow({ direction, targetId, position }: NavigationArr
   const scrollToTarget = () => {
     const element = document.getElementById(targetId);
     if (element) {
+      const headerHeight = 64; // h-16 = 64px
       const targetPosition = element.getBoundingClientRect().top + window.pageYOffset;
       const startPosition = window.pageYOffset;
-      const distance = targetPosition - startPosition;
+      const distance = targetPosition - startPosition - headerHeight;
       const duration = 500; // 500ms instead of the default smooth scroll
       let start: number | null = null;
 

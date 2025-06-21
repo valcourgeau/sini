@@ -87,9 +87,9 @@ export default function HomePage() {
       </section>
 
       {/* Second Section - Blue Background */}
-      <section id="sinistres" className="relative bg-primary min-h-[100vh] flex items-center justify-center text-primary-foreground">
-        <div className="absolute top-8 right-8">
-          <NavigationArrow direction="up" targetId="header" position="top" />
+      <section id="sinistres" className="relative bg-primary min-h-[calc(100vh-4rem)] flex items-center justify-center text-primary-foreground">
+        <div className="absolute top-24 right-8">
+          <NavigationArrow direction="up" targetId="home" position="top" />
         </div>
         <div className="absolute bottom-8 right-8">
           <NavigationArrow direction="down" targetId="assurances" position="bottom" />
@@ -109,19 +109,9 @@ export default function HomePage() {
                 <div className="flex items-start gap-4">
                   <Timer className="h-6 w-6 text-secondary/90 mt-1 flex-shrink-0" />
                   <div>
-                    <h3 className="text-xl font-bold mb-2 text-secondary">Relogement sous 24h</h3>
+                    <h3 className="text-xl font-bold mb-2 text-secondary">Rapidité de relogement</h3>
                     <p className="text-secondary/90">
-                      Une solution d'hébergement temporaire adaptée en moins de 24 heures.
-                    </p>
-                  </div>
-                </div>
-
-                <div className="flex items-start gap-4">
-                  <UserRound className="h-6 w-6 text-secondary/90 mt-1 flex-shrink-0" />
-                  <div>
-                    <h3 className="text-xl font-bold mb-2 text-secondary">Accompagnement personnalisé</h3>
-                    <p className="text-secondary/90">
-                      Un interlocuteur unique qui facilite vos démarches administratives.
+                      Une solution d'hébergement temporaire adaptée visant à proposer un relogement dans les 24-48 heures.
                     </p>
                   </div>
                 </div>
@@ -131,7 +121,17 @@ export default function HomePage() {
                   <div>
                     <h3 className="text-xl font-bold mb-2 text-secondary">Logements adaptés</h3>
                     <p className="text-secondary/90">
-                      Des appartements meublés et équipés, proches de votre lieu de vie habituel.
+                      Profitez de notre réseau de logements meublés, des appartements meublés et équipés, proches de votre lieu de vie habituel.
+                    </p>
+                  </div>
+                </div>
+                
+                <div className="flex items-start gap-4">
+                  <UserRound className="h-6 w-6 text-secondary/90 mt-1 flex-shrink-0" />
+                  <div>
+                    <h3 className="text-xl font-bold mb-2 text-secondary">Accompagnement personnalisé</h3>
+                    <p className="text-secondary/90">
+                      Un interlocuteur unique qui facilite vos démarches administratives et assure le suivi auprès de votre assurance.
                     </p>
                   </div>
                 </div>
@@ -174,8 +174,8 @@ export default function HomePage() {
       </section>
 
       {/* Third Section - Sand Background */}
-      <section id="assurances" className="relative bg-secondary min-h-[100vh] flex items-center justify-center">
-        <div className="absolute top-8 right-8">
+      <section id="assurances" className="relative bg-secondary min-h-[calc(100vh-4rem)] flex items-center justify-center">
+        <div className="absolute top-24 right-8">
           <NavigationArrow direction="up" targetId="sinistres" position="top" />
         </div>
         <div className="absolute bottom-8 right-8">
@@ -250,8 +250,8 @@ export default function HomePage() {
       </section>
 
       {/* Fourth Section - Blue Background */}
-      <section id="hosts" className="relative bg-primary min-h-[100vh] flex items-center justify-center text-primary-foreground">
-        <div className="absolute top-8 right-8">
+      <section id="hosts" className="relative bg-primary min-h-[calc(100vh-4rem)] flex items-center justify-center text-primary-foreground">
+        <div className="absolute top-24 right-8">
           <NavigationArrow direction="up" targetId="assurances" position="top" />
         </div>
         
