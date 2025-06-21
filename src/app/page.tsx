@@ -60,7 +60,7 @@ export default function HomePage() {
         <div className="container">
           <div className="mx-auto max-w-[980px] text-center">
             <h1 className="text-3xl font-bold leading-tight tracking-tighter md:text-5xl lg:text-6xl lg:leading-[1.1] mb-8">
-              Service de relogement de Sinistrés
+              Service de relogement de sinistrés
             </h1>
             <p className="text-xl md:text-2xl text-muted-foreground mb-16">
               Pour le canton de Genève
@@ -69,13 +69,13 @@ export default function HomePage() {
               <ScrollButton
                 iconName="alert-triangle"
                 title="Sinistrés"
-                description="Particulier affecté(e) par un sinistre?"
+                description="Particuliers affectés par un sinistre"
                 sectionId="sinistres"
               />
               <ScrollButton
                 iconName="building2"
                 title="Assurances"
-                description="Professionnel de l'assurance?"
+                description="Professionnels de l'assurance"
                 sectionId="assurances"
               />
             </div>
