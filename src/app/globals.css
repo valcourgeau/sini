@@ -71,7 +71,7 @@
     @apply border-border;
   }
   html {
-    scroll-behavior: smooth;
+    /* Removed scroll-behavior: smooth to prevent wobbly scrolling */
   }
   body {
     @apply bg-background text-foreground;

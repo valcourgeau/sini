@@ -12,11 +12,11 @@ export function NavigationArrow({ direction, targetId, position }: NavigationArr
   const scrollToTarget = () => {
     const element = document.getElementById(targetId);
     if (element) {
-      const headerHeight = 64; // h-16 = 64px
-      const targetPosition = element.getBoundingClientRect().top + window.pageYOffset;
+      const headerHeight = 64; // h-16 = 64px to account for scroll-mt-16
+      const targetPosition = element.offsetTop - headerHeight;
       const startPosition = window.pageYOffset;
-      const distance = targetPosition - startPosition - headerHeight;
-      const duration = 500; // 500ms instead of the default smooth scroll
+      const distance = targetPosition - startPosition;
+      const duration = 300; // Faster scroll - reduced from default smooth scroll
       let start: number | null = null;
 
       const animation = (currentTime: number) => {
@@ -24,10 +24,10 @@ export function NavigationArrow({ direction, targetId, position }: NavigationArr
         const timeElapsed = currentTime - start;
         const progress = Math.min(timeElapsed / duration, 1);
         
-        // Easing function for smoother animation
-        const easeInOutCubic = (t: number) => t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+        // Easing function for smooth but fast animation
+        const easeInOutQuad = (t: number) => t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
         
-        window.scrollTo(0, startPosition + distance * easeInOutCubic(progress));
+        window.scrollTo(0, startPosition + distance * easeInOutQuad(progress));
 
         if (timeElapsed < duration) {
           requestAnimationFrame(animation);
