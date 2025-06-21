@@ -55,17 +55,49 @@ export default function HomePage() {
 
   return (
     <main className="min-h-screen scroll-smooth">
-      {/* First Section - Sand Background */}
-      <section id="home" className="relative bg-secondary min-h-[calc(100vh-4rem)] flex items-center justify-center scroll-mt-16">
-        <div className="container">
+      {/* First Section - Enhanced Professional Background */}
+      {/* 
+        Background Options:
+        1. hero-background (current) - Subtle geometric pattern with floating elements
+        2. hero-background-corporate - More corporate, structured pattern
+        
+        To switch: replace "hero-background" with "hero-background-corporate"
+        and "hero-accent" with "hero-accent-corporate"
+      */}
+      <section id="home" className="relative hero-background min-h-[calc(100vh-4rem)] flex items-center justify-center scroll-mt-16">
+        {/* Background accent elements */}
+        <div className="hero-accent hidden lg:block" />
+        <div className="hero-accent-circle-1 hidden lg:block" />
+        <div className="hero-accent-circle-2 hidden lg:block" />
+        <div className="hero-accent-circle-3 hidden lg:block" />
+        <div className="hero-accent-circle-4 hidden lg:block" />
+        <div className="hero-accent-circle-5 hidden lg:block" />
+        <div className="hero-accent-circle-6 hidden lg:block" />
+        <div className="hero-accent-circle-7 hidden lg:block" />
+        <div className="hero-accent-circle-8 hidden lg:block" />
+        <div className="hero-accent-circle-9 hidden lg:block" />
+        <div className="hero-accent-circle-10 hidden lg:block" />
+        
+        {/* Content overlay */}
+        <div className="hero-overlay" />
+        
+        {/* Main content */}
+        <div className="container relative z-10">
           <div className="mx-auto max-w-[980px] text-center">
-            <h1 className="text-3xl font-bold leading-tight tracking-tighter md:text-5xl lg:text-6xl lg:leading-[1.1] mb-8">
-              Service de relogement de sinistrés
-            </h1>
-            <p className="text-xl md:text-2xl text-muted-foreground mb-16">
+            {/* Enhanced title with subtle animation */}
+            <div className="mb-8">
+              <h1 className="text-3xl font-bold leading-tight tracking-tighter md:text-5xl lg:text-6xl lg:leading-[1.1] mb-4 animate-in fade-in duration-1000">
+                Service de relogement de sinistrés
+              </h1>
+            </div>
+            
+            {/* Enhanced subtitle */}
+            <p className="text-xl md:text-2xl text-muted-foreground mb-16 animate-in fade-in duration-1000 delay-200">
               Pour le canton de Genève
             </p>
-            <div className="grid md:grid-cols-2 gap-8 max-w-3xl mx-auto">
+            
+            {/* Enhanced action buttons with glass effect */}
+            <div className="grid md:grid-cols-2 gap-8 max-w-3xl mx-auto animate-in fade-in duration-1000 delay-500">
               <ScrollButton
                 iconName="alert-triangle"
                 title="Sinistrés"
@@ -81,7 +113,9 @@ export default function HomePage() {
             </div>
           </div>
         </div>
-        <div className="absolute bottom-8 right-8">
+        
+        {/* Navigation arrow with enhanced styling */}
+        <div className="absolute bottom-8 right-8 z-10">
           <NavigationArrow direction="down" targetId="sinistres" position="bottom" />
         </div>
       </section>
