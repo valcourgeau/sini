@@ -337,7 +337,7 @@ export default function HomePage() {
                     </>
                   ) : (
                     <>
-                      Gérer mes biens
+                      Gérer mon annonce
                       <ArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-transform" />
                     </>
                   )}
