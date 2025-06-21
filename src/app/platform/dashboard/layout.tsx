@@ -35,7 +35,6 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
         return [
           { href: '/platform/dashboard/sinistre', icon: Home, label: 'Tableau de bord' },
           { href: '/platform/dashboard/sinistre/relogement', icon: Building2, label: 'Mon relogement' },
-          { href: '/platform/dashboard/sinistre/documents', icon: FileText, label: 'Documents' },
           { href: '/platform/dashboard/sinistre/messages', icon: MessageSquare, label: 'Messages' },
           { href: '/platform/dashboard/sinistre/profile', icon: User, label: 'Mon profil' },
         ];
