@@ -271,7 +271,7 @@ export default function HomePage() {
               <div>
                 <h2 className="text-5xl font-bold mb-6 text-secondary">Hôtes</h2>
                 <p className="text-xl text-secondary/90 mb-8">
-                  Une opportunité simple et sécurisée de proposer votre logement à notre réseau de sinistrés
+                  Une opportunité simple et sécurisée de proposer votre logement à notre réseau de sinistrés et assurances
                 </p>
               </div>
 
@@ -281,7 +281,7 @@ export default function HomePage() {
                   <div>
                     <h3 className="text-xl font-bold mb-2 text-secondary">Maximiser vos revenus</h3>
                     <p className="text-secondary/90">
-                      Optimisez vos rendements en rejoignant la plateforme partenaire des assurances.
+                      Optimisez vos rendements et elargissez votre clientèle en rejoignant la plateforme partenaire des assurances
                     </p>
                   </div>
                 </div>
@@ -291,7 +291,7 @@ export default function HomePage() {
                   <div>
                     <h3 className="text-xl font-bold mb-2 text-secondary">Gestion centralisée de vos annonces</h3>
                     <p className="text-secondary/90">
-                      Un calendrier multi-plateforme pour les disponibilités et les réservations de vos biens.
+                      Un calendrier multi-plateforme pour la gestion et les réservations de vos biens
                     </p>
                   </div>
                 </div>
