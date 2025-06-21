@@ -1,6 +1,6 @@
 "use client";
 
-import { Home, Users, Building2, Clock, CheckCircle2, Phone, ArrowRight, Loader2, HandCoins, Timer, UserRound, Video, Calendar, Heart } from "lucide-react";
+import { Home, Users, Building2, Clock, CheckCircle2, Phone, ArrowRight, Loader2, HandCoins, Timer, UserRound, Video, Calendar, Heart, PiggyBank } from "lucide-react";
 import { IconBox } from "@/components/ui/icon-box";
 import { ScrollButton } from "@/components/ui/scroll-button";
 import { NavigationArrow } from "@/components/ui/navigation-arrow";
@@ -56,7 +56,7 @@ export default function HomePage() {
   return (
     <main className="min-h-screen scroll-smooth">
       {/* First Section - Sand Background */}
-      <section id="home" className="relative bg-secondary min-h-[calc(100vh-4rem)] flex items-center justify-center">
+      <section id="home" className="relative bg-secondary min-h-[calc(100vh-4rem)] flex items-center justify-center scroll-mt-16">
         <div className="container">
           <div className="mx-auto max-w-[980px] text-center">
             <h1 className="text-3xl font-bold leading-tight tracking-tighter md:text-5xl lg:text-6xl lg:leading-[1.1] mb-8">
@@ -87,7 +87,7 @@ export default function HomePage() {
       </section>
 
       {/* Second Section - Blue Background */}
-      <section id="sinistres" className="relative bg-primary min-h-[calc(100vh-4rem)] flex items-center justify-center text-primary-foreground">
+      <section id="sinistres" className="relative bg-primary min-h-[calc(100vh-4rem)] flex items-center justify-center text-primary-foreground scroll-mt-16">
         <div className="absolute top-24 right-8">
           <NavigationArrow direction="up" targetId="home" position="top" />
         </div>
@@ -174,7 +174,7 @@ export default function HomePage() {
       </section>
 
       {/* Third Section - Sand Background */}
-      <section id="assurances" className="relative bg-secondary min-h-[calc(100vh-4rem)] flex items-center justify-center">
+      <section id="assurances" className="relative bg-secondary min-h-[calc(100vh-4rem)] flex items-center justify-center scroll-mt-16">
         <div className="absolute top-24 right-8">
           <NavigationArrow direction="up" targetId="sinistres" position="top" />
         </div>
@@ -195,17 +195,27 @@ export default function HomePage() {
                 <div className="flex items-start gap-4">
                   <Building2 className="h-6 w-6 text-primary mt-1 flex-shrink-0" />
                   <div>
-                    <h3 className="text-xl font-bold mb-2">Plateforme dédiée</h3>
+                    <h3 className="text-xl font-bold mb-2">Améliorer l'efficacité de vos équipes</h3>
                     <p className="text-muted-foreground">
                       Accédez à notre interface pour gérer les dossiers de vos assurés.
                     </p>
+                    <ul className="text-muted-foreground mt-3 space-y-1 ml-4">
+                      <li className="flex items-center gap-2">
+                        <span className="w-1.5 h-1.5 bg-primary rounded-full"></span>
+                        Faciliter et centraliser la recherche de logements
+                      </li>
+                      <li className="flex items-center gap-2">
+                        <span className="w-1.5 h-1.5 bg-primary rounded-full"></span>
+                        Gérer plusieurs assurés en une seule demande
+                      </li>
+                    </ul>
                   </div>
                 </div>
 
                 <div className="flex items-start gap-4">
                   <Clock className="h-6 w-6 text-primary mt-1 flex-shrink-0" />
                   <div>
-                    <h3 className="text-xl font-bold mb-2">Suivi en temps réel</h3>
+                    <h3 className="text-xl font-bold mb-2">Reloger à moindre coût</h3>
                     <p className="text-muted-foreground">
                       Suivez l'état d'avancement des relogements et gérez vos priorités.
                     </p>
@@ -215,9 +225,9 @@ export default function HomePage() {
                 <div className="flex items-start gap-4">
                   <Users className="h-6 w-6 text-primary mt-1 flex-shrink-0" />
                   <div>
-                    <h3 className="text-xl font-bold mb-2">Équipe dédiée</h3>
+                    <h3 className="text-xl font-bold mb-2">Satisfaction client</h3>
                     <p className="text-muted-foreground">
-                      Bénéficiez d'un interlocuteur unique pour tous vos dossiers de relogement.
+                      Bénéficiez d'un interlocuteur unique pour tous vos dossiers de relogement pour un relogement rapide et adapté aux besoins de vos assurés.
                     </p>
                   </div>
                 </div>
@@ -250,7 +260,7 @@ export default function HomePage() {
       </section>
 
       {/* Fourth Section - Blue Background */}
-      <section id="hosts" className="relative bg-primary min-h-[calc(100vh-4rem)] flex items-center justify-center text-primary-foreground">
+      <section id="hosts" className="relative bg-primary min-h-[calc(100vh-4rem)] flex items-center justify-center text-primary-foreground scroll-mt-16">
         <div className="absolute top-24 right-8">
           <NavigationArrow direction="up" targetId="assurances" position="top" />
         </div>
@@ -261,7 +271,7 @@ export default function HomePage() {
               <div>
                 <h2 className="text-5xl font-bold mb-6 text-secondary">Hôtes</h2>
                 <p className="text-xl text-secondary/90 mb-8">
-                  Contribuez à aider les sinistrés en mettant votre bien à disposition
+                  Une opportunité simple et sécurisée de proposer votre logement à notre réseau de sinistrés
                 </p>
               </div>
 
@@ -269,9 +279,9 @@ export default function HomePage() {
                 <div className="flex items-start gap-4">
                   <HandCoins className="h-6 w-6 text-secondary/90 mt-1 flex-shrink-0" />
                   <div>
-                    <h3 className="text-xl font-bold mb-2 text-secondary">Augmenter vos revenus</h3>
+                    <h3 className="text-xl font-bold mb-2 text-secondary">Maximiser vos revenus</h3>
                     <p className="text-secondary/90">
-                      Générez des revenus complémentaires en logeant des sinistrés.
+                      Optimisez vos rendements en rejoignant la plateforme partenaire des assurances.
                     </p>
                   </div>
                 </div>
@@ -281,7 +291,7 @@ export default function HomePage() {
                   <div>
                     <h3 className="text-xl font-bold mb-2 text-secondary">Gestion centralisée de vos annonces</h3>
                     <p className="text-secondary/90">
-                      Un calendrier centralisé pour les disponibilités et les réservations de vos biens.
+                      Un calendrier multi-plateforme pour les disponibilités et les réservations de vos biens.
                     </p>
                   </div>
                 </div>
