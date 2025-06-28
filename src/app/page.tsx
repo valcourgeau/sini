@@ -1,6 +1,6 @@
 "use client";
 
-import { Home, Users, Building2, Clock, CheckCircle2, Phone, ArrowRight, Loader2, HandCoins, Timer, UserRound, Video, Calendar, Heart, PiggyBank } from "lucide-react";
+import { Home, Users, Building2, Clock, CheckCircle2, Phone, ArrowRight, Loader2, HandCoins, Timer, UserRound, Video, Calendar, Heart, PiggyBank, Shield, ShieldCheck } from "lucide-react";
 import { IconBox } from "@/components/ui/icon-box";
 import { ScrollButton } from "@/components/ui/scroll-button";
 import { NavigationArrow } from "@/components/ui/navigation-arrow";
@@ -87,7 +87,7 @@ export default function HomePage() {
             {/* Enhanced title with subtle animation */}
             <div className="mb-8">
               <h1 className="text-3xl font-bold leading-tight tracking-tighter md:text-5xl lg:text-6xl lg:leading-[1.1] mb-4 animate-in fade-in duration-1000">
-                Service de relogement de sinistrés
+                Service de relogement d'urgence
               </h1>
             </div>
             
@@ -155,7 +155,7 @@ export default function HomePage() {
                   <div>
                     <h3 className="text-xl font-bold mb-2 text-secondary">Logements adaptés</h3>
                     <p className="text-secondary/90">
-                      Profitez de notre réseau de logements meublés, des appartements meublés et équipés, proches de votre lieu de vie habituel.
+                      Profiter de notre réseau d'habitations (meublés, équipés et proches de votre lieu de vie actuel).
                     </p>
                   </div>
                 </div>
@@ -199,7 +199,7 @@ export default function HomePage() {
                     <Video className="h-8 w-8 text-white" />
                   </div>
                   <p className="text-lg font-medium text-white">Vidéo de présentation</p>
-                  <p className="text-sm text-white/60 mt-2">Découvrez notre service en action</p>
+                  <p className="text-sm text-white/60 mt-2">Découvrer notre service en action</p>
                 </div>
               </div>
             </div>
@@ -221,7 +221,7 @@ export default function HomePage() {
               <div>
                 <h2 className="text-5xl font-bold mb-6">Assurances</h2>
                 <p className="text-xl text-muted-foreground mb-8">
-                  Une solution complète pour la gestion des relogements d'urgence
+                  Une solution complète pour la gestion des relogements de vos assurés
                 </p>
               </div>
 
@@ -231,16 +231,16 @@ export default function HomePage() {
                   <div>
                     <h3 className="text-xl font-bold mb-2">Améliorer l'efficacité de vos équipes</h3>
                     <p className="text-muted-foreground">
-                      Accédez à notre interface pour gérer les dossiers de vos assurés.
+                      Accéder à notre interface pour gérer les dossiers de vos assurés.
                     </p>
                     <ul className="text-muted-foreground mt-3 space-y-1 ml-4">
                       <li className="flex items-center gap-2">
                         <span className="w-1.5 h-1.5 bg-primary rounded-full"></span>
-                        Faciliter et centraliser la recherche de logements
+                        Faciliter et centraliser la recherche de logements.
                       </li>
                       <li className="flex items-center gap-2">
                         <span className="w-1.5 h-1.5 bg-primary rounded-full"></span>
-                        Gérer plusieurs assurés en une seule demande
+                        Gérer plusieurs assurés en une seule demande.
                       </li>
                     </ul>
                   </div>
@@ -251,7 +251,7 @@ export default function HomePage() {
                   <div>
                     <h3 className="text-xl font-bold mb-2">Reloger à moindre coût</h3>
                     <p className="text-muted-foreground">
-                      Suivez l'état d'avancement des relogements et gérez vos priorités.
+                      Comparer les prix des logements grâce à notre base de données complète.
                     </p>
                   </div>
                 </div>
@@ -261,7 +261,7 @@ export default function HomePage() {
                   <div>
                     <h3 className="text-xl font-bold mb-2">Satisfaction client</h3>
                     <p className="text-muted-foreground">
-                      Bénéficiez d'un interlocuteur unique pour tous vos dossiers de relogement pour un relogement rapide et adapté aux besoins de vos assurés.
+                      Bénéficier d'un interlocuteur unique pour un relogement rapide et adapté aux besoins de vos assurés.
                     </p>
                   </div>
                 </div>
@@ -272,7 +272,7 @@ export default function HomePage() {
                   href="/relocation/new"
                   className="group inline-flex items-center gap-2 bg-primary text-primary-foreground px-8 py-4 rounded-full text-lg font-semibold hover:bg-primary/90 transition-colors"
                 >
-                  Accéder à la plateforme
+                  Effectuer une demande
                   <ArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-transform" />
                 </Link>
               </div>
@@ -285,7 +285,7 @@ export default function HomePage() {
                     <Users className="h-8 w-8 text-primary" />
                   </div>
                   <p className="text-lg font-medium">Démonstration</p>
-                  <p className="text-sm text-muted-foreground mt-2">Découvrez notre plateforme en action</p>
+                  <p className="text-sm text-muted-foreground mt-2">Découvrer notre plateforme en action</p>
                 </div>
               </div>
             </div>
@@ -315,7 +315,7 @@ export default function HomePage() {
                   <div>
                     <h3 className="text-xl font-bold mb-2 text-secondary">Maximiser vos revenus</h3>
                     <p className="text-secondary/90">
-                      Optimisez vos rendements et elargissez votre clientèle en rejoignant la plateforme partenaire des assurances.
+                      Optimiser vos rendements et elargisser votre clientèle en rejoignant le réseau partenaire des assurances.
                     </p>
                   </div>
                 </div>
@@ -331,7 +331,7 @@ export default function HomePage() {
                 </div>
 
                 <div className="flex items-start gap-4">
-                  <Heart className="h-6 w-6 text-secondary/90 mt-1 flex-shrink-0" />
+                  <Shield className="h-6 w-6 text-secondary/90 mt-1 flex-shrink-0" />
                   <div>
                     <h3 className="text-xl font-bold mb-2 text-secondary">Protéger votre bien</h3>
                     <p className="text-secondary/90">
@@ -385,8 +385,8 @@ export default function HomePage() {
                   <div className="w-16 h-16 rounded-full bg-white/20 flex items-center justify-center mx-auto mb-4">
                     <Home className="h-8 w-8 text-white" />
                   </div>
-                  <p className="text-lg font-medium text-white">Découvrez le programme</p>
-                  <p className="text-sm text-white/60 mt-2">Rejoignez notre réseau d'hôtes</p>
+                  <p className="text-lg font-medium text-white">Découvrer le programme</p>
+                  <p className="text-sm text-white/60 mt-2">Rejoigner notre réseau d'hôtes</p>
                 </div>
               </div>
             </div>

@@ -89,38 +89,6 @@
     overflow: hidden;
   }
 
-  .hero-background::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-image: 
-      /* Emergency response network pattern */
-      radial-gradient(circle at 20% 80%, hsl(215 28% 25% / 0.03) 0%, transparent 50%),
-      radial-gradient(circle at 80% 20%, hsl(215 28% 25% / 0.03) 0%, transparent 50%),
-      radial-gradient(circle at 40% 40%, hsl(215 28% 25% / 0.02) 0%, transparent 50%);
-    background-size: 600px 600px, 800px 800px, 1000px 1000px;
-    background-position: 0 0, 400px 400px, 200px 200px;
-    animation: emergency-network 25s ease-in-out infinite;
-  }
-
-  .hero-background::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-image: 
-      /* Housing grid pattern */
-      linear-gradient(45deg, transparent 48%, hsl(215 28% 25% / 0.015) 50%, transparent 52%),
-      linear-gradient(-45deg, transparent 48%, hsl(215 28% 25% / 0.015) 50%, transparent 52%);
-    background-size: 80px 80px;
-    animation: housing-grid 30s linear infinite;
-  }
-
   /* Alternative: Corporate Professional Background */
   .hero-background-corporate {
     background: linear-gradient(135deg, hsl(40 38% 98%) 0%, hsl(40 35% 92%) 100%);
@@ -173,7 +141,7 @@
     position: absolute;
     width: 500px;
     height: 500px;
-    border: 2px solid hsl(215 28% 25% / 0.08);
+    border: 2px solid hsl(215 28% 25% / 0.15);
     border-radius: 50%;
     top: 50%;
     left: 50%;
@@ -186,7 +154,7 @@
     position: absolute;
     width: 400px;
     height: 400px;
-    border: 2px solid hsl(215 28% 25% / 0.07);
+    border: 2px solid hsl(215 28% 25% / 0.13);
     border-radius: 50%;
     top: 50%;
     left: 50%;
@@ -199,7 +167,7 @@
     position: absolute;
     width: 300px;
     height: 300px;
-    border: 2px solid hsl(215 28% 25% / 0.06);
+    border: 2px solid hsl(215 28% 25% / 0.11);
     border-radius: 50%;
     top: 50%;
     left: 50%;
@@ -213,7 +181,7 @@
     position: absolute;
     width: 600px;
     height: 600px;
-    border: 2px solid hsl(215 28% 25% / 0.05);
+    border: 2px solid hsl(215 28% 25% / 0.09);
     border-radius: 50%;
     top: 50%;
     left: 50%;
@@ -226,7 +194,7 @@
     position: absolute;
     width: 700px;
     height: 700px;
-    border: 2px solid hsl(215 28% 25% / 0.04);
+    border: 2px solid hsl(215 28% 25% / 0.08);
     border-radius: 50%;
     top: 50%;
     left: 50%;
@@ -239,7 +207,7 @@
     position: absolute;
     width: 800px;
     height: 800px;
-    border: 2px solid hsl(215 28% 25% / 0.035);
+    border: 2px solid hsl(215 28% 25% / 0.07);
     border-radius: 50%;
     top: 50%;
     left: 50%;
@@ -252,7 +220,7 @@
     position: absolute;
     width: 900px;
     height: 900px;
-    border: 2px solid hsl(215 28% 25% / 0.03);
+    border: 2px solid hsl(215 28% 25% / 0.06);
     border-radius: 50%;
     top: 50%;
     left: 50%;
@@ -265,7 +233,7 @@
     position: absolute;
     width: 1000px;
     height: 1000px;
-    border: 2px solid hsl(215 28% 25% / 0.025);
+    border: 2px solid hsl(215 28% 25% / 0.05);
     border-radius: 50%;
     top: 50%;
     left: 50%;
@@ -278,7 +246,7 @@
     position: absolute;
     width: 1100px;
     height: 1100px;
-    border: 2px solid hsl(215 28% 25% / 0.02);
+    border: 2px solid hsl(215 28% 25% / 0.04);
     border-radius: 50%;
     top: 50%;
     left: 50%;
@@ -291,7 +259,7 @@
     position: absolute;
     width: 1200px;
     height: 1200px;
-    border: 2px solid hsl(215 28% 25% / 0.015);
+    border: 2px solid hsl(215 28% 25% / 0.035);
     border-radius: 50%;
     top: 50%;
     left: 50%;
@@ -304,7 +272,7 @@
     position: absolute;
     width: 1300px;
     height: 1300px;
-    border: 2px solid hsl(215 28% 25% / 0.012);
+    border: 2px solid hsl(215 28% 25% / 0.03);
     border-radius: 50%;
     top: 50%;
     left: 50%;
@@ -317,7 +285,7 @@
     position: absolute;
     width: 1400px;
     height: 1400px;
-    border: 2px solid hsl(215 28% 25% / 0.01);
+    border: 2px solid hsl(215 28% 25% / 0.025);
     border-radius: 50%;
     top: 50%;
     left: 50%;
@@ -330,7 +298,7 @@
     position: absolute;
     width: 1500px;
     height: 1500px;
-    border: 2px solid hsl(215 28% 25% / 0.008);
+    border: 2px solid hsl(215 28% 25% / 0.02);
     border-radius: 50%;
     top: 50%;
     left: 50%;
@@ -432,12 +400,12 @@
     0%, 100% { 
       opacity: 0.3;
       transform: translate(-50%, -50%) scale(1);
-      border-color: hsl(215 28% 25% / 0.1);
+      border-width: 2px;
     }
     50% { 
       opacity: 0.6;
       transform: translate(-50%, -50%) scale(1.05);
-      border-color: hsl(215 28% 25% / 0.2);
+      border-width: 4px;
     }
   }
 
