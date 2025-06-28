@@ -52,6 +52,16 @@ const INSURANCE_PROVIDERS = [
     fallbackUrl: "https://www.axa.ch/",
   },
   {
+    name: "Allianz",
+    url: "https://www.allianz.ch/fr/clients-prives/services/mon-assurance/declaration-de-sinistre.html",
+    fallbackUrl: "https://www.allianz.ch/fr/",
+  },
+  {
+    name: "Generali",
+    url: "https://www.generali.ch/fr/particuliers/declarer-sinistre",
+    fallbackUrl: "https://www.generali.ch/fr/",
+  },
+  {
     name: "Other",
     url: "",
     fallbackUrl: "",
