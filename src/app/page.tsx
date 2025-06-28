@@ -50,7 +50,7 @@ export default function HomePage() {
     // Add a small delay to show the loading state
     await new Promise(resolve => setTimeout(resolve, 800));
     
-    router.push("/property/management");
+    router.push("/platform");
   };
 
   return (
