@@ -22,13 +22,13 @@ export function RelocationTypeSelection({ form }: RelocationTypeSelectionProps) 
       value: "single",
       icon: <Home size={32} />,
       label: "Relogement individuel",
-      description: "Pour moi-même ou un foyer unique."
+      description: "pour un foyer assuré"
     },
     {
       value: "multiple",
       icon: <Users size={32} />,
       label: "Relogements multiples",
-      description: "Pour plusieurs personnes ou foyers."
+      description: "pour plusieurs foyers assurés en une demande"
     }
   ];
 
@@ -43,9 +43,9 @@ export function RelocationTypeSelection({ form }: RelocationTypeSelectionProps) 
   return (
     <div className="space-y-6">
       <div className="text-center">
-        <h2 className="text-xl font-semibold mb-2">Type de demande de relogement</h2>
-        <p className="text-sm text-muted-foreground mb-6 max-w-lg mx-auto">
-          Soumettez-vous une demande pour un relogement individuel ou pour plusieurs personnes ?
+        <h2 className="text-xl font-semibold mb-2">Sélectionner la recherche adaptée à vos besoins</h2>
+        <p className="text-xs text-muted-foreground mb-4">
+          * Veuillez valider une option pour continuer
         </p>
       </div>
 
@@ -95,9 +95,11 @@ export function RelocationTypeSelection({ form }: RelocationTypeSelectionProps) 
       </div>
         
       {errors.relocationType && (
-        <p className="text-sm text-red-500 mt-2">
-          {errors.relocationType.message as string}
-        </p>
+        <div className="mt-4">
+          <p className="text-sm text-red-600 font-medium text-center">
+            {errors.relocationType.message as string}
+          </p>
+        </div>
       )}
     </div>
   );

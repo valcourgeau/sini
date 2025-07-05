@@ -18,7 +18,7 @@ export default function HomePage() {
     setIsLoading(true);
     
     // Add a small delay to show the loading state
-    await new Promise(resolve => setTimeout(resolve, 800));
+    await new Promise(resolve => setTimeout(resolve, 400));
     
     router.push("/relocation/new?type=single");
   };
@@ -28,7 +28,7 @@ export default function HomePage() {
     setIsLoading(true);
     
     // Add a small delay to show the loading state
-    await new Promise(resolve => setTimeout(resolve, 800));
+    await new Promise(resolve => setTimeout(resolve, 400));
     
     router.push("/relocation/new?type=host");
   };
@@ -38,7 +38,7 @@ export default function HomePage() {
     setIsLoading(true);
     
     // Add a small delay to show the loading state
-    await new Promise(resolve => setTimeout(resolve, 800));
+    await new Promise(resolve => setTimeout(resolve, 400));
     
     router.push("/property/new");
   };
@@ -48,7 +48,7 @@ export default function HomePage() {
     setIsManagementLoading(true);
     
     // Add a small delay to show the loading state
-    await new Promise(resolve => setTimeout(resolve, 800));
+    await new Promise(resolve => setTimeout(resolve, 400));
     
     router.push("/platform");
   };
@@ -343,7 +343,7 @@ export default function HomePage() {
 
               <div className="pt-6 flex gap-4">
                 <button
-                  onClick={handleRelocationClick}
+                  onClick={handlePropertyClick}
                   disabled={isLoading || isManagementLoading}
                   className="group inline-flex items-center gap-2 bg-secondary text-primary px-8 py-4 rounded-full text-lg font-semibold hover:bg-secondary/90 transition-colors disabled:opacity-70 disabled:cursor-not-allowed"
                 >

@@ -117,15 +117,14 @@ export function SingleInsuranceCoverage({ form }: SingleInsuranceCoverageProps) 
   return (
     <div className="space-y-6">
       <div className="text-center">
-        <h2 className="text-xl font-semibold mb-2">Document de déclaration de sinistre</h2>
+        <h2 className="text-xl font-semibold mb-2">La déclaration de sinistre</h2>
         <p className="text-sm text-muted-foreground mb-6 max-w-2xl mx-auto">
-          Veuillez télécharger votre document de déclaration de sinistre.
+          Votre assuré a t-il déjà formellement déclaré son sinistre ?
         </p>
       </div>
 
       <div className="space-y-6">
         <div className="space-y-4">
-          <Label>Possédez-vous votre document de déclaration de sinistre ?</Label>
           
           <RadioGroup 
             value={selectedValue}
@@ -201,11 +200,6 @@ export function SingleInsuranceCoverage({ form }: SingleInsuranceCoverageProps) 
                     {selectedFile && (
                       <p className="mt-2 text-sm text-gray-500 text-center">
                         Fichier sélectionné : {selectedFile.name}
-                      </p>
-                    )}
-                    {insuranceErrors.claimDocument && (
-                      <p className="mt-2 text-sm text-red-500 text-center">
-                        {insuranceErrors.claimDocument.message as string}
                       </p>
                     )}
                   </div>
@@ -289,16 +283,24 @@ export function SingleInsuranceCoverage({ form }: SingleInsuranceCoverageProps) 
             </div>
           </RadioGroup>
           
-          {insuranceErrors.hasInsurance && (
-            <p className="text-sm text-red-500 mt-2">
+
+        </div>
+        
+        {insuranceErrors.hasInsurance && (
+          <div className="mt-4">
+            <p className="text-sm text-red-600 font-medium text-center">
               {insuranceErrors.hasInsurance.message as string}
             </p>
-          )}
-        </div>
-
-        <InfoBox className="mt-6">
-          Le document de sinistre est nécessaire pour traiter votre demande de relogement. Si vous ne l'avez pas encore, veuillez soumettre une déclaration auprès de votre assureur et revenir avec le document.
-        </InfoBox>
+          </div>
+        )}
+        
+        {insuranceErrors.claimDocument && (
+          <div className="mt-4">
+            <p className="text-sm text-red-600 font-medium text-center">
+              {insuranceErrors.claimDocument.message as string}
+            </p>
+          </div>
+        )}
       </div>
     </div>
   );

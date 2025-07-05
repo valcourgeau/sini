@@ -35,7 +35,10 @@ import { cn } from "@/lib/utils";
 // Define the form schema using Zod
 const formSchema = z.object({
   // Step 1: Relocation Type
-  relocationType: z.enum(["single", "multiple"]),
+  relocationType: z.enum(["single", "multiple"], {
+    required_error: "Veuillez sélectionner une option pour continuer",
+    invalid_type_error: "Veuillez sélectionner une option pour continuer"
+  }),
 
   // Single Relocation path
   singleDisasterAddress: z.object({
@@ -71,8 +74,20 @@ const formSchema = z.object({
   }).optional(),
 
   singleInsuranceCoverage: z.object({
-    hasInsurance: z.boolean(),
+    hasInsurance: z.boolean({
+      required_error: "Veuillez sélectionner une option pour continuer",
+      invalid_type_error: "Veuillez sélectionner une option pour continuer"
+    }),
     claimDocument: z.instanceof(File).optional(),
+  }).refine((data) => {
+    // User must select "yes" AND upload a document to proceed
+    if (data.hasInsurance === true) {
+      return data.claimDocument !== undefined;
+    }
+    return false; // If they select "no", they cannot proceed
+  }, {
+    message: "Veuillez vous procurer la déclaration de sinistre et la télécharger pour continuer",
+    path: ["claimDocument"]
   }).optional(),
 
   singleInsuranceDetails: z.object({
@@ -193,8 +208,110 @@ export function RelocationWizard() {
   // Calculate progress percentage
   const progressPercentage = (step / totalSteps) * 100;
 
-  const nextStep = () => {
-    setStep(prevStep => prevStep + 1);
+  const nextStep = async () => {
+    // Validate current step before proceeding
+    let isValid = false;
+    
+    switch (step) {
+      case 1:
+        // Validate relocation type selection
+        isValid = await form.trigger("relocationType");
+        break;
+      case 2:
+        // Validate insurance coverage step
+        if (form.watch("relocationType") === "single") {
+          isValid = await form.trigger("singleInsuranceCoverage");
+        } else {
+          isValid = await form.trigger("multipleDisasterAddress");
+        }
+        break;
+      case 3:
+        // Validate step 3 based on path
+        if (form.watch("relocationType") === "single") {
+          const hasInsurance = form.watch("singleInsuranceCoverage")?.hasInsurance;
+          if (hasInsurance) {
+            isValid = await form.trigger("singleInsuranceDetails");
+          } else {
+            isValid = await form.trigger("singlePersonalData");
+          }
+        } else {
+          isValid = await form.trigger("multipleRelocationRequests");
+        }
+        break;
+      case 4:
+        // Validate step 4 based on path
+        if (form.watch("relocationType") === "single") {
+          const hasInsurance = form.watch("singleInsuranceCoverage")?.hasInsurance;
+          if (hasInsurance) {
+            isValid = await form.trigger("singlePersonalData");
+          } else {
+            isValid = await form.trigger("singleRelocationPreferences");
+          }
+        } else {
+          // Multiple path - review step, no validation needed
+          isValid = true;
+        }
+        break;
+      case 5:
+        // Validate step 5 based on path
+        if (form.watch("relocationType") === "single") {
+          const hasInsurance = form.watch("singleInsuranceCoverage")?.hasInsurance;
+          if (hasInsurance) {
+            isValid = await form.trigger("singleRelocationPreferences");
+          } else {
+            isValid = await form.trigger("singleArrivalDetails");
+          }
+        } else {
+          // Multiple path - consent step, validate consent
+          isValid = await form.trigger("multipleConsent");
+        }
+        break;
+      case 6:
+        // Validate step 6 based on path
+        if (form.watch("relocationType") === "single") {
+          const hasInsurance = form.watch("singleInsuranceCoverage")?.hasInsurance;
+          if (hasInsurance) {
+            isValid = await form.trigger("singleArrivalDetails");
+          } else {
+            // Review step, no validation needed
+            isValid = true;
+          }
+        } else {
+          // Multiple path - success step, no validation needed
+          isValid = true;
+        }
+        break;
+      case 7:
+        // Validate step 7 based on path
+        if (form.watch("relocationType") === "single") {
+          const hasInsurance = form.watch("singleInsuranceCoverage")?.hasInsurance;
+          if (hasInsurance) {
+            // Review step, no validation needed
+            isValid = true;
+          } else {
+            isValid = await form.trigger("singleConsent");
+          }
+        }
+        break;
+      case 8:
+        // Validate step 8 based on path
+        if (form.watch("relocationType") === "single") {
+          const hasInsurance = form.watch("singleInsuranceCoverage")?.hasInsurance;
+          if (hasInsurance) {
+            isValid = await form.trigger("singleConsent");
+          } else {
+            // Success step, no validation needed
+            isValid = true;
+          }
+        }
+        break;
+      default:
+        isValid = true;
+    }
+    
+    if (isValid) {
+      setStep(prevStep => prevStep + 1);
+    }
   };
 
   const prevStep = () => {
@@ -381,10 +498,7 @@ export function RelocationWizard() {
       <Card className="border-2 shadow-lg">
         <CardHeader className="pb-6">
           <CardTitle className="text-2xl font-bold text-center">Demande d'assistance au relogement</CardTitle>
-          <CardDescription className="text-center text-base whitespace-nowrap">
-            Veuillez remplir ce formulaire pour demander une assistance au relogement.
-          </CardDescription>
-          <div className="mt-12">
+          <div className="mt-80">
             <Progress value={progressPercentage} className="h-2.5" />
             <p className="text-sm text-right mt-2 text-muted-foreground">
               Étape {step} sur {totalSteps}
