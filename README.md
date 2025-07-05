@@ -1,4 +1,4 @@
-# SINI - Service d'Intervention et de Relogement d'Urgence
+# SINI - Service de relogement d'Urgence
 
 SINI est une plateforme de relogement complète conçue pour répondre aux besoins des personnes touchées par des sinistres dans les cantons de Genève et Vaud, en Suisse. Cette plateforme facilite la coordination entre les autorités, les compagnies d'assurance, les propriétaires immobiliers et les personnes sinistrées pour garantir des solutions de relogement rapides et efficaces.
 
