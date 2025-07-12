@@ -436,7 +436,7 @@ export function RelocationWizard() {
               onClick={prevStep}
               className="px-6 py-2 h-auto"
             >
-              Back
+              Retour
             </Button>
           )}
         </div>
@@ -447,7 +447,7 @@ export function RelocationWizard() {
             onClick={nextStep}
             className="px-8 py-2 h-auto bg-primary hover:bg-primary/90"
           >
-            {step === 1 ? "Start" : "Next"}
+            {step === 1 ? "Commencer" : "Suivant"}
           </Button>
         </div>
       </CardFooter>
@@ -497,13 +497,15 @@ export function RelocationWizard() {
     )}>
       <Card className="border-2 shadow-lg">
         <CardHeader className="pb-6">
-          <CardTitle className="text-2xl font-bold text-center">Demande d'assistance au relogement</CardTitle>
-          <div className="mt-80">
-            <Progress value={progressPercentage} className="h-2.5" />
-            <p className="text-sm text-right mt-2 text-muted-foreground">
-              Étape {step} sur {totalSteps}
-            </p>
-          </div>
+          <CardTitle className="text-3xl font-bold text-center">Demande de relogement</CardTitle>
+          {step > 1 && (
+            <div className="mt-80">
+              <Progress value={progressPercentage} className="h-2.5" />
+              <p className="text-sm text-right mt-2 text-muted-foreground">
+                Étape {step} sur {totalSteps}
+              </p>
+            </div>
+          )}
         </CardHeader>
         
         <CardContent className="pb-8">

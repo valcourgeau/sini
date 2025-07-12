@@ -306,7 +306,7 @@ export function PropertyWizard() {
             }}
             className="px-8 py-2 h-auto bg-primary hover:bg-primary/90"
           >
-            {step === 1 ? "Start" : "Next"}
+            {step === 1 ? "Commencer" : "Suivant"}
           </Button>
         </div>
       </CardFooter>
