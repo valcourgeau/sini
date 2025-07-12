@@ -1,7 +1,7 @@
 import { UseFormReturn } from "react-hook-form";
 import { Label } from "@/components/ui/label";
 import { useState, useEffect, forwardRef, useImperativeHandle } from "react";
-import { Check, Clock, Calendar, CalendarRange } from "lucide-react";
+import { Check, Clock, Calendar, CalendarRange, Gauge } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface SingleArrivalDetailsProps {
@@ -50,7 +50,7 @@ export const SingleArrivalDetails = forwardRef<SingleArrivalDetailsRef, SingleAr
       value: "Quelques jours", 
       label: "Quelques jours",
       subLabel: "Séjour urgent et court",
-      icon: <Clock size={28} />
+      icon: <Gauge size={28} /> 
     },
     { 
       id: "few-weeks", 
@@ -174,11 +174,35 @@ export const SingleArrivalDetails = forwardRef<SingleArrivalDetailsRef, SingleAr
     const subscription = watch((value, { name }) => {
       if (name?.startsWith("singleArrivalDetails")) {
         validateForm();
+        
+        // Auto-update estimatedDuration when exact dates are used
+        // Only update if the change is to arrival or departure date, not estimatedDuration itself
+        if (useExactDates && (name === "singleArrivalDetails.arrivalDate" || name === "singleArrivalDetails.departureDate")) {
+          const arrivalDate = watch("singleArrivalDetails.arrivalDate");
+          const departureDate = watch("singleArrivalDetails.departureDate");
+          
+          if (arrivalDate && departureDate) {
+            const nights = getNumberOfNights(arrivalDate, departureDate);
+            if (nights !== null) {
+              const newDuration = `${nights} nuits`;
+              const currentDuration = watch("singleArrivalDetails.estimatedDuration");
+              
+              // Only update if the value is different to prevent infinite loop
+              if (currentDuration !== newDuration) {
+                setValue("singleArrivalDetails.estimatedDuration", newDuration, {
+                  shouldValidate: true,
+                  shouldDirty: true,
+                  shouldTouch: true
+                });
+              }
+            }
+          }
+        }
       }
     });
     
     return () => subscription.unsubscribe();
-  }, [watch, useExactDates]);
+  }, [watch, useExactDates, setValue]);
 
   // Expose validation method to parent
   useImperativeHandle(ref, () => ({
@@ -332,7 +356,7 @@ export const SingleArrivalDetails = forwardRef<SingleArrivalDetailsRef, SingleAr
           {/* Number of nights info for exact dates */}
           {useExactDates && getNumberOfNights(watch("singleArrivalDetails.arrivalDate"), watch("singleArrivalDetails.departureDate")) !== null && (
             <p className="text-xs text-primary font-medium mt-1">
-              Nombre de nuits : {getNumberOfNights(watch("singleArrivalDetails.arrivalDate"), watch("singleArrivalDetails.departureDate"))}
+              Durée du séjour : {getNumberOfNights(watch("singleArrivalDetails.arrivalDate"), watch("singleArrivalDetails.departureDate"))} nuits.
             </p>
           )}
         </div>
@@ -403,7 +427,7 @@ export const SingleArrivalDetails = forwardRef<SingleArrivalDetailsRef, SingleAr
       
       {/* Validation message at the bottom */}
       {validationMessage && (
-        <div className="mt-6 p-4 bg-red-50 border border-red-200 rounded-lg">
+        <div className="mt-6">
           <p className="text-sm text-red-600 font-medium text-center">
             {validationMessage}
           </p>

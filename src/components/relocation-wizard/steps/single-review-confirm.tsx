@@ -256,19 +256,17 @@ export function SingleReviewConfirm({ form }: SingleReviewConfirmProps) {
                 <span className={valueClass}>{formatDate(getValue("singleArrivalDetails.departureDate"))}</span>
               </div>
             )}
-            {/* Number of nights for exact dates */}
-            {getValue("singleArrivalDetails.useExactDates") === true && getValue("singleArrivalDetails.arrivalDate") && getValue("singleArrivalDetails.departureDate") && (
-              <div className={detailRowClass}>
-                <span className={labelClass}>Nombre de nuits :</span>
-                <span className={valueClass}>{getNumberOfNights(getValue("singleArrivalDetails.arrivalDate"), getValue("singleArrivalDetails.departureDate"))}</span>
-              </div>
-            )}
-            {getValue("singleArrivalDetails.useExactDates") !== true && (
-              <div className={detailRowClass}>
-                <span className={labelClass}>Durée estimée :</span>
-                <span className={valueClass}>{getValue("singleArrivalDetails.estimatedDuration")}</span>
-              </div>
-            )}
+            <div className={detailRowClass}>
+              <span className={labelClass}>
+                {getValue("singleArrivalDetails.useExactDates") === true ? "Durée :" : "Durée estimée :"}
+              </span>
+              <span className={valueClass}>
+                {getValue("singleArrivalDetails.useExactDates") === true && getValue("singleArrivalDetails.arrivalDate") && getValue("singleArrivalDetails.departureDate") 
+                  ? `${getNumberOfNights(getValue("singleArrivalDetails.arrivalDate"), getValue("singleArrivalDetails.departureDate"))} nuits`
+                  : getValue("singleArrivalDetails.estimatedDuration") || "Non spécifié"
+                }
+              </span>
+            </div>
           </div>
         </div>
         
@@ -460,12 +458,6 @@ export function SingleReviewConfirm({ form }: SingleReviewConfirmProps) {
         </div>
       </div>
 
-      <div className="p-4 bg-amber-50 rounded-md border border-amber-100">
-        <p className="text-sm text-amber-700">
-          <strong>Veuillez vérifier :</strong> Assurez-vous que toutes les informations ci-dessus sont correctes avant de passer à l'étape suivante. 
-          Vous serez invité à donner votre consentement pour le traitement de votre demande à l'écran suivant.
-        </p>
-      </div>
 
       {/* Data Accuracy Confirmation */}
       <div className="mt-6 p-4 border border-border rounded-lg bg-background">

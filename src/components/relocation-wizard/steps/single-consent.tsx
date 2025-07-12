@@ -1,6 +1,7 @@
 import { UseFormReturn } from "react-hook-form";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
 
 interface SingleConsentProps {
   form: UseFormReturn<any>;
@@ -17,6 +18,19 @@ interface ConsentErrors {
 export function SingleConsent({ form, onSubmit, isSubmitting, onBack }: SingleConsentProps) {
   const { register, formState: { errors } } = form;
   const consentErrors = (errors.singleConsent || {}) as ConsentErrors;
+
+  // Handle form submission with validation
+  const handleSubmit = async () => {
+    console.log("Consent validation triggered");
+    const isValid = await form.trigger("singleConsent");
+    console.log("Consent validation result:", isValid);
+    console.log("Current consent values:", form.getValues("singleConsent"));
+    if (isValid) {
+      await onSubmit();
+    } else {
+      console.log("Consent validation failed, showing errors");
+    }
+  };
 
   return (
     <div className="space-y-6">
@@ -38,7 +52,7 @@ export function SingleConsent({ form, onSubmit, isSubmitting, onBack }: SingleCo
               <li>Les informations fournies dans ce formulaire sont exactes et complètes à votre connaissance.</li>
               <li>Vous nous autorisez à utiliser ces informations pour vous aider à trouver des options de relogement adaptées.</li>
               <li>Vous comprenez que la soumission de ce formulaire ne garantit pas l'assistance au relogement.</li>
-              <li>Vous acceptez de répondre rapidement à toute communication de suivi concernant votre demande.</li>
+              <li>Vous acceptez de répondre sous 24 heures à toute communication de suivi concernant votre demande.</li>
               <li>Vous reconnaissez que les options de relogement sont soumises à disponibilité et critères d'éligibilité.</li>
               <li>Vous comprenez que toute information fausse ou trompeuse peut entraîner le rejet de votre demande.</li>
             </ul>
@@ -49,7 +63,7 @@ export function SingleConsent({ form, onSubmit, isSubmitting, onBack }: SingleCo
             </p>
             <ul className="list-disc list-outside ml-5 text-sm text-muted-foreground space-y-1">
               <li>Vos informations personnelles ne seront utilisées que pour traiter votre demande de relogement et les services associés.</li>
-              <li>Nous pouvons partager vos informations avec des partenaires de relogement, des fournisseurs de logement et les autorités compétentes si nécessaire.</li>
+              <li>Nous pouvons partager vos informations avec des partenaires et fournisseurs de relogement si nécessaire.</li>
               <li>Si vous avez fourni des informations d'assurance, nous pouvons contacter votre assureur pour vérifier la couverture.</li>
               <li>Vos données seront stockées de manière sécurisée et conservées pendant la durée requise par les lois applicables.</li>
               <li>Vous avez le droit d'accéder, de corriger ou de demander la suppression de vos informations personnelles.</li>
@@ -60,21 +74,30 @@ export function SingleConsent({ form, onSubmit, isSubmitting, onBack }: SingleCo
 
         <div className="space-y-4">
           <div className="flex items-start space-x-3">
-            <input
-              type="checkbox"
+            <Checkbox
               id="singleConsent.agreeToTerms"
-              {...register("singleConsent.agreeToTerms")}
-              className="rounded border-input h-5 w-5 mt-0.5"
+              checked={form.watch("singleConsent.agreeToTerms") || false}
+              onCheckedChange={(checked) => {
+                form.setValue("singleConsent.agreeToTerms", checked as boolean, {
+                  shouldValidate: true,
+                  shouldDirty: true,
+                  shouldTouch: true
+                });
+              }}
+              className="mt-0.5"
             />
             <div className="space-y-1">
-              <Label htmlFor="singleConsent.agreeToTerms" className="text-base font-medium">
+              <Label 
+                htmlFor="singleConsent.agreeToTerms" 
+                className="text-base font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+              >
                 J'accepte les conditions d'utilisation <span className="text-red-500">*</span>
               </Label>
               <p className="text-sm text-muted-foreground">
                 En cochant cette case, vous confirmez avoir lu, compris et accepté les conditions ci-dessus.
               </p>
               {consentErrors.agreeToTerms && (
-                <p className="text-sm text-destructive">
+                <p className="text-sm text-destructive mt-2">
                   {consentErrors.agreeToTerms.message as string}
                 </p>
               )}
@@ -82,14 +105,23 @@ export function SingleConsent({ form, onSubmit, isSubmitting, onBack }: SingleCo
           </div>
           
           <div className="flex items-start space-x-3">
-            <input
-              type="checkbox"
+            <Checkbox
               id="singleConsent.agreeToDataProcessing"
-              {...register("singleConsent.agreeToDataProcessing")}
-              className="rounded border-input h-5 w-5 mt-0.5"
+              checked={form.watch("singleConsent.agreeToDataProcessing") || false}
+              onCheckedChange={(checked) => {
+                form.setValue("singleConsent.agreeToDataProcessing", checked as boolean, {
+                  shouldValidate: true,
+                  shouldDirty: true,
+                  shouldTouch: true
+                });
+              }}
+              className="mt-0.5"
             />
             <div className="space-y-1">
-              <Label htmlFor="singleConsent.agreeToDataProcessing" className="text-base font-medium">
+              <Label 
+                htmlFor="singleConsent.agreeToDataProcessing" 
+                className="text-base font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+              >
                 Je consens au traitement de mes données personnelles <span className="text-red-500">*</span>
               </Label>
               <p className="text-sm text-muted-foreground">
@@ -97,7 +129,7 @@ export function SingleConsent({ form, onSubmit, isSubmitting, onBack }: SingleCo
                 informations personnelles comme décrit dans notre politique de confidentialité.
               </p>
               {consentErrors.agreeToDataProcessing && (
-                <p className="text-sm text-destructive">
+                <p className="text-sm text-destructive mt-2">
                   {consentErrors.agreeToDataProcessing.message as string}
                 </p>
               )}
@@ -123,7 +155,7 @@ export function SingleConsent({ form, onSubmit, isSubmitting, onBack }: SingleCo
           </Button>
           <Button 
             type="button" 
-            onClick={onSubmit}
+            onClick={handleSubmit}
             disabled={isSubmitting}
             className="px-8 py-2 h-auto bg-primary hover:bg-primary/90"
           >

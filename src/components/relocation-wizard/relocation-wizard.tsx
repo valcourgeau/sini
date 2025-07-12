@@ -138,7 +138,7 @@ const formSchema = z.object({
     agreeToDataProcessing: z.boolean().refine(val => val === true, {
       message: "Vous devez accepter le traitement des données pour continuer",
     }),
-  }).optional(),
+  }),
 
   // Review confirmation fields
   singleReviewConfirmation: z.object({
@@ -182,7 +182,7 @@ const formSchema = z.object({
     agreeToDataProcessing: z.boolean().refine(val => val === true, {
       message: "Vous devez accepter le traitement des données pour continuer",
     }),
-  }).optional(),
+  }),
 });
 
 type FormValues = z.infer<typeof formSchema>;
@@ -219,6 +219,14 @@ export function RelocationWizard() {
       },
       multipleReviewConfirmation: {
         confirmDataAccuracy: false
+      },
+      singleConsent: {
+        agreeToTerms: false,
+        agreeToDataProcessing: false
+      },
+      multipleConsent: {
+        agreeToTerms: false,
+        agreeToDataProcessing: false
       }
     },
   });

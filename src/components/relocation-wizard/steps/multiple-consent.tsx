@@ -1,6 +1,7 @@
 import { UseFormReturn } from "react-hook-form";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
 
 interface MultipleConsentProps {
   form: UseFormReturn<any>;
@@ -17,6 +18,19 @@ interface ConsentErrors {
 export function MultipleConsent({ form, onSubmit, isSubmitting, onBack }: MultipleConsentProps) {
   const { register, formState: { errors } } = form;
   const consentErrors = (errors.multipleConsent || {}) as ConsentErrors;
+
+  // Handle form submission with validation
+  const handleSubmit = async () => {
+    console.log("Multiple consent validation triggered");
+    const isValid = await form.trigger("multipleConsent");
+    console.log("Multiple consent validation result:", isValid);
+    console.log("Current multiple consent values:", form.getValues("multipleConsent"));
+    if (isValid) {
+      await onSubmit();
+    } else {
+      console.log("Multiple consent validation failed, showing errors");
+    }
+  };
   
   return (
     <div className="space-y-6">
@@ -60,21 +74,30 @@ export function MultipleConsent({ form, onSubmit, isSubmitting, onBack }: Multip
 
         <div className="space-y-4">
           <div className="flex items-start space-x-3">
-            <input
-              type="checkbox"
+            <Checkbox
               id="multipleConsent.agreeToTerms"
-              {...register("multipleConsent.agreeToTerms")}
-              className="rounded border-input h-5 w-5 mt-0.5"
+              checked={form.watch("multipleConsent.agreeToTerms") || false}
+              onCheckedChange={(checked) => {
+                form.setValue("multipleConsent.agreeToTerms", checked as boolean, {
+                  shouldValidate: true,
+                  shouldDirty: true,
+                  shouldTouch: true
+                });
+              }}
+              className="mt-0.5"
             />
             <div className="space-y-1">
-              <Label htmlFor="multipleConsent.agreeToTerms" className="text-base font-medium">
+              <Label 
+                htmlFor="multipleConsent.agreeToTerms" 
+                className="text-base font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+              >
                 J'accepte les conditions d'utilisation <span className="text-red-500">*</span>
               </Label>
               <p className="text-sm text-muted-foreground">
                 En cochant cette case, vous confirmez avoir lu, compris et accepté les conditions ci-dessus.
               </p>
               {consentErrors.agreeToTerms && (
-                <p className="text-sm text-destructive">
+                <p className="text-sm text-destructive mt-2">
                   {consentErrors.agreeToTerms.message as string}
                 </p>
               )}
@@ -82,14 +105,23 @@ export function MultipleConsent({ form, onSubmit, isSubmitting, onBack }: Multip
           </div>
           
           <div className="flex items-start space-x-3">
-            <input
-              type="checkbox"
+            <Checkbox
               id="multipleConsent.agreeToDataProcessing"
-              {...register("multipleConsent.agreeToDataProcessing")}
-              className="rounded border-input h-5 w-5 mt-0.5"
+              checked={form.watch("multipleConsent.agreeToDataProcessing") || false}
+              onCheckedChange={(checked) => {
+                form.setValue("multipleConsent.agreeToDataProcessing", checked as boolean, {
+                  shouldValidate: true,
+                  shouldDirty: true,
+                  shouldTouch: true
+                });
+              }}
+              className="mt-0.5"
             />
             <div className="space-y-1">
-              <Label htmlFor="multipleConsent.agreeToDataProcessing" className="text-base font-medium">
+              <Label 
+                htmlFor="multipleConsent.agreeToDataProcessing" 
+                className="text-base font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+              >
                 Je consens au traitement des données personnelles <span className="text-red-500">*</span>
               </Label>
               <p className="text-sm text-muted-foreground">
@@ -97,7 +129,7 @@ export function MultipleConsent({ form, onSubmit, isSubmitting, onBack }: Multip
                 informations personnelles comme décrit dans notre politique de confidentialité.
               </p>
               {consentErrors.agreeToDataProcessing && (
-                <p className="text-sm text-destructive">
+                <p className="text-sm text-destructive mt-2">
                   {consentErrors.agreeToDataProcessing.message as string}
                 </p>
               )}
@@ -112,6 +144,15 @@ export function MultipleConsent({ form, onSubmit, isSubmitting, onBack }: Multip
           </p>
         </div>
 
+        {/* Validation message display */}
+        {(consentErrors.agreeToTerms || consentErrors.agreeToDataProcessing) && (
+          <div className="mt-6">
+            <p className="text-sm text-red-600 font-medium text-center">
+              {consentErrors.agreeToTerms?.message || consentErrors.agreeToDataProcessing?.message}
+            </p>
+          </div>
+        )}
+
         <div className="flex justify-between pt-4">
           <Button 
             type="button" 
@@ -123,7 +164,7 @@ export function MultipleConsent({ form, onSubmit, isSubmitting, onBack }: Multip
           </Button>
           <Button 
             type="button" 
-            onClick={onSubmit}
+            onClick={handleSubmit}
             disabled={isSubmitting}
             className="px-8 py-2 h-auto bg-primary hover:bg-primary/90"
           >

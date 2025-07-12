@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { CheckCircle } from "lucide-react";
+import { CheckCircle, Clock, Mail, Phone } from "lucide-react";
 
 export function SuccessMessage() {
   return (
@@ -11,26 +11,46 @@ export function SuccessMessage() {
         </div>
         <h2 className="text-2xl font-bold">Demande envoyée avec succès</h2>
         <p className="text-muted-foreground max-w-md">
-          Notre équipe va examiner votre demande et vous contactera prochainement.
+          Nous prenons en charge votre demande.
         </p>
       </div>
       
-      <div className="border-t border-border pt-6 flex flex-col items-center text-center max-w-md mx-auto">
-        <h3 className="font-medium mb-4">Que se passe-t-il ensuite ?</h3>
-        <ul className="space-y-2 text-sm mt-2">
-          <li className="flex items-start gap-2">
-            <span className="bg-primary/10 text-primary rounded-full w-5 h-5 flex items-center justify-center flex-shrink-0 mt-0.5">1</span>
-            <span>Notre équipe examinera votre demande sous 24-48 heures.</span>
-          </li>
-          <li className="flex items-start gap-2">
-            <span className="bg-primary/10 text-primary rounded-full w-5 h-5 flex items-center justify-center flex-shrink-0 mt-0.5">2</span>
-            <span>Vous recevrez un email de confirmation avec les détails de votre demande.</span>
-          </li>
-          <li className="flex items-start gap-2">
-            <span className="bg-primary/10 text-primary rounded-full w-5 h-5 flex items-center justify-center flex-shrink-0 mt-0.5">3</span>
-            <span>Un spécialiste du relogement vous contactera pour discuter des prochaines étapes.</span>
-          </li>
-        </ul>
+      <div className="border-t border-border pt-6 flex flex-col items-center text-center max-w-lg mx-auto">
+        <h3 className="font-medium mb-6 text-lg">Que se passe-t-il ensuite ?</h3>
+        <div className="space-y-6 w-full">
+          <div className="flex items-center space-x-3">
+            <div className="flex-shrink-0 w-6 h-6 bg-primary/10 rounded-full flex items-center justify-center">
+              <span className="text-sm font-semibold text-primary">1</span>
+            </div>
+            <div className="flex-1 text-left">
+              <p className="text-sm text-muted-foreground">
+                <span className="font-medium text-foreground">Vous recevrez un email de confirmation de votre demande.</span>
+              </p>
+            </div>
+          </div>
+
+          <div className="flex items-center space-x-3">
+            <div className="flex-shrink-0 w-6 h-6 bg-primary/10 rounded-full flex items-center justify-center">
+              <span className="text-sm font-semibold text-primary">2</span>
+            </div>
+            <div className="flex-1 text-left">
+              <p className="text-sm text-muted-foreground">
+                <span className="font-medium text-foreground">Notre équipe répondra à votre demande sous 24 heures.</span>
+              </p>
+            </div>
+          </div>
+          
+          <div className="flex items-center space-x-3">
+            <div className="flex-shrink-0 w-6 h-6 bg-primary/10 rounded-full flex items-center justify-center">
+              <span className="text-sm font-semibold text-primary">3</span>
+            </div>
+            <div className="flex-1 text-left">
+              <p className="text-sm text-muted-foreground">
+                <span className="font-medium text-foreground">Un de nos spécialistes vous contactera pour les prochaines étapes.</span>
+              </p>
+            </div>
+          </div>
+        </div>
       </div>
       
       <div className="flex justify-center">
