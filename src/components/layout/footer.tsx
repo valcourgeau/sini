@@ -11,7 +11,7 @@ export function Footer() {
           <div className="space-y-4">
             <Logo size="sm" />
             <p className="text-sm text-muted-foreground">
-              Service de relogement de Sinistrés pour le canton de Genève.
+              Service de relogement de sinistrés pour le canton de Genève.
             </p>
           </div>
           

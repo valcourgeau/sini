@@ -31,7 +31,6 @@ import {
   FastForward,
   TrafficCone,
   Bed,
-  Bath,
   Baby,
   PawPrint,
   Accessibility,
@@ -42,7 +41,6 @@ import {
   Clock as ClockIcon,
   User,
   Home,
-  Bath as BathIcon,
   Paperclip,
   CircleCheckBig,
   X,
@@ -59,7 +57,6 @@ interface RelocationRequest {
   estimatedDuration: string;
   arrivalDate: Date | undefined;
   bedrooms: number;
-  bathrooms: number;
   adults: number;
   children: number;
   hasAnimals: boolean;
@@ -92,7 +89,6 @@ export function MultipleRelocationRequests({ form }: MultipleRelocationRequestsP
         estimatedDuration: "",
         arrivalDate: undefined,
         bedrooms: 1,
-        bathrooms: 1,
         adults: 1,
         children: 0,
         hasAnimals: false,
@@ -123,12 +119,6 @@ export function MultipleRelocationRequests({ form }: MultipleRelocationRequestsP
       label: "Quelques mois",
       subLabel: "Logement transitoire"
     },
-    { 
-      id: "unknown", 
-      value: "Inconnu / Pas sûr",
-      label: "Inconnu / Pas sûr",
-      subLabel: "Durée flexible"
-    },
   ];
 
   // Counter fields configuration
@@ -139,13 +129,6 @@ export function MultipleRelocationRequests({ form }: MultipleRelocationRequestsP
       icon: <Bed size={20} />,
       min: 0,
       fieldName: "bedrooms"
-    },
-    {
-      id: "bathrooms",
-      name: "Salles de bain",
-      icon: <Bath size={20} />,
-      min: 0,
-      fieldName: "bathrooms"
     },
     {
       id: "adults",
@@ -173,7 +156,6 @@ export function MultipleRelocationRequests({ form }: MultipleRelocationRequestsP
       estimatedDuration: "",
       arrivalDate: undefined,
       bedrooms: 1,
-      bathrooms: 1,
       adults: 1,
       children: 0,
       hasAnimals: false,
@@ -317,12 +299,6 @@ export function MultipleRelocationRequests({ form }: MultipleRelocationRequestsP
                     <div className="flex items-center gap-2">
                       <Bed className="h-5 w-5" />
                       <span className="sr-only">Chambres</span>
-                    </div>
-                  </TableHead>
-                  <TableHead className="w-[20px] text-gray-900 font-medium text-sm">
-                    <div className="flex items-center gap-2">
-                      <BathIcon className="h-5 w-5" />
-                      <span className="sr-only">Salles de bain</span>
                     </div>
                   </TableHead>
                   <TableHead className="w-[20px] text-gray-900 font-medium text-sm">

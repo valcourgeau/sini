@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -17,7 +17,7 @@ import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { RelocationTypeSelection } from "./steps/relocation-type-selection";
 import { SingleRelocationPreferences } from "./steps/single-relocation-preferences";
-import { SingleArrivalDetails } from "./steps/single-arrival-details";
+import { SingleArrivalDetails, SingleArrivalDetailsRef } from "./steps/single-arrival-details";
 import { SingleInsuranceCoverage } from "./steps/single-insurance-coverage";
 import { SingleInsuranceDetails } from "./steps/single-insurance-details";
 import { SingleReviewConfirm } from "./steps/single-review-confirm";
@@ -36,8 +36,8 @@ import { cn } from "@/lib/utils";
 const formSchema = z.object({
   // Step 1: Relocation Type
   relocationType: z.enum(["single", "multiple"], {
-    required_error: "Veuillez sélectionner une option pour continuer",
-    invalid_type_error: "Veuillez sélectionner une option pour continuer"
+    required_error: "Veuillez sélectionner une option pour continuer.",
+    invalid_type_error: "Veuillez sélectionner une option pour continuer."
   }),
 
   // Single Relocation path
@@ -50,8 +50,7 @@ const formSchema = z.object({
   }).optional(),
 
   singleRelocationPreferences: z.object({
-    bedrooms: z.number().min(0, "Le nombre de chambres doit être positif"),
-    bathrooms: z.number().min(0, "Le nombre de salles de bain doit être positif"),
+    bedrooms: z.number().min(1, "Au moins une chambre est requise"),
     adults: z.number().min(1, "Au moins un adulte est requis"),
     children: z.number().min(0, "Le nombre d'enfants doit être positif"),
     hasAnimals: z.boolean().optional(),
@@ -63,7 +62,7 @@ const formSchema = z.object({
     arrivalDate: z.string().min(1, "La date d'arrivée est requise"),
     departureDate: z.string().optional(),
     useExactDates: z.boolean().default(false),
-    estimatedDuration: z.string().min(1, "La durée estimée est requise"),
+    estimatedDuration: z.string().optional(),
   }).optional(),
 
   singlePersonalData: z.object({
@@ -73,10 +72,17 @@ const formSchema = z.object({
     phone: z.string().min(10, "Un numéro de téléphone valide est requis"),
   }).optional(),
 
+  singleInsuredData: z.object({
+    firstName: z.string().min(1, "Le prénom de l'assuré est requis"),
+    lastName: z.string().min(1, "Le nom de l'assuré est requis"),
+    email: z.string().email("Un email valide est requis"),
+    phone: z.string().min(10, "Un numéro de téléphone valide est requis"),
+  }).optional(),
+
   singleInsuranceCoverage: z.object({
     hasInsurance: z.boolean({
-      required_error: "Veuillez sélectionner une option pour continuer",
-      invalid_type_error: "Veuillez sélectionner une option pour continuer"
+      required_error: "Veuillez sélectionner une option pour continuer.",
+      invalid_type_error: "Veuillez sélectionner une option pour continuer."
     }),
     claimDocument: z.instanceof(File).optional(),
   }).refine((data) => {
@@ -84,16 +90,16 @@ const formSchema = z.object({
     if (data.hasInsurance === true) {
       return data.claimDocument !== undefined;
     }
-    return false; // If they select "no", they cannot proceed
+    return true; // If they select "no", they can proceed
   }, {
-    message: "Veuiller télécharger la déclaration de sinistre pour continuer.",
+    message: "Veuillez télécharger la déclaration de sinistre pour continuer.",
     path: ["claimDocument"]
   }).optional(),
 
   singleInsuranceDetails: z.object({
     insuranceCompany: z.string().min(1, "La compagnie d'assurance est requise"),
     policyNumber: z.string().min(1, "Le numéro de police est requis"),
-    agentContact: z.string().optional(),
+    customInsuranceCompany: z.string().optional(),
   }).optional(),
 
   swissInsuranceDetails: z.object({
@@ -131,6 +137,19 @@ const formSchema = z.object({
     }),
     agreeToDataProcessing: z.boolean().refine(val => val === true, {
       message: "Vous devez accepter le traitement des données pour continuer",
+    }),
+  }).optional(),
+
+  // Review confirmation fields
+  singleReviewConfirmation: z.object({
+    confirmDataAccuracy: z.boolean().refine(val => val === true, {
+      message: "Vous devez confirmer l'exactitude des données pour continuer",
+    }),
+  }).optional(),
+
+  multipleReviewConfirmation: z.object({
+    confirmDataAccuracy: z.boolean().refine(val => val === true, {
+      message: "Vous devez confirmer l'exactitude des données pour continuer",
     }),
   }).optional(),
 
@@ -172,6 +191,8 @@ export function RelocationWizard() {
   const [step, setStep] = useState(1);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isArrivalDetailsValid, setIsArrivalDetailsValid] = useState(false);
+  const arrivalDetailsRef = useRef<SingleArrivalDetailsRef>(null);
   const searchParams = useSearchParams();
   const typeParam = searchParams.get("type");
   const userTypeParam = searchParams.get("userType");
@@ -185,6 +206,20 @@ export function RelocationWizard() {
     resolver: zodResolver(formSchema),
     defaultValues: {
       relocationType: userTypeParam === "sinistre" ? "single" : undefined,
+      singleRelocationPreferences: {
+        bedrooms: 1,
+        adults: 1,
+        children: 0,
+        hasAnimals: false,
+        hasAccessibilityNeeds: false,
+        needsParking: false
+      },
+      singleReviewConfirmation: {
+        confirmDataAccuracy: false
+      },
+      multipleReviewConfirmation: {
+        confirmDataAccuracy: false
+      }
     },
   });
 
@@ -195,13 +230,18 @@ export function RelocationWizard() {
     }
   }, [userTypeParam]);
 
+  // Reset validation state when step changes
+  useEffect(() => {
+    setIsArrivalDetailsValid(false);
+  }, [step]);
+
   // Calculate total steps based on the selected path
   const getTotalSteps = () => {
     const relocationType = form.watch("relocationType");
     
-    if (!relocationType) return 8; // Default steps until relocation type selection
+    if (!relocationType) return 7; // Default steps until relocation type selection
     
-    return relocationType === "single" ? 8 : 6; // Single: 8 steps (reduced from 9), Multiple: 6 steps
+    return relocationType === "single" ? 7 : 6; // Single: 7 steps (reduced from 8), Multiple: 6 steps
   };
 
   const totalSteps = getTotalSteps();
@@ -221,7 +261,24 @@ export function RelocationWizard() {
       case 2:
         // Validate insurance coverage step
         if (form.watch("relocationType") === "single") {
-          isValid = await form.trigger("singleInsuranceCoverage");
+          const insuranceData = form.getValues("singleInsuranceCoverage");
+          if (!insuranceData || typeof insuranceData.hasInsurance !== 'boolean') {
+            // Set a custom error message for no selection
+            form.setError("singleInsuranceCoverage", {
+              type: "manual",
+              message: "Veuillez sélectionner une option pour continuer."
+            });
+            isValid = false;
+          } else if (insuranceData.hasInsurance === true && !insuranceData.claimDocument) {
+            // Set a custom error message for missing document upload
+            form.setError("singleInsuranceCoverage", {
+              type: "manual",
+              message: "Veuillez télécharger la déclaration de sinistre pour continuer"
+            });
+            isValid = false;
+          } else {
+            isValid = await form.trigger("singleInsuranceCoverage");
+          }
         } else {
           isValid = await form.trigger("multipleDisasterAddress");
         }
@@ -249,8 +306,8 @@ export function RelocationWizard() {
             isValid = await form.trigger("singleRelocationPreferences");
           }
         } else {
-          // Multiple path - review step, no validation needed
-          isValid = true;
+          // Multiple path - review step, validate confirmation checkbox
+          isValid = await form.trigger("multipleReviewConfirmation");
         }
         break;
       case 5:
@@ -260,7 +317,8 @@ export function RelocationWizard() {
           if (hasInsurance) {
             isValid = await form.trigger("singleRelocationPreferences");
           } else {
-            isValid = await form.trigger("singleArrivalDetails");
+            // Call component's validate method to show validation message
+            isValid = arrivalDetailsRef.current?.validate() ?? false;
           }
         } else {
           // Multiple path - consent step, validate consent
@@ -272,14 +330,15 @@ export function RelocationWizard() {
         if (form.watch("relocationType") === "single") {
           const hasInsurance = form.watch("singleInsuranceCoverage")?.hasInsurance;
           if (hasInsurance) {
-            isValid = await form.trigger("singleArrivalDetails");
+            // Call component's validate method to show validation message
+            isValid = arrivalDetailsRef.current?.validate() ?? false;
           } else {
-            // Review step, no validation needed
-            isValid = true;
+            // Review step - validate confirmation checkbox
+            isValid = await form.trigger("singleReviewConfirmation");
           }
         } else {
-          // Multiple path - success step, no validation needed
-          isValid = true;
+          // Multiple path - validate review confirmation
+          isValid = await form.trigger("multipleReviewConfirmation");
         }
         break;
       case 7:
@@ -287,8 +346,8 @@ export function RelocationWizard() {
         if (form.watch("relocationType") === "single") {
           const hasInsurance = form.watch("singleInsuranceCoverage")?.hasInsurance;
           if (hasInsurance) {
-            // Review step, no validation needed
-            isValid = true;
+            // Review step - validate confirmation checkbox
+            isValid = await form.trigger("singleReviewConfirmation");
           } else {
             isValid = await form.trigger("singleConsent");
           }
@@ -342,68 +401,38 @@ export function RelocationWizard() {
         break;
       case 3:
         if (relocationType === "single") {
-          // Show insurance details only if they have insurance
-          if (hasInsurance) {
-            return <SingleInsuranceDetails form={form} />;
-          } else {
-            return <SingleAddressAndContact form={form} />;
-          }
+          return <SingleAddressAndContact form={form} userType={userTypeParam} />;
         } else if (relocationType === "multiple") {
           return <MultipleRelocationRequests form={form} />;
         }
         break;
       case 4:
         if (relocationType === "single") {
-          if (hasInsurance) {
-            return <SingleAddressAndContact form={form} />;
-          } else {
-            return <SingleRelocationPreferences form={form} />;
-          }
+          return <SingleRelocationPreferences form={form} />;
         } else if (relocationType === "multiple") {
           return <MultipleReviewConfirm form={form} />;
         }
         break;
       case 5:
         if (relocationType === "single") {
-          if (hasInsurance) {
-            return <SingleRelocationPreferences form={form} />;
-          } else {
-            return <SingleArrivalDetails form={form} />;
-          }
+          return <SingleArrivalDetails ref={arrivalDetailsRef} form={form} onValidationChange={setIsArrivalDetailsValid} />;
         } else if (relocationType === "multiple") {
           return <MultipleConsent form={form} onSubmit={handleSubmit} isSubmitting={isSubmitting} onBack={prevStep} />;
         }
         break;
       case 6:
         if (relocationType === "single") {
-          if (hasInsurance) {
-            return <SingleArrivalDetails form={form} />;
-          } else {
-            return <SingleReviewConfirm form={form} />;
-          }
+          return <SingleReviewConfirm form={form} />;
         } else if (relocationType === "multiple") {
           return <SuccessMessage />;
         }
         break;
       case 7:
         if (relocationType === "single") {
-          if (hasInsurance) {
-            return <SingleReviewConfirm form={form} />;
-          } else {
-            return <SingleConsent form={form} onSubmit={handleSubmit} isSubmitting={isSubmitting} onBack={prevStep} />;
-          }
+          return <SingleConsent form={form} onSubmit={handleSubmit} isSubmitting={isSubmitting} onBack={prevStep} />;
         }
         break;
       case 8:
-        if (relocationType === "single") {
-          if (hasInsurance) {
-            return <SingleConsent form={form} onSubmit={handleSubmit} isSubmitting={isSubmitting} onBack={prevStep} />;
-          } else {
-            return <SuccessMessage />;
-          }
-        }
-        break;
-      case 9:
         if (relocationType === "single") {
           return <SuccessMessage />;
         }
@@ -419,11 +448,11 @@ export function RelocationWizard() {
     const hasInsurance = form.watch("singleInsuranceCoverage")?.hasInsurance;
     
     const isFinalStep = 
-      (relocationType === "single" && ((hasInsurance && step === 9) || (!hasInsurance && step === 8))) ||
+      (relocationType === "single" && step === 8) ||
       (relocationType === "multiple" && step === 5);
     
     // Don't show navigation buttons on the final step or consent step
-    if (isFinalStep || (relocationType === "single" && ((hasInsurance && step === 8) || (!hasInsurance && step === 7)))) {
+    if (isFinalStep || (relocationType === "single" && step === 7)) {
       return null;
     }
       

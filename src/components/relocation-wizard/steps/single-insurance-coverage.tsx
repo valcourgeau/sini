@@ -73,21 +73,29 @@ export function SingleInsuranceCoverage({ form, userType }: SingleInsuranceCover
   const { setValue, watch, register, formState: { errors } } = form;
   const insuranceErrors = errors.singleInsuranceCoverage as Record<string, FieldError> || {};
   
-  // Get the current value to set the default
-  const hasInsurance = watch("singleInsuranceCoverage.hasInsurance");
+  // Get the current value using the same pattern as relocation type selection
+  const currentValue = form.getValues("singleInsuranceCoverage.hasInsurance");
   let selectedValue = "";
   
-  if (hasInsurance === true) selectedValue = "yes";
-  else if (hasInsurance === false) selectedValue = "no";
+  if (currentValue === true) selectedValue = "yes";
+  else if (currentValue === false) selectedValue = "no";
 
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [selectedProvider, setSelectedProvider] = useState<string>("");
   
   const handleSelection = (value: string) => {
     if (value === "yes") {
-      setValue("singleInsuranceCoverage.hasInsurance", true);
+      setValue("singleInsuranceCoverage.hasInsurance", true, { 
+        shouldValidate: true,
+        shouldDirty: true,
+        shouldTouch: true 
+      });
     } else if (value === "no") {
-      setValue("singleInsuranceCoverage.hasInsurance", false);
+      setValue("singleInsuranceCoverage.hasInsurance", false, { 
+        shouldValidate: true,
+        shouldDirty: true,
+        shouldTouch: true 
+      });
       // Clear the file and upload status when switching to "no"
       setSelectedFile(null);
       setValue("singleInsuranceCoverage.claimDocument", undefined);
@@ -119,7 +127,7 @@ export function SingleInsuranceCoverage({ form, userType }: SingleInsuranceCover
     <div className="space-y-6">
       <div className="text-center">
         <h2 className="text-xl font-semibold mb-2">La déclaration de sinistre</h2>
-        <p className="text-sm text-muted-foreground mb-6 max-w-2xl mx-auto">
+        <p className="text-sm text-muted-foreground mb-2 max-w-2xl mx-auto">
           {userType === "assurance" 
             ? "L'assuré a t-il déjà formellement déclaré son sinistre ?"
             : "Votre assuré a t-il déjà formellement déclaré son sinistre ?"
@@ -257,7 +265,7 @@ export function SingleInsuranceCoverage({ form, userType }: SingleInsuranceCover
                   <div className="mt-4 pt-4 border-t border-border w-full text-center space-y-4">
                     <p className="text-sm text-muted-foreground">
                       {userType === "assurance" 
-                        ? "Veuillez obtenir la déclaration de sinistre pour continuer."
+                        ? "Des informations complémentaires seront nécessaires."
                         : "Veuillez soumettre votre déclaration de sinistre auprès de votre assureur et revenir avec le document."
                       }
                     </p>
@@ -299,18 +307,10 @@ export function SingleInsuranceCoverage({ form, userType }: SingleInsuranceCover
 
         </div>
         
-        {insuranceErrors.hasInsurance && (
+        {errors.singleInsuranceCoverage && (
           <div className="mt-4">
             <p className="text-sm text-red-600 font-medium text-center">
-              {insuranceErrors.hasInsurance.message as string}
-            </p>
-          </div>
-        )}
-        
-        {insuranceErrors.claimDocument && (
-          <div className="mt-4">
-            <p className="text-sm text-red-600 font-medium text-center">
-              {insuranceErrors.claimDocument.message as string}
+              {errors.singleInsuranceCoverage.message as string}
             </p>
           </div>
         )}

@@ -1,5 +1,7 @@
 import { UseFormReturn } from "react-hook-form";
 import { Users, Users2, CircleCheckBig, X } from "lucide-react";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Label } from "@/components/ui/label";
 
 interface MultipleReviewConfirmProps {
   form: UseFormReturn<any>;
@@ -43,6 +45,10 @@ export function MultipleReviewConfirm({ form }: MultipleReviewConfirmProps) {
   const labelClass = "text-sm font-medium text-muted-foreground md:w-1/3";
   const valueClass = "text-sm";
   const noBorderSectionClass = "pb-4 mb-4 last:pb-0 last:mb-0";
+
+  // Get form errors for validation
+  const { formState: { errors } } = form;
+  const reviewErrors = errors.multipleReviewConfirmation as any;
 
   return (
     <div className="space-y-6">
@@ -138,9 +144,6 @@ export function MultipleReviewConfirm({ form }: MultipleReviewConfirmProps) {
                       <span className="text-xs text-muted-foreground">Bedrooms:</span>
                       <span className="col-span-2">{request.bedrooms}</span>
                       
-                      <span className="text-xs text-muted-foreground">Bathrooms:</span>
-                      <span className="col-span-2">{request.bathrooms}</span>
-                      
                       <span className="text-xs text-muted-foreground">Adults:</span>
                       <span className="col-span-2">{request.adults}</span>
                       
@@ -174,11 +177,39 @@ export function MultipleReviewConfirm({ form }: MultipleReviewConfirmProps) {
           </div>
         )}
 
-        <div className="p-4 bg-amber-50 rounded-md border border-amber-100 mt-6">
-          <p className="text-sm text-amber-700">
-            <strong>Veuillez vérifier :</strong> Assurez-vous que toutes les informations ci-dessus sont correctes avant de passer à l'étape suivante. 
-            Vous serez invité à donner votre consentement pour le traitement de ces demandes à l'écran suivant.
-          </p>
+        {/* Data Accuracy Confirmation */}
+        <div className="mt-6 p-4 border border-border rounded-lg bg-background">
+          <div className="flex items-start space-x-3">
+            <Checkbox
+              id="multipleReviewConfirmation.confirmDataAccuracy"
+              checked={form.watch("multipleReviewConfirmation.confirmDataAccuracy") || false}
+              onCheckedChange={(checked) => {
+                form.setValue("multipleReviewConfirmation.confirmDataAccuracy", checked as boolean, {
+                  shouldValidate: true,
+                  shouldDirty: true,
+                  shouldTouch: true
+                });
+              }}
+              className="mt-0.5"
+            />
+            <div className="space-y-1">
+              <Label 
+                htmlFor="multipleReviewConfirmation.confirmDataAccuracy" 
+                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+              >
+                Confirmation de l'exactitude des données <span className="text-red-500">*</span>
+              </Label>
+              <p className="text-sm text-muted-foreground">
+                Je confirme que toutes les informations fournies dans ces demandes sont exactes et complètes à la meilleure de ma connaissance. 
+                Je comprends que des informations incorrectes peuvent affecter le traitement de ces demandes de relogement.
+              </p>
+            </div>
+          </div>
+          {reviewErrors?.confirmDataAccuracy && (
+            <p className="text-sm text-destructive mt-2">
+              {reviewErrors.confirmDataAccuracy.message}
+            </p>
+          )}
         </div>
       </div>
     </div>

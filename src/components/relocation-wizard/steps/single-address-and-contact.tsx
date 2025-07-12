@@ -4,6 +4,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 
 interface SingleAddressAndContactProps {
   form: UseFormReturn<any>;
+  userType?: string | null;
 }
 
 interface PersonalErrors {
@@ -13,10 +14,14 @@ interface PersonalErrors {
   phone?: { message?: string };
 }
 
-export function SingleAddressAndContact({ form }: SingleAddressAndContactProps) {
-  const { register, setValue, formState: { errors } } = form;
+export function SingleAddressAndContact({ form, userType }: SingleAddressAndContactProps) {
+  const { register, setValue, watch, formState: { errors } } = form;
   const addressErrors = errors.singleDisasterAddress as Record<string, FieldError> || {};
   const personalErrors = (errors.singlePersonalData || {}) as PersonalErrors;
+  const insuranceErrors = errors.singleInsuranceDetails as Record<string, FieldError> || {};
+  
+  // Check if user has insurance coverage
+  const hasInsurance = watch("singleInsuranceCoverage.hasInsurance");
   
   // Swiss cantons
   const swissCantons = [
@@ -39,16 +44,15 @@ export function SingleAddressAndContact({ form }: SingleAddressAndContactProps) 
       {/* Disaster Address Section */}
       <div className="space-y-6">
         <div className="pt-4 border-t">
-          <h3 className="text-lg font-medium mb-6 text-center">Adresse du sinistre</h3>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="space-y-4">
+            {/* Street - Full width */}
             <div className="space-y-2">
-              <Label htmlFor="singleDisasterAddress.street">Rue</Label>
+              <Label htmlFor="singleDisasterAddress.street">Adresse du sinistre <span className="text-red-500">*</span></Label>
               <input
                 id="singleDisasterAddress.street"
                 {...register("singleDisasterAddress.street")}
                 className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-                placeholder="Rue et numéro"
+                placeholder="Numéro et Rue"
               />
               {addressErrors.street && (
                 <p className="text-sm text-destructive mt-1">
@@ -57,86 +61,253 @@ export function SingleAddressAndContact({ form }: SingleAddressAndContactProps) 
               )}
             </div>
 
-            <div className="space-y-2">
-              <Label htmlFor="singleDisasterAddress.city">Ville</Label>
-              <input
-                id="singleDisasterAddress.city"
-                {...register("singleDisasterAddress.city")}
-                className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-                placeholder="Ville"
-              />
-              {addressErrors.city && (
-                <p className="text-sm text-destructive mt-1">
-                  {addressErrors.city.message as string}
-                </p>
-              )}
-            </div>
+            {/* City, Postal Code, Canton, Country - Same line */}
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              <div className="space-y-2">
+                <Label htmlFor="singleDisasterAddress.city">Ville <span className="text-red-500">*</span></Label>
+                <input
+                  id="singleDisasterAddress.city"
+                  {...register("singleDisasterAddress.city")}
+                  className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                  placeholder="Ville"
+                />
+                {addressErrors.city && (
+                  <p className="text-sm text-destructive mt-1">
+                    {addressErrors.city.message as string}
+                  </p>
+                )}
+              </div>
 
-            <div className="space-y-2">
-              <Label htmlFor="singleDisasterAddress.postalCode">Code postal</Label>
-              <input
-                id="singleDisasterAddress.postalCode"
-                {...register("singleDisasterAddress.postalCode")}
-                className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-                placeholder="Code postal"
-              />
-              {addressErrors.postalCode && (
-                <p className="text-sm text-destructive mt-1">
-                  {addressErrors.postalCode.message as string}
-                </p>
-              )}
-            </div>
+              <div className="space-y-2">
+                <Label htmlFor="singleDisasterAddress.postalCode">Code postal <span className="text-red-500">*</span></Label>
+                <input
+                  id="singleDisasterAddress.postalCode"
+                  {...register("singleDisasterAddress.postalCode")}
+                  className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                  placeholder="Code postal"
+                />
+                {addressErrors.postalCode && (
+                  <p className="text-sm text-destructive mt-1">
+                    {addressErrors.postalCode.message as string}
+                  </p>
+                )}
+              </div>
 
-            <div className="space-y-2">
-              <Label htmlFor="singleDisasterAddress.canton">Canton</Label>
-              <Select 
-                onValueChange={(value) => setValue("singleDisasterAddress.canton", value)}
-                defaultValue="none"
-              >
-                <SelectTrigger className="w-full">
-                  <SelectValue placeholder="Sélectionner un canton" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="none">Non applicable</SelectItem>
-                  {swissCantons.map((canton) => (
-                    <SelectItem key={canton} value={canton}>
-                      {canton}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-              {addressErrors.canton && (
-                <p className="text-sm text-destructive mt-1">
-                  {addressErrors.canton.message as string}
-                </p>
-              )}
-            </div>
+              <div className="space-y-2">
+                <Label htmlFor="singleDisasterAddress.canton">Canton</Label>
+                <Select 
+                  onValueChange={(value) => setValue("singleDisasterAddress.canton", value)}
+                  defaultValue="Genève"
+                >
+                  <SelectTrigger className="w-full">
+                    <SelectValue placeholder="Canton" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="none">Non applicable</SelectItem>
+                    {swissCantons.map((canton) => (
+                      <SelectItem key={canton} value={canton}>
+                        {canton}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                {addressErrors.canton && (
+                  <p className="text-sm text-destructive mt-1">
+                    {addressErrors.canton.message as string}
+                  </p>
+                )}
+              </div>
 
-            <div className="space-y-2">
-              <Label htmlFor="singleDisasterAddress.country">Pays</Label>
-              <input
-                id="singleDisasterAddress.country"
-                {...register("singleDisasterAddress.country")}
-                className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-                placeholder="Pays"
-                defaultValue="Suisse"
-              />
-              {addressErrors.country && (
-                <p className="text-sm text-destructive mt-1">
-                  {addressErrors.country.message as string}
-                </p>
-              )}
+              <div className="space-y-2">
+                <Label htmlFor="singleDisasterAddress.country">Pays <span className="text-red-500">*</span></Label>
+                <input
+                  id="singleDisasterAddress.country"
+                  {...register("singleDisasterAddress.country")}
+                  className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                  placeholder="Pays"
+                  defaultValue="Suisse"
+                />
+                {addressErrors.country && (
+                  <p className="text-sm text-destructive mt-1">
+                    {addressErrors.country.message as string}
+                  </p>
+                )}
+              </div>
             </div>
           </div>
         </div>
       </div>
 
+      {/* Insured Person Information Section - Only show when user doesn't have insurance */}
+      {hasInsurance === false && (
+        <div className="space-y-6">
+          <h3 className="text-lg font-medium">Informations de l'assuré</h3>
+          <div className="space-y-4">
+            {/* All fields on same line */}
+            <div className="grid grid-cols-5 gap-4">
+              <div className="space-y-2">
+                <Label htmlFor="singleInsuredData.firstName">
+                  Prénom <span className="text-red-500">*</span>
+                </Label>
+                <input
+                  id="singleInsuredData.firstName"
+                  {...register("singleInsuredData.firstName")}
+                  className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                  placeholder="Prénom"
+                />
+                {personalErrors.firstName && (
+                  <p className="text-sm text-red-500 mt-1">
+                    {personalErrors.firstName.message as string}
+                  </p>
+                )}
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="singleInsuredData.lastName">
+                  Nom <span className="text-red-500">*</span>
+                </Label>
+                <input
+                  id="singleInsuredData.lastName"
+                  {...register("singleInsuredData.lastName")}
+                  className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                  placeholder="Nom"
+                />
+                {personalErrors.lastName && (
+                  <p className="text-sm text-red-500 mt-1">
+                    {personalErrors.lastName.message as string}
+                  </p>
+                )}
+              </div>
+
+              <div className="col-span-2 space-y-2">
+                <Label htmlFor="singleInsuredData.email">
+                  Email <span className="text-red-500">*</span>
+                </Label>
+                <input
+                  id="singleInsuredData.email"
+                  type="email"
+                  {...register("singleInsuredData.email")}
+                  className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                  placeholder="email@exemple.com"
+                />
+                {personalErrors.email && (
+                  <p className="text-sm text-red-500 mt-1">
+                    {personalErrors.email.message as string}
+                  </p>
+                )}
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="singleInsuredData.phone">
+                  Téléphone <span className="text-red-500">*</span>
+                </Label>
+                <input
+                  id="singleInsuredData.phone"
+                  type="tel"
+                  {...register("singleInsuredData.phone")}
+                  className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                  placeholder="+41 XX XXX XX XX"
+                />
+                {personalErrors.phone && (
+                  <p className="text-sm text-red-500 mt-1">
+                    {personalErrors.phone.message as string}
+                  </p>
+                )}
+              </div>
+            </div>
+
+            {/* Insurance Company and Policy Number on same line */}
+            <div className="grid grid-cols-3 gap-4">
+              <div className="space-y-2">
+                <Label htmlFor="singleInsuranceDetails.insuranceCompany">Compagnie d'assurance</Label>
+                {watch("singleInsuranceDetails.insuranceCompany") === "Other" ? (
+                  <div className="space-y-2">
+                    <input
+                      id="singleInsuranceDetails.insuranceCompany"
+                      {...register("singleInsuranceDetails.customInsuranceCompany")}
+                      className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                      placeholder="Nom de la compagnie d'assurance"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setValue("singleInsuranceDetails.insuranceCompany", "");
+                        setValue("singleInsuranceDetails.customInsuranceCompany", "");
+                      }}
+                      className="text-xs text-muted-foreground hover:text-primary transition-colors"
+                    >
+                      ← Retourner à la liste
+                    </button>
+                  </div>
+                ) : (
+                  <Select 
+                    onValueChange={(value) => {
+                      setValue("singleInsuranceDetails.insuranceCompany", value);
+                      // Clear the custom company field if not "Other"
+                      if (value !== "Other") {
+                        setValue("singleInsuranceDetails.customInsuranceCompany", "");
+                      }
+                    }}
+                    defaultValue=""
+                  >
+                    <SelectTrigger className="w-full">
+                      <SelectValue placeholder="Sélectionner une compagnie" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="Helvetia">Helvetia</SelectItem>
+                      <SelectItem value="Swiss Life">Swiss Life</SelectItem>
+                      <SelectItem value="Baloise">Baloise</SelectItem>
+                      <SelectItem value="CSS">CSS</SelectItem>
+                      <SelectItem value="Vaudoise Assurances">Vaudoise Assurances</SelectItem>
+                      <SelectItem value="AXA">AXA</SelectItem>
+                      <SelectItem value="Allianz">Allianz</SelectItem>
+                      <SelectItem value="Generali">Generali</SelectItem>
+                      <SelectItem value="Zurich">Zurich</SelectItem>
+                      <SelectItem value="Swiss Re">Swiss Re</SelectItem>
+                      <SelectItem value="Other">Autre</SelectItem>
+                    </SelectContent>
+                  </Select>
+                )}
+                {insuranceErrors.insuranceCompany && (
+                  <p className="text-sm text-destructive mt-1">
+                    {insuranceErrors.insuranceCompany.message as string}
+                  </p>
+                )}
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="singleInsuranceDetails.policyNumber">Numéro de police</Label>
+                <input
+                  id="singleInsuranceDetails.policyNumber"
+                  {...register("singleInsuranceDetails.policyNumber")}
+                  className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                  placeholder="Numéro de la police d'assurance"
+                />
+                {insuranceErrors.policyNumber && (
+                  <p className="text-sm text-destructive mt-1">
+                    {insuranceErrors.policyNumber.message as string}
+                  </p>
+                )}
+              </div>
+            </div>
+
+            {userType === "sinistre" && (
+              <p className="text-xs text-muted-foreground">
+                Vous pouvez généralement trouver le numéro de police sur vos documents d'assurance ou votre compte en ligne.
+              </p>
+            )}
+          </div>
+        </div>
+      )}
+
+
+
       {/* Personal Information Section */}
       <div className="space-y-6">
-        <h3 className="text-lg font-medium">Informations de contact</h3>
+        <h3 className="text-lg font-medium">Informations du courtier</h3>
         <div className="space-y-4">
-          {/* Name fields row */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {/* All fields on same line */}
+          <div className="grid grid-cols-5 gap-4">
             <div className="space-y-2">
               <Label htmlFor="singlePersonalData.firstName">
                 Prénom <span className="text-red-500">*</span>
@@ -145,7 +316,7 @@ export function SingleAddressAndContact({ form }: SingleAddressAndContactProps) 
                 id="singlePersonalData.firstName"
                 {...register("singlePersonalData.firstName")}
                 className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-                placeholder="Votre prénom"
+                placeholder="Prénom"
                 defaultValue="Valentin"
               />
               {personalErrors.firstName && (
@@ -163,7 +334,7 @@ export function SingleAddressAndContact({ form }: SingleAddressAndContactProps) 
                 id="singlePersonalData.lastName"
                 {...register("singlePersonalData.lastName")}
                 className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-                placeholder="Votre nom"
+                placeholder="Nom"
                 defaultValue="Garnier"
               />
               {personalErrors.lastName && (
@@ -172,20 +343,17 @@ export function SingleAddressAndContact({ form }: SingleAddressAndContactProps) 
                 </p>
               )}
             </div>
-          </div>
 
-          {/* Contact information row */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="space-y-2">
+            <div className="col-span-2 space-y-2">
               <Label htmlFor="singlePersonalData.email">
-                Adresse email <span className="text-red-500">*</span>
+                Email <span className="text-red-500">*</span>
               </Label>
               <input
                 id="singlePersonalData.email"
                 type="email"
                 {...register("singlePersonalData.email")}
                 className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-                placeholder="votre.email@exemple.com"
+                placeholder="email@exemple.com"
                 defaultValue="valentin.garnier@gmail.com"
               />
               {personalErrors.email && (
@@ -193,14 +361,11 @@ export function SingleAddressAndContact({ form }: SingleAddressAndContactProps) 
                   {personalErrors.email.message as string}
                 </p>
               )}
-              <p className="text-xs text-muted-foreground mt-1">
-                Nous utiliserons cet email pour vous envoyer des mises à jour concernant votre demande de relogement.
-              </p>
             </div>
 
             <div className="space-y-2">
               <Label htmlFor="singlePersonalData.phone">
-                Numéro de téléphone <span className="text-red-500">*</span>
+                Téléphone <span className="text-red-500">*</span>
               </Label>
               <input
                 id="singlePersonalData.phone"
@@ -215,9 +380,6 @@ export function SingleAddressAndContact({ form }: SingleAddressAndContactProps) 
                   {personalErrors.phone.message as string}
                 </p>
               )}
-              <p className="text-xs text-muted-foreground mt-1">
-                Veuillez inclure l'indicatif du pays (ex: +41 pour la Suisse).
-              </p>
             </div>
           </div>
         </div>
