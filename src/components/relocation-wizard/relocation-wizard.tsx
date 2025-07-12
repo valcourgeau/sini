@@ -86,7 +86,7 @@ const formSchema = z.object({
     }
     return false; // If they select "no", they cannot proceed
   }, {
-    message: "Veuillez vous procurer la déclaration de sinistre et la télécharger pour continuer",
+    message: "Veuiller télécharger la déclaration de sinistre pour continuer.",
     path: ["claimDocument"]
   }).optional(),
 
@@ -174,6 +174,7 @@ export function RelocationWizard() {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const searchParams = useSearchParams();
   const typeParam = searchParams.get("type");
+  const userTypeParam = searchParams.get("userType");
 
   // Add debugging for isSubmitted state changes
   useEffect(() => {
@@ -183,16 +184,16 @@ export function RelocationWizard() {
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      relocationType: typeParam === "single" ? "single" : undefined,
+      relocationType: userTypeParam === "sinistre" ? "single" : undefined,
     },
   });
 
-  // If type is single, start at step 2 (insurance coverage)
+  // If user is sinistre, start at step 2 (insurance coverage) since single is auto-selected
   useEffect(() => {
-    if (typeParam === "single") {
+    if (userTypeParam === "sinistre") {
       setStep(2);
     }
-  }, [typeParam]);
+  }, [userTypeParam]);
 
   // Calculate total steps based on the selected path
   const getTotalSteps = () => {
@@ -334,7 +335,7 @@ export function RelocationWizard() {
       case 2:
         // Branch based on relocation type
         if (relocationType === "single") {
-          return <SingleInsuranceCoverage form={form} />;
+          return <SingleInsuranceCoverage form={form} userType={userTypeParam} />;
         } else if (relocationType === "multiple") {
           return <MultipleDisasterAddress form={form} />;
         }

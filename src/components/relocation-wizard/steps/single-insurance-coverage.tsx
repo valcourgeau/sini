@@ -17,6 +17,7 @@ import {
 
 interface SingleInsuranceCoverageProps {
   form: UseFormReturn<any>;
+  userType?: string | null;
 }
 
 // Insurance providers with their claim submission URLs
@@ -68,7 +69,7 @@ const INSURANCE_PROVIDERS = [
   },
 ];
 
-export function SingleInsuranceCoverage({ form }: SingleInsuranceCoverageProps) {
+export function SingleInsuranceCoverage({ form, userType }: SingleInsuranceCoverageProps) {
   const { setValue, watch, register, formState: { errors } } = form;
   const insuranceErrors = errors.singleInsuranceCoverage as Record<string, FieldError> || {};
   
@@ -119,7 +120,10 @@ export function SingleInsuranceCoverage({ form }: SingleInsuranceCoverageProps) 
       <div className="text-center">
         <h2 className="text-xl font-semibold mb-2">La déclaration de sinistre</h2>
         <p className="text-sm text-muted-foreground mb-6 max-w-2xl mx-auto">
-          Votre assuré a t-il déjà formellement déclaré son sinistre ?
+          {userType === "assurance" 
+            ? "L'assuré a t-il déjà formellement déclaré son sinistre ?"
+            : "Votre assuré a t-il déjà formellement déclaré son sinistre ?"
+          }
         </p>
       </div>
 
@@ -252,31 +256,40 @@ export function SingleInsuranceCoverage({ form }: SingleInsuranceCoverageProps) 
                 {selectedValue === "no" && (
                   <div className="mt-4 pt-4 border-t border-border w-full text-center space-y-4">
                     <p className="text-sm text-muted-foreground">
-                      Veuillez soumettre votre déclaration de sinistre auprès de votre assureur et revenir avec le document.
+                      {userType === "assurance" 
+                        ? "Veuillez obtenir la déclaration de sinistre pour continuer."
+                        : "Veuillez soumettre votre déclaration de sinistre auprès de votre assureur et revenir avec le document."
+                      }
                     </p>
                     
                     {selectedProvider === "Other" && (
                       <p className="text-sm text-muted-foreground">
-                        Veuillez contacter directement votre assureur pour soumettre votre déclaration de sinistre.
+                        {userType === "assurance" 
+                          ? "Veuillez contacter directement l'assureur pour soumettre la déclaration de sinistre."
+                          : "Veuillez contacter directement votre assureur pour soumettre votre déclaration de sinistre."
+                        }
                       </p>
                     )}
                     
-                    <div className="space-y-2">
-                      <div className="flex flex-wrap gap-2 justify-center">
-                        {INSURANCE_PROVIDERS.filter(provider => provider.name !== "Other").map((provider) => (
-                          <a
-                            key={provider.name}
-                            href={provider.url}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="inline-flex items-center px-3 py-1 text-xs font-medium text-gray-600 bg-white border border-gray-200 rounded-full hover:bg-gray-50 hover:border-gray-300 transition-colors duration-200"
-                            onClick={(e) => e.stopPropagation()}
-                          >
-                            {provider.name}
-                          </a>
-                        ))}
+                    {/* Only show insurance company links for sinistre users */}
+                    {userType === "sinistre" && (
+                      <div className="space-y-2">
+                        <div className="flex flex-wrap gap-2 justify-center">
+                          {INSURANCE_PROVIDERS.filter(provider => provider.name !== "Other").map((provider) => (
+                            <a
+                              key={provider.name}
+                              href={provider.url}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="inline-flex items-center px-3 py-1 text-xs font-medium text-gray-600 bg-white border border-gray-200 rounded-full hover:bg-gray-50 hover:border-gray-300 transition-colors duration-200"
+                              onClick={(e) => e.stopPropagation()}
+                            >
+                              {provider.name}
+                            </a>
+                          ))}
+                        </div>
                       </div>
-                    </div>
+                    )}
                   </div>
                 )}
               </div>

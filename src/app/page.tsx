@@ -20,7 +20,17 @@ export default function HomePage() {
     // Add a small delay to show the loading state
     await new Promise(resolve => setTimeout(resolve, 400));
     
-    router.push("/relocation/new?type=single");
+    router.push("/relocation/new?userType=sinistre");
+  };
+
+  const handleInsuranceClick = async (e: React.MouseEvent) => {
+    e.preventDefault();
+    setIsLoading(true);
+    
+    // Add a small delay to show the loading state
+    await new Promise(resolve => setTimeout(resolve, 400));
+    
+    router.push("/relocation/new?userType=assurance");
   };
 
   const handleHostClick = async (e: React.MouseEvent) => {
@@ -268,13 +278,23 @@ export default function HomePage() {
               </div>
 
               <div className="pt-6">
-                <Link 
-                  href="/relocation/new"
-                  className="group inline-flex items-center gap-2 bg-primary text-primary-foreground px-8 py-4 rounded-full text-lg font-semibold hover:bg-primary/90 transition-colors"
+                <button 
+                  onClick={handleInsuranceClick}
+                  disabled={isLoading}
+                  className="group inline-flex items-center gap-2 bg-primary text-primary-foreground px-8 py-4 rounded-full text-lg font-semibold hover:bg-primary/90 transition-colors disabled:opacity-70 disabled:cursor-not-allowed"
                 >
-                  Effectuer une demande
-                  <ArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-transform" />
-                </Link>
+                  {isLoading ? (
+                    <>
+                      <Loader2 className="h-5 w-5 animate-spin" />
+                      Chargement...
+                    </>
+                  ) : (
+                    <>
+                      Effectuer une demande
+                      <ArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-transform" />
+                    </>
+                  )}
+                </button>
               </div>
             </div>
 
