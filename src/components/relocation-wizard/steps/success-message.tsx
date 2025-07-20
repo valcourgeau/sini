@@ -24,7 +24,7 @@ export function SuccessMessage() {
             </div>
             <div className="flex-1 text-left">
               <p className="text-sm text-muted-foreground">
-                <span className="font-medium text-foreground">Vous recevrez un email de confirmation de votre demande.</span>
+                <span className="font-medium text-foreground">Vous allez recevoir un email de confirmation de votre demande.</span>
               </p>
             </div>
           </div>
@@ -46,7 +46,7 @@ export function SuccessMessage() {
             </div>
             <div className="flex-1 text-left">
               <p className="text-sm text-muted-foreground">
-                <span className="font-medium text-foreground">Un de nos spécialistes vous contactera pour les prochaines étapes.</span>
+                <span className="font-medium text-foreground">Un de nos spécialistes va chercher un relogement pour vous.</span>
               </p>
             </div>
           </div>

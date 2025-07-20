@@ -42,10 +42,26 @@ const formSchema = z.object({
 
   // Single Relocation path
   singleDisasterAddress: z.object({
-    street: z.string().min(1, "La rue est requise"),
-    city: z.string().min(1, "La ville est requise"),
-    postalCode: z.string().min(4, "Un code postal valide est requis"),
-    country: z.string().min(1, "Le pays est requis"),
+    street: z.string()
+      .min(1, "L'adresse est requise")
+      .min(5, "L'adresse doit contenir au moins 5 caractères")
+      .max(100, "L'adresse ne peut pas dépasser 100 caractères")
+      .regex(/^[a-zA-ZÀ-ÿ0-9\s\-\.\,]+$/, "L'adresse ne peut contenir que des lettres, chiffres, espaces, tirets, points et virgules"),
+    city: z.string()
+      .min(1, "La ville est requise")
+      .min(2, "La ville doit contenir au moins 2 caractères")
+      .max(50, "La ville ne peut pas dépasser 50 caractères")
+      .regex(/^[a-zA-ZÀ-ÿ\s\-]+$/, "La ville ne peut contenir que des lettres, espaces et tirets"),
+    postalCode: z.string()
+      .min(1, "Le code postal est requis")
+      .min(4, "Le code postal doit contenir au moins 4 caractères")
+      .max(10, "Le code postal ne peut pas dépasser 10 caractères")
+      .regex(/^[0-9A-Z\s]+$/, "Le code postal ne peut contenir que des chiffres et des lettres majuscules"),
+    country: z.string()
+      .min(1, "Le pays est requis")
+      .min(2, "Le pays doit contenir au moins 2 caractères")
+      .max(50, "Le pays ne peut pas dépasser 50 caractères")
+      .regex(/^[a-zA-ZÀ-ÿ\s\-]+$/, "Le pays ne peut contenir que des lettres, espaces et tirets"),
     canton: z.string().optional(),
   }).optional(),
 
@@ -66,17 +82,33 @@ const formSchema = z.object({
   }).optional(),
 
   singlePersonalData: z.object({
-    firstName: z.string().min(1, "Le prénom est requis"),
-    lastName: z.string().min(1, "Le nom est requis"),
-    email: z.string().email("Un email valide est requis"),
-    phone: z.string().min(10, "Un numéro de téléphone valide est requis"),
+    firstName: z.string()
+      .min(1, "Le prénom est requis")
+      .min(2, "Le prénom doit contenir au moins 2 caractères")
+      .max(50, "Le prénom ne peut pas dépasser 50 caractères")
+      .regex(/^[a-zA-ZÀ-ÿ\s\-']+$/, "Le prénom ne peut contenir que des lettres, espaces, tirets et apostrophes"),
+    lastName: z.string()
+      .min(1, "Le nom est requis")
+      .min(2, "Le nom doit contenir au moins 2 caractères")
+      .max(50, "Le nom ne peut pas dépasser 50 caractères")
+      .regex(/^[a-zA-ZÀ-ÿ\s\-']+$/, "Le nom ne peut contenir que des lettres, espaces, tirets et apostrophes"),
+    email: z.string()
+      .min(1, "L'email est requis")
+      .email("Veuillez entrer une adresse email valide")
+      .max(100, "L'email ne peut pas dépasser 100 caractères")
+      .regex(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/, "Format d'email invalide"),
+    phone: z.string()
+      .min(1, "Le numéro de téléphone est requis")
+      .min(10, "Le numéro de téléphone doit contenir au moins 10 caractères")
+      .max(20, "Le numéro de téléphone ne peut pas dépasser 20 caractères")
+      .regex(/^[\+]?[0-9\s\-\(\)]+$/, "Le numéro de téléphone ne peut contenir que des chiffres, espaces, tirets, parenthèses et le symbole +"),
   }).optional(),
 
   singleInsuredData: z.object({
-    firstName: z.string().min(1, "Le prénom de l'assuré est requis"),
-    lastName: z.string().min(1, "Le nom de l'assuré est requis"),
-    email: z.string().email("Un email valide est requis"),
-    phone: z.string().min(10, "Un numéro de téléphone valide est requis"),
+    firstName: z.string().optional(),
+    lastName: z.string().optional(),
+    email: z.string().optional(),
+    phone: z.string().optional(),
   }).optional(),
 
   singleInsuranceCoverage: z.object({
@@ -97,38 +129,83 @@ const formSchema = z.object({
   }).optional(),
 
   singleInsuranceDetails: z.object({
-    insuranceCompany: z.string().min(1, "La compagnie d'assurance est requise"),
-    policyNumber: z.string().min(1, "Le numéro de police est requis"),
-    customInsuranceCompany: z.string().optional(),
+    insuranceCompany: z.string()
+      .min(1, "La compagnie d'assurance est requise")
+      .max(100, "Le nom de la compagnie ne peut pas dépasser 100 caractères"),
+    policyNumber: z.string()
+      .min(1, "Le numéro de police d'assurance est requis")
+      .min(3, "Le numéro de police doit contenir au moins 3 caractères")
+      .max(50, "Le numéro de police ne peut pas dépasser 50 caractères")
+      .regex(/^[a-zA-Z0-9\-\_\/\s]+$/, "Le numéro de police ne peut contenir que des lettres, chiffres, tirets, underscores, slashes et espaces"),
+    customInsuranceCompany: z.string()
+      .max(100, "Le nom de la compagnie ne peut pas dépasser 100 caractères")
+      .regex(/^[a-zA-ZÀ-ÿ0-9\s\-\.&]+$/, "Le nom de la compagnie ne peut contenir que des lettres, chiffres, espaces, tirets, points et &")
+      .optional(),
   }).optional(),
 
   swissInsuranceDetails: z.object({
     // RC Insurance
     hasRCInsurance: z.boolean().optional(),
-    rcInsuranceCompany: z.string().optional(),
-    rcPolicyNumber: z.string().optional(),
+    rcInsuranceCompany: z.string()
+      .max(100, "Le nom de la compagnie ne peut pas dépasser 100 caractères")
+      .regex(/^[a-zA-ZÀ-ÿ0-9\s\-\.&]+$/, "Le nom de la compagnie ne peut contenir que des lettres, chiffres, espaces, tirets, points et &")
+      .optional(),
+    rcPolicyNumber: z.string()
+      .min(3, "Le numéro de police doit contenir au moins 3 caractères")
+      .max(50, "Le numéro de police ne peut pas dépasser 50 caractères")
+      .regex(/^[a-zA-Z0-9\-\_\/\s]+$/, "Le numéro de police ne peut contenir que des lettres, chiffres, tirets, underscores, slashes et espaces")
+      .optional(),
     
     // Ménage Insurance
     hasMenageInsurance: z.boolean().optional(),
-    menageInsuranceCompany: z.string().optional(),
-    menagePolicyNumber: z.string().optional(),
+    menageInsuranceCompany: z.string()
+      .max(100, "Le nom de la compagnie ne peut pas dépasser 100 caractères")
+      .regex(/^[a-zA-ZÀ-ÿ0-9\s\-\.&]+$/, "Le nom de la compagnie ne peut contenir que des lettres, chiffres, espaces, tirets, points et &")
+      .optional(),
+    menagePolicyNumber: z.string()
+      .min(3, "Le numéro de police doit contenir au moins 3 caractères")
+      .max(50, "Le numéro de police ne peut pas dépasser 50 caractères")
+      .regex(/^[a-zA-Z0-9\-\_\/\s]+$/, "Le numéro de police ne peut contenir que des lettres, chiffres, tirets, underscores, slashes et espaces")
+      .optional(),
     
     // Natural Disaster Insurance
     hasNaturalDisasterInsurance: z.boolean().optional(),
-    naturalDisasterInsuranceCompany: z.string().optional(),
-    naturalDisasterPolicyNumber: z.string().optional(),
+    naturalDisasterInsuranceCompany: z.string()
+      .max(100, "Le nom de la compagnie ne peut pas dépasser 100 caractères")
+      .regex(/^[a-zA-ZÀ-ÿ0-9\s\-\.&]+$/, "Le nom de la compagnie ne peut contenir que des lettres, chiffres, espaces, tirets, points et &")
+      .optional(),
+    naturalDisasterPolicyNumber: z.string()
+      .min(3, "Le numéro de police doit contenir au moins 3 caractères")
+      .max(50, "Le numéro de police ne peut pas dépasser 50 caractères")
+      .regex(/^[a-zA-Z0-9\-\_\/\s]+$/, "Le numéro de police ne peut contenir que des lettres, chiffres, tirets, underscores, slashes et espaces")
+      .optional(),
     
     // Building Insurance (for owners)
     hasBuildingInsurance: z.boolean().optional(),
-    buildingInsuranceCompany: z.string().optional(),
-    buildingPolicyNumber: z.string().optional(),
+    buildingInsuranceCompany: z.string()
+      .max(100, "Le nom de la compagnie ne peut pas dépasser 100 caractères")
+      .regex(/^[a-zA-ZÀ-ÿ0-9\s\-\.&]+$/, "Le nom de la compagnie ne peut contenir que des lettres, chiffres, espaces, tirets, points et &")
+      .optional(),
+    buildingPolicyNumber: z.string()
+      .min(3, "Le numéro de police doit contenir au moins 3 caractères")
+      .max(50, "Le numéro de police ne peut pas dépasser 50 caractères")
+      .regex(/^[a-zA-Z0-9\-\_\/\s]+$/, "Le numéro de police ne peut contenir que des lettres, chiffres, tirets, underscores, slashes et espaces")
+      .optional(),
     
     // ECA Insurance (for Canton de Vaud)
-    ecaPolicyNumber: z.string().optional(),
+    ecaPolicyNumber: z.string()
+      .min(3, "Le numéro de police doit contenir au moins 3 caractères")
+      .max(50, "Le numéro de police ne peut pas dépasser 50 caractères")
+      .regex(/^[a-zA-Z0-9\-\_\/\s]+$/, "Le numéro de police ne peut contenir que des lettres, chiffres, tirets, underscores, slashes et espaces")
+      .optional(),
     
     // Additional Information
-    agentContact: z.string().optional(),
-    additionalNotes: z.string().optional(),
+    agentContact: z.string()
+      .max(200, "Les informations de contact ne peuvent pas dépasser 200 caractères")
+      .optional(),
+    additionalNotes: z.string()
+      .max(1000, "Les notes additionnelles ne peuvent pas dépasser 1000 caractères")
+      .optional(),
   }).optional(),
 
   singleConsent: z.object({
@@ -155,22 +232,58 @@ const formSchema = z.object({
 
   // Multiple Relocation path
   multipleDisasterAddress: z.object({
-    street: z.string().min(1, "La rue est requise"),
-    city: z.string().min(1, "La ville est requise"),
-    postalCode: z.string().min(4, "Un code postal valide est requis"),
-    country: z.string().min(1, "Le pays est requis"),
+    street: z.string()
+      .min(1, "L'adresse est requise")
+      .min(5, "L'adresse doit contenir au moins 5 caractères")
+      .max(100, "L'adresse ne peut pas dépasser 100 caractères")
+      .regex(/^[a-zA-ZÀ-ÿ0-9\s\-\.\,]+$/, "L'adresse ne peut contenir que des lettres, chiffres, espaces, tirets, points et virgules"),
+    city: z.string()
+      .min(1, "La ville est requise")
+      .min(2, "La ville doit contenir au moins 2 caractères")
+      .max(50, "La ville ne peut pas dépasser 50 caractères")
+      .regex(/^[a-zA-ZÀ-ÿ\s\-]+$/, "La ville ne peut contenir que des lettres, espaces et tirets"),
+    postalCode: z.string()
+      .min(1, "Le code postal est requis")
+      .min(4, "Le code postal doit contenir au moins 4 caractères")
+      .max(10, "Le code postal ne peut pas dépasser 10 caractères")
+      .regex(/^[0-9A-Z\s]+$/, "Le code postal ne peut contenir que des chiffres et des lettres majuscules"),
+    country: z.string()
+      .min(1, "Le pays est requis")
+      .min(2, "Le pays doit contenir au moins 2 caractères")
+      .max(50, "Le pays ne peut pas dépasser 50 caractères")
+      .regex(/^[a-zA-ZÀ-ÿ\s\-]+$/, "Le pays ne peut contenir que des lettres, espaces et tirets"),
   }).optional(),
 
   multipleRelocationRequests: z.array(z.object({
-    firstName: z.string().min(1, "Le prénom est requis"),
-    lastName: z.string().min(1, "Le nom est requis"),
-    email: z.string().email("Un email valide est requis"),
-    phone: z.string().min(10, "Un numéro de téléphone valide est requis"),
-    specialNeeds: z.string().optional(),
+    firstName: z.string()
+      .min(1, "Le prénom est requis")
+      .min(2, "Le prénom doit contenir au moins 2 caractères")
+      .max(50, "Le prénom ne peut pas dépasser 50 caractères")
+      .regex(/^[a-zA-ZÀ-ÿ\s\-']+$/, "Le prénom ne peut contenir que des lettres, espaces, tirets et apostrophes"),
+    lastName: z.string()
+      .min(1, "Le nom est requis")
+      .min(2, "Le nom doit contenir au moins 2 caractères")
+      .max(50, "Le nom ne peut pas dépasser 50 caractères")
+      .regex(/^[a-zA-ZÀ-ÿ\s\-']+$/, "Le nom ne peut contenir que des lettres, espaces, tirets et apostrophes"),
+    email: z.string()
+      .min(1, "L'email est requis")
+      .email("Veuillez entrer une adresse email valide")
+      .max(100, "L'email ne peut pas dépasser 100 caractères")
+      .regex(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/, "Format d'email invalide"),
+    phone: z.string()
+      .min(1, "Le numéro de téléphone est requis")
+      .min(10, "Le numéro de téléphone doit contenir au moins 10 caractères")
+      .max(20, "Le numéro de téléphone ne peut pas dépasser 20 caractères")
+      .regex(/^[\+]?[0-9\s\-\(\)]+$/, "Le numéro de téléphone ne peut contenir que des chiffres, espaces, tirets, parenthèses et le symbole +"),
+    specialNeeds: z.string()
+      .max(500, "Les besoins spéciaux ne peuvent pas dépasser 500 caractères")
+      .optional(),
     arrivalDate: z.string().optional(),
     estimatedDuration: z.string().optional(),
     hasInsurance: z.boolean().optional(),
-    insuranceDetails: z.string().optional(),
+    insuranceDetails: z.string()
+      .max(500, "Les détails d'assurance ne peuvent pas dépasser 500 caractères")
+      .optional(),
     claimDocument: z.instanceof(File).optional(),
     hasUploadedClaim: z.boolean().optional(),
   })).optional(),
@@ -206,6 +319,30 @@ export function RelocationWizard() {
     resolver: zodResolver(formSchema),
     defaultValues: {
       relocationType: userTypeParam === "sinistre" ? "single" : undefined,
+      singleDisasterAddress: {
+        street: "",
+        city: "",
+        postalCode: "",
+        country: "Suisse",
+        canton: "Genève"
+      },
+      singlePersonalData: {
+        firstName: "Valentin",
+        lastName: "Garnier",
+        email: "valentin.garnier@gmail.com",
+        phone: "+41 79 123 45 67"
+      },
+      singleInsuredData: {
+        firstName: "",
+        lastName: "",
+        email: "",
+        phone: ""
+      },
+      singleInsuranceDetails: {
+        insuranceCompany: "",
+        policyNumber: "",
+        customInsuranceCompany: ""
+      },
       singleRelocationPreferences: {
         bedrooms: 1,
         adults: 1,
@@ -247,9 +384,9 @@ export function RelocationWizard() {
   const getTotalSteps = () => {
     const relocationType = form.watch("relocationType");
     
-    if (!relocationType) return 7; // Default steps until relocation type selection
+    if (!relocationType) return 8; // Default steps until relocation type selection
     
-    return relocationType === "single" ? 7 : 6; // Single: 7 steps (reduced from 8), Multiple: 6 steps
+    return relocationType === "single" ? 8 : 6; // Single: 8 steps, Multiple: 6 steps
   };
 
   const totalSteps = getTotalSteps();
@@ -260,6 +397,7 @@ export function RelocationWizard() {
   const nextStep = async () => {
     // Validate current step before proceeding
     let isValid = false;
+    console.log("Validating step:", step);
     
     switch (step) {
       case 1:
@@ -295,11 +433,90 @@ export function RelocationWizard() {
         // Validate step 3 based on path
         if (form.watch("relocationType") === "single") {
           const hasInsurance = form.watch("singleInsuranceCoverage")?.hasInsurance;
-          if (hasInsurance) {
-            isValid = await form.trigger("singleInsuranceDetails");
+          console.log("Step 3 - hasInsurance:", hasInsurance);
+          
+          // Always validate disaster address and personal data
+          const addressValid = await form.trigger("singleDisasterAddress");
+          const personalDataValid = await form.trigger("singlePersonalData");
+          console.log("Step 3 - addressValid:", addressValid, "personalDataValid:", personalDataValid);
+          
+          if (hasInsurance === false) {
+            // If user has no insurance, validate insured data with custom validation
+            const insuredData = form.getValues("singleInsuredData");
+            let insuredDataValid = true;
+            
+            // Clear any existing errors first
+            form.clearErrors([
+              "singleInsuredData.firstName",
+              "singleInsuredData.lastName", 
+              "singleInsuredData.email",
+              "singleInsuredData.phone"
+            ]);
+            
+            // Custom validation for insured data when user has no insurance
+            if (!insuredData?.firstName || insuredData.firstName.length < 2) {
+              form.setError("singleInsuredData.firstName", {
+                type: "manual",
+                message: "Le prénom de l'assuré est requis (minimum 2 caractères)"
+              });
+              insuredDataValid = false;
+            }
+            if (!insuredData?.lastName || insuredData.lastName.length < 2) {
+              form.setError("singleInsuredData.lastName", {
+                type: "manual",
+                message: "Le nom de l'assuré est requis (minimum 2 caractères)"
+              });
+              insuredDataValid = false;
+            }
+            if (!insuredData?.email || !/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(insuredData.email)) {
+              form.setError("singleInsuredData.email", {
+                type: "manual",
+                message: "Un email valide est requis"
+              });
+              insuredDataValid = false;
+            }
+            if (!insuredData?.phone || insuredData.phone.length < 10) {
+              form.setError("singleInsuredData.phone", {
+                type: "manual",
+                message: "Un numéro de téléphone valide est requis (minimum 10 caractères)"
+              });
+              insuredDataValid = false;
+            }
+            
+            // Clear any insurance details errors since they're not required when user has no insurance
+            form.clearErrors([
+              "singleInsuranceDetails.insuranceCompany",
+              "singleInsuranceDetails.policyNumber",
+              "singleInsuranceDetails.customInsuranceCompany"
+            ]);
+            
+            console.log("Step 3 - insuredDataValid:", insuredDataValid);
+            isValid = addressValid && personalDataValid && insuredDataValid;
+          } else if (hasInsurance === true) {
+            // If user has insurance, only validate address and personal data (no insurance details needed)
+            
+            // Clear any insured data errors since they're not required when user has insurance
+            form.clearErrors([
+              "singleInsuredData.firstName",
+              "singleInsuredData.lastName", 
+              "singleInsuredData.email",
+              "singleInsuredData.phone"
+            ]);
+            
+            // Clear any insurance details errors since they're not required when user has insurance
+            form.clearErrors([
+              "singleInsuranceDetails.insuranceCompany",
+              "singleInsuranceDetails.policyNumber",
+              "singleInsuranceDetails.customInsuranceCompany"
+            ]);
+            
+            console.log("Step 3 - user has insurance, only validating address and personal data");
+            isValid = addressValid && personalDataValid;
           } else {
-            isValid = await form.trigger("singlePersonalData");
+            // If hasInsurance is null/undefined, just validate address and personal data
+            isValid = addressValid && personalDataValid;
           }
+          console.log("Step 3 - final isValid:", isValid);
         } else {
           isValid = await form.trigger("multipleRelocationRequests");
         }
@@ -307,12 +524,8 @@ export function RelocationWizard() {
       case 4:
         // Validate step 4 based on path
         if (form.watch("relocationType") === "single") {
-          const hasInsurance = form.watch("singleInsuranceCoverage")?.hasInsurance;
-          if (hasInsurance) {
-            isValid = await form.trigger("singlePersonalData");
-          } else {
-            isValid = await form.trigger("singleRelocationPreferences");
-          }
+          // Step 4 is always relocation preferences for single path
+          isValid = await form.trigger("singleRelocationPreferences");
         } else {
           // Multiple path - review step, validate confirmation checkbox
           isValid = await form.trigger("multipleReviewConfirmation");
@@ -321,13 +534,8 @@ export function RelocationWizard() {
       case 5:
         // Validate step 5 based on path
         if (form.watch("relocationType") === "single") {
-          const hasInsurance = form.watch("singleInsuranceCoverage")?.hasInsurance;
-          if (hasInsurance) {
-            isValid = await form.trigger("singleRelocationPreferences");
-          } else {
-            // Call component's validate method to show validation message
-            isValid = arrivalDetailsRef.current?.validate() ?? false;
-          }
+          // Step 5 is always arrival details for single path
+          isValid = arrivalDetailsRef.current?.validate() ?? false;
         } else {
           // Multiple path - consent step, validate consent
           isValid = await form.trigger("multipleConsent");
@@ -336,14 +544,8 @@ export function RelocationWizard() {
       case 6:
         // Validate step 6 based on path
         if (form.watch("relocationType") === "single") {
-          const hasInsurance = form.watch("singleInsuranceCoverage")?.hasInsurance;
-          if (hasInsurance) {
-            // Call component's validate method to show validation message
-            isValid = arrivalDetailsRef.current?.validate() ?? false;
-          } else {
-            // Review step - validate confirmation checkbox
-            isValid = await form.trigger("singleReviewConfirmation");
-          }
+          // Step 6 is always review confirmation for single path
+          isValid = await form.trigger("singleReviewConfirmation");
         } else {
           // Multiple path - validate review confirmation
           isValid = await form.trigger("multipleReviewConfirmation");
@@ -352,33 +554,26 @@ export function RelocationWizard() {
       case 7:
         // Validate step 7 based on path
         if (form.watch("relocationType") === "single") {
-          const hasInsurance = form.watch("singleInsuranceCoverage")?.hasInsurance;
-          if (hasInsurance) {
-            // Review step - validate confirmation checkbox
-            isValid = await form.trigger("singleReviewConfirmation");
-          } else {
-            isValid = await form.trigger("singleConsent");
-          }
+          // Step 7 is always consent for single path
+          isValid = await form.trigger("singleConsent");
         }
         break;
       case 8:
         // Validate step 8 based on path
         if (form.watch("relocationType") === "single") {
-          const hasInsurance = form.watch("singleInsuranceCoverage")?.hasInsurance;
-          if (hasInsurance) {
-            isValid = await form.trigger("singleConsent");
-          } else {
-            // Success step, no validation needed
-            isValid = true;
-          }
+          // Step 8 is always success step for single path
+          isValid = true;
         }
         break;
       default:
         isValid = true;
     }
     
+    console.log("Validation result for step", step, ":", isValid);
     if (isValid) {
       setStep(prevStep => prevStep + 1);
+    } else {
+      console.log("Validation failed for step", step, ". Form errors:", form.formState.errors);
     }
   };
 

@@ -41,7 +41,7 @@ const formSchema = z.object({
   
   // Property Location (now part of Step 2)
   propertyLocation: z.object({
-    street: z.string().min(1, "La rue est requise"),
+    street: z.string().min(1, "L'adresse est requise"),
     city: z.string().min(1, "La ville est requise"),
     postalCode: z.string().min(4, "Un code postal valide est requis"),
     canton: z.string().min(1, "Le canton est requis"),

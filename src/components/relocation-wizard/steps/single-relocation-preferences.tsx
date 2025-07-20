@@ -179,7 +179,7 @@ export function SingleRelocationPreferences({ form }: SingleRelocationPreference
       <div className="text-center">
         <h2 className="text-xl font-semibold mb-2">Préférences de relogement</h2>
         <p className="text-sm text-muted-foreground">
-          Veuillez indiquer vos besoins en logement et vos préférences particulières pour nous aider à trouver la solution la plus adaptée.
+          Veuillez nous aider à trouver la solution la plus adaptée.
         </p>
       </div>
 

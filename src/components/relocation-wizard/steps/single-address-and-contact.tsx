@@ -18,6 +18,7 @@ export function SingleAddressAndContact({ form, userType }: SingleAddressAndCont
   const { register, setValue, watch, formState: { errors } } = form;
   const addressErrors = errors.singleDisasterAddress as Record<string, FieldError> || {};
   const personalErrors = (errors.singlePersonalData || {}) as PersonalErrors;
+  const insuredErrors = (errors.singleInsuredData || {}) as PersonalErrors;
   const insuranceErrors = errors.singleInsuranceDetails as Record<string, FieldError> || {};
   
   // Check if user has insurance coverage
@@ -155,9 +156,9 @@ export function SingleAddressAndContact({ form, userType }: SingleAddressAndCont
                   className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
                   placeholder="Prénom"
                 />
-                {personalErrors.firstName && (
+                {insuredErrors.firstName && (
                   <p className="text-sm text-red-500 mt-1">
-                    {personalErrors.firstName.message as string}
+                    {insuredErrors.firstName.message as string}
                   </p>
                 )}
               </div>
@@ -172,9 +173,9 @@ export function SingleAddressAndContact({ form, userType }: SingleAddressAndCont
                   className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
                   placeholder="Nom"
                 />
-                {personalErrors.lastName && (
+                {insuredErrors.lastName && (
                   <p className="text-sm text-red-500 mt-1">
-                    {personalErrors.lastName.message as string}
+                    {insuredErrors.lastName.message as string}
                   </p>
                 )}
               </div>
@@ -190,9 +191,9 @@ export function SingleAddressAndContact({ form, userType }: SingleAddressAndCont
                   className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
                   placeholder="email@exemple.com"
                 />
-                {personalErrors.email && (
+                {insuredErrors.email && (
                   <p className="text-sm text-red-500 mt-1">
-                    {personalErrors.email.message as string}
+                    {insuredErrors.email.message as string}
                   </p>
                 )}
               </div>
@@ -208,97 +209,18 @@ export function SingleAddressAndContact({ form, userType }: SingleAddressAndCont
                   className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
                   placeholder="+41 XX XXX XX XX"
                 />
-                {personalErrors.phone && (
+                {insuredErrors.phone && (
                   <p className="text-sm text-red-500 mt-1">
-                    {personalErrors.phone.message as string}
+                    {insuredErrors.phone.message as string}
                   </p>
                 )}
               </div>
             </div>
-
-            {/* Insurance Company and Policy Number on same line */}
-            <div className="grid grid-cols-3 gap-4">
-              <div className="space-y-2">
-                <Label htmlFor="singleInsuranceDetails.insuranceCompany">Compagnie d'assurance</Label>
-                {watch("singleInsuranceDetails.insuranceCompany") === "Other" ? (
-                  <div className="space-y-2">
-                    <input
-                      id="singleInsuranceDetails.insuranceCompany"
-                      {...register("singleInsuranceDetails.customInsuranceCompany")}
-                      className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-                      placeholder="Nom de la compagnie d'assurance"
-                    />
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setValue("singleInsuranceDetails.insuranceCompany", "");
-                        setValue("singleInsuranceDetails.customInsuranceCompany", "");
-                      }}
-                      className="text-xs text-muted-foreground hover:text-primary transition-colors"
-                    >
-                      ← Retourner à la liste
-                    </button>
-                  </div>
-                ) : (
-                  <Select 
-                    onValueChange={(value) => {
-                      setValue("singleInsuranceDetails.insuranceCompany", value);
-                      // Clear the custom company field if not "Other"
-                      if (value !== "Other") {
-                        setValue("singleInsuranceDetails.customInsuranceCompany", "");
-                      }
-                    }}
-                    defaultValue=""
-                  >
-                    <SelectTrigger className="w-full">
-                      <SelectValue placeholder="Sélectionner une compagnie" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="Helvetia">Helvetia</SelectItem>
-                      <SelectItem value="Swiss Life">Swiss Life</SelectItem>
-                      <SelectItem value="Baloise">Baloise</SelectItem>
-                      <SelectItem value="CSS">CSS</SelectItem>
-                      <SelectItem value="Vaudoise Assurances">Vaudoise Assurances</SelectItem>
-                      <SelectItem value="AXA">AXA</SelectItem>
-                      <SelectItem value="Allianz">Allianz</SelectItem>
-                      <SelectItem value="Generali">Generali</SelectItem>
-                      <SelectItem value="Zurich">Zurich</SelectItem>
-                      <SelectItem value="Swiss Re">Swiss Re</SelectItem>
-                      <SelectItem value="Other">Autre</SelectItem>
-                    </SelectContent>
-                  </Select>
-                )}
-                {insuranceErrors.insuranceCompany && (
-                  <p className="text-sm text-destructive mt-1">
-                    {insuranceErrors.insuranceCompany.message as string}
-                  </p>
-                )}
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="singleInsuranceDetails.policyNumber">Numéro de police</Label>
-                <input
-                  id="singleInsuranceDetails.policyNumber"
-                  {...register("singleInsuranceDetails.policyNumber")}
-                  className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-                  placeholder="Numéro de la police d'assurance"
-                />
-                {insuranceErrors.policyNumber && (
-                  <p className="text-sm text-destructive mt-1">
-                    {insuranceErrors.policyNumber.message as string}
-                  </p>
-                )}
-              </div>
-            </div>
-
-            {userType === "sinistre" && (
-              <p className="text-xs text-muted-foreground">
-                Vous pouvez généralement trouver le numéro de police sur vos documents d'assurance ou votre compte en ligne.
-              </p>
-            )}
           </div>
         </div>
       )}
+
+
 
 
 

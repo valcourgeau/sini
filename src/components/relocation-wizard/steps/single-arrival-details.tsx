@@ -108,11 +108,43 @@ export const SingleArrivalDetails = forwardRef<SingleArrivalDetailsRef, SingleAr
       return false;
     }
     
+    // Always check that arrival date is properly defined
+    if (!arrivalData.arrivalDate || arrivalData.arrivalDate.trim().length === 0) {
+      if (showMessage) {
+        setValidationMessage("La date d'arrivée est obligatoire");
+      }
+      onValidationChange?.(false);
+      return false;
+    }
+    
+    // Validate that arrival date is not in the past
+    const arrivalDate = new Date(arrivalData.arrivalDate);
+    const today = new Date();
+    today.setHours(0, 0, 0, 0); // Reset time to start of day for comparison
+    
+    if (arrivalDate < today) {
+      if (showMessage) {
+        setValidationMessage("La date d'arrivée ne peut pas être dans le passé");
+      }
+      onValidationChange?.(false);
+      return false;
+    }
+    
     if (useExactDates) {
       // Check departure date for exact dates
       if (!arrivalData.departureDate || arrivalData.departureDate.trim().length === 0) {
         if (showMessage) {
           setValidationMessage("La date de départ est requise lorsque vous sélectionnez des dates exactes");
+        }
+        onValidationChange?.(false);
+        return false;
+      }
+      
+      // Validate that departure date is strictly later than arrival date
+      const departureDate = new Date(arrivalData.departureDate);
+      if (departureDate <= arrivalDate) {
+        if (showMessage) {
+          setValidationMessage("La date de départ doit être strictement postérieure à la date d'arrivée");
         }
         onValidationChange?.(false);
         return false;
@@ -169,6 +201,62 @@ export const SingleArrivalDetails = forwardRef<SingleArrivalDetailsRef, SingleAr
     }
   };
 
+  // Function to handle arrival date change with validation
+  const handleArrivalDateChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const newArrivalDate = event.target.value;
+    setValue("singleArrivalDetails.arrivalDate", newArrivalDate, {
+      shouldValidate: true,
+      shouldDirty: true,
+      shouldTouch: true
+    });
+    
+    // Clear validation message when user makes a change
+    setValidationMessage("");
+    
+    // If in exact dates mode and departure date exists, validate the relationship
+    if (useExactDates && watch("singleArrivalDetails.departureDate")) {
+      const departureDate = watch("singleArrivalDetails.departureDate");
+      if (newArrivalDate && departureDate) {
+        const arrival = new Date(newArrivalDate);
+        const departure = new Date(departureDate);
+        if (departure <= arrival) {
+          setValidationMessage("La date de départ doit être strictement postérieure à la date d'arrivée");
+          onValidationChange?.(false);
+        } else {
+          setValidationMessage("");
+          onValidationChange?.(true);
+        }
+      }
+    }
+  };
+
+  // Function to handle departure date change with validation
+  const handleDepartureDateChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const newDepartureDate = event.target.value;
+    setValue("singleArrivalDetails.departureDate", newDepartureDate, {
+      shouldValidate: true,
+      shouldDirty: true,
+      shouldTouch: true
+    });
+    
+    // Clear validation message when user makes a change
+    setValidationMessage("");
+    
+    // Validate against arrival date
+    const arrivalDate = watch("singleArrivalDetails.arrivalDate");
+    if (newDepartureDate && arrivalDate) {
+      const arrival = new Date(arrivalDate);
+      const departure = new Date(newDepartureDate);
+      if (departure <= arrival) {
+        setValidationMessage("La date de départ doit être strictement postérieure à la date d'arrivée");
+        onValidationChange?.(false);
+      } else {
+        setValidationMessage("");
+        onValidationChange?.(true);
+      }
+    }
+  };
+
   // Watch for changes and validate
   useEffect(() => {
     const subscription = watch((value, { name }) => {
@@ -214,7 +302,7 @@ export const SingleArrivalDetails = forwardRef<SingleArrivalDetailsRef, SingleAr
       <div className="text-center">
         <h2 className="text-xl font-semibold mb-2">Détails d'arrivée</h2>
         <p className="text-sm text-muted-foreground mb-6 max-w-lg mx-auto whitespace-nowrap">
-          Veuillez spécifier quand vous souhaitez emménager et la durée prévue de votre séjour.
+          Veuillez spécifier quand la date d'emménagement et la durée prévue de votre séjour.
         </p>
       </div>
 
@@ -289,14 +377,15 @@ export const SingleArrivalDetails = forwardRef<SingleArrivalDetailsRef, SingleAr
                   Date d'arrivée souhaitée <span className="text-red-500">*</span>
                 </Label>
                 <div>
-                                  <input
-                  id="singleArrivalDetails.arrivalDate"
-                  type="date"
-                  min={tomorrowStr}
-                  lang="fr"
-                  {...register("singleArrivalDetails.arrivalDate")}
-                  className="w-[180px] rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-                />
+                  <input
+                    id="singleArrivalDetails.arrivalDate"
+                    type="date"
+                    min={tomorrowStr}
+                    lang="fr"
+                    value={watch("singleArrivalDetails.arrivalDate") || ""}
+                    onChange={handleArrivalDateChange}
+                    className="w-[180px] rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                  />
                   {arrivalErrors.arrivalDate && (
                     <p className="text-sm text-red-500 mt-1">
                       {arrivalErrors.arrivalDate.message}
@@ -315,7 +404,8 @@ export const SingleArrivalDetails = forwardRef<SingleArrivalDetailsRef, SingleAr
                     type="date"
                     min={minDepartureDateStr}
                     lang="fr"
-                    {...register("singleArrivalDetails.departureDate")}
+                    value={watch("singleArrivalDetails.departureDate") || ""}
+                    onChange={handleDepartureDateChange}
                     className="w-[180px] rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
                   />
                   {arrivalErrors.departureDate && (
@@ -337,7 +427,8 @@ export const SingleArrivalDetails = forwardRef<SingleArrivalDetailsRef, SingleAr
                   type="date"
                   min={tomorrowStr}
                   lang="fr"
-                  {...register("singleArrivalDetails.arrivalDate")}
+                  value={watch("singleArrivalDetails.arrivalDate") || ""}
+                  onChange={handleArrivalDateChange}
                   className="w-[180px] rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
                 />
                 {arrivalErrors.arrivalDate && (
@@ -413,9 +504,6 @@ export const SingleArrivalDetails = forwardRef<SingleArrivalDetailsRef, SingleAr
                 {arrivalErrors.estimatedDuration.message}
               </p>
             )}
-            <p className="text-xs text-muted-foreground mt-1">
-              Combien de temps prévoyez-vous d'avoir besoin du logement ? Cela nous aide à trouver les options les plus adaptées.
-            </p>
           </div>
         )}
       </div>
