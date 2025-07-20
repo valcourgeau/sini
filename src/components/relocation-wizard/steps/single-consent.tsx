@@ -8,6 +8,7 @@ interface SingleConsentProps {
   onSubmit: () => Promise<void>;
   isSubmitting: boolean;
   onBack: () => void;
+  userType?: string | null;
 }
 
 interface ConsentErrors {
@@ -15,7 +16,7 @@ interface ConsentErrors {
   agreeToDataProcessing?: { message?: string };
 }
 
-export function SingleConsent({ form, onSubmit, isSubmitting, onBack }: SingleConsentProps) {
+export function SingleConsent({ form, onSubmit, isSubmitting, onBack, userType }: SingleConsentProps) {
   const { register, formState: { errors } } = form;
   const consentErrors = (errors.singleConsent || {}) as ConsentErrors;
 
@@ -64,7 +65,11 @@ export function SingleConsent({ form, onSubmit, isSubmitting, onBack }: SingleCo
             <ul className="list-disc list-outside ml-5 text-sm text-muted-foreground space-y-1">
               <li>Vos informations personnelles ne seront utilisées que pour traiter votre demande de relogement et les services associés.</li>
               <li>Nous pouvons partager vos informations avec des partenaires et fournisseurs de relogement si nécessaire.</li>
-              <li>Si vous avez fourni des informations d'assurance, nous pouvons contacter votre assureur pour vérifier la couverture.</li>
+              
+              {/* TODO: Refactor this userType check to a more maintainable solution */}
+              {userType === "sinistre" && (
+                <li>Si vous avez fourni des informations d'assurance, nous pouvons contacter votre assureur pour vérifier la couverture.</li>
+              )}
               <li>Vos données seront stockées de manière sécurisée et conservées pendant la durée requise par les lois applicables.</li>
               <li>Vous avez le droit d'accéder, de corriger ou de demander la suppression de vos informations personnelles.</li>
               <li>Pour plus de détails sur le traitement de vos données, veuillez consulter notre Politique de confidentialité complète.</li>

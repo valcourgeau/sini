@@ -661,7 +661,7 @@ export function RelocationWizard() {
         break;
       case 7:
         if (relocationType === "single") {
-          return <SingleConsent form={form} onSubmit={handleSubmit} isSubmitting={isSubmitting} onBack={prevStep} />;
+          return <SingleConsent form={form} onSubmit={handleSubmit} isSubmitting={isSubmitting} onBack={prevStep} userType={userTypeParam} />;
         }
         break;
       case 8:
