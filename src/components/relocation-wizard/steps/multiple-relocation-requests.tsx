@@ -30,26 +30,19 @@ import {
   UserPlus, 
   Users, 
   Copy, 
-  Check, 
-  Clock,
-  HelpCircle,
-  FastForward,
-  TrafficCone,
   Bed,
   Baby,
   PawPrint,
   Accessibility,
   Car as CarIcon,
-  MinusCircle,
-  PlusCircle,
-  Calendar,
-  Clock as ClockIcon,
   User,
-  Home,
   Paperclip,
   CircleCheckBig,
   X,
-  Upload
+  Upload,
+  Check,
+  Clock,
+  CalendarRange
 } from "lucide-react";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
@@ -61,6 +54,8 @@ interface RelocationRequest {
   phone: string;
   estimatedDuration: string;
   arrivalDate: Date | undefined;
+  departureDate?: string;
+  useExactDates?: boolean;
   bedrooms: number;
   adults: number;
   children: number;
@@ -93,6 +88,8 @@ export function MultipleRelocationRequests({ form }: MultipleRelocationRequestsP
         phone: "",
         estimatedDuration: "",
         arrivalDate: undefined,
+        departureDate: "",
+        useExactDates: false,
         bedrooms: 1,
         adults: 1,
         children: 0,
@@ -125,6 +122,97 @@ export function MultipleRelocationRequests({ form }: MultipleRelocationRequestsP
       subLabel: "Logement transitoire"
     },
   ];
+
+  // Calculate tomorrow's date for the min attribute
+  const tomorrow = new Date();
+  tomorrow.setDate(tomorrow.getDate() + 1);
+  const tomorrowStr = tomorrow.toISOString().split('T')[0];
+
+  // Helper to compute number of nights between two dates
+  const getNumberOfNights = (arrival?: string, departure?: string): number | null => {
+    if (!arrival || !departure) return null;
+    const arrivalDate = new Date(arrival);
+    const departureDate = new Date(departure);
+    if (isNaN(arrivalDate.getTime()) || isNaN(departureDate.getTime())) return null;
+    const diff = departureDate.getTime() - arrivalDate.getTime();
+    const nights = Math.round(diff / (1000 * 60 * 60 * 24));
+    return nights > 0 ? nights : 0;
+  };
+
+  // Function to handle date type selection for a specific person
+  const handleDateTypeSelect = (index: number, useExact: boolean) => {
+    setValue(`multipleRelocationRequests.${index}.useExactDates`, useExact, {
+      shouldValidate: true,
+      shouldDirty: true,
+      shouldTouch: true
+    });
+    
+    // If switching to exact dates, auto-calculate duration
+    if (useExact) {
+      const arrivalDate = watch(`multipleRelocationRequests.${index}.arrivalDate`);
+      const departureDate = watch(`multipleRelocationRequests.${index}.departureDate`);
+      
+      if (arrivalDate && departureDate) {
+        const nights = getNumberOfNights(arrivalDate, departureDate);
+        if (nights !== null) {
+          setValue(`multipleRelocationRequests.${index}.estimatedDuration`, `${nights} nuits`, {
+            shouldValidate: true,
+            shouldDirty: true,
+            shouldTouch: true
+          });
+        }
+      }
+    }
+  };
+
+  // Function to handle arrival date change with validation
+  const handleArrivalDateChange = (index: number, event: React.ChangeEvent<HTMLInputElement>) => {
+    const newArrivalDate = event.target.value;
+    setValue(`multipleRelocationRequests.${index}.arrivalDate`, newArrivalDate, {
+      shouldValidate: true,
+      shouldDirty: true,
+      shouldTouch: true
+    });
+    
+    // If in exact dates mode and departure date exists, auto-calculate duration
+    const useExactDates = watch(`multipleRelocationRequests.${index}.useExactDates`);
+    if (useExactDates) {
+      const departureDate = watch(`multipleRelocationRequests.${index}.departureDate`);
+      if (newArrivalDate && departureDate) {
+        const nights = getNumberOfNights(newArrivalDate, departureDate);
+        if (nights !== null) {
+          setValue(`multipleRelocationRequests.${index}.estimatedDuration`, `${nights} nuits`, {
+            shouldValidate: true,
+            shouldDirty: true,
+            shouldTouch: true
+          });
+        }
+      }
+    }
+  };
+
+  // Function to handle departure date change with validation
+  const handleDepartureDateChange = (index: number, event: React.ChangeEvent<HTMLInputElement>) => {
+    const newDepartureDate = event.target.value;
+    setValue(`multipleRelocationRequests.${index}.departureDate`, newDepartureDate, {
+      shouldValidate: true,
+      shouldDirty: true,
+      shouldTouch: true
+    });
+    
+    // Auto-calculate duration when both dates are set
+    const arrivalDate = watch(`multipleRelocationRequests.${index}.arrivalDate`);
+    if (newDepartureDate && arrivalDate) {
+      const nights = getNumberOfNights(arrivalDate, newDepartureDate);
+      if (nights !== null) {
+        setValue(`multipleRelocationRequests.${index}.estimatedDuration`, `${nights} nuits`, {
+          shouldValidate: true,
+          shouldDirty: true,
+          shouldTouch: true
+        });
+      }
+    }
+  };
 
   // Counter fields configuration
   const counterFields = [
@@ -160,6 +248,8 @@ export function MultipleRelocationRequests({ form }: MultipleRelocationRequestsP
       phone: "",
       estimatedDuration: "",
       arrivalDate: undefined,
+      departureDate: "",
+      useExactDates: false,
       bedrooms: 1,
       adults: 1,
       children: 0,
@@ -189,51 +279,12 @@ export function MultipleRelocationRequests({ form }: MultipleRelocationRequestsP
     toast.success("Personne dupliquée");
   };
 
-  // Function to increment counter
-  const incrementCounter = (index: number, fieldName: string, min: number) => {
-    const currentValue = watch(`multipleRelocationRequests.${index}.${fieldName}`) || min;
-    setValue(`multipleRelocationRequests.${index}.${fieldName}`, currentValue + 1, {
-      shouldValidate: true,
-      shouldDirty: true,
-      shouldTouch: true
-    });
-  };
-  
-  // Function to decrement counter
-  const decrementCounter = (index: number, fieldName: string, min: number) => {
-    const currentValue = watch(`multipleRelocationRequests.${index}.${fieldName}`) || min;
-    if (currentValue > min) {
-      setValue(`multipleRelocationRequests.${index}.${fieldName}`, currentValue - 1, {
-        shouldValidate: true,
-        shouldDirty: true,
-        shouldTouch: true
-      });
-    }
-  };
 
-  // Function to toggle special need
-  const toggleSpecialNeed = (index: number, fieldName: string) => {
-    const currentValue = watch(`multipleRelocationRequests.${index}.${fieldName}`) || false;
-    setValue(`multipleRelocationRequests.${index}.${fieldName}`, !currentValue, {
-      shouldValidate: true,
-      shouldDirty: true,
-      shouldTouch: true
-    });
-  };
-
-  // Helper function to safely access error messages
+  // Function to get error message for a specific field
   const getErrorMessage = (index: number, field: string): string | undefined => {
-    if (Array.isArray(requestErrors) && requestErrors[index]) {
-      const error = requestErrors[index] as any;
-      return error[field]?.message as string;
-    }
-    return undefined;
+    const fieldErrors = requestErrors[index] as any;
+    return fieldErrors?.[field]?.message;
   };
-
-  // Calculate tomorrow's date for the min attribute
-  const tomorrow = new Date();
-  tomorrow.setDate(tomorrow.getDate() + 1);
-  const tomorrowStr = tomorrow.toISOString().split('T')[0];
 
   // Function to handle file upload
   const handleFileUpload = (index: number, event: React.ChangeEvent<HTMLInputElement>) => {
@@ -249,7 +300,7 @@ export function MultipleRelocationRequests({ form }: MultipleRelocationRequestsP
         shouldDirty: true,
         shouldTouch: true
       });
-      toast.success("Document de déclaration de sinistre téléchargé avec succès");
+      toast.success("Document téléchargé avec succès");
     }
   };
 
@@ -265,7 +316,7 @@ export function MultipleRelocationRequests({ form }: MultipleRelocationRequestsP
       shouldDirty: true,
       shouldTouch: true
     });
-    toast.success("Document de déclaration de sinistre supprimé");
+    toast.success("Document supprimé");
   };
 
   return (
@@ -284,20 +335,12 @@ export function MultipleRelocationRequests({ form }: MultipleRelocationRequestsP
               <TableHeader>
                 <TableRow className="bg-muted/50">
                   {/* Contact Information Column */}
-                  <TableHead className="w-[150px] text-gray-900 font-medium text-sm whitespace-nowrap">Prénom</TableHead>
-                  <TableHead className="w-[150px] text-gray-900 font-medium text-sm whitespace-nowrap">Nom</TableHead>
-                  <TableHead className="w-[200px] text-gray-900 font-medium text-sm whitespace-nowrap">Email</TableHead>
-                  <TableHead className="w-[150px] text-gray-900 font-medium text-sm whitespace-nowrap">Téléphone</TableHead>
-                  <TableHead className="w-[120px] text-gray-900 font-medium text-sm whitespace-nowrap">
-                    <div className="flex items-center gap-2">
-                      <span>Arrivée</span>
-                    </div>
-                  </TableHead>
-                  <TableHead className="w-[120px] text-gray-900 font-medium text-sm whitespace-nowrap">
-                    <div className="flex items-center gap-2">
-                      <span>Durée</span>
-                    </div>
-                  </TableHead>
+                  <TableHead className="w-[90px] text-gray-900 font-medium text-sm whitespace-nowrap">Prénom</TableHead>
+                  <TableHead className="w-[110px] text-gray-900 font-medium text-sm whitespace-nowrap">Nom</TableHead>
+                  <TableHead className="w-[180px] text-gray-900 font-medium text-sm whitespace-nowrap">Email</TableHead>
+                  <TableHead className="w-[140px] text-gray-900 font-medium text-sm whitespace-nowrap">Téléphone</TableHead>
+                  <TableHead className="w-[120px] text-gray-900 font-medium text-sm whitespace-nowrap">Arrival</TableHead>
+                  <TableHead className="w-[200px] text-gray-900 font-medium text-sm whitespace-nowrap">Departure</TableHead>
 
                   {/* Property Requirements Column - Grouped */}
                   <TableHead className="w-[80px] text-gray-900 font-medium text-center text-sm">
@@ -398,247 +441,329 @@ export function MultipleRelocationRequests({ form }: MultipleRelocationRequestsP
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {requests.map((request: RelocationRequest, index: number) => (
-                  <TableRow key={index} className="hover:bg-muted/30">
-                    <TableCell>
-                      <Input
-                        {...register(`multipleRelocationRequests.${index}.firstName`, {
-                          required: "Le prénom est requis"
-                        })}
-                        placeholder="Paul"
-                        className={cn(
-                          "h-8 px-2 py-1 text-xs",
-                          getErrorMessage(index, 'firstName') ? "border-red-500" : ""
-                        )}
-                      />
-                    </TableCell>
-                    <TableCell>
-                      <Input
-                        {...register(`multipleRelocationRequests.${index}.lastName`, {
-                          required: "Le nom est requis"
-                        })}
-                        placeholder="Dupont"
-                        className={cn(
-                          "h-8 px-2 py-1 text-xs",
-                          getErrorMessage(index, 'lastName') ? "border-red-500" : ""
-                        )}
-                      />
-                    </TableCell>
-                    <TableCell>
-                      <Input
-                        type="email"
-                        {...register(`multipleRelocationRequests.${index}.email`)}
-                        placeholder="paul.dupont@gmail.com"
-                        className={cn(
-                          "h-8 px-2 py-1 text-xs",
-                          getErrorMessage(index, 'email') ? "border-red-500" : ""
-                        )}
-                      />
-                    </TableCell>
-                    <TableCell>
-                      <Input
-                        type="tel"
-                        {...register(`multipleRelocationRequests.${index}.phone`)}
-                        placeholder="+41 XX XXX XX XX"
-                        className={cn(
-                          "h-8 px-2 py-1 text-xs",
-                          getErrorMessage(index, 'phone') ? "border-red-500" : ""
-                        )}
-                      />
-                    </TableCell>
-                    <TableCell>
-                      <input
-                        type="date"
-                        min={tomorrowStr}
-                        {...register(`multipleRelocationRequests.${index}.arrivalDate`)}
-                        className={cn(
-                          "w-[130px] rounded-md border border-input bg-background px-3 py-2 text-xs ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50",
-                          getErrorMessage(index, 'arrivalDate') ? "border-red-500" : ""
-                        )}
-                        defaultValue={tomorrowStr}
-                      />
-                    </TableCell>
-                    <TableCell>
-                      <Select
-                        value={watch(`multipleRelocationRequests.${index}.estimatedDuration`) || ""}
-                        onValueChange={(value) => setValue(`multipleRelocationRequests.${index}.estimatedDuration`, value)}
-                      >
-                        <SelectTrigger className="h-8 px-2 py-1 text-xs w-[110px]">
-                          <SelectValue placeholder="Sélectionner la durée" className="text-muted-foreground" />
-                        </SelectTrigger>
-                        <SelectContent className="py-1">
-                          {durationOptions.map((option) => (
-                            <SelectItem key={option.id} value={option.value} className="py-1">
-                              <div className="flex items-center">
-                                <span className="whitespace-nowrap">{option.label}</span>
-                              </div>
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                    </TableCell>
-                    <TableCell>
-                      <div className="flex items-center justify-center gap-1">
-                        {counterFields.map((field) => (
-                          <Select
-                            key={field.id}
-                            value={watch(`multipleRelocationRequests.${index}.${field.fieldName}`)?.toString() || field.min.toString()}
-                            onValueChange={(value) => setValue(`multipleRelocationRequests.${index}.${field.fieldName}`, parseInt(value))}
-                          >
-                            <SelectTrigger className="h-8 px-2 py-1 text-xs w-[45px]">
-                              <SelectValue />
-                            </SelectTrigger>
-                            <SelectContent className="py-1">
-                              {field.fieldName === 'adults' ? 
-                                [1, 2, 3, 4, 5, 6, 7, 8].map((num) => (
-                                  <SelectItem key={num} value={num.toString()} className="py-1">
-                                    {num}
+                {requests.map((request: RelocationRequest, index: number) => {
+                  const useExactDates = watch(`multipleRelocationRequests.${index}.useExactDates`) ?? false;
+                  const arrivalDate = watch(`multipleRelocationRequests.${index}.arrivalDate`);
+                  
+                  // Calculate minimum departure date
+                  const minDepartureDate = arrivalDate ? new Date(arrivalDate) : new Date(tomorrow);
+                  minDepartureDate.setDate(minDepartureDate.getDate() + 1);
+                  const minDepartureDateStr = minDepartureDate.toISOString().split('T')[0];
+                  
+                  return (
+                    <TableRow key={index} className="hover:bg-muted/30">
+                      <TableCell>
+                        <Input
+                          {...register(`multipleRelocationRequests.${index}.firstName`, {
+                            required: "Le prénom est requis"
+                          })}
+                          placeholder="Paul"
+                          className={cn(
+                            "h-8 px-2 py-1 text-xs",
+                            getErrorMessage(index, 'firstName') ? "border-red-500" : ""
+                          )}
+                        />
+                      </TableCell>
+                      <TableCell>
+                        <Input
+                          {...register(`multipleRelocationRequests.${index}.lastName`, {
+                            required: "Le nom est requis"
+                          })}
+                          placeholder="Dupont"
+                          className={cn(
+                            "h-8 px-2 py-1 text-xs",
+                            getErrorMessage(index, 'lastName') ? "border-red-500" : ""
+                          )}
+                        />
+                      </TableCell>
+                      <TableCell>
+                        <Input
+                          type="email"
+                          {...register(`multipleRelocationRequests.${index}.email`)}
+                          placeholder="paul.dupont@gmail.com"
+                          className={cn(
+                            "h-8 px-2 py-1 text-xs",
+                            getErrorMessage(index, 'email') ? "border-red-500" : ""
+                          )}
+                        />
+                      </TableCell>
+                      <TableCell>
+                        <Input
+                          type="tel"
+                          {...register(`multipleRelocationRequests.${index}.phone`)}
+                          placeholder="+41 XX XXX XX XX"
+                          className={cn(
+                            "h-8 px-2 py-1 text-xs",
+                            getErrorMessage(index, 'phone') ? "border-red-500" : ""
+                          )}
+                        />
+                      </TableCell>
+                      <TableCell>
+                        <input
+                          type="date"
+                          min={tomorrowStr}
+                          value={watch(`multipleRelocationRequests.${index}.arrivalDate`) || ""}
+                          onChange={(e) => handleArrivalDateChange(index, e)}
+                          className={cn(
+                            "w-[120px] rounded-md border border-input bg-background px-2 py-1 text-xs ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50",
+                            getErrorMessage(index, 'arrivalDate') ? "border-red-500" : ""
+                          )}
+                        />
+                      </TableCell>
+                      <TableCell>
+                        <div className="flex items-center gap-2">
+                          {/* Date Type Toggle */}
+                          <div className="flex gap-1">
+                            <TooltipProvider>
+                              <Tooltip>
+                                <TooltipTrigger asChild>
+                                  <button
+                                    type="button"
+                                    onClick={() => handleDateTypeSelect(index, true)}
+                                    className={cn(
+                                      "px-2 py-1 text-xs rounded-l-md border transition-all duration-200",
+                                      useExactDates
+                                        ? "bg-primary text-white border-primary" 
+                                        : "bg-white text-gray-600 border-gray-300 hover:bg-gray-50"
+                                    )}
+                                  >
+                                    Dates
+                                  </button>
+                                </TooltipTrigger>
+                                <TooltipContent>
+                                  <p>Sélectionner la date exacte de départ</p>
+                                </TooltipContent>
+                              </Tooltip>
+                            </TooltipProvider>
+                            <TooltipProvider>
+                              <Tooltip>
+                                <TooltipTrigger asChild>
+                                  <button
+                                    type="button"
+                                    onClick={() => handleDateTypeSelect(index, false)}
+                                    className={cn(
+                                      "px-2 py-1 text-xs rounded-r-md border border-l-0 transition-all duration-200",
+                                      !useExactDates
+                                        ? "bg-primary text-white border-primary" 
+                                        : "bg-white text-gray-600 border-gray-300 hover:bg-gray-50"
+                                    )}
+                                  >
+                                    Durée
+                                  </button>
+                                </TooltipTrigger>
+                                <TooltipContent>
+                                  <p>Spécifier la durée estimée du séjour</p>
+                                </TooltipContent>
+                              </Tooltip>
+                            </TooltipProvider>
+                          </div>
+                          
+                          {/* Departure Date or Duration Selection */}
+                          {useExactDates ? (
+                            <input
+                              type="date"
+                              min={minDepartureDateStr}
+                              value={watch(`multipleRelocationRequests.${index}.departureDate`) || ""}
+                              onChange={(e) => handleDepartureDateChange(index, e)}
+                              placeholder="Date de départ"
+                              className={cn(
+                                "w-[120px] rounded-md border border-input bg-background px-2 py-1 text-xs ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50",
+                                getErrorMessage(index, 'departureDate') ? "border-red-500" : ""
+                              )}
+                            />
+                          ) : (
+                            <Select
+                              value={watch(`multipleRelocationRequests.${index}.estimatedDuration`) || ""}
+                              onValueChange={(value) => setValue(`multipleRelocationRequests.${index}.estimatedDuration`, value)}
+                            >
+                              <SelectTrigger className="h-6 px-2 py-1 text-xs w-[120px]">
+                                <span className="truncate text-muted-foreground">
+                                  <SelectValue placeholder="Choisir une durée" />
+                                </span>
+                              </SelectTrigger>
+                              <SelectContent className="py-1">
+                                {durationOptions.map((option) => (
+                                  <SelectItem key={option.id} value={option.value} className="py-1">
+                                    <div className="flex items-center">
+                                      <span className="whitespace-nowrap">{option.label}</span>
+                                    </div>
                                   </SelectItem>
-                                )) :
-                                [0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map((num) => (
-                                  <SelectItem key={num} value={num.toString()} className="py-1">
-                                    <span className={num === 0 ? "text-gray-500 font-medium" : ""}>
+                                ))}
+                              </SelectContent>
+                            </Select>
+                          )}
+                          
+                          {/* Number of nights info for exact dates */}
+                          {useExactDates && getNumberOfNights(watch(`multipleRelocationRequests.${index}.arrivalDate`), watch(`multipleRelocationRequests.${index}.departureDate`)) !== null && (
+                            <span className="text-xs text-primary font-medium whitespace-nowrap">
+                              ({getNumberOfNights(watch(`multipleRelocationRequests.${index}.arrivalDate`), watch(`multipleRelocationRequests.${index}.departureDate`))} nuits)
+                            </span>
+                          )}
+                        </div>
+                      </TableCell>
+                      <TableCell>
+                        <div className="flex items-center justify-center gap-1">
+                          {counterFields.map((field) => (
+                            <Select
+                              key={field.id}
+                              value={watch(`multipleRelocationRequests.${index}.${field.fieldName}`)?.toString() || field.min.toString()}
+                              onValueChange={(value) => setValue(`multipleRelocationRequests.${index}.${field.fieldName}`, parseInt(value))}
+                            >
+                              <SelectTrigger className="h-8 px-2 py-1 text-xs w-[45px]">
+                                <SelectValue />
+                              </SelectTrigger>
+                              <SelectContent className="py-1">
+                                {field.fieldName === 'adults' ? 
+                                  [1, 2, 3, 4, 5, 6, 7, 8].map((num) => (
+                                    <SelectItem key={num} value={num.toString()} className="py-1">
                                       {num}
-                                    </span>
-                                  </SelectItem>
-                                ))
-                              }
-                            </SelectContent>
-                          </Select>
-                        ))}
-                      </div>
-                    </TableCell>
-                    <TableCell>
-                      <div className="flex items-center justify-center gap-2">
-                        <Checkbox
-                          id={`multipleRelocationRequests.${index}.hasAnimals`}
-                          checked={watch(`multipleRelocationRequests.${index}.hasAnimals`)}
-                          onCheckedChange={(checked) => {
-                            setValue(`multipleRelocationRequests.${index}.hasAnimals`, checked);
-                          }}
-                          className="h-5 w-5"
-                        />
-                        <Checkbox
-                          id={`multipleRelocationRequests.${index}.hasAccessibilityNeeds`}
-                          checked={watch(`multipleRelocationRequests.${index}.hasAccessibilityNeeds`)}
-                          onCheckedChange={(checked) => {
-                            setValue(`multipleRelocationRequests.${index}.hasAccessibilityNeeds`, checked);
-                          }}
-                          className="h-5 w-5"
-                        />
-                        <Checkbox
-                          id={`multipleRelocationRequests.${index}.needsParking`}
-                          checked={watch(`multipleRelocationRequests.${index}.needsParking`)}
-                          onCheckedChange={(checked) => {
-                            setValue(`multipleRelocationRequests.${index}.needsParking`, checked);
-                          }}
-                          className="h-5 w-5"
-                        />
-                        {request.hasUploadedClaim ? (
-                          <div className="relative group">
-                            <div className="flex items-center bg-white border border-gray-200 rounded-full px-1 w-8 h-6 justify-center">
+                                    </SelectItem>
+                                  )) :
+                                  [0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map((num) => (
+                                    <SelectItem key={num} value={num.toString()} className="py-1">
+                                      <span className={num === 0 ? "text-gray-500 font-medium" : ""}>
+                                        {num}
+                                      </span>
+                                    </SelectItem>
+                                  ))
+                                }
+                              </SelectContent>
+                            </Select>
+                          ))}
+                        </div>
+                      </TableCell>
+                      <TableCell>
+                        <div className="flex items-center justify-center gap-2">
+                          <Checkbox
+                            id={`multipleRelocationRequests.${index}.hasAnimals`}
+                            checked={watch(`multipleRelocationRequests.${index}.hasAnimals`)}
+                            onCheckedChange={(checked) => {
+                              setValue(`multipleRelocationRequests.${index}.hasAnimals`, checked);
+                            }}
+                            className="h-5 w-5"
+                          />
+                          <Checkbox
+                            id={`multipleRelocationRequests.${index}.hasAccessibilityNeeds`}
+                            checked={watch(`multipleRelocationRequests.${index}.hasAccessibilityNeeds`)}
+                            onCheckedChange={(checked) => {
+                              setValue(`multipleRelocationRequests.${index}.hasAccessibilityNeeds`, checked);
+                            }}
+                            className="h-5 w-5"
+                          />
+                          <Checkbox
+                            id={`multipleRelocationRequests.${index}.needsParking`}
+                            checked={watch(`multipleRelocationRequests.${index}.needsParking`)}
+                            onCheckedChange={(checked) => {
+                              setValue(`multipleRelocationRequests.${index}.needsParking`, checked);
+                            }}
+                            className="h-5 w-5"
+                          />
+                          {request.hasUploadedClaim ? (
+                            <div className="relative group">
+                              <div className="flex items-center bg-white border border-gray-200 rounded-full px-1 w-8 h-6 justify-center">
+                                <TooltipProvider>
+                                  <Tooltip>
+                                    <TooltipTrigger asChild>
+                                      <div className="cursor-help">
+                                        <CircleCheckBig className="h-4 w-4 text-green-500" />
+                                      </div>
+                                    </TooltipTrigger>
+                                    <TooltipContent>
+                                      <p>Document téléchargé</p>
+                                    </TooltipContent>
+                                  </Tooltip>
+                                </TooltipProvider>
+                              </div>
                               <TooltipProvider>
                                 <Tooltip>
                                   <TooltipTrigger asChild>
-                                    <div className="cursor-help">
-                                      <CircleCheckBig className="h-4 w-4 text-green-500" />
-                                    </div>
+                                    <Button
+                                      variant="ghost"
+                                      size="icon"
+                                      onClick={() => handleRemoveFile(index)}
+                                      type="button"
+                                      className="h-5 w-5 text-red-500 hover:text-red-700 hover:bg-red-50 absolute -top-1 -right-1 opacity-0 group-hover:opacity-100 transition-opacity"
+                                    >
+                                      <X className="h-3 w-3" />
+                                    </Button>
                                   </TooltipTrigger>
                                   <TooltipContent>
-                                    <p>Document téléchargé</p>
+                                    <p>Supprimer le document</p>
                                   </TooltipContent>
                                 </Tooltip>
                               </TooltipProvider>
                             </div>
-                            <TooltipProvider>
-                              <Tooltip>
-                                <TooltipTrigger asChild>
-                                  <Button
-                                    variant="ghost"
-                                    size="icon"
-                                    onClick={() => handleRemoveFile(index)}
-                                    type="button"
-                                    className="h-5 w-5 text-red-500 hover:text-red-700 hover:bg-red-50 absolute -top-1 -right-1 opacity-0 group-hover:opacity-100 transition-opacity"
-                                  >
-                                    <X className="h-3 w-3" />
-                                  </Button>
-                                </TooltipTrigger>
-                                <TooltipContent>
-                                  <p>Supprimer le document</p>
-                                </TooltipContent>
-                              </Tooltip>
-                            </TooltipProvider>
-                          </div>
-                        ) : (
-                          <div className="relative">
-                            <input
-                              type="file"
-                              id={`claim-document-${index}`}
-                              className="hidden"
-                              accept=".pdf,.doc,.docx"
-                              onChange={(e) => handleFileUpload(index, e)}
-                            />
-                            <TooltipProvider>
-                              <Tooltip>
-                                <TooltipTrigger asChild>
-                                  <label
-                                    htmlFor={`claim-document-${index}`}
-                                    className="flex items-center justify-center w-8 h-6 text-xs text-gray-600 bg-white border border-gray-200 rounded-full hover:bg-gray-50 cursor-pointer transition-colors"
-                                  >
-                                    <Upload className="h-3 w-3" />
-                                  </label>
-                                </TooltipTrigger>
-                                <TooltipContent>
-                                  <p>Télécharger un document de déclaration</p>
-                                </TooltipContent>
-                              </Tooltip>
-                            </TooltipProvider>
-                          </div>
-                        )}
-                      </div>
-                    </TableCell>
-                    <TableCell className="text-right">
-                      <div className="flex justify-end gap-1">
-                        <TooltipProvider>
-                          <Tooltip>
-                            <TooltipTrigger asChild>
-                              <Button
-                                variant="ghost"
-                                size="icon"
-                                onClick={() => duplicatePerson(index)}
-                                type="button"
-                                className="h-7 w-7 text-black hover:text-black/70 hover:bg-gray-100"
-                              >
-                                <Copy className="h-4 w-4" />
-                              </Button>
-                            </TooltipTrigger>
-                            <TooltipContent>
-                              <p>Dupliquer cette personne</p>
-                            </TooltipContent>
-                          </Tooltip>
-                        </TooltipProvider>
-                        <TooltipProvider>
-                          <Tooltip>
-                            <TooltipTrigger asChild>
-                              <Button
-                                variant="ghost"
-                                size="icon"
-                                onClick={() => removePerson(index)}
-                                type="button"
-                                className="h-7 w-7 text-red-500 hover:text-red-700 hover:bg-red-50"
-                              >
-                                <Trash2 className="h-4 w-4" />
-                              </Button>
-                            </TooltipTrigger>
-                            <TooltipContent>
-                              <p>Supprimer cette personne</p>
-                            </TooltipContent>
-                          </Tooltip>
-                        </TooltipProvider>
-                      </div>
-                    </TableCell>
-                  </TableRow>
-                ))}
+                          ) : (
+                            <div className="relative">
+                              <input
+                                type="file"
+                                id={`claim-document-${index}`}
+                                className="hidden"
+                                accept=".pdf,.doc,.docx"
+                                onChange={(e) => handleFileUpload(index, e)}
+                              />
+                              <TooltipProvider>
+                                <Tooltip>
+                                  <TooltipTrigger asChild>
+                                    <label
+                                      htmlFor={`claim-document-${index}`}
+                                      className="flex items-center justify-center w-8 h-6 text-xs text-gray-600 bg-white border border-gray-200 rounded-full hover:bg-gray-50 cursor-pointer transition-colors"
+                                    >
+                                      <Upload className="h-4 w-4" />
+                                    </label>
+                                  </TooltipTrigger>
+                                  <TooltipContent>
+                                    <p>Télécharger un document de déclaration</p>
+                                  </TooltipContent>
+                                </Tooltip>
+                              </TooltipProvider>
+                            </div>
+                          )}
+                        </div>
+                      </TableCell>
+                      <TableCell className="text-right">
+                        <div className="flex justify-end gap-1">
+                          <TooltipProvider>
+                            <Tooltip>
+                              <TooltipTrigger asChild>
+                                <Button
+                                  variant="ghost"
+                                  size="icon"
+                                  onClick={() => duplicatePerson(index)}
+                                  type="button"
+                                  className="h-7 w-7 text-black hover:text-black/70 hover:bg-gray-100"
+                                >
+                                  <Copy className="h-4 w-4" />
+                                </Button>
+                              </TooltipTrigger>
+                              <TooltipContent>
+                                <p>Dupliquer cette personne</p>
+                              </TooltipContent>
+                            </Tooltip>
+                          </TooltipProvider>
+                          <TooltipProvider>
+                            <Tooltip>
+                              <TooltipTrigger asChild>
+                                <Button
+                                  variant="ghost"
+                                  size="icon"
+                                  onClick={() => removePerson(index)}
+                                  type="button"
+                                  className="h-7 w-7 text-red-500 hover:text-red-700 hover:bg-red-50"
+                                >
+                                  <Trash2 className="h-4 w-4" />
+                                </Button>
+                              </TooltipTrigger>
+                              <TooltipContent>
+                                <p>Supprimer cette personne</p>
+                              </TooltipContent>
+                            </Tooltip>
+                          </TooltipProvider>
+                        </div>
+                      </TableCell>
+                    </TableRow>
+                  );
+                })}
               </TableBody>
             </Table>
           </div>
@@ -673,7 +798,7 @@ export function MultipleRelocationRequests({ form }: MultipleRelocationRequestsP
                   className="flex-1"
                 >
                   <UserPlus className="h-4 w-4 mr-2" />
-                  Ajouter Foyer
+                  Ajouter un foyer
                 </Button>
               </TooltipTrigger>
               <TooltipContent>

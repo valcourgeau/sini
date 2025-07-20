@@ -279,6 +279,8 @@ const formSchema = z.object({
       .max(500, "Les besoins spéciaux ne peuvent pas dépasser 500 caractères")
       .optional(),
     arrivalDate: z.string().optional(),
+    departureDate: z.string().optional(),
+    useExactDates: z.boolean().default(false),
     estimatedDuration: z.string().optional(),
     hasInsurance: z.boolean().optional(),
     insuranceDetails: z.string()

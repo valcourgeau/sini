@@ -2,6 +2,23 @@ import { UseFormReturn } from "react-hook-form";
 import { useEffect, useState } from "react";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
+import { 
+  User, 
+  Building, 
+  MapPin, 
+  Calendar, 
+  Users, 
+  Heart, 
+  FileText, 
+  Shield,
+  CheckCircle,
+  AlertCircle,
+  Clock,
+  Home,
+  Car,
+  Accessibility,
+  PawPrint
+} from "lucide-react";
 
 interface SingleReviewConfirmProps {
   form: UseFormReturn<any>;
@@ -91,213 +108,312 @@ export function SingleReviewConfirm({ form }: SingleReviewConfirmProps) {
     rawHasAnimals: getValue("singleSpecialNeeds.hasAnimals"),
     rawHasAccessibilityNeeds: getValue("singleSpecialNeeds.hasAccessibilityNeeds")
   });
-  
-  const sectionClass = "border-b border-border pb-4 mb-4 last:border-0 last:pb-0 last:mb-0";
-  const titleClass = "font-medium text-base mb-2";
-  const detailRowClass = "flex flex-col md:flex-row md:items-baseline py-1.5";
-  const labelClass = "text-sm font-medium text-muted-foreground md:w-1/3";
-  const valueClass = "text-sm";
 
   // Get form errors for validation
   const { formState: { errors } } = form;
   const reviewErrors = errors.singleReviewConfirmation as any;
 
   return (
-    <div className="space-y-6">
-      <div>
-        <h2 className="text-lg font-medium mb-4">Vérification de votre demande</h2>
-        <p className="text-sm text-muted-foreground mb-6">
-          Veuillez vérifier les détails de votre demande de relogement avant de soumettre. Si vous devez apporter des modifications, 
-          vous pouvez revenir aux sections concernées.
-        </p>
+    <div className="space-y-8">
+      {/* Header Section */}
+      <div className="text-center space-y-3">
+        <div className="inline-flex items-center justify-center w-12 h-12 bg-primary/10 rounded-full">
+          <CheckCircle className="h-6 w-6 text-primary" />
+        </div>
+        <div>
+          <h2 className="text-2xl font-semibold text-foreground">Vérification de votre demande</h2>
+          <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
+            Veuillez vérifier les détails de votre demande de relogement avant de soumettre. 
+            Si vous devez apporter des modifications, vous pouvez revenir aux sections concernées.
+          </p>
+        </div>
       </div>
 
-      <div className="space-y-4 bg-muted/20 p-5 rounded-md border border-border">
+      {/* Main Content */}
+      <div className="space-y-6">
         {/* Personal Information */}
-        <div className={sectionClass}>
-          <h3 className={titleClass}>
-            {getValue("singleInsuranceCoverage.hasInsurance") === false ? "Informations du courtier" : "Informations du courtier"}
-          </h3>
-          <div className="space-y-0.5">
-            <div className={detailRowClass}>
-              <span className={labelClass}>Nom :</span>
-              <span className={valueClass}>
-                {getValue("singlePersonalData.firstName")} {getValue("singlePersonalData.lastName")}
-              </span>
+        <div className="bg-card border border-border rounded-xl p-6 shadow-sm">
+          <div className="flex items-center gap-3 mb-4">
+            <div className="flex items-center justify-center w-8 h-8 bg-muted rounded-lg">
+              <User className="h-4 w-4 text-muted-foreground" />
             </div>
-            <div className={detailRowClass}>
-              <span className={labelClass}>Email :</span>
-              <span className={valueClass}>{getValue("singlePersonalData.email")}</span>
+            <h3 className="text-lg font-semibold text-foreground">
+              {getValue("singleInsuranceCoverage.hasInsurance") === false ? "Informations du courtier" : "Informations du courtier"}
+            </h3>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="space-y-3">
+              <div>
+                <span className="text-sm font-medium text-muted-foreground">Nom complet</span>
+                <p className="text-foreground font-medium">
+                  {getValue("singlePersonalData.firstName")} {getValue("singlePersonalData.lastName")}
+                </p>
+              </div>
+              <div>
+                <span className="text-sm font-medium text-muted-foreground">Email</span>
+                <p className="text-foreground">{getValue("singlePersonalData.email")}</p>
+              </div>
             </div>
-            <div className={detailRowClass}>
-              <span className={labelClass}>Téléphone :</span>
-              <span className={valueClass}>{getValue("singlePersonalData.phone")}</span>
+            <div className="space-y-3">
+              <div>
+                <span className="text-sm font-medium text-muted-foreground">Téléphone</span>
+                <p className="text-foreground">{getValue("singlePersonalData.phone")}</p>
+              </div>
             </div>
           </div>
         </div>
 
         {/* Insured Person Information - Only show when user doesn't have insurance */}
         {getValue("singleInsuranceCoverage.hasInsurance") === false && (
-          <div className={sectionClass}>
-            <h3 className={titleClass}>Informations de l'assuré</h3>
-            <div className="space-y-0.5">
-              <div className={detailRowClass}>
-                <span className={labelClass}>Nom :</span>
-                <span className={valueClass}>
-                  {getValue("singleInsuredData.firstName")} {getValue("singleInsuredData.lastName")}
-                </span>
+          <div className="bg-card border border-border rounded-xl p-6 shadow-sm">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="flex items-center justify-center w-8 h-8 bg-muted rounded-lg">
+                <Shield className="h-4 w-4 text-muted-foreground" />
               </div>
-              <div className={detailRowClass}>
-                <span className={labelClass}>Email :</span>
-                <span className={valueClass}>{getValue("singleInsuredData.email")}</span>
+              <h3 className="text-lg font-semibold text-foreground">Informations de l'assuré</h3>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="space-y-3">
+                <div>
+                  <span className="text-sm font-medium text-muted-foreground">Nom complet</span>
+                  <p className="text-foreground font-medium">
+                    {getValue("singleInsuredData.firstName")} {getValue("singleInsuredData.lastName")}
+                  </p>
+                </div>
+                <div>
+                  <span className="text-sm font-medium text-muted-foreground">Email</span>
+                  <p className="text-foreground">{getValue("singleInsuredData.email")}</p>
+                </div>
               </div>
-              <div className={detailRowClass}>
-                <span className={labelClass}>Téléphone :</span>
-                <span className={valueClass}>{getValue("singleInsuredData.phone")}</span>
+              <div className="space-y-3">
+                <div>
+                  <span className="text-sm font-medium text-muted-foreground">Téléphone</span>
+                  <p className="text-foreground">{getValue("singleInsuredData.phone")}</p>
+                </div>
               </div>
             </div>
           </div>
         )}
 
-        {/* Insurance Details - Show for all users */}
-        <div className={sectionClass}>
-          <h3 className={titleClass}>Détails de l'assurance</h3>
-          <div className="space-y-0.5">
-            <div className={detailRowClass}>
-              <span className={labelClass}>Déclaration de sinistre téléchargée :</span>
-              <span className={valueClass}>
-                {getValue("singleInsuranceCoverage.hasInsurance") === true 
-                  ? "Oui" 
-                  : getValue("singleInsuranceCoverage.hasInsurance") === false 
-                    ? "Non" 
-                    : "Non spécifié"}
-              </span>
+        {/* Insurance Details */}
+        <div className="bg-card border border-border rounded-xl p-6 shadow-sm">
+          <div className="flex items-center gap-3 mb-4">
+            <div className="flex items-center justify-center w-8 h-8 bg-muted rounded-lg">
+              <FileText className="h-4 w-4 text-muted-foreground" />
+            </div>
+            <h3 className="text-lg font-semibold text-foreground">Détails de l'assurance</h3>
+          </div>
+          <div className="space-y-4">
+            <div className="flex items-center gap-3">
+              <span className="text-sm font-medium text-muted-foreground">Déclaration de sinistre :</span>
+              <div className="flex items-center gap-2">
+                {getValue("singleInsuranceCoverage.hasInsurance") === true ? (
+                  <>
+                    <CheckCircle className="h-4 w-4 text-primary" />
+                    <span className="text-foreground">Téléchargée</span>
+                  </>
+                ) : getValue("singleInsuranceCoverage.hasInsurance") === false ? (
+                  <>
+                    <AlertCircle className="h-4 w-4 text-muted-foreground" />
+                    <span className="text-foreground">Non téléchargée</span>
+                  </>
+                ) : (
+                  <span className="text-foreground">Non spécifié</span>
+                )}
+              </div>
             </div>
             
             {getValue("singleInsuranceCoverage.hasInsurance") === true && getValue("singleInsuranceCoverage.claimDocument") && (
-              <div className={detailRowClass}>
-                <span className={labelClass}>Nom du fichier :</span>
-                <span className={valueClass}>
+              <div className="bg-muted/50 rounded-lg p-3">
+                <span className="text-sm font-medium text-muted-foreground">Fichier :</span>
+                <p className="text-foreground text-sm mt-1">
                   {getValue("singleInsuranceCoverage.claimDocument.name") || "Document téléchargé"}
-                </span>
+                </p>
               </div>
             )}
             
             {getValue("singleInsuranceCoverage.hasInsurance") === false && (
-              <>
-                <div className={detailRowClass}>
-                  <span className={labelClass}>Compagnie d'assurance :</span>
-                  <span className={valueClass}>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <span className="text-sm font-medium text-muted-foreground">Compagnie d'assurance</span>
+                  <p className="text-foreground">
                     {getValue("singleInsuranceDetails.insuranceCompany") === "other" 
                       ? getValue("singleInsuranceDetails.customInsuranceCompany")
                       : getValue("singleInsuranceDetails.insuranceCompany")
                     }
-                  </span>
+                  </p>
                 </div>
-                <div className={detailRowClass}>
-                  <span className={labelClass}>Numéro de police :</span>
-                  <span className={valueClass}>{getValue("singleInsuranceDetails.policyNumber")}</span>
+                <div>
+                  <span className="text-sm font-medium text-muted-foreground">Numéro de police</span>
+                  <p className="text-foreground">{getValue("singleInsuranceDetails.policyNumber")}</p>
                 </div>
-              </>
+              </div>
             )}
           </div>
         </div>
         
         {/* Disaster Address */}
-        <div className={sectionClass}>
-          <h3 className={titleClass}>Adresse du sinistre</h3>
-          <div className="space-y-0.5">
-            <div className={detailRowClass}>
-              <span className={labelClass}>Rue :</span>
-              <span className={valueClass}>{getValue("singleDisasterAddress.street")}</span>
+        <div className="bg-card border border-border rounded-xl p-6 shadow-sm">
+          <div className="flex items-center gap-3 mb-4">
+            <div className="flex items-center justify-center w-8 h-8 bg-muted rounded-lg">
+              <MapPin className="h-4 w-4 text-muted-foreground" />
             </div>
-            <div className={detailRowClass}>
-              <span className={labelClass}>Ville :</span>
-              <span className={valueClass}>{getValue("singleDisasterAddress.city")}</span>
+            <h3 className="text-lg font-semibold text-foreground">Adresse du sinistre</h3>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="space-y-3">
+              <div>
+                <span className="text-sm font-medium text-muted-foreground">Rue</span>
+                <p className="text-foreground">{getValue("singleDisasterAddress.street")}</p>
+              </div>
+              <div>
+                <span className="text-sm font-medium text-muted-foreground">Ville</span>
+                <p className="text-foreground">{getValue("singleDisasterAddress.city")}</p>
+              </div>
             </div>
-            <div className={detailRowClass}>
-              <span className={labelClass}>Code postal :</span>
-              <span className={valueClass}>{getValue("singleDisasterAddress.postalCode")}</span>
-            </div>
-            <div className={detailRowClass}>
-              <span className={labelClass}>Pays :</span>
-              <span className={valueClass}>{getValue("singleDisasterAddress.country")}</span>
+            <div className="space-y-3">
+              <div>
+                <span className="text-sm font-medium text-muted-foreground">Code postal</span>
+                <p className="text-foreground">{getValue("singleDisasterAddress.postalCode")}</p>
+              </div>
+              <div>
+                <span className="text-sm font-medium text-muted-foreground">Pays</span>
+                <p className="text-foreground">{getValue("singleDisasterAddress.country")}</p>
+              </div>
             </div>
           </div>
         </div>
         
         {/* Relocation Preferences */}
-        <div className={sectionClass}>
-          <h3 className={titleClass}>Préférences de relogement</h3>
-          <div className="space-y-0.5">
-            <div className={detailRowClass}>
-              <span className={labelClass}>Chambres :</span>
-              <span className={valueClass}>{getValue("singleRelocationPreferences.bedrooms")}</span>
+        <div className="bg-card border border-border rounded-xl p-6 shadow-sm">
+          <div className="flex items-center gap-3 mb-4">
+            <div className="flex items-center justify-center w-8 h-8 bg-muted rounded-lg">
+              <Home className="h-4 w-4 text-muted-foreground" />
             </div>
-            <div className={detailRowClass}>
-              <span className={labelClass}>Adultes :</span>
-              <span className={valueClass}>{getValue("singleRelocationPreferences.adults")}</span>
+            <h3 className="text-lg font-semibold text-foreground">Préférences de relogement</h3>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="space-y-3">
+              <div className="flex items-center gap-2">
+                <Home className="h-4 w-4 text-muted-foreground" />
+                <span className="text-sm font-medium text-muted-foreground">Chambres</span>
+              </div>
+              <p className="text-foreground font-semibold text-lg">{getValue("singleRelocationPreferences.bedrooms")}</p>
+            </div>
+            <div className="space-y-3">
+              <div className="flex items-center gap-2">
+                <Users className="h-4 w-4 text-muted-foreground" />
+                <span className="text-sm font-medium text-muted-foreground">Adultes</span>
+              </div>
+              <p className="text-foreground font-semibold text-lg">{getValue("singleRelocationPreferences.adults")}</p>
             </div>
             {getValue("singleRelocationPreferences.children") && getValue("singleRelocationPreferences.children") > 0 && (
-              <div className={detailRowClass}>
-                <span className={labelClass}>Enfants :</span>
-                <span className={valueClass}>{getValue("singleRelocationPreferences.children")}</span>
+              <div className="space-y-3">
+                <div className="flex items-center gap-2">
+                  <Users className="h-4 w-4 text-muted-foreground" />
+                  <span className="text-sm font-medium text-muted-foreground">Enfants</span>
+                </div>
+                <p className="text-foreground font-semibold text-lg">{getValue("singleRelocationPreferences.children")}</p>
               </div>
             )}
           </div>
         </div>
         
         {/* Special Requirements */}
-        <div className={sectionClass}>
-          <h3 className={titleClass}>Besoins spécifiques</h3>
-          <div className="space-y-0.5">
-            <div className={detailRowClass}>
-              <span className={labelClass}>Animaux :</span>
-              <span className={valueClass}>{getValue("singleRelocationPreferences.hasAnimals") ? "Oui" : "Non"}</span>
+        <div className="bg-card border border-border rounded-xl p-6 shadow-sm">
+          <div className="flex items-center gap-3 mb-4">
+            <div className="flex items-center justify-center w-8 h-8 bg-muted rounded-lg">
+              <Heart className="h-4 w-4 text-muted-foreground" />
             </div>
-            <div className={detailRowClass}>
-              <span className={labelClass}>Accessibilité :</span>
-              <span className={valueClass}>{getValue("singleRelocationPreferences.hasAccessibilityNeeds") ? "Oui" : "Non"}</span>
+            <h3 className="text-lg font-semibold text-foreground">Besoins spécifiques</h3>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="flex items-center justify-between p-3 bg-muted/30 rounded-lg">
+              <div className="flex items-center gap-2">
+                <PawPrint className="h-4 w-4 text-muted-foreground" />
+                <span className="text-sm font-medium">Animaux</span>
+              </div>
+              <span className={`px-2 py-1 rounded-full text-xs font-medium ${
+                getValue("singleRelocationPreferences.hasAnimals") 
+                  ? "bg-primary/10 text-primary" 
+                  : "bg-muted text-muted-foreground"
+              }`}>
+                {getValue("singleRelocationPreferences.hasAnimals") ? "Oui" : "Non"}
+              </span>
             </div>
-            <div className={detailRowClass}>
-              <span className={labelClass}>Stationnement :</span>
-              <span className={valueClass}>{getValue("singleRelocationPreferences.needsParking") ? "Oui" : "Non"}</span>
+            <div className="flex items-center justify-between p-3 bg-muted/30 rounded-lg">
+              <div className="flex items-center gap-2">
+                <Accessibility className="h-4 w-4 text-muted-foreground" />
+                <span className="text-sm font-medium">Accessibilité</span>
+              </div>
+              <span className={`px-2 py-1 rounded-full text-xs font-medium ${
+                getValue("singleRelocationPreferences.hasAccessibilityNeeds") 
+                  ? "bg-primary/10 text-primary" 
+                  : "bg-muted text-muted-foreground"
+              }`}>
+                {getValue("singleRelocationPreferences.hasAccessibilityNeeds") ? "Oui" : "Non"}
+              </span>
+            </div>
+            <div className="flex items-center justify-between p-3 bg-muted/30 rounded-lg">
+              <div className="flex items-center gap-2">
+                <Car className="h-4 w-4 text-muted-foreground" />
+                <span className="text-sm font-medium">Stationnement</span>
+              </div>
+              <span className={`px-2 py-1 rounded-full text-xs font-medium ${
+                getValue("singleRelocationPreferences.needsParking") 
+                  ? "bg-primary/10 text-primary" 
+                  : "bg-muted text-muted-foreground"
+              }`}>
+                {getValue("singleRelocationPreferences.needsParking") ? "Oui" : "Non"}
+              </span>
             </div>
           </div>
         </div>
         
         {/* Arrival & Duration */}
-        <div className={sectionClass}>
-          <h3 className={titleClass}>Arrivée & Durée</h3>
-          <div className="space-y-0.5">
-            <div className={detailRowClass}>
-              <span className={labelClass}>Date d'arrivée :</span>
-              <span className={valueClass}>{formatDate(getValue("singleArrivalDetails.arrivalDate"))}</span>
+        <div className="bg-card border border-border rounded-xl p-6 shadow-sm">
+          <div className="flex items-center gap-3 mb-4">
+            <div className="flex items-center justify-center w-8 h-8 bg-muted rounded-lg">
+              <Calendar className="h-4 w-4 text-muted-foreground" />
             </div>
-            {getValue("singleArrivalDetails.departureDate") && (
-              <div className={detailRowClass}>
-                <span className={labelClass}>Date de départ :</span>
-                <span className={valueClass}>{formatDate(getValue("singleArrivalDetails.departureDate"))}</span>
+            <h3 className="text-lg font-semibold text-foreground">Arrivée & Durée</h3>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="space-y-4">
+              <div>
+                <span className="text-sm font-medium text-muted-foreground">Date d'arrivée</span>
+                <p className="text-foreground font-medium">{formatDate(getValue("singleArrivalDetails.arrivalDate"))}</p>
               </div>
-            )}
-            <div className={detailRowClass}>
-              <span className={labelClass}>
-                {getValue("singleArrivalDetails.useExactDates") === true ? "Durée :" : "Durée estimée :"}
-              </span>
-              <span className={valueClass}>
-                {getValue("singleArrivalDetails.useExactDates") === true && getValue("singleArrivalDetails.arrivalDate") && getValue("singleArrivalDetails.departureDate") 
-                  ? `${getNumberOfNights(getValue("singleArrivalDetails.arrivalDate"), getValue("singleArrivalDetails.departureDate"))} nuits`
-                  : getValue("singleArrivalDetails.estimatedDuration") || "Non spécifié"
-                }
-              </span>
+              {getValue("singleArrivalDetails.departureDate") && (
+                <div>
+                  <span className="text-sm font-medium text-muted-foreground">Date de départ</span>
+                  <p className="text-foreground font-medium">{formatDate(getValue("singleArrivalDetails.departureDate"))}</p>
+                </div>
+              )}
+            </div>
+            <div className="space-y-4">
+              <div>
+                <span className="text-sm font-medium text-muted-foreground">
+                  {getValue("singleArrivalDetails.useExactDates") === true ? "Durée" : "Durée estimée"}
+                </span>
+                <div className="flex items-center gap-2 mt-1">
+                  <Clock className="h-4 w-4 text-muted-foreground" />
+                  <p className="text-foreground font-medium">
+                    {getValue("singleArrivalDetails.useExactDates") === true && getValue("singleArrivalDetails.arrivalDate") && getValue("singleArrivalDetails.departureDate") 
+                      ? `${getNumberOfNights(getValue("singleArrivalDetails.arrivalDate"), getValue("singleArrivalDetails.departureDate"))} nuits`
+                      : getValue("singleArrivalDetails.estimatedDuration") || "Non spécifié"
+                    }
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </div>
 
       {/* Data Accuracy Confirmation */}
-      <div className="mt-6 p-4 border border-border rounded-lg bg-background">
-        <div className="flex items-start space-x-3">
+      <div className="bg-yellow-50 border border-yellow-200 rounded-xl p-6">
+        <div className="flex items-start gap-4">
           <Checkbox
             id="singleReviewConfirmation.confirmDataAccuracy"
             checked={form.watch("singleReviewConfirmation.confirmDataAccuracy") || false}
@@ -308,25 +424,28 @@ export function SingleReviewConfirm({ form }: SingleReviewConfirmProps) {
                 shouldTouch: true
               });
             }}
-            className="mt-0.5"
+            className="mt-1"
           />
-          <div className="space-y-1">
+          <div className="space-y-2">
             <Label 
               htmlFor="singleReviewConfirmation.confirmDataAccuracy" 
-              className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+              className="text-base font-semibold text-foreground leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
             >
               Confirmation de l'exactitude des données <span className="text-red-500">*</span>
             </Label>
-            <p className="text-sm text-muted-foreground">
+            <p className="text-sm text-muted-foreground leading-relaxed">
               Je confirme que toutes les informations fournies dans cette demande sont exactes et complètes à la meilleure de ma connaissance. 
               Je comprends que des informations incorrectes peuvent affecter le traitement de ma demande de relogement.
             </p>
           </div>
         </div>
         {reviewErrors?.confirmDataAccuracy && (
-          <p className="text-sm text-destructive mt-2">
-            {reviewErrors.confirmDataAccuracy.message}
-          </p>
+          <div className="flex items-center gap-2 mt-3 p-3 bg-red-50 border border-red-200 rounded-lg">
+            <AlertCircle className="h-4 w-4 text-red-500" />
+            <p className="text-sm text-red-700">
+              {reviewErrors.confirmDataAccuracy.message}
+            </p>
+          </div>
         )}
       </div>
     </div>
