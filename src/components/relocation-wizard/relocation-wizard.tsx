@@ -483,15 +483,44 @@ export function RelocationWizard() {
               insuredDataValid = false;
             }
             
-            // Clear any insurance details errors since they're not required when user has no insurance
+            // Validate insurance details when user has no insurance
+            const insuranceDetails = form.getValues("singleInsuranceDetails");
+            let insuranceDetailsValid = true;
+            
+            // Clear any existing insurance details errors first
             form.clearErrors([
               "singleInsuranceDetails.insuranceCompany",
               "singleInsuranceDetails.policyNumber",
               "singleInsuranceDetails.customInsuranceCompany"
             ]);
             
-            console.log("Step 3 - insuredDataValid:", insuredDataValid);
-            isValid = addressValid && personalDataValid && insuredDataValid;
+            // Custom validation for insurance details when user has no insurance
+            if (!insuranceDetails?.insuranceCompany || insuranceDetails.insuranceCompany.length < 1) {
+              form.setError("singleInsuranceDetails.insuranceCompany", {
+                type: "manual",
+                message: "La compagnie d'assurance est requise"
+              });
+              insuranceDetailsValid = false;
+            } else if (insuranceDetails.insuranceCompany === "other") {
+              // If "other" is selected, validate custom insurance company
+              if (!insuranceDetails?.customInsuranceCompany || insuranceDetails.customInsuranceCompany.length < 1) {
+                form.setError("singleInsuranceDetails.customInsuranceCompany", {
+                  type: "manual",
+                  message: "Veuillez saisir le nom de votre compagnie d'assurance"
+                });
+                insuranceDetailsValid = false;
+              }
+            }
+            if (!insuranceDetails?.policyNumber || insuranceDetails.policyNumber.length < 3) {
+              form.setError("singleInsuranceDetails.policyNumber", {
+                type: "manual",
+                message: "Le numéro de police d'assurance est requis (minimum 3 caractères)"
+              });
+              insuranceDetailsValid = false;
+            }
+            
+            console.log("Step 3 - insuredDataValid:", insuredDataValid, "insuranceDetailsValid:", insuranceDetailsValid);
+            isValid = addressValid && personalDataValid && insuredDataValid && insuranceDetailsValid;
           } else if (hasInsurance === true) {
             // If user has insurance, only validate address and personal data (no insurance details needed)
             

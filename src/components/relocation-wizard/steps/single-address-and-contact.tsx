@@ -144,7 +144,7 @@ export function SingleAddressAndContact({ form, userType }: SingleAddressAndCont
         <div className="space-y-6">
           <h3 className="text-lg font-medium">Informations de l'assuré</h3>
           <div className="space-y-4">
-            {/* All fields on same line */}
+            {/* Personal Information - All fields on same line */}
             <div className="grid grid-cols-5 gap-4">
               <div className="space-y-2">
                 <Label htmlFor="singleInsuredData.firstName">
@@ -216,13 +216,94 @@ export function SingleAddressAndContact({ form, userType }: SingleAddressAndCont
                 )}
               </div>
             </div>
+
+            {/* Insurance Details - Required when hasInsurance === false */}
+            <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label htmlFor="singleInsuranceDetails.insuranceCompany">
+                  Compagnie d'assurance <span className="text-red-500">*</span>
+                </Label>
+                {watch("singleInsuranceDetails.insuranceCompany") === "other" ? (
+                  <div className="space-y-2">
+                    <input
+                      {...register("singleInsuranceDetails.customInsuranceCompany")}
+                      className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                      placeholder="Nom de votre compagnie d'assurance"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setValue("singleInsuranceDetails.insuranceCompany", "");
+                        setValue("singleInsuranceDetails.customInsuranceCompany", "");
+                      }}
+                      className="text-sm text-blue-600 hover:text-blue-800 underline"
+                    >
+                      ← Retour à la liste
+                    </button>
+                  </div>
+                ) : (
+                  <Select 
+                    onValueChange={(value) => {
+                      if (value === "other") {
+                        setValue("singleInsuranceDetails.insuranceCompany", "other");
+                        setValue("singleInsuranceDetails.customInsuranceCompany", "");
+                      } else {
+                        setValue("singleInsuranceDetails.insuranceCompany", value);
+                        setValue("singleInsuranceDetails.customInsuranceCompany", "");
+                      }
+                    }}
+                    value={watch("singleInsuranceDetails.insuranceCompany") || ""}
+                  >
+                    <SelectTrigger className="w-full">
+                      <SelectValue placeholder="Sélectionnez une compagnie d'assurance" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="AXA">AXA</SelectItem>
+                      <SelectItem value="Allianz">Allianz</SelectItem>
+                      <SelectItem value="Zurich">Zurich</SelectItem>
+                      <SelectItem value="Helvetia">Helvetia</SelectItem>
+                      <SelectItem value="Swiss Life">Swiss Life</SelectItem>
+                      <SelectItem value="Basler">Basler</SelectItem>
+                      <SelectItem value="Generali">Generali</SelectItem>
+                      <SelectItem value="Baloise">Baloise</SelectItem>
+                      <SelectItem value="Vaudoise">Vaudoise</SelectItem>
+                      <SelectItem value="Mobilière">Mobilière</SelectItem>
+                      <SelectItem value="other">Autre</SelectItem>
+                    </SelectContent>
+                  </Select>
+                )}
+                {insuranceErrors.insuranceCompany && (
+                  <p className="text-sm text-red-500 mt-1">
+                    {insuranceErrors.insuranceCompany.message as string}
+                  </p>
+                )}
+                {insuranceErrors.customInsuranceCompany && (
+                  <p className="text-sm text-red-500 mt-1">
+                    {insuranceErrors.customInsuranceCompany.message as string}
+                  </p>
+                )}
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="singleInsuranceDetails.policyNumber">
+                  Numéro de police <span className="text-red-500">*</span>
+                </Label>
+                <input
+                  id="singleInsuranceDetails.policyNumber"
+                  {...register("singleInsuranceDetails.policyNumber")}
+                  className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                  placeholder="Numéro de police d'assurance"
+                />
+                {insuranceErrors.policyNumber && (
+                  <p className="text-sm text-red-500 mt-1">
+                    {insuranceErrors.policyNumber.message as string}
+                  </p>
+                )}
+              </div>
+            </div>
           </div>
         </div>
       )}
-
-
-
-
 
       {/* Personal Information Section */}
       <div className="space-y-6">
