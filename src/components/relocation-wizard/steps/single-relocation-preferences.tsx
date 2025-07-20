@@ -284,7 +284,7 @@ export function SingleRelocationPreferences({ form }: SingleRelocationPreference
         {/* Right Column - Special Requirements Cards */}
         <div className="space-y-6">
           <div className="pt-4 border-t">
-            <h3 className="text-lg font-medium mb-6 text-center">Besoins particuliers</h3>
+            <h3 className="text-lg font-medium mb-6 text-center">Besoins spécifiques</h3>
             
             <div className="grid grid-cols-1 gap-6 max-w-[220px] mx-auto mt-10">
               {specialNeedCards.map((card) => {

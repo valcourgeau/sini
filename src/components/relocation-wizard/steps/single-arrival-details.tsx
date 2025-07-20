@@ -289,15 +289,14 @@ export const SingleArrivalDetails = forwardRef<SingleArrivalDetailsRef, SingleAr
                   Date d'arrivée souhaitée <span className="text-red-500">*</span>
                 </Label>
                 <div>
-                  <input
-                    id="singleArrivalDetails.arrivalDate"
-                    type="date"
-                    min={tomorrowStr}
-                    lang="fr"
-                    {...register("singleArrivalDetails.arrivalDate")}
-                    className="w-[180px] rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-                    defaultValue={tomorrowStr}
-                  />
+                                  <input
+                  id="singleArrivalDetails.arrivalDate"
+                  type="date"
+                  min={tomorrowStr}
+                  lang="fr"
+                  {...register("singleArrivalDetails.arrivalDate")}
+                  className="w-[180px] rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                />
                   {arrivalErrors.arrivalDate && (
                     <p className="text-sm text-red-500 mt-1">
                       {arrivalErrors.arrivalDate.message}
@@ -340,7 +339,6 @@ export const SingleArrivalDetails = forwardRef<SingleArrivalDetailsRef, SingleAr
                   lang="fr"
                   {...register("singleArrivalDetails.arrivalDate")}
                   className="w-[180px] rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-                  defaultValue={tomorrowStr}
                 />
                 {arrivalErrors.arrivalDate && (
                   <p className="text-sm text-red-500 mt-1">
@@ -350,9 +348,6 @@ export const SingleArrivalDetails = forwardRef<SingleArrivalDetailsRef, SingleAr
               </div>
             </div>
           )}
-          <p className="text-xs text-muted-foreground -mt-2">
-            La date la plus proche à laquelle vous auriez besoin d'emménager dans le nouveau logement.
-          </p>
           {/* Number of nights info for exact dates */}
           {useExactDates && getNumberOfNights(watch("singleArrivalDetails.arrivalDate"), watch("singleArrivalDetails.departureDate")) !== null && (
             <p className="text-xs text-primary font-medium mt-1">
