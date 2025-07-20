@@ -19,6 +19,12 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { 
   Trash2, 
   UserPlus, 
@@ -296,48 +302,111 @@ export function MultipleRelocationRequests({ form }: MultipleRelocationRequestsP
 
                   {/* Property Requirements Column */}
                   <TableHead className="w-[20px] text-gray-900 font-medium text-sm">
-                    <div className="flex items-center gap-2">
-                      <Bed className="h-5 w-5" />
-                      <span className="sr-only">Chambres</span>
-                    </div>
+                    <TooltipProvider>
+                      <Tooltip>
+                        <TooltipTrigger asChild>
+                          <div className="flex items-center gap-2 cursor-help">
+                            <Bed className="h-5 w-5" />
+                            <span className="sr-only">Chambres</span>
+                          </div>
+                        </TooltipTrigger>
+                        <TooltipContent>
+                          <p>Nombre de chambres nécessaires</p>
+                        </TooltipContent>
+                      </Tooltip>
+                    </TooltipProvider>
                   </TableHead>
                   <TableHead className="w-[20px] text-gray-900 font-medium text-sm">
-                    <div className="flex items-center gap-2">
-                      <User className="h-5 w-5" />
-                      <span className="sr-only">Adultes</span>
-                    </div>
+                    <TooltipProvider>
+                      <Tooltip>
+                        <TooltipTrigger asChild>
+                          <div className="flex items-center gap-2 cursor-help">
+                            <User className="h-5 w-5" />
+                            <span className="sr-only">Adultes</span>
+                          </div>
+                        </TooltipTrigger>
+                        <TooltipContent>
+                          <p>Nombre d'adultes</p>
+                        </TooltipContent>
+                      </Tooltip>
+                    </TooltipProvider>
                   </TableHead>
                   <TableHead className="w-[20px] text-gray-900 font-medium text-sm">
-                    <div className="flex items-center gap-2">
-                      <Baby className="h-5 w-5" />
-                      <span className="sr-only">Enfants</span>
-                    </div>
+                    <TooltipProvider>
+                      <Tooltip>
+                        <TooltipTrigger asChild>
+                          <div className="flex items-center gap-2 cursor-help">
+                            <Baby className="h-5 w-5" />
+                            <span className="sr-only">Enfants</span>
+                          </div>
+                        </TooltipTrigger>
+                        <TooltipContent>
+                          <p>Nombre d'enfants</p>
+                        </TooltipContent>
+                      </Tooltip>
+                    </TooltipProvider>
                   </TableHead>
 
                   {/* Special Needs Column */}
                   <TableHead className="w-[80px] text-gray-900 font-medium text-center text-sm">
-                    <div className="flex items-center justify-center gap-2">
-                      <PawPrint className="h-5 w-5" />
-                      <span className="sr-only">Animaux</span>
-                    </div>
+                    <TooltipProvider>
+                      <Tooltip>
+                        <TooltipTrigger asChild>
+                          <div className="flex items-center justify-center gap-2 cursor-help">
+                            <PawPrint className="h-5 w-5" />
+                            <span className="sr-only">Animaux</span>
+                          </div>
+                        </TooltipTrigger>
+                        <TooltipContent>
+                          <p>Présence d'animaux</p>
+                        </TooltipContent>
+                      </Tooltip>
+                    </TooltipProvider>
                   </TableHead>
                   <TableHead className="w-[80px] text-gray-900 font-medium text-center text-sm">
-                    <div className="flex items-center justify-center gap-2">
-                      <Accessibility className="h-5 w-5" />
-                      <span className="sr-only">Accessibilité</span>
-                    </div>
+                    <TooltipProvider>
+                      <Tooltip>
+                        <TooltipTrigger asChild>
+                          <div className="flex items-center justify-center gap-2 cursor-help">
+                            <Accessibility className="h-5 w-5" />
+                            <span className="sr-only">Accessibilité</span>
+                          </div>
+                        </TooltipTrigger>
+                        <TooltipContent>
+                          <p>Besoins d'accessibilité</p>
+                        </TooltipContent>
+                      </Tooltip>
+                    </TooltipProvider>
                   </TableHead>
                   <TableHead className="w-[80px] text-gray-900 font-medium text-center text-sm">
-                    <div className="flex items-center justify-center gap-2">
-                      <CarIcon className="h-5 w-5" />
-                      <span className="sr-only">Stationnement</span>
-                    </div>
+                    <TooltipProvider>
+                      <Tooltip>
+                        <TooltipTrigger asChild>
+                          <div className="flex items-center justify-center gap-2 cursor-help">
+                            <CarIcon className="h-5 w-5" />
+                            <span className="sr-only">Stationnement</span>
+                          </div>
+                        </TooltipTrigger>
+                        <TooltipContent>
+                          <p>Besoin de stationnement</p>
+                        </TooltipContent>
+                      </Tooltip>
+                    </TooltipProvider>
                   </TableHead>
                   <TableHead className="w-[80px] text-gray-900 font-medium text-center text-sm">
-                    <div className="flex items-center justify-center gap-2">
-                      <Paperclip className="h-5 w-5" />
-                      <span className="sr-only">Document de déclaration</span>
-                    </div>
+                    <TooltipProvider>
+                      <Tooltip>
+                        <TooltipTrigger asChild>
+                          <div className="flex items-center justify-center gap-2 cursor-help">
+                            <Paperclip className="h-5 w-5" />
+                            <span className="sr-only">Document de déclaration</span>
+                          </div>
+                        </TooltipTrigger>
+                        <TooltipContent>
+                          <p>Document de déclaration de sinistre</p>
+                        </TooltipContent>
+                      </Tooltip>
+                    </TooltipProvider>
                   </TableHead>
                   <TableHead className="w-[100px] text-gray-900 font-medium text-right text-sm">Actions</TableHead>
                 </TableRow>
@@ -526,16 +595,36 @@ export function MultipleRelocationRequests({ form }: MultipleRelocationRequestsP
                         {request.hasUploadedClaim ? (
                           <div className="flex items-center justify-center">
                             <div className="flex items-center bg-white border border-gray-200 rounded-full px-1">
-                              <CircleCheckBig className="h-4 w-4 text-green-500" />
-                              <Button
-                                variant="ghost"
-                                size="icon"
-                                onClick={() => handleRemoveFile(index)}
-                                type="button"
-                                className="h-6 w-6 text-red-500 hover:text-red-700 hover:bg-red-50"
-                              >
-                                <X className="h-3 w-3" />
-                              </Button>
+                              <TooltipProvider>
+                                <Tooltip>
+                                  <TooltipTrigger asChild>
+                                    <div className="cursor-help">
+                                      <CircleCheckBig className="h-4 w-4 text-green-500" />
+                                    </div>
+                                  </TooltipTrigger>
+                                  <TooltipContent>
+                                    <p>Document téléchargé</p>
+                                  </TooltipContent>
+                                </Tooltip>
+                              </TooltipProvider>
+                              <TooltipProvider>
+                                <Tooltip>
+                                  <TooltipTrigger asChild>
+                                    <Button
+                                      variant="ghost"
+                                      size="icon"
+                                      onClick={() => handleRemoveFile(index)}
+                                      type="button"
+                                      className="h-6 w-6 text-red-500 hover:text-red-700 hover:bg-red-50"
+                                    >
+                                      <X className="h-3 w-3" />
+                                    </Button>
+                                  </TooltipTrigger>
+                                  <TooltipContent>
+                                    <p>Supprimer le document</p>
+                                  </TooltipContent>
+                                </Tooltip>
+                              </TooltipProvider>
                             </div>
                           </div>
                         ) : (
@@ -547,36 +636,63 @@ export function MultipleRelocationRequests({ form }: MultipleRelocationRequestsP
                               accept=".pdf,.doc,.docx"
                               onChange={(e) => handleFileUpload(index, e)}
                             />
-                            <label
-                              htmlFor={`claim-document-${index}`}
-                              className="flex items-center justify-center gap-2 px-3 py-1 text-xs text-gray-600 bg-white border border-gray-200 rounded-full hover:bg-gray-50 cursor-pointer transition-colors"
-                            >
-                              <Upload className="h-4 w-4" />
-                            </label>
+                            <TooltipProvider>
+                              <Tooltip>
+                                <TooltipTrigger asChild>
+                                  <label
+                                    htmlFor={`claim-document-${index}`}
+                                    className="flex items-center justify-center gap-2 px-3 py-1 text-xs text-gray-600 bg-white border border-gray-200 rounded-full hover:bg-gray-50 cursor-pointer transition-colors"
+                                  >
+                                    <Upload className="h-4 w-4" />
+                                  </label>
+                                </TooltipTrigger>
+                                <TooltipContent>
+                                  <p>Télécharger un document de déclaration</p>
+                                </TooltipContent>
+                              </Tooltip>
+                            </TooltipProvider>
                           </div>
                         )}
                       </div>
                     </TableCell>
                     <TableCell className="text-right">
                       <div className="flex justify-end gap-1">
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          onClick={() => duplicatePerson(index)}
-                          type="button"
-                          className="h-7 w-7 text-black hover:text-black/70 hover:bg-gray-100"
-                        >
-                          <Copy className="h-4 w-4" />
-                        </Button>
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          onClick={() => removePerson(index)}
-                          type="button"
-                          className="h-7 w-7 text-red-500 hover:text-red-700 hover:bg-red-50"
-                        >
-                          <Trash2 className="h-4 w-4" />
-                        </Button>
+                        <TooltipProvider>
+                          <Tooltip>
+                            <TooltipTrigger asChild>
+                              <Button
+                                variant="ghost"
+                                size="icon"
+                                onClick={() => duplicatePerson(index)}
+                                type="button"
+                                className="h-7 w-7 text-black hover:text-black/70 hover:bg-gray-100"
+                              >
+                                <Copy className="h-4 w-4" />
+                              </Button>
+                            </TooltipTrigger>
+                            <TooltipContent>
+                              <p>Dupliquer cette personne</p>
+                            </TooltipContent>
+                          </Tooltip>
+                        </TooltipProvider>
+                        <TooltipProvider>
+                          <Tooltip>
+                            <TooltipTrigger asChild>
+                              <Button
+                                variant="ghost"
+                                size="icon"
+                                onClick={() => removePerson(index)}
+                                type="button"
+                                className="h-7 w-7 text-red-500 hover:text-red-700 hover:bg-red-50"
+                              >
+                                <Trash2 className="h-4 w-4" />
+                              </Button>
+                            </TooltipTrigger>
+                            <TooltipContent>
+                              <p>Supprimer cette personne</p>
+                            </TooltipContent>
+                          </Tooltip>
+                        </TooltipProvider>
                       </div>
                     </TableCell>
                   </TableRow>
@@ -586,23 +702,43 @@ export function MultipleRelocationRequests({ form }: MultipleRelocationRequestsP
           </div>
         ) : (
           <div className="text-center p-8 border border-dashed rounded-md bg-muted/10">
-            <Users className="h-10 w-10 mx-auto text-muted-foreground mb-3" />
-            <h3 className="text-lg font-medium mb-1">No People Added</h3>
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <div className="cursor-help">
+                    <Users className="h-10 w-10 mx-auto text-muted-foreground mb-3" />
+                  </div>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>Aucune personne ajoutée</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+            <h3 className="text-lg font-medium mb-1">Aucune personne ajoutée</h3>
             <p className="text-sm text-muted-foreground mb-4">
-              Please add the individuals requiring relocation assistance
+              Veuillez ajouter les personnes nécessitant une assistance au relogement
             </p>
           </div>
         )}
         
         <div className="flex flex-col sm:flex-row gap-3">
-          <Button 
-            type="button" 
-            onClick={addPerson}
-            className="flex-1"
-          >
-            <UserPlus className="h-4 w-4 mr-2" />
-            Ajouter Foyer
-          </Button>
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button 
+                  type="button" 
+                  onClick={addPerson}
+                  className="flex-1"
+                >
+                  <UserPlus className="h-4 w-4 mr-2" />
+                  Ajouter Foyer
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>Ajouter un nouveau foyer à la liste</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
         </div>
 
         {requests.length > 0 && (
