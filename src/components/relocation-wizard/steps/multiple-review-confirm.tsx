@@ -17,8 +17,11 @@ import {
   FileText,
   AlertCircle,
   Shield,
-  PawPrint
+  PawPrint,
+  Bed,
+  File
 } from "lucide-react";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
 interface MultipleReviewConfirmProps {
   form: UseFormReturn<any>;
@@ -75,9 +78,6 @@ export function MultipleReviewConfirm({ form }: MultipleReviewConfirmProps) {
     <div className="space-y-8">
       {/* Header Section */}
       <div className="text-center space-y-3">
-        <div className="inline-flex items-center justify-center w-12 h-12 bg-primary/10 rounded-full">
-          <CheckCircle className="h-6 w-6 text-primary" />
-        </div>
         <div>
           <h2 className="text-2xl font-semibold text-foreground">Vérification des demandes multiples</h2>
           <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
@@ -89,69 +89,67 @@ export function MultipleReviewConfirm({ form }: MultipleReviewConfirmProps) {
 
       {/* Main Content */}
       <div className="space-y-6">
-        {/* Disaster Address */}
+        {/* Disaster Address & Broker Information */}
         <div className="bg-card border border-border rounded-xl p-6 shadow-sm">
-          <div className="flex items-center gap-3 mb-4">
-            <div className="flex items-center justify-center w-8 h-8 bg-muted rounded-lg">
-              <MapPin className="h-4 w-4 text-muted-foreground" />
+          <div className="flex flex-col lg:flex-row gap-8">
+            {/* Disaster Address */}
+            <div className="flex-1">
+              <div className="flex items-center gap-3 mb-6">
+                <div className="flex items-center justify-center w-8 h-8 bg-red-100 rounded-lg">
+                  <MapPin className="h-5 w-5 text-red-600" />
+                </div>
+                <h3 className="text-lg font-semibold text-foreground">Adresse commune du sinistre</h3>
+              </div>
+              <div className="space-y-3">
+                <div className="flex justify-between items-center py-1">
+                  <span className="text-sm text-muted-foreground">Rue</span>
+                  <span className="text-sm text-foreground">{getValue("multipleDisasterAddress.street")}</span>
+                </div>
+                <div className="flex justify-between items-center py-1">
+                  <span className="text-sm text-muted-foreground">Ville</span>
+                  <span className="text-sm text-foreground">{getValue("multipleDisasterAddress.city")}</span>
+                </div>
+                <div className="flex justify-between items-center py-1">
+                  <span className="text-sm text-muted-foreground">Code postal</span>
+                  <span className="text-sm text-foreground">{getValue("multipleDisasterAddress.postalCode")}</span>
+                </div>
+                <div className="flex justify-between items-center py-1">
+                  <span className="text-sm text-muted-foreground">Canton</span>
+                  <span className="text-sm text-foreground">{getValue("multipleDisasterAddress.canton")}</span>
+                </div>
+                <div className="flex justify-between items-center py-1">
+                  <span className="text-sm text-muted-foreground">Pays</span>
+                  <span className="text-sm text-foreground">{getValue("multipleDisasterAddress.country")}</span>
+                </div>
+              </div>
             </div>
-            <h3 className="text-lg font-semibold text-foreground">Adresse commune du sinistre</h3>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="space-y-3">
-              <div>
-                <span className="text-sm font-medium text-muted-foreground">Rue</span>
-                <p className="text-foreground">{getValue("multipleDisasterAddress.street")}</p>
-              </div>
-              <div>
-                <span className="text-sm font-medium text-muted-foreground">Ville</span>
-                <p className="text-foreground">{getValue("multipleDisasterAddress.city")}</p>
-              </div>
-              <div>
-                <span className="text-sm font-medium text-muted-foreground">Code postal</span>
-                <p className="text-foreground">{getValue("multipleDisasterAddress.postalCode")}</p>
-              </div>
-            </div>
-            <div className="space-y-3">
-              <div>
-                <span className="text-sm font-medium text-muted-foreground">Canton</span>
-                <p className="text-foreground">{getValue("multipleDisasterAddress.canton")}</p>
-              </div>
-              <div>
-                <span className="text-sm font-medium text-muted-foreground">Pays</span>
-                <p className="text-foreground">{getValue("multipleDisasterAddress.country")}</p>
-              </div>
-            </div>
-          </div>
-        </div>
 
-        {/* Broker Information */}
-        <div className="bg-card border border-border rounded-xl p-6 shadow-sm">
-          <div className="flex items-center gap-3 mb-4">
-            <div className="flex items-center justify-center w-8 h-8 bg-muted rounded-lg">
-              <User className="h-4 w-4 text-muted-foreground" />
-            </div>
-            <h3 className="text-lg font-semibold text-foreground">Informations du courtier</h3>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="space-y-3">
-              <div>
-                <span className="text-sm font-medium text-muted-foreground">Prénom</span>
-                <p className="text-foreground">{getValue("multiplePersonalData.firstName")}</p>
+            {/* Vertical Separator */}
+            <div className="hidden lg:block w-px bg-border"></div>
+
+            {/* Broker Information */}
+            <div className="flex-1">
+              <div className="flex items-center gap-3 mb-6">
+                <div className="flex items-center justify-center w-8 h-8 bg-blue-100 rounded-lg">
+                  <User className="h-4 w-4 text-blue-600" />
+                </div>
+                <h3 className="text-lg font-semibold text-foreground">Informations du courtier</h3>
               </div>
-              <div>
-                <span className="text-sm font-medium text-muted-foreground">Nom</span>
-                <p className="text-foreground">{getValue("multiplePersonalData.lastName")}</p>
-              </div>
-            </div>
-            <div className="space-y-3">
-              <div>
-                <span className="text-sm font-medium text-muted-foreground">Email</span>
-                <p className="text-foreground">{getValue("multiplePersonalData.email")}</p>
-              </div>
-              <div>
-                <span className="text-sm font-medium text-muted-foreground">Téléphone</span>
-                <p className="text-foreground">{getValue("multiplePersonalData.phone")}</p>
+              <div className="space-y-3">
+                <div className="flex justify-between items-center py-1">
+                  <span className="text-sm text-muted-foreground">Nom complet</span>
+                  <span className="text-sm font-medium text-foreground">
+                    {getValue("multiplePersonalData.firstName")} {getValue("multiplePersonalData.lastName")}
+                  </span>
+                </div>
+                <div className="flex justify-between items-center py-1">
+                  <span className="text-sm text-muted-foreground">Email</span>
+                  <span className="text-sm text-foreground">{getValue("multiplePersonalData.email")}</span>
+                </div>
+                <div className="flex justify-between items-center py-1">
+                  <span className="text-sm text-muted-foreground">Téléphone</span>
+                  <span className="text-sm text-foreground">{getValue("multiplePersonalData.phone")}</span>
+                </div>
               </div>
             </div>
           </div>
@@ -160,8 +158,8 @@ export function MultipleReviewConfirm({ form }: MultipleReviewConfirmProps) {
         {/* People Information */}
         <div className="bg-card border border-border rounded-xl p-6 shadow-sm">
           <div className="flex items-center gap-3 mb-6">
-            <div className="flex items-center justify-center w-8 h-8 bg-muted rounded-lg">
-              <Users className="h-4 w-4 text-muted-foreground" />
+            <div className="flex items-center justify-center w-8 h-8 bg-indigo-100 rounded-lg">
+              <Users className="h-4 w-4 text-indigo-600" />
             </div>
             <div>
               <h3 className="text-lg font-semibold text-foreground">Demandes de relogement</h3>
@@ -201,83 +199,89 @@ export function MultipleReviewConfirm({ form }: MultipleReviewConfirmProps) {
                       {/* Contact & Timing Column */}
                       <div className="space-y-4">
                         <div className="flex items-center gap-2 mb-3">
-                          <User className="h-4 w-4 text-muted-foreground" />
                           <span className="text-sm font-medium text-muted-foreground">Contact & Planning</span>
                         </div>
-                        <div className="space-y-3">
-                          <div>
-                            <span className="text-xs font-medium text-muted-foreground">Email</span>
-                            <p className="text-sm text-foreground">{request.email || "Non spécifié"}</p>
+                        <div className="space-y-2">
+                          <div className="flex items-center justify-between">
+                            <span className="text-xs font-medium text-muted-foreground">Email:</span>
+                            <span className="text-sm text-foreground">{request.email || "Non spécifié"}</span>
                           </div>
-                          <div>
-                            <span className="text-xs font-medium text-muted-foreground">Téléphone</span>
-                            <p className="text-sm text-foreground">{request.phone || "Non spécifié"}</p>
+                          <div className="flex items-center justify-between">
+                            <span className="text-xs font-medium text-muted-foreground">Téléphone:</span>
+                            <span className="text-sm text-foreground">{request.phone || "Non spécifié"}</span>
                           </div>
-                          <div>
-                            <span className="text-xs font-medium text-muted-foreground">Date d'arrivée</span>
-                            <p className="text-sm text-foreground">{formatDate(request.arrivalDate)}</p>
+                          <div className="flex items-center justify-between">
+                            <span className="text-xs font-medium text-muted-foreground">Date d'arrivée:</span>
+                            <span className="text-sm text-foreground">{formatDate(request.arrivalDate)}</span>
                           </div>
                           {useExactDates && departureDate && (
-                            <div>
-                              <span className="text-xs font-medium text-muted-foreground">Date de départ</span>
-                              <p className="text-sm text-foreground">{formatDate(departureDate)}</p>
+                            <div className="flex items-center justify-between">
+                              <span className="text-xs font-medium text-muted-foreground">Date de départ:</span>
+                              <span className="text-sm text-foreground">{formatDate(departureDate)}</span>
                             </div>
                           )}
-                          <div>
+                          <div className="flex items-center justify-between">
                             <span className="text-xs font-medium text-muted-foreground">
-                              {useExactDates ? "Durée" : "Durée estimée"}
+                              {useExactDates ? "Durée:" : "Durée estimée:"}
                             </span>
-                            <div className="flex items-center gap-2 mt-1">
-                              <Clock className="h-3 w-3 text-muted-foreground" />
-                              <p className="text-sm text-foreground">{durationDisplay}</p>
+                            <div className="flex items-center gap-1">
+                              <span className="text-sm text-foreground">{durationDisplay}</span>
                             </div>
                           </div>
-                          <div>
-                            <span className="text-xs font-medium text-muted-foreground">Document</span>
-                            <div className="flex items-center gap-2 mt-1">
+                          <div className="flex items-center justify-between">
+                            <span className="text-xs font-medium text-muted-foreground">Déclaration de sinistre:</span>
+                            <div className="flex items-center gap-1">
                               {request.hasUploadedClaim ? (
-                                <>
-                                  <CheckCircle className="h-3 w-3 text-primary" />
-                                  <span className="text-sm text-foreground">Téléchargé ({request.claimDocument?.name})</span>
-                                </>
+                                <div className="flex items-center gap-2">
+                                  <CheckCircle className="h-3 w-3 text-green-500" />
+                                  <span className="text-sm text-foreground">Oui</span>
+                                </div>
                               ) : (
-                                <>
-                                  <X className="h-3 w-3 text-muted-foreground" />
-                                  <span className="text-sm text-foreground">Non téléchargé</span>
-                                </>
+                                <div className="flex items-center gap-2">
+                                  <AlertCircle className="h-3 w-3 text-orange-500" />
+                                  <span className="text-sm text-foreground">Non</span>
+                                </div>
                               )}
                             </div>
                           </div>
+                          {request.hasUploadedClaim && request.claimDocument && (
+                            <div className="flex items-center justify-between">
+                              <span className="text-xs font-medium text-muted-foreground">Fichier:</span>
+                              <TooltipProvider>
+                                <Tooltip>
+                                  <TooltipTrigger asChild>
+                                    <div className="flex items-center gap-2">
+                                      <File className="h-3 w-3 text-foreground" />
+                                      <span className="text-sm text-foreground">Document téléchargé</span>
+                                    </div>
+                                  </TooltipTrigger>
+                                  <TooltipContent>
+                                    <p>{request.claimDocument?.name || "Document téléchargé"}</p>
+                                  </TooltipContent>
+                                </Tooltip>
+                              </TooltipProvider>
+                            </div>
+                          )}
                         </div>
                       </div>
                       
                       {/* Property Requirements Column */}
                       <div className="space-y-4">
                         <div className="flex items-center gap-2 mb-3">
-                          <Home className="h-4 w-4 text-muted-foreground" />
                           <span className="text-sm font-medium text-muted-foreground">Besoins logement</span>
                         </div>
-                        <div className="grid grid-cols-2 gap-4">
-                          <div className="text-center p-3 bg-muted/30 rounded-lg">
-                            <div className="flex items-center justify-center gap-1 mb-1">
-                              <Home className="h-3 w-3 text-muted-foreground" />
-                              <span className="text-xs font-medium text-muted-foreground">Chambres</span>
-                            </div>
-                            <p className="text-lg font-semibold text-foreground">{request.bedrooms || 0}</p>
+                        <div className="space-y-3">
+                          <div className="flex items-center justify-between">
+                            <span className="text-sm font-medium text-muted-foreground">Chambres</span>
+                            <span className="text-base font-semibold text-foreground">{request.bedrooms || 0}</span>
                           </div>
-                          <div className="text-center p-3 bg-muted/30 rounded-lg">
-                            <div className="flex items-center justify-center gap-1 mb-1">
-                              <Users className="h-3 w-3 text-muted-foreground" />
-                              <span className="text-xs font-medium text-muted-foreground">Adultes</span>
-                            </div>
-                            <p className="text-lg font-semibold text-foreground">{request.adults || 0}</p>
+                          <div className="flex items-center justify-between">
+                            <span className="text-sm font-medium text-muted-foreground">Adultes</span>
+                            <span className="text-base font-semibold text-foreground">{request.adults || 0}</span>
                           </div>
-                          <div className="text-center p-3 bg-muted/30 rounded-lg">
-                            <div className="flex items-center justify-center gap-1 mb-1">
-                              <Users className="h-3 w-3 text-muted-foreground" />
-                              <span className="text-xs font-medium text-muted-foreground">Enfants</span>
-                            </div>
-                            <p className="text-lg font-semibold text-foreground">{request.children || 0}</p>
+                          <div className="flex items-center justify-between">
+                            <span className="text-sm font-medium text-muted-foreground">Enfants</span>
+                            <span className="text-base font-semibold text-foreground">{request.children || 0}</span>
                           </div>
                         </div>
                       </div>
@@ -285,49 +289,38 @@ export function MultipleReviewConfirm({ form }: MultipleReviewConfirmProps) {
                       {/* Special Needs Column */}
                       <div className="space-y-4">
                         <div className="flex items-center gap-2 mb-3">
-                          <Heart className="h-4 w-4 text-muted-foreground" />
                           <span className="text-sm font-medium text-muted-foreground">Besoins spécifiques</span>
                         </div>
                         <div className="space-y-3">
-                          <div className="flex items-center justify-between p-3 bg-muted/30 rounded-lg">
-                            <div className="flex items-center gap-2">
-                              <PawPrint className="h-3 w-3 text-muted-foreground" />
-                              <span className="text-xs font-medium">Animaux</span>
+                          {request.hasAnimals && (
+                            <div className="flex items-center gap-3">
+                              <div className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center">
+                                <PawPrint className="h-3 w-3 text-primary" />
+                              </div>
+                              <span className="text-sm text-foreground">Animaux</span>
                             </div>
-                            <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-                              request.hasAnimals 
-                                ? "bg-primary/10 text-primary" 
-                                : "bg-muted text-muted-foreground"
-                            }`}>
-                              {request.hasAnimals ? "Oui" : "Non"}
-                            </span>
-                          </div>
-                          <div className="flex items-center justify-between p-3 bg-muted/30 rounded-lg">
-                            <div className="flex items-center gap-2">
-                              <Accessibility className="h-3 w-3 text-muted-foreground" />
-                              <span className="text-xs font-medium">Accessibilité</span>
+                          )}
+                          {request.hasAccessibilityNeeds && (
+                            <div className="flex items-center gap-3">
+                              <div className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center">
+                                <Accessibility className="h-3 w-3 text-primary" />
+                              </div>
+                              <span className="text-sm text-foreground">Accessibilité</span>
                             </div>
-                            <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-                              request.hasAccessibilityNeeds 
-                                ? "bg-primary/10 text-primary" 
-                                : "bg-muted text-muted-foreground"
-                            }`}>
-                              {request.hasAccessibilityNeeds ? "Oui" : "Non"}
-                            </span>
-                          </div>
-                          <div className="flex items-center justify-between p-3 bg-muted/30 rounded-lg">
-                            <div className="flex items-center gap-2">
-                              <Car className="h-3 w-3 text-muted-foreground" />
-                              <span className="text-xs font-medium">Stationnement</span>
+                          )}
+                          {request.needsParking && (
+                            <div className="flex items-center gap-3">
+                              <div className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center">
+                                <Car className="h-3 w-3 text-primary" />
+                              </div>
+                              <span className="text-sm text-foreground">Stationnement</span>
                             </div>
-                            <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-                              request.needsParking 
-                                ? "bg-primary/10 text-primary" 
-                                : "bg-muted text-muted-foreground"
-                            }`}>
-                              {request.needsParking ? "Oui" : "Non"}
-                            </span>
-                          </div>
+                          )}
+                          {!request.hasAnimals && !request.hasAccessibilityNeeds && !request.needsParking && (
+                            <div className="text-sm text-muted-foreground italic">
+                              Aucun besoin spécifique
+                            </div>
+                          )}
                         </div>
                       </div>
                     </div>
@@ -347,7 +340,7 @@ export function MultipleReviewConfirm({ form }: MultipleReviewConfirmProps) {
       </div>
 
       {/* Data Accuracy Confirmation */}
-      <div className="bg-yellow-50 border border-yellow-200 rounded-xl p-6">
+      <div className="bg-gradient-to-r from-yellow-50 to-amber-50 border border-yellow-200 rounded-xl p-6">
         <div className="flex items-start gap-4">
           <Checkbox
             id="multipleReviewConfirmation.confirmDataAccuracy"

@@ -17,8 +17,11 @@ import {
   Home,
   Car,
   Accessibility,
-  PawPrint
+  PawPrint,
+  Bed,
+  File
 } from "lucide-react";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
 interface SingleReviewConfirmProps {
   form: UseFormReturn<any>;
@@ -117,9 +120,6 @@ export function SingleReviewConfirm({ form }: SingleReviewConfirmProps) {
     <div className="space-y-8">
       {/* Header Section */}
       <div className="text-center space-y-3">
-        <div className="inline-flex items-center justify-center w-12 h-12 bg-primary/10 rounded-full">
-          <CheckCircle className="h-6 w-6 text-primary" />
-        </div>
         <div>
           <h2 className="text-2xl font-semibold text-foreground">Vérification de votre demande</h2>
           <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
@@ -133,277 +133,264 @@ export function SingleReviewConfirm({ form }: SingleReviewConfirmProps) {
       <div className="space-y-6">
         {/* Personal Information */}
         <div className="bg-card border border-border rounded-xl p-6 shadow-sm">
-          <div className="flex items-center gap-3 mb-4">
-            <div className="flex items-center justify-center w-8 h-8 bg-muted rounded-lg">
-              <User className="h-4 w-4 text-muted-foreground" />
+          <div className="flex items-center gap-3 mb-6">
+            <div className="flex items-center justify-center w-8 h-8 bg-blue-100 rounded-lg">
+              <User className="h-4 w-4 text-blue-600" />
             </div>
-            <h3 className="text-lg font-semibold text-foreground">
-              {getValue("singleInsuranceCoverage.hasInsurance") === false ? "Informations du courtier" : "Informations du courtier"}
-            </h3>
+            <h3 className="text-lg font-semibold text-foreground">Informations du courtier</h3>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="space-y-3">
-              <div>
-                <span className="text-sm font-medium text-muted-foreground">Nom complet</span>
-                <p className="text-foreground font-medium">
-                  {getValue("singlePersonalData.firstName")} {getValue("singlePersonalData.lastName")}
-                </p>
-              </div>
-              <div>
-                <span className="text-sm font-medium text-muted-foreground">Email</span>
-                <p className="text-foreground">{getValue("singlePersonalData.email")}</p>
-              </div>
+          <div className="space-y-3">
+            <div className="flex justify-between items-center py-1">
+              <span className="text-sm text-muted-foreground">Nom complet</span>
+              <span className="text-sm font-medium text-foreground">
+                {getValue("singlePersonalData.firstName")} {getValue("singlePersonalData.lastName")}
+              </span>
             </div>
-            <div className="space-y-3">
-              <div>
-                <span className="text-sm font-medium text-muted-foreground">Téléphone</span>
-                <p className="text-foreground">{getValue("singlePersonalData.phone")}</p>
-              </div>
+            <div className="flex justify-between items-center py-1">
+              <span className="text-sm text-muted-foreground">Email</span>
+              <span className="text-sm text-foreground">{getValue("singlePersonalData.email")}</span>
+            </div>
+            <div className="flex justify-between items-center py-1">
+              <span className="text-sm text-muted-foreground">Téléphone</span>
+              <span className="text-sm text-foreground">{getValue("singlePersonalData.phone")}</span>
             </div>
           </div>
         </div>
 
-        {/* Insured Person Information - Only show when user doesn't have insurance */}
-        {getValue("singleInsuranceCoverage.hasInsurance") === false && (
-          <div className="bg-card border border-border rounded-xl p-6 shadow-sm">
-            <div className="flex items-center gap-3 mb-4">
-              <div className="flex items-center justify-center w-8 h-8 bg-muted rounded-lg">
-                <Shield className="h-4 w-4 text-muted-foreground" />
-              </div>
-              <h3 className="text-lg font-semibold text-foreground">Informations de l'assuré</h3>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="space-y-3">
-                <div>
-                  <span className="text-sm font-medium text-muted-foreground">Nom complet</span>
-                  <p className="text-foreground font-medium">
-                    {getValue("singleInsuredData.firstName")} {getValue("singleInsuredData.lastName")}
-                  </p>
-                </div>
-                <div>
-                  <span className="text-sm font-medium text-muted-foreground">Email</span>
-                  <p className="text-foreground">{getValue("singleInsuredData.email")}</p>
-                </div>
-              </div>
-              <div className="space-y-3">
-                <div>
-                  <span className="text-sm font-medium text-muted-foreground">Téléphone</span>
-                  <p className="text-foreground">{getValue("singleInsuredData.phone")}</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* Insurance Details */}
+        {/* Insurance & Address Information */}
         <div className="bg-card border border-border rounded-xl p-6 shadow-sm">
-          <div className="flex items-center gap-3 mb-4">
-            <div className="flex items-center justify-center w-8 h-8 bg-muted rounded-lg">
-              <FileText className="h-4 w-4 text-muted-foreground" />
+          <div className="flex flex-col lg:flex-row gap-8">
+            {/* Disaster Address Section */}
+            <div className="flex-1">
+              <div className="flex items-center gap-3 mb-6">
+                <div className="flex items-center justify-center w-8 h-8 bg-red-100 rounded-lg">
+                  <MapPin className="h-5 w-5 text-red-600" />
+                </div>
+                <h3 className="text-lg font-semibold text-foreground">Adresse du sinistre</h3>
+              </div>
+              <div className="space-y-3">
+                <div className="flex justify-between items-center py-1">
+                  <span className="text-sm text-muted-foreground">Rue</span>
+                  <span className="text-sm text-foreground">{getValue("singleDisasterAddress.street")}</span>
+                </div>
+                <div className="flex justify-between items-center py-1">
+                  <span className="text-sm text-muted-foreground">Ville</span>
+                  <span className="text-sm text-foreground">{getValue("singleDisasterAddress.city")}</span>
+                </div>
+                <div className="flex justify-between items-center py-1">
+                  <span className="text-sm text-muted-foreground">Code postal</span>
+                  <span className="text-sm text-foreground">{getValue("singleDisasterAddress.postalCode")}</span>
+                </div>
+                <div className="flex justify-between items-center py-1">
+                  <span className="text-sm text-muted-foreground">Canton</span>
+                  <span className="text-sm text-foreground">{getValue("singleDisasterAddress.canton")}</span>
+                </div>
+                <div className="flex justify-between items-center py-1">
+                  <span className="text-sm text-muted-foreground">Pays</span>
+                  <span className="text-sm text-foreground">{getValue("singleDisasterAddress.country")}</span>
+                </div>
+              </div>
             </div>
-            <h3 className="text-lg font-semibold text-foreground">Détails de l'assurance</h3>
-          </div>
-          <div className="space-y-4">
-            <div className="flex items-center gap-3">
-              <span className="text-sm font-medium text-muted-foreground">Déclaration de sinistre :</span>
-              <div className="flex items-center gap-2">
-                {getValue("singleInsuranceCoverage.hasInsurance") === true ? (
+
+            {/* Vertical Separator */}
+            <div className="hidden lg:block w-px bg-border"></div>
+
+            {/* Insurance Details Section */}
+            <div className="flex-1">
+              <div className="flex items-center gap-3 mb-6">
+                <div className="flex items-center justify-center w-8 h-8 bg-purple-100 rounded-lg">
+                  <FileText className="h-5 w-5 text-purple-600" />
+                </div>
+                <h3 className="text-lg font-semibold text-foreground">Détails de l'assurance</h3>
+              </div>
+              <div className="space-y-3">
+                <div className="flex justify-between items-center py-1">
+                  <span className="text-sm text-muted-foreground">Déclaration de sinistre</span>
+                  <div className="flex items-center gap-2">
+                    {getValue("singleInsuranceCoverage.hasInsurance") === true ? (
+                      <>
+                        <CheckCircle className="h-4 w-4 text-green-500" />
+                        <span className="text-sm text-foreground">Oui</span>
+                      </>
+                    ) : getValue("singleInsuranceCoverage.hasInsurance") === false ? (
+                      <>
+                        <AlertCircle className="h-4 w-4 text-orange-500" />
+                        <span className="text-sm text-foreground">Non</span>
+                      </>
+                    ) : (
+                      <span className="text-sm text-foreground">Non spécifié</span>
+                    )}
+                  </div>
+                </div>
+                
+                {getValue("singleInsuranceCoverage.hasInsurance") === true && getValue("singleInsuranceCoverage.claimDocument") && (
+                  <div className="flex justify-between items-center py-1">
+                    <span className="text-sm text-muted-foreground">Fichier</span>
+                    <TooltipProvider>
+                      <Tooltip>
+                        <TooltipTrigger asChild>
+                          <div className="flex items-center gap-2">
+                            <File className="h-4 w-4 text-foreground" />
+                            <span className="text-sm text-foreground">Document téléchargé</span>
+                          </div>
+                        </TooltipTrigger>
+                        <TooltipContent>
+                          <p>{getValue("singleInsuranceCoverage.claimDocument.name") || "Document téléchargé"}</p>
+                        </TooltipContent>
+                      </Tooltip>
+                    </TooltipProvider>
+                  </div>
+                )}
+                
+                {getValue("singleInsuranceCoverage.hasInsurance") === false && (
                   <>
-                    <CheckCircle className="h-4 w-4 text-primary" />
-                    <span className="text-foreground">Téléchargée</span>
+                    <div className="flex justify-between items-center py-1">
+                      <span className="text-sm text-muted-foreground">Compagnie d'assurance</span>
+                      <span className="text-sm text-foreground">
+                        {getValue("singleInsuranceDetails.insuranceCompany") === "other" 
+                          ? getValue("singleInsuranceDetails.customInsuranceCompany")
+                          : getValue("singleInsuranceDetails.insuranceCompany")
+                        }
+                      </span>
+                    </div>
+                    <div className="flex justify-between items-center py-1">
+                      <span className="text-sm text-muted-foreground">Numéro de police</span>
+                      <span className="text-sm text-foreground">{getValue("singleInsuranceDetails.policyNumber")}</span>
+                    </div>
                   </>
-                ) : getValue("singleInsuranceCoverage.hasInsurance") === false ? (
-                  <>
-                    <AlertCircle className="h-4 w-4 text-muted-foreground" />
-                    <span className="text-foreground">Non téléchargée</span>
-                  </>
-                ) : (
-                  <span className="text-foreground">Non spécifié</span>
                 )}
               </div>
             </div>
-            
-            {getValue("singleInsuranceCoverage.hasInsurance") === true && getValue("singleInsuranceCoverage.claimDocument") && (
-              <div className="bg-muted/50 rounded-lg p-3">
-                <span className="text-sm font-medium text-muted-foreground">Fichier :</span>
-                <p className="text-foreground text-sm mt-1">
-                  {getValue("singleInsuranceCoverage.claimDocument.name") || "Document téléchargé"}
-                </p>
-              </div>
-            )}
-            
+
+            {/* Vertical Separator - Only show when insured person info is present */}
             {getValue("singleInsuranceCoverage.hasInsurance") === false && (
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <span className="text-sm font-medium text-muted-foreground">Compagnie d'assurance</span>
-                  <p className="text-foreground">
-                    {getValue("singleInsuranceDetails.insuranceCompany") === "other" 
-                      ? getValue("singleInsuranceDetails.customInsuranceCompany")
-                      : getValue("singleInsuranceDetails.insuranceCompany")
-                    }
-                  </p>
+              <div className="hidden lg:block w-px bg-border"></div>
+            )}
+
+            {/* Insured Person Information - Only show when user doesn't have insurance */}
+            {getValue("singleInsuranceCoverage.hasInsurance") === false && (
+              <div className="flex-1">
+                <div className="flex items-center gap-3 mb-6">
+                  <div className="flex items-center justify-center w-8 h-8 bg-green-100 rounded-lg">
+                    <Shield className="h-5 w-5 text-green-600" />
+                  </div>
+                  <h3 className="text-lg font-semibold text-foreground">Informations de l'assuré</h3>
                 </div>
-                <div>
-                  <span className="text-sm font-medium text-muted-foreground">Numéro de police</span>
-                  <p className="text-foreground">{getValue("singleInsuranceDetails.policyNumber")}</p>
+                <div className="space-y-3">
+                  <div className="flex justify-between items-center py-1">
+                    <span className="text-sm text-muted-foreground">Nom complet</span>
+                    <span className="text-sm font-medium text-foreground">
+                      {getValue("singleInsuredData.firstName")} {getValue("singleInsuredData.lastName")}
+                    </span>
+                  </div>
+                  <div className="flex justify-between items-center py-1">
+                    <span className="text-sm text-muted-foreground">Email</span>
+                    <span className="text-sm text-foreground">{getValue("singleInsuredData.email")}</span>
+                  </div>
+                  <div className="flex justify-between items-center py-1">
+                    <span className="text-sm text-muted-foreground">Téléphone</span>
+                    <span className="text-sm text-foreground">{getValue("singleInsuredData.phone")}</span>
+                  </div>
                 </div>
               </div>
             )}
           </div>
         </div>
         
-        {/* Disaster Address */}
+        {/* Relocation Preferences, Special Requirements & Arrival */}
         <div className="bg-card border border-border rounded-xl p-6 shadow-sm">
-          <div className="flex items-center gap-3 mb-4">
-            <div className="flex items-center justify-center w-8 h-8 bg-muted rounded-lg">
-              <MapPin className="h-4 w-4 text-muted-foreground" />
-            </div>
-            <h3 className="text-lg font-semibold text-foreground">Adresse du sinistre</h3>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="space-y-3">
-              <div>
-                <span className="text-sm font-medium text-muted-foreground">Rue</span>
-                <p className="text-foreground">{getValue("singleDisasterAddress.street")}</p>
+          <div className="flex flex-col lg:flex-row gap-8">
+            {/* Relocation Preferences Section */}
+            <div className="flex-1">
+              <div className="flex items-center gap-3 mb-6">
+                <div className="flex items-center justify-center w-8 h-8 bg-indigo-100 rounded-lg">
+                  <Home className="h-5 w-5 text-indigo-600" />
+                </div>
+                <h3 className="text-lg font-semibold text-foreground">Préférences de relogement</h3>
               </div>
-              <div>
-                <span className="text-sm font-medium text-muted-foreground">Ville</span>
-                <p className="text-foreground">{getValue("singleDisasterAddress.city")}</p>
-              </div>
-            </div>
-            <div className="space-y-3">
-              <div>
-                <span className="text-sm font-medium text-muted-foreground">Code postal</span>
-                <p className="text-foreground">{getValue("singleDisasterAddress.postalCode")}</p>
-              </div>
-              <div>
-                <span className="text-sm font-medium text-muted-foreground">Pays</span>
-                <p className="text-foreground">{getValue("singleDisasterAddress.country")}</p>
-              </div>
-            </div>
-          </div>
-        </div>
-        
-        {/* Relocation Preferences */}
-        <div className="bg-card border border-border rounded-xl p-6 shadow-sm">
-          <div className="flex items-center gap-3 mb-4">
-            <div className="flex items-center justify-center w-8 h-8 bg-muted rounded-lg">
-              <Home className="h-4 w-4 text-muted-foreground" />
-            </div>
-            <h3 className="text-lg font-semibold text-foreground">Préférences de relogement</h3>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="space-y-3">
-              <div className="flex items-center gap-2">
-                <Home className="h-4 w-4 text-muted-foreground" />
-                <span className="text-sm font-medium text-muted-foreground">Chambres</span>
-              </div>
-              <p className="text-foreground font-semibold text-lg">{getValue("singleRelocationPreferences.bedrooms")}</p>
-            </div>
-            <div className="space-y-3">
-              <div className="flex items-center gap-2">
-                <Users className="h-4 w-4 text-muted-foreground" />
-                <span className="text-sm font-medium text-muted-foreground">Adultes</span>
-              </div>
-              <p className="text-foreground font-semibold text-lg">{getValue("singleRelocationPreferences.adults")}</p>
-            </div>
-            {getValue("singleRelocationPreferences.children") && getValue("singleRelocationPreferences.children") > 0 && (
               <div className="space-y-3">
-                <div className="flex items-center gap-2">
-                  <Users className="h-4 w-4 text-muted-foreground" />
-                  <span className="text-sm font-medium text-muted-foreground">Enfants</span>
+                <div className="flex justify-between items-center py-1">
+                  <span className="text-sm text-muted-foreground">Chambres</span>
+                  <span className="text-sm font-medium text-foreground">{getValue("singleRelocationPreferences.bedrooms")}</span>
                 </div>
-                <p className="text-foreground font-semibold text-lg">{getValue("singleRelocationPreferences.children")}</p>
-              </div>
-            )}
-          </div>
-        </div>
-        
-        {/* Special Requirements */}
-        <div className="bg-card border border-border rounded-xl p-6 shadow-sm">
-          <div className="flex items-center gap-3 mb-4">
-            <div className="flex items-center justify-center w-8 h-8 bg-muted rounded-lg">
-              <Heart className="h-4 w-4 text-muted-foreground" />
-            </div>
-            <h3 className="text-lg font-semibold text-foreground">Besoins spécifiques</h3>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div className="flex items-center justify-between p-3 bg-muted/30 rounded-lg">
-              <div className="flex items-center gap-2">
-                <PawPrint className="h-4 w-4 text-muted-foreground" />
-                <span className="text-sm font-medium">Animaux</span>
-              </div>
-              <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-                getValue("singleRelocationPreferences.hasAnimals") 
-                  ? "bg-primary/10 text-primary" 
-                  : "bg-muted text-muted-foreground"
-              }`}>
-                {getValue("singleRelocationPreferences.hasAnimals") ? "Oui" : "Non"}
-              </span>
-            </div>
-            <div className="flex items-center justify-between p-3 bg-muted/30 rounded-lg">
-              <div className="flex items-center gap-2">
-                <Accessibility className="h-4 w-4 text-muted-foreground" />
-                <span className="text-sm font-medium">Accessibilité</span>
-              </div>
-              <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-                getValue("singleRelocationPreferences.hasAccessibilityNeeds") 
-                  ? "bg-primary/10 text-primary" 
-                  : "bg-muted text-muted-foreground"
-              }`}>
-                {getValue("singleRelocationPreferences.hasAccessibilityNeeds") ? "Oui" : "Non"}
-              </span>
-            </div>
-            <div className="flex items-center justify-between p-3 bg-muted/30 rounded-lg">
-              <div className="flex items-center gap-2">
-                <Car className="h-4 w-4 text-muted-foreground" />
-                <span className="text-sm font-medium">Stationnement</span>
-              </div>
-              <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-                getValue("singleRelocationPreferences.needsParking") 
-                  ? "bg-primary/10 text-primary" 
-                  : "bg-muted text-muted-foreground"
-              }`}>
-                {getValue("singleRelocationPreferences.needsParking") ? "Oui" : "Non"}
-              </span>
-            </div>
-          </div>
-        </div>
-        
-        {/* Arrival & Duration */}
-        <div className="bg-card border border-border rounded-xl p-6 shadow-sm">
-          <div className="flex items-center gap-3 mb-4">
-            <div className="flex items-center justify-center w-8 h-8 bg-muted rounded-lg">
-              <Calendar className="h-4 w-4 text-muted-foreground" />
-            </div>
-            <h3 className="text-lg font-semibold text-foreground">Arrivée & Durée</h3>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="space-y-4">
-              <div>
-                <span className="text-sm font-medium text-muted-foreground">Date d'arrivée</span>
-                <p className="text-foreground font-medium">{formatDate(getValue("singleArrivalDetails.arrivalDate"))}</p>
-              </div>
-              {getValue("singleArrivalDetails.departureDate") && (
-                <div>
-                  <span className="text-sm font-medium text-muted-foreground">Date de départ</span>
-                  <p className="text-foreground font-medium">{formatDate(getValue("singleArrivalDetails.departureDate"))}</p>
+                <div className="flex justify-between items-center py-1">
+                  <span className="text-sm text-muted-foreground">Adultes</span>
+                  <span className="text-sm font-medium text-foreground">{getValue("singleRelocationPreferences.adults")}</span>
                 </div>
-              )}
+                {getValue("singleRelocationPreferences.children") && getValue("singleRelocationPreferences.children") > 0 && (
+                  <div className="flex justify-between items-center py-1">
+                    <span className="text-sm text-muted-foreground">Enfants</span>
+                    <span className="text-sm font-medium text-foreground">{getValue("singleRelocationPreferences.children")}</span>
+                  </div>
+                )}
+              </div>
             </div>
-            <div className="space-y-4">
-              <div>
-                <span className="text-sm font-medium text-muted-foreground">
-                  {getValue("singleArrivalDetails.useExactDates") === true ? "Durée" : "Durée estimée"}
-                </span>
-                <div className="flex items-center gap-2 mt-1">
-                  <Clock className="h-4 w-4 text-muted-foreground" />
-                  <p className="text-foreground font-medium">
+
+            {/* Vertical Separator */}
+            <div className="hidden lg:block w-px bg-border"></div>
+
+            {/* Special Requirements Section */}
+            <div className="flex-1">
+              <div className="flex items-center gap-3 mb-6">
+                <div className="flex items-center justify-center w-8 h-8 bg-orange-100 rounded-lg">
+                  <PawPrint className="h-5 w-5 text-orange-600" />
+                </div>
+                <h3 className="text-lg font-semibold text-foreground">Besoins spécifiques</h3>
+              </div>
+              <div className="space-y-3">
+                <div className="flex justify-between items-center py-1">
+                  <span className="text-sm text-muted-foreground">Animaux</span>
+                  <span className="text-sm text-foreground">
+                    {getValue("singleRelocationPreferences.hasAnimals") ? "Oui" : "Non"}
+                  </span>
+                </div>
+                <div className="flex justify-between items-center py-1">
+                  <span className="text-sm text-muted-foreground">Accessibilité</span>
+                  <span className="text-sm text-foreground">
+                    {getValue("singleRelocationPreferences.hasAccessibilityNeeds") ? "Oui" : "Non"}
+                  </span>
+                </div>
+                <div className="flex justify-between items-center py-1">
+                  <span className="text-sm text-muted-foreground">Stationnement</span>
+                  <span className="text-sm text-foreground">
+                    {getValue("singleRelocationPreferences.needsParking") ? "Oui" : "Non"}
+                  </span>
+                </div>
+              </div>
+            </div>
+            
+            {/* Vertical Separator */}
+            <div className="hidden lg:block w-px bg-border"></div>
+            
+            {/* Arrival & Duration Section */}
+            <div className="flex-1">
+              <div className="flex items-center gap-3 mb-6">
+                <div className="flex items-center justify-center w-8 h-8 bg-emerald-100 rounded-lg">
+                  <Calendar className="h-5 w-5 text-emerald-600" />
+                </div>
+                <h3 className="text-lg font-semibold text-foreground">Arrivée & Durée</h3>
+              </div>
+              <div className="space-y-3">
+                <div className="flex justify-between items-center py-1">
+                  <span className="text-sm text-muted-foreground">Date d'arrivée</span>
+                  <span className="text-sm text-foreground">{formatDate(getValue("singleArrivalDetails.arrivalDate"))}</span>
+                </div>
+                {getValue("singleArrivalDetails.departureDate") && (
+                  <div className="flex justify-between items-center py-1">
+                    <span className="text-sm text-muted-foreground">Date de départ</span>
+                    <span className="text-sm text-foreground">{formatDate(getValue("singleArrivalDetails.departureDate"))}</span>
+                  </div>
+                )}
+                <div className="flex justify-between items-center py-1">
+                  <span className="text-sm text-muted-foreground">
+                    {getValue("singleArrivalDetails.useExactDates") === true ? "Durée" : "Durée estimée"}
+                  </span>
+                  <span className="text-sm text-foreground">
                     {getValue("singleArrivalDetails.useExactDates") === true && getValue("singleArrivalDetails.arrivalDate") && getValue("singleArrivalDetails.departureDate") 
                       ? `${getNumberOfNights(getValue("singleArrivalDetails.arrivalDate"), getValue("singleArrivalDetails.departureDate"))} nuits`
                       : getValue("singleArrivalDetails.estimatedDuration") || "Non spécifié"
                     }
-                  </p>
+                  </span>
                 </div>
               </div>
             </div>
@@ -412,7 +399,7 @@ export function SingleReviewConfirm({ form }: SingleReviewConfirmProps) {
       </div>
 
       {/* Data Accuracy Confirmation */}
-      <div className="bg-yellow-50 border border-yellow-200 rounded-xl p-6">
+      <div className="bg-gradient-to-r from-yellow-50 to-amber-50 border border-yellow-200 rounded-xl p-6">
         <div className="flex items-start gap-4">
           <Checkbox
             id="singleReviewConfirmation.confirmDataAccuracy"

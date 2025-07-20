@@ -505,9 +505,10 @@ export function MultipleRelocationRequests({ form }: MultipleRelocationRequestsP
                           value={watch(`multipleRelocationRequests.${index}.arrivalDate`) || ""}
                           onChange={(e) => handleArrivalDateChange(index, e)}
                           className={cn(
-                            "w-[120px] rounded-md border border-input bg-background px-2 py-1 text-xs ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50",
+                            "w-[120px] rounded-md border border-input bg-background px-2 py-1 text-xs ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 text-foreground [color-scheme:light]",
                             getErrorMessage(index, 'arrivalDate') ? "border-red-500" : ""
                           )}
+                          style={{ color: 'hsl(215 28% 25%)' }}
                         />
                       </TableCell>
                       <TableCell>
@@ -542,7 +543,7 @@ export function MultipleRelocationRequests({ form }: MultipleRelocationRequestsP
                                     type="button"
                                     onClick={() => handleDateTypeSelect(index, false)}
                                     className={cn(
-                                      "px-2 py-1 text-xs rounded-r-md border border-l-0 transition-all duration-200",
+                                      "px-2 py-1 text-xs rounded-r-md border transition-all duration-200",
                                       !useExactDates
                                         ? "bg-primary text-white border-primary" 
                                         : "bg-white text-gray-600 border-gray-300 hover:bg-gray-50"
@@ -567,9 +568,10 @@ export function MultipleRelocationRequests({ form }: MultipleRelocationRequestsP
                               onChange={(e) => handleDepartureDateChange(index, e)}
                               placeholder="Date de départ"
                               className={cn(
-                                "w-[120px] rounded-md border border-input bg-background px-2 py-1 text-xs ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50",
+                                "w-[120px] rounded-md border border-input bg-background px-2 py-1 text-xs ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 text-foreground [color-scheme:light]",
                                 getErrorMessage(index, 'departureDate') ? "border-red-500" : ""
                               )}
+                              style={{ color: 'hsl(215 28% 25%)' }}
                             />
                           ) : (
                             <Select
@@ -593,12 +595,7 @@ export function MultipleRelocationRequests({ form }: MultipleRelocationRequestsP
                             </Select>
                           )}
                           
-                          {/* Number of nights info for exact dates */}
-                          {useExactDates && getNumberOfNights(watch(`multipleRelocationRequests.${index}.arrivalDate`), watch(`multipleRelocationRequests.${index}.departureDate`)) !== null && (
-                            <span className="text-xs text-primary font-medium whitespace-nowrap">
-                              ({getNumberOfNights(watch(`multipleRelocationRequests.${index}.arrivalDate`), watch(`multipleRelocationRequests.${index}.departureDate`))} nuits)
-                            </span>
-                          )}
+
                         </div>
                       </TableCell>
                       <TableCell>
