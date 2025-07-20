@@ -63,7 +63,7 @@ export function MultipleConsent({ form, onSubmit, isSubmitting, onBack }: Multip
             </p>
             <ul className="list-disc list-outside ml-5 text-sm text-muted-foreground space-y-1">
               <li>Les informations personnelles ne seront utilisées que pour traiter les demandes de relogement et les services associés.</li>
-              <li>Nous pouvons partager les informations avec des partenaires de relogement, des fournisseurs de logement et les autorités compétentes si nécessaire.</li>
+              <li>Nous pouvons partager les informations avec des partenaires et fournisseurs de logement.</li>
               <li>Si des informations d'assurance ont été fournies, nous pouvons contacter les assureurs pour vérifier la couverture.</li>
               <li>Les données seront stockées de manière sécurisée et conservées pendant la durée requise par les lois applicables.</li>
               <li>Les personnes concernées ont le droit d'accéder, de corriger ou de demander la suppression de leurs informations personnelles.</li>

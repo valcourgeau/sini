@@ -31,7 +31,6 @@ import {
   Users, 
   Copy, 
   Check, 
-  AlertCircle,
   Clock,
   HelpCircle,
   FastForward,
@@ -274,7 +273,7 @@ export function MultipleRelocationRequests({ form }: MultipleRelocationRequestsP
       <div>
         <h2 className="text-lg font-medium mb-4">Demandes de relogement multiples</h2>
         <p className="text-sm text-muted-foreground mb-6">
-          Veuillez fournir les informations pour chaque foyer nécessitant une assistance au relogement. Notez qu'une seule entrée par foyer est préférée.
+          Veuillez fournir les informations d'une personne pour chaque foyer nécessitant une assistance au relogement.
         </p>
       </div>
 
@@ -300,214 +299,164 @@ export function MultipleRelocationRequests({ form }: MultipleRelocationRequestsP
                     </div>
                   </TableHead>
 
-                  {/* Property Requirements Column */}
-                  <TableHead className="w-[20px] text-gray-900 font-medium text-sm">
-                    <TooltipProvider>
-                      <Tooltip>
-                        <TooltipTrigger asChild>
-                          <div className="flex items-center gap-2 cursor-help">
-                            <Bed className="h-5 w-5" />
-                            <span className="sr-only">Chambres</span>
-                          </div>
-                        </TooltipTrigger>
-                        <TooltipContent>
-                          <p>Nombre de chambres nécessaires</p>
-                        </TooltipContent>
-                      </Tooltip>
-                    </TooltipProvider>
-                  </TableHead>
-                  <TableHead className="w-[20px] text-gray-900 font-medium text-sm">
-                    <TooltipProvider>
-                      <Tooltip>
-                        <TooltipTrigger asChild>
-                          <div className="flex items-center gap-2 cursor-help">
-                            <User className="h-5 w-5" />
-                            <span className="sr-only">Adultes</span>
-                          </div>
-                        </TooltipTrigger>
-                        <TooltipContent>
-                          <p>Nombre d'adultes</p>
-                        </TooltipContent>
-                      </Tooltip>
-                    </TooltipProvider>
-                  </TableHead>
-                  <TableHead className="w-[20px] text-gray-900 font-medium text-sm">
-                    <TooltipProvider>
-                      <Tooltip>
-                        <TooltipTrigger asChild>
-                          <div className="flex items-center gap-2 cursor-help">
-                            <Baby className="h-5 w-5" />
-                            <span className="sr-only">Enfants</span>
-                          </div>
-                        </TooltipTrigger>
-                        <TooltipContent>
-                          <p>Nombre d'enfants</p>
-                        </TooltipContent>
-                      </Tooltip>
-                    </TooltipProvider>
+                  {/* Property Requirements Column - Grouped */}
+                  <TableHead className="w-[80px] text-gray-900 font-medium text-center text-sm">
+                    <div className="flex items-center justify-center gap-8">
+                      <TooltipProvider>
+                        <Tooltip>
+                          <TooltipTrigger asChild>
+                            <div className="cursor-help">
+                              <Bed className="h-5 w-5" />
+                            </div>
+                          </TooltipTrigger>
+                          <TooltipContent>
+                            <p>Nombre de chambres nécessaires</p>
+                          </TooltipContent>
+                        </Tooltip>
+                      </TooltipProvider>
+                      <TooltipProvider>
+                        <Tooltip>
+                          <TooltipTrigger asChild>
+                            <div className="cursor-help">
+                              <User className="h-5 w-5" />
+                            </div>
+                          </TooltipTrigger>
+                          <TooltipContent>
+                            <p>Nombre d'adultes</p>
+                          </TooltipContent>
+                        </Tooltip>
+                      </TooltipProvider>
+                      <TooltipProvider>
+                        <Tooltip>
+                          <TooltipTrigger asChild>
+                            <div className="cursor-help">
+                              <Baby className="h-5 w-5" />
+                            </div>
+                          </TooltipTrigger>
+                          <TooltipContent>
+                            <p>Nombre d'enfants</p>
+                          </TooltipContent>
+                        </Tooltip>
+                      </TooltipProvider>
+                    </div>
                   </TableHead>
 
-                  {/* Special Needs Column */}
-                  <TableHead className="w-[80px] text-gray-900 font-medium text-center text-sm">
-                    <TooltipProvider>
-                      <Tooltip>
-                        <TooltipTrigger asChild>
-                          <div className="flex items-center justify-center gap-2 cursor-help">
-                            <PawPrint className="h-5 w-5" />
-                            <span className="sr-only">Animaux</span>
-                          </div>
-                        </TooltipTrigger>
-                        <TooltipContent>
-                          <p>Présence d'animaux</p>
-                        </TooltipContent>
-                      </Tooltip>
-                    </TooltipProvider>
+                  {/* Special Needs & Document Column - Grouped */}
+                  <TableHead className="w-[120px] text-gray-900 font-medium text-center text-sm">
+                    <div className="flex items-center justify-center gap-2">
+                      <TooltipProvider>
+                        <Tooltip>
+                          <TooltipTrigger asChild>
+                            <div className="cursor-help">
+                              <PawPrint className="h-5 w-5" />
+                            </div>
+                          </TooltipTrigger>
+                          <TooltipContent>
+                            <p>Présence d'animaux</p>
+                          </TooltipContent>
+                        </Tooltip>
+                      </TooltipProvider>
+                      <TooltipProvider>
+                        <Tooltip>
+                          <TooltipTrigger asChild>
+                            <div className="cursor-help">
+                              <Accessibility className="h-5 w-5" />
+                            </div>
+                          </TooltipTrigger>
+                          <TooltipContent>
+                            <p>Besoins d'accessibilité</p>
+                          </TooltipContent>
+                        </Tooltip>
+                      </TooltipProvider>
+                      <TooltipProvider>
+                        <Tooltip>
+                          <TooltipTrigger asChild>
+                            <div className="cursor-help">
+                              <CarIcon className="h-5 w-5" />
+                            </div>
+                          </TooltipTrigger>
+                          <TooltipContent>
+                            <p>Besoin de stationnement</p>
+                          </TooltipContent>
+                        </Tooltip>
+                      </TooltipProvider>
+                      <TooltipProvider>
+                        <Tooltip>
+                          <TooltipTrigger asChild>
+                            <div className="cursor-help">
+                              <Paperclip className="h-5 w-5" />
+                            </div>
+                          </TooltipTrigger>
+                          <TooltipContent>
+                            <p>Document de déclaration de sinistre</p>
+                          </TooltipContent>
+                        </Tooltip>
+                      </TooltipProvider>
+                    </div>
                   </TableHead>
-                  <TableHead className="w-[80px] text-gray-900 font-medium text-center text-sm">
-                    <TooltipProvider>
-                      <Tooltip>
-                        <TooltipTrigger asChild>
-                          <div className="flex items-center justify-center gap-2 cursor-help">
-                            <Accessibility className="h-5 w-5" />
-                            <span className="sr-only">Accessibilité</span>
-                          </div>
-                        </TooltipTrigger>
-                        <TooltipContent>
-                          <p>Besoins d'accessibilité</p>
-                        </TooltipContent>
-                      </Tooltip>
-                    </TooltipProvider>
-                  </TableHead>
-                  <TableHead className="w-[80px] text-gray-900 font-medium text-center text-sm">
-                    <TooltipProvider>
-                      <Tooltip>
-                        <TooltipTrigger asChild>
-                          <div className="flex items-center justify-center gap-2 cursor-help">
-                            <CarIcon className="h-5 w-5" />
-                            <span className="sr-only">Stationnement</span>
-                          </div>
-                        </TooltipTrigger>
-                        <TooltipContent>
-                          <p>Besoin de stationnement</p>
-                        </TooltipContent>
-                      </Tooltip>
-                    </TooltipProvider>
-                  </TableHead>
-                  <TableHead className="w-[80px] text-gray-900 font-medium text-center text-sm">
-                    <TooltipProvider>
-                      <Tooltip>
-                        <TooltipTrigger asChild>
-                          <div className="flex items-center justify-center gap-2 cursor-help">
-                            <Paperclip className="h-5 w-5" />
-                            <span className="sr-only">Document de déclaration</span>
-                          </div>
-                        </TooltipTrigger>
-                        <TooltipContent>
-                          <p>Document de déclaration de sinistre</p>
-                        </TooltipContent>
-                      </Tooltip>
-                    </TooltipProvider>
-                  </TableHead>
-                  <TableHead className="w-[100px] text-gray-900 font-medium text-right text-sm">Actions</TableHead>
+                  <TableHead className="w-[100px] text-gray-900 font-medium text-right text-sm"></TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {requests.map((request: RelocationRequest, index: number) => (
                   <TableRow key={index} className="hover:bg-muted/30">
                     <TableCell>
-                      <div className="space-y-0.5">
-                        <Input
-                          {...register(`multipleRelocationRequests.${index}.firstName`, {
-                            required: "Le prénom est requis"
-                          })}
-                          placeholder="Paul"
-                          className={cn(
-                            "h-8 px-2 py-1 text-xs",
-                            getErrorMessage(index, 'firstName') ? "border-red-500" : ""
-                          )}
-                        />
-                        {getErrorMessage(index, 'firstName') && (
-                          <p className="text-xs text-red-500 flex items-center gap-1">
-                            <AlertCircle className="h-3 w-3" />
-                            {getErrorMessage(index, 'firstName')}
-                          </p>
+                      <Input
+                        {...register(`multipleRelocationRequests.${index}.firstName`, {
+                          required: "Le prénom est requis"
+                        })}
+                        placeholder="Paul"
+                        className={cn(
+                          "h-8 px-2 py-1 text-xs",
+                          getErrorMessage(index, 'firstName') ? "border-red-500" : ""
                         )}
-                      </div>
+                      />
                     </TableCell>
                     <TableCell>
-                      <div className="space-y-0.5">
-                        <Input
-                          {...register(`multipleRelocationRequests.${index}.lastName`, {
-                            required: "Le nom est requis"
-                          })}
-                          placeholder="Dupont"
-                          className={cn(
-                            "h-8 px-2 py-1 text-xs",
-                            getErrorMessage(index, 'lastName') ? "border-red-500" : ""
-                          )}
-                        />
-                        {getErrorMessage(index, 'lastName') && (
-                          <p className="text-xs text-red-500 flex items-center gap-1">
-                            <AlertCircle className="h-3 w-3" />
-                            {getErrorMessage(index, 'lastName')}
-                          </p>
+                      <Input
+                        {...register(`multipleRelocationRequests.${index}.lastName`, {
+                          required: "Le nom est requis"
+                        })}
+                        placeholder="Dupont"
+                        className={cn(
+                          "h-8 px-2 py-1 text-xs",
+                          getErrorMessage(index, 'lastName') ? "border-red-500" : ""
                         )}
-                      </div>
+                      />
                     </TableCell>
                     <TableCell>
-                      <div className="space-y-0.5">
-                        <Input
-                          type="email"
-                          {...register(`multipleRelocationRequests.${index}.email`)}
-                          placeholder="paul.dupont@gmail.com"
-                          className={cn(
-                            "h-8 px-2 py-1 text-xs",
-                            getErrorMessage(index, 'email') ? "border-red-500" : ""
-                          )}
-                        />
-                        {getErrorMessage(index, 'email') && (
-                          <p className="text-xs text-red-500 flex items-center gap-1">
-                            <AlertCircle className="h-3 w-3" />
-                            {getErrorMessage(index, 'email')}
-                          </p>
+                      <Input
+                        type="email"
+                        {...register(`multipleRelocationRequests.${index}.email`)}
+                        placeholder="paul.dupont@gmail.com"
+                        className={cn(
+                          "h-8 px-2 py-1 text-xs",
+                          getErrorMessage(index, 'email') ? "border-red-500" : ""
                         )}
-                      </div>
+                      />
                     </TableCell>
                     <TableCell>
-                      <div className="space-y-0.5">
-                        <Input
-                          type="tel"
-                          {...register(`multipleRelocationRequests.${index}.phone`)}
-                          placeholder="+41 XX XXX XX XX"
-                          className={cn(
-                            "h-8 px-2 py-1 text-xs",
-                            getErrorMessage(index, 'phone') ? "border-red-500" : ""
-                          )}
-                        />
-                        {getErrorMessage(index, 'phone') && (
-                          <p className="text-xs text-red-500 flex items-center gap-1">
-                            <AlertCircle className="h-3 w-3" />
-                            {getErrorMessage(index, 'phone')}
-                          </p>
+                      <Input
+                        type="tel"
+                        {...register(`multipleRelocationRequests.${index}.phone`)}
+                        placeholder="+41 XX XXX XX XX"
+                        className={cn(
+                          "h-8 px-2 py-1 text-xs",
+                          getErrorMessage(index, 'phone') ? "border-red-500" : ""
                         )}
-                      </div>
+                      />
                     </TableCell>
                     <TableCell>
-                      <div className="space-y-0.5">
-                        <input
-                          type="date"
-                          min={tomorrowStr}
-                          {...register(`multipleRelocationRequests.${index}.arrivalDate`)}
-                          className="w-[130px] rounded-md border border-input bg-background px-3 py-2 text-xs ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-                          defaultValue={tomorrowStr}
-                        />
-                        {getErrorMessage(index, 'arrivalDate') && (
-                          <p className="text-xs text-red-500 flex items-center gap-1">
-                            <AlertCircle className="h-3 w-3" />
-                            {getErrorMessage(index, 'arrivalDate')}
-                          </p>
+                      <input
+                        type="date"
+                        min={tomorrowStr}
+                        {...register(`multipleRelocationRequests.${index}.arrivalDate`)}
+                        className={cn(
+                          "w-[130px] rounded-md border border-input bg-background px-3 py-2 text-xs ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50",
+                          getErrorMessage(index, 'arrivalDate') ? "border-red-500" : ""
                         )}
-                      </div>
+                        defaultValue={tomorrowStr}
+                      />
                     </TableCell>
                     <TableCell>
                       <Select
@@ -528,73 +477,66 @@ export function MultipleRelocationRequests({ form }: MultipleRelocationRequestsP
                         </SelectContent>
                       </Select>
                     </TableCell>
-                    {counterFields.map((field) => (
-                      <TableCell key={field.id}>
-                        <Select
-                          value={watch(`multipleRelocationRequests.${index}.${field.fieldName}`)?.toString() || field.min.toString()}
-                          onValueChange={(value) => setValue(`multipleRelocationRequests.${index}.${field.fieldName}`, parseInt(value))}
-                        >
-                          <SelectTrigger className="h-8 px-2 py-1 text-xs w-[45px]">
-                            <SelectValue />
-                          </SelectTrigger>
-                          <SelectContent>
-                            {field.fieldName === 'adults' ? 
-                              [1, 2, 3, 4, 5, 6, 7, 8].map((num) => (
-                                <SelectItem key={num} value={num.toString()}>
-                                  {num}
-                                </SelectItem>
-                              )) :
-                              [0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map((num) => (
-                                <SelectItem key={num} value={num.toString()}>
-                                  {num}
-                                </SelectItem>
-                              ))
-                            }
-                          </SelectContent>
-                        </Select>
-                      </TableCell>
-                    ))}
                     <TableCell>
-                      <div className="flex items-center justify-center">
+                      <div className="flex items-center justify-center gap-1">
+                        {counterFields.map((field) => (
+                          <Select
+                            key={field.id}
+                            value={watch(`multipleRelocationRequests.${index}.${field.fieldName}`)?.toString() || field.min.toString()}
+                            onValueChange={(value) => setValue(`multipleRelocationRequests.${index}.${field.fieldName}`, parseInt(value))}
+                          >
+                            <SelectTrigger className="h-8 px-2 py-1 text-xs w-[45px]">
+                              <SelectValue />
+                            </SelectTrigger>
+                            <SelectContent className="py-1">
+                              {field.fieldName === 'adults' ? 
+                                [1, 2, 3, 4, 5, 6, 7, 8].map((num) => (
+                                  <SelectItem key={num} value={num.toString()} className="py-1">
+                                    {num}
+                                  </SelectItem>
+                                )) :
+                                [0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map((num) => (
+                                  <SelectItem key={num} value={num.toString()} className="py-1">
+                                    <span className={num === 0 ? "text-gray-500 font-medium" : ""}>
+                                      {num}
+                                    </span>
+                                  </SelectItem>
+                                ))
+                              }
+                            </SelectContent>
+                          </Select>
+                        ))}
+                      </div>
+                    </TableCell>
+                    <TableCell>
+                      <div className="flex items-center justify-center gap-2">
                         <Checkbox
                           id={`multipleRelocationRequests.${index}.hasAnimals`}
                           checked={watch(`multipleRelocationRequests.${index}.hasAnimals`)}
                           onCheckedChange={(checked) => {
                             setValue(`multipleRelocationRequests.${index}.hasAnimals`, checked);
                           }}
-                          className="h-4 w-4"
+                          className="h-5 w-5"
                         />
-                      </div>
-                    </TableCell>
-                    <TableCell>
-                      <div className="flex items-center justify-center">
                         <Checkbox
                           id={`multipleRelocationRequests.${index}.hasAccessibilityNeeds`}
                           checked={watch(`multipleRelocationRequests.${index}.hasAccessibilityNeeds`)}
                           onCheckedChange={(checked) => {
                             setValue(`multipleRelocationRequests.${index}.hasAccessibilityNeeds`, checked);
                           }}
-                          className="h-4 w-4"
+                          className="h-5 w-5"
                         />
-                      </div>
-                    </TableCell>
-                    <TableCell>
-                      <div className="flex items-center justify-center">
                         <Checkbox
                           id={`multipleRelocationRequests.${index}.needsParking`}
                           checked={watch(`multipleRelocationRequests.${index}.needsParking`)}
                           onCheckedChange={(checked) => {
                             setValue(`multipleRelocationRequests.${index}.needsParking`, checked);
                           }}
-                          className="h-4 w-4"
+                          className="h-5 w-5"
                         />
-                      </div>
-                    </TableCell>
-                    <TableCell>
-                      <div className="flex items-center justify-center">
                         {request.hasUploadedClaim ? (
-                          <div className="flex items-center justify-center">
-                            <div className="flex items-center bg-white border border-gray-200 rounded-full px-1">
+                          <div className="relative group">
+                            <div className="flex items-center bg-white border border-gray-200 rounded-full px-1 w-8 h-6 justify-center">
                               <TooltipProvider>
                                 <Tooltip>
                                   <TooltipTrigger asChild>
@@ -607,25 +549,25 @@ export function MultipleRelocationRequests({ form }: MultipleRelocationRequestsP
                                   </TooltipContent>
                                 </Tooltip>
                               </TooltipProvider>
-                              <TooltipProvider>
-                                <Tooltip>
-                                  <TooltipTrigger asChild>
-                                    <Button
-                                      variant="ghost"
-                                      size="icon"
-                                      onClick={() => handleRemoveFile(index)}
-                                      type="button"
-                                      className="h-6 w-6 text-red-500 hover:text-red-700 hover:bg-red-50"
-                                    >
-                                      <X className="h-3 w-3" />
-                                    </Button>
-                                  </TooltipTrigger>
-                                  <TooltipContent>
-                                    <p>Supprimer le document</p>
-                                  </TooltipContent>
-                                </Tooltip>
-                              </TooltipProvider>
                             </div>
+                            <TooltipProvider>
+                              <Tooltip>
+                                <TooltipTrigger asChild>
+                                  <Button
+                                    variant="ghost"
+                                    size="icon"
+                                    onClick={() => handleRemoveFile(index)}
+                                    type="button"
+                                    className="h-5 w-5 text-red-500 hover:text-red-700 hover:bg-red-50 absolute -top-1 -right-1 opacity-0 group-hover:opacity-100 transition-opacity"
+                                  >
+                                    <X className="h-3 w-3" />
+                                  </Button>
+                                </TooltipTrigger>
+                                <TooltipContent>
+                                  <p>Supprimer le document</p>
+                                </TooltipContent>
+                              </Tooltip>
+                            </TooltipProvider>
                           </div>
                         ) : (
                           <div className="relative">
@@ -641,9 +583,9 @@ export function MultipleRelocationRequests({ form }: MultipleRelocationRequestsP
                                 <TooltipTrigger asChild>
                                   <label
                                     htmlFor={`claim-document-${index}`}
-                                    className="flex items-center justify-center gap-2 px-3 py-1 text-xs text-gray-600 bg-white border border-gray-200 rounded-full hover:bg-gray-50 cursor-pointer transition-colors"
+                                    className="flex items-center justify-center w-8 h-6 text-xs text-gray-600 bg-white border border-gray-200 rounded-full hover:bg-gray-50 cursor-pointer transition-colors"
                                   >
-                                    <Upload className="h-4 w-4" />
+                                    <Upload className="h-3 w-3" />
                                   </label>
                                 </TooltipTrigger>
                                 <TooltipContent>
@@ -740,15 +682,6 @@ export function MultipleRelocationRequests({ form }: MultipleRelocationRequestsP
             </Tooltip>
           </TooltipProvider>
         </div>
-
-        {requests.length > 0 && (
-          <div className="p-4 bg-amber-50 rounded-md border border-amber-100">
-            <p className="text-sm text-amber-700">
-              <strong>Note :</strong> Assurez-vous d'avoir ajouté toutes les personnes nécessitant une assistance au relogement. 
-              Vous pouvez ajouter, dupliquer ou supprimer des personnes en utilisant les boutons ci-dessus.
-            </p>
-          </div>
-        )}
       </div>
     </div>
   );
