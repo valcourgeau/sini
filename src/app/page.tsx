@@ -103,7 +103,7 @@ export default function HomePage() {
             
             {/* Enhanced subtitle */}
             <p className="text-xl md:text-2xl text-muted-foreground mb-16 animate-in fade-in duration-1000 delay-200">
-              Pour le canton de Genève
+              pour le canton de Genève
             </p>
             
             {/* Enhanced action buttons with glass effect */}

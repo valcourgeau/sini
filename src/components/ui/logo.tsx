@@ -15,35 +15,7 @@ const sizes = {
 
 export function Logo({ className, size = 'md' }: LogoProps) {
   return (
-    <div className={cn('flex items-center gap-3', className)}>
-      {/* Lighthouse Icon */}
-      <svg
-        className={cn(sizes[size], 'w-auto')}
-        viewBox="0 0 800 800"
-        fill="currentColor"
-      >
-        {/* Light beams - simplified */}
-        <path
-          d="M250,300 L100,150 M400,250 L400,100 M550,300 L700,150"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="20"
-          strokeLinecap="round"
-        />
-        
-        {/* Lighthouse silhouette */}
-        <path d="M400,150 L350,200 L350,250 L300,600 L500,600 L450,250 L450,200 L400,150 Z" />
-        
-        {/* Lighthouse top */}
-        <path d="M350,250 C350,200 450,200 450,250 L450,300 L350,300 Z" />
-        
-        {/* Top dome */}
-        <path d="M375,200 L400,150 L425,200 C425,225 375,225 375,200 Z" />
-        
-        {/* Ground/rocks */}
-        <path d="M100,600 C200,550 250,575 300,600 L500,600 C550,575 600,550 700,600 L100,600 Z" />
-      </svg>
-      
+    <div className={cn('relative inline-flex items-center', className)}>
       {/* Pharewest Text */}
       <span className={cn(
         'font-sans font-bold tracking-tight',
@@ -55,6 +27,25 @@ export function Logo({ className, size = 'md' }: LogoProps) {
       )}>
         PHAREWEST
       </span>
+      
+      {/* Swiss Flag as asterisk in top right corner */}
+      <svg
+        className={cn('absolute flex-shrink-0', {
+          'h-2 w-2 top-1 -right-2': size === 'sm',
+          'h-2.5 w-2.5 top-1.5 -right-3': size === 'md',
+          'h-3 w-3 top-1 -right-3': size === 'lg',
+        })}
+        viewBox="0 0 16 16"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        {/* Red background */}
+        <rect width="16" height="16" fill="#FF0000" rx="1"/>
+        {/* White cross - horizontal arm */}
+        <rect x="3" y="7" width="10" height="2" fill="white"/>
+        {/* White cross - vertical arm */}
+        <rect x="7" y="3" width="2" height="10" fill="white"/>
+      </svg>
     </div>
   );
 } 
