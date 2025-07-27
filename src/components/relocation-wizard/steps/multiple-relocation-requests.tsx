@@ -163,6 +163,12 @@ export function MultipleRelocationRequests({ form }: MultipleRelocationRequestsP
         }
       }
     }
+    
+    // Trigger validation for both fields when switching modes
+    setTimeout(() => {
+      form.trigger(`multipleRelocationRequests.${index}.departureDate`);
+      form.trigger(`multipleRelocationRequests.${index}.estimatedDuration`);
+    }, 100);
   };
 
   // Function to handle arrival date change with validation
@@ -285,6 +291,8 @@ export function MultipleRelocationRequests({ form }: MultipleRelocationRequestsP
     const fieldErrors = requestErrors[index] as any;
     return fieldErrors?.[field]?.message;
   };
+
+
 
   // Function to handle file upload
   const handleFileUpload = (index: number, event: React.ChangeEvent<HTMLInputElement>) => {
@@ -502,11 +510,15 @@ export function MultipleRelocationRequests({ form }: MultipleRelocationRequestsP
                         <input
                           type="date"
                           min={tomorrowStr}
-                          value={watch(`multipleRelocationRequests.${index}.arrivalDate`) || ""}
-                          onChange={(e) => handleArrivalDateChange(index, e)}
+                          {...register(`multipleRelocationRequests.${index}.arrivalDate`, {
+                            required: "La date d'arrivée est requise",
+                            onChange: (e) => handleArrivalDateChange(index, e)
+                          })}
                           className={cn(
-                            "w-[120px] rounded-md border border-input bg-background px-2 py-1 text-xs ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 text-foreground [color-scheme:light]",
-                            getErrorMessage(index, 'arrivalDate') ? "border-red-500" : ""
+                            "w-[120px] rounded-md border bg-background px-2 py-1 text-xs ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 text-foreground [color-scheme:light]",
+                            getErrorMessage(index, 'arrivalDate') 
+                              ? "border-red-500 focus-visible:ring-red-500 !border-red-500" 
+                              : "border-input"
                           )}
                           style={{ color: 'hsl(215 28% 25%)' }}
                         />
@@ -564,35 +576,72 @@ export function MultipleRelocationRequests({ form }: MultipleRelocationRequestsP
                             <input
                               type="date"
                               min={minDepartureDateStr}
-                              value={watch(`multipleRelocationRequests.${index}.departureDate`) || ""}
-                              onChange={(e) => handleDepartureDateChange(index, e)}
+                              {...register(`multipleRelocationRequests.${index}.departureDate`, {
+                                required: useExactDates ? "La date de départ est requise" : false,
+                                onChange: (e) => handleDepartureDateChange(index, e)
+                              })}
                               placeholder="Date de départ"
                               className={cn(
-                                "w-[120px] rounded-md border border-input bg-background px-2 py-1 text-xs ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 text-foreground [color-scheme:light]",
-                                getErrorMessage(index, 'departureDate') ? "border-red-500" : ""
+                                "w-[120px] rounded-md border bg-background px-2 py-1 text-xs ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 text-foreground [color-scheme:light]",
+                                getErrorMessage(index, 'departureDate') 
+                                  ? "border-red-500 focus-visible:ring-red-500 !border-red-500" 
+                                  : "border-input"
                               )}
                               style={{ color: 'hsl(215 28% 25%)' }}
                             />
                           ) : (
-                            <Select
-                              value={watch(`multipleRelocationRequests.${index}.estimatedDuration`) || ""}
-                              onValueChange={(value) => setValue(`multipleRelocationRequests.${index}.estimatedDuration`, value)}
-                            >
-                              <SelectTrigger className="h-6 px-2 py-1 text-xs w-[120px]">
-                                <span className="truncate text-muted-foreground">
-                                  <SelectValue placeholder="Choisir une durée" />
-                                </span>
-                              </SelectTrigger>
-                              <SelectContent className="py-1">
-                                {durationOptions.map((option) => (
-                                  <SelectItem key={option.id} value={option.value} className="py-1">
-                                    <div className="flex items-center">
-                                      <span className="whitespace-nowrap">{option.label}</span>
-                                    </div>
-                                  </SelectItem>
-                                ))}
-                              </SelectContent>
-                            </Select>
+                            <>
+                              <input
+                                type="hidden"
+                                {...register(`multipleRelocationRequests.${index}.estimatedDuration`, {
+                                  validate: (value) => {
+                                    const useExactDates = watch(`multipleRelocationRequests.${index}.useExactDates`);
+                                    if (!useExactDates && !value) {
+                                      return "La durée est requise";
+                                    }
+                                    return true;
+                                  },
+                                  onChange: (e) => {
+                                    // Trigger validation when the hidden input changes
+                                    form.trigger(`multipleRelocationRequests.${index}.estimatedDuration`);
+                                  }
+                                })}
+                              />
+                              <Select
+                                value={watch(`multipleRelocationRequests.${index}.estimatedDuration`) || ""}
+                                onValueChange={(value) => {
+                                  setValue(`multipleRelocationRequests.${index}.estimatedDuration`, value, {
+                                    shouldValidate: true,
+                                    shouldDirty: true,
+                                    shouldTouch: true
+                                  });
+                                  // Explicitly trigger validation
+                                  setTimeout(() => {
+                                    form.trigger(`multipleRelocationRequests.${index}.estimatedDuration`);
+                                  }, 100);
+                                }}
+                              >
+                                <SelectTrigger className={cn(
+                                  "h-6 px-2 py-1 text-xs w-[120px] border",
+                                  getErrorMessage(index, 'estimatedDuration') 
+                                    ? "border-red-500 focus-visible:ring-red-500 !border-red-500" 
+                                    : "border-input"
+                                )}>
+                                  <span className="truncate text-muted-foreground">
+                                    <SelectValue placeholder="Choisir une durée" />
+                                  </span>
+                                </SelectTrigger>
+                                <SelectContent className="py-1">
+                                  {durationOptions.map((option) => (
+                                    <SelectItem key={option.id} value={option.value} className="py-1">
+                                      <div className="flex items-center">
+                                        <span className="whitespace-nowrap">{option.label}</span>
+                                      </div>
+                                    </SelectItem>
+                                  ))}
+                                </SelectContent>
+                              </Select>
+                            </>
                           )}
                           
 

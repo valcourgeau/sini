@@ -278,16 +278,32 @@ const formSchema = z.object({
     specialNeeds: z.string()
       .max(500, "Les besoins spéciaux ne peuvent pas dépasser 500 caractères")
       .optional(),
-    arrivalDate: z.string().optional(),
+    arrivalDate: z.string().min(1, "La date d'arrivée est requise"),
     departureDate: z.string().optional(),
     useExactDates: z.boolean().default(false),
     estimatedDuration: z.string().optional(),
+    bedrooms: z.number().min(1, "Au moins une chambre est requise"),
+    adults: z.number().min(1, "Au moins un adulte est requis"),
+    children: z.number().min(0, "Le nombre d'enfants doit être positif"),
+    hasAnimals: z.boolean().optional(),
+    hasAccessibilityNeeds: z.boolean().optional(),
+    needsParking: z.boolean().optional(),
     hasInsurance: z.boolean().optional(),
     insuranceDetails: z.string()
       .max(500, "Les détails d'assurance ne peuvent pas dépasser 500 caractères")
       .optional(),
     claimDocument: z.instanceof(File).optional(),
     hasUploadedClaim: z.boolean().optional(),
+  }).refine((data) => {
+    // If using exact dates, departure date is required
+    if (data.useExactDates) {
+      return data.departureDate && data.departureDate.length > 0;
+    }
+    // If not using exact dates, estimated duration is required
+    return data.estimatedDuration && data.estimatedDuration.length > 0;
+  }, {
+    message: "Veuillez remplir tous les champs requis",
+    path: ["departureDate", "estimatedDuration"]
   })).optional(),
 
   multipleConsent: z.object({
@@ -549,7 +565,118 @@ export function RelocationWizard() {
           }
           console.log("Step 3 - final isValid:", isValid);
         } else {
-          isValid = await form.trigger("multipleRelocationRequests");
+          // Multiple path - validate multiple relocation requests with custom validation
+          const requests = form.getValues("multipleRelocationRequests");
+          let requestsValid = true;
+          
+          if (!requests || requests.length === 0) {
+            form.setError("multipleRelocationRequests", {
+              type: "manual",
+              message: "Au moins une demande de relogement est requise"
+            });
+            requestsValid = false;
+          } else {
+            // Clear any existing errors first
+            form.clearErrors("multipleRelocationRequests");
+            
+            // Validate each request
+            for (let i = 0; i < requests.length; i++) {
+              const request = requests[i];
+              
+              // Validate firstName
+              if (!request.firstName || request.firstName.length < 2) {
+                form.setError(`multipleRelocationRequests.${i}.firstName`, {
+                  type: "manual",
+                  message: "Le prénom est requis (minimum 2 caractères)"
+                });
+                requestsValid = false;
+              }
+              
+              // Validate lastName
+              if (!request.lastName || request.lastName.length < 2) {
+                form.setError(`multipleRelocationRequests.${i}.lastName`, {
+                  type: "manual",
+                  message: "Le nom est requis (minimum 2 caractères)"
+                });
+                requestsValid = false;
+              }
+              
+              // Validate email
+              if (!request.email || !/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(request.email)) {
+                form.setError(`multipleRelocationRequests.${i}.email`, {
+                  type: "manual",
+                  message: "Veuillez entrer une adresse email valide"
+                });
+                requestsValid = false;
+              }
+              
+              // Validate phone
+              if (!request.phone || request.phone.length < 10) {
+                form.setError(`multipleRelocationRequests.${i}.phone`, {
+                  type: "manual",
+                  message: "Le numéro de téléphone est requis (minimum 10 caractères)"
+                });
+                requestsValid = false;
+              }
+              
+              // Validate arrival date
+              if (!request.arrivalDate || request.arrivalDate.length === 0) {
+                form.setError(`multipleRelocationRequests.${i}.arrivalDate`, {
+                  type: "manual",
+                  message: "La date d'arrivée est requise"
+                });
+                requestsValid = false;
+              }
+              
+              // Validate departure date or duration based on useExactDates
+              if (request.useExactDates) {
+                if (!request.departureDate || request.departureDate.length === 0) {
+                  form.setError(`multipleRelocationRequests.${i}.departureDate`, {
+                    type: "manual",
+                    message: "La date de départ est requise"
+                  });
+                  requestsValid = false;
+                }
+              } else {
+                if (!request.estimatedDuration || request.estimatedDuration.length === 0) {
+                  form.setError(`multipleRelocationRequests.${i}.estimatedDuration`, {
+                    type: "manual",
+                    message: "La durée est requise"
+                  });
+                  requestsValid = false;
+                }
+              }
+              
+              // Validate bedrooms (should be at least 1)
+              if (!request.bedrooms || request.bedrooms < 1) {
+                form.setError(`multipleRelocationRequests.${i}.bedrooms`, {
+                  type: "manual",
+                  message: "Au moins une chambre est requise"
+                });
+                requestsValid = false;
+              }
+              
+              // Validate adults (should be at least 1)
+              if (!request.adults || request.adults < 1) {
+                form.setError(`multipleRelocationRequests.${i}.adults`, {
+                  type: "manual",
+                  message: "Au moins un adulte est requis"
+                });
+                requestsValid = false;
+              }
+              
+              // Validate children (should be 0 or more)
+              if (request.children === undefined || request.children < 0) {
+                form.setError(`multipleRelocationRequests.${i}.children`, {
+                  type: "manual",
+                  message: "Le nombre d'enfants doit être positif"
+                });
+                requestsValid = false;
+              }
+            }
+          }
+          
+          isValid = requestsValid;
         }
         break;
       case 4:
