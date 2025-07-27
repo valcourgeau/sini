@@ -51,7 +51,7 @@ export default function HomePage() {
     // Add a small delay to show the loading state
     await new Promise(resolve => setTimeout(resolve, 400));
     
-    router.push("/property/list");
+    router.push("/property/new");
   };
 
   const handleManagementClick = async (e: React.MouseEvent) => {
