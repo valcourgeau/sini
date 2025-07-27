@@ -95,7 +95,7 @@ export default function PlatformLogin() {
     <main className="min-h-screen bg-secondary flex items-center justify-center p-4">
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
-          <h1 className="text-2xl font-bold mb-2">Accès à la plateforme</h1>
+          <h1 className="text-2xl font-bold mb-2">Accès à l'interface</h1>
           <p className="text-muted-foreground">
             Connectez-vous à votre espace personnel
           </p>

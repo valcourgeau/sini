@@ -7,6 +7,7 @@ import { NavigationArrow } from "@/components/ui/navigation-arrow";
 import Link from "next/link";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 export default function HomePage() {
   const [isLoading, setIsLoading] = useState(false);
@@ -50,7 +51,7 @@ export default function HomePage() {
     // Add a small delay to show the loading state
     await new Promise(resolve => setTimeout(resolve, 400));
     
-    router.push("/property/new");
+    router.push("/property/list");
   };
 
   const handleManagementClick = async (e: React.MouseEvent) => {
@@ -213,15 +214,15 @@ export default function HomePage() {
             </div>
 
             <div className="relative aspect-video rounded-2xl overflow-hidden bg-white/10">
-              <div className="absolute inset-0 flex items-center justify-center">
-                <div className="text-center">
-                  <div className="w-16 h-16 rounded-full bg-white/20 flex items-center justify-center mx-auto mb-4">
-                    <Video className="h-8 w-8 text-white" />
-                  </div>
-                  <p className="text-lg font-medium text-white">Vidéo de présentation</p>
-                  <p className="text-sm text-white/60 mt-2">Découvrer notre service en action</p>
-                </div>
-              </div>
+              <Image
+                src="/happy-swiss-family.jpg"
+                alt="Famille heureuse devant leur nouvelle maison - Service de relogement d'urgence"
+                fill
+                className="object-cover"
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                priority
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
             </div>
           </div>
         </div>

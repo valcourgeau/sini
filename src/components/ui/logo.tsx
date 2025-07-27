@@ -31,7 +31,7 @@ export function Logo({ className, size = 'md' }: LogoProps) {
       {/* Swiss Flag as asterisk in top right corner */}
       <svg
         className={cn('absolute flex-shrink-0', {
-          'h-2 w-2 top-1 -right-2': size === 'sm',
+          'h-2 w-2 top-1.5 -right-2.5': size === 'sm',
           'h-2.5 w-2.5 top-1.5 -right-3': size === 'md',
           'h-3 w-3 top-1 -right-3': size === 'lg',
         })}
