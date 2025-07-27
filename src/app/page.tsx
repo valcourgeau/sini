@@ -175,8 +175,18 @@ export default function HomePage() {
                   <div>
                     <h3 className="text-xl font-bold mb-2 text-secondary">Accompagnement personnalisé</h3>
                     <p className="text-secondary/90">
-                      Un interlocuteur unique qui facilite vos démarches administratives et assure le suivi auprès de votre assurance.
+                      Un interlocuteur unique qui facilite vos démarches.
                     </p>
+                    <ul className="text-secondary/90 mt-3 space-y-1 ml-4">
+                      <li className="flex items-center gap-2">
+                        <span className="w-1.5 h-1.5 bg-secondary rounded-full"></span>
+                        Clarté des coûts de la prise en charge de votre assurance.
+                      </li>
+                      <li className="flex items-center gap-2">
+                        <span className="w-1.5 h-1.5 bg-secondary rounded-full"></span>
+                        Assure le suivi auprès de votre assurance et des autres intervenants.
+                      </li>
+                    </ul>
                   </div>
                 </div>
               </div>
