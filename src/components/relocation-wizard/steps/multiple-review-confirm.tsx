@@ -79,10 +79,9 @@ export function MultipleReviewConfirm({ form }: MultipleReviewConfirmProps) {
       {/* Header Section */}
       <div className="text-center space-y-3">
         <div>
-          <h2 className="text-2xl font-semibold text-foreground">Vérification des demandes multiples</h2>
+          <h2 className="text-2xl font-semibold text-foreground">Vérification pour de multiples relogements</h2>
           <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
-            Veuillez vérifier les détails de toutes les demandes de relogement avant de soumettre. 
-            Si vous devez apporter des modifications, vous pouvez revenir aux sections concernées.
+            Veuillez vérifier les détails et coordonnées des assurés avant de soumettre. 
           </p>
         </div>
       </div>
@@ -163,7 +162,9 @@ export function MultipleReviewConfirm({ form }: MultipleReviewConfirmProps) {
             </div>
             <div>
               <h3 className="text-lg font-semibold text-foreground">Demandes de relogement</h3>
-              <p className="text-sm text-muted-foreground">{requests.length} foyer(s) enregistré(s)</p>
+              <p className="text-sm text-muted-foreground">
+                {requests.length} {requests.length === 1 ? "foyer enregistré" : "foyers enregistrés"}
+              </p>
             </div>
           </div>
           

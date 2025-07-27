@@ -177,7 +177,7 @@ export function SingleRelocationPreferences({ form }: SingleRelocationPreference
   return (
     <div className="space-y-8">
       <div className="text-center">
-        <h2 className="text-xl font-semibold mb-2">Préférences de relogement</h2>
+        <h2 className="text-xl font-semibold mb-2">Préférences</h2>
         <p className="text-sm text-muted-foreground">
           Veuillez nous aider à trouver la solution la plus adaptée.
         </p>

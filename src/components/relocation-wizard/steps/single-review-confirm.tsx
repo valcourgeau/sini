@@ -133,26 +133,64 @@ export function SingleReviewConfirm({ form }: SingleReviewConfirmProps) {
       <div className="space-y-6">
         {/* Personal Information */}
         <div className="bg-card border border-border rounded-xl p-6 shadow-sm">
-          <div className="flex items-center gap-3 mb-6">
-            <div className="flex items-center justify-center w-8 h-8 bg-blue-100 rounded-lg">
-              <User className="h-4 w-4 text-blue-600" />
-            </div>
-            <h3 className="text-lg font-semibold text-foreground">Informations du courtier</h3>
-          </div>
-          <div className="space-y-3">
-            <div className="flex justify-between items-center py-1">
-              <span className="text-sm text-muted-foreground">Nom complet</span>
-              <span className="text-sm font-medium text-foreground">
-                {getValue("singlePersonalData.firstName")} {getValue("singlePersonalData.lastName")}
-              </span>
-            </div>
-            <div className="flex justify-between items-center py-1">
-              <span className="text-sm text-muted-foreground">Email</span>
-              <span className="text-sm text-foreground">{getValue("singlePersonalData.email")}</span>
-            </div>
-            <div className="flex justify-between items-center py-1">
-              <span className="text-sm text-muted-foreground">Téléphone</span>
-              <span className="text-sm text-foreground">{getValue("singlePersonalData.phone")}</span>
+          <div className="flex flex-col lg:flex-row gap-8">
+            {/* Insured Person Information - Only show when user doesn't have insurance */}
+            {getValue("singleInsuranceCoverage.hasInsurance") === false && (
+              <div className="flex-1">
+                <div className="flex items-center gap-3 mb-6">
+                  <div className="flex items-center justify-center w-8 h-8 bg-green-100 rounded-lg">
+                    <Shield className="h-5 w-5 text-green-600" />
+                  </div>
+                  <h3 className="text-lg font-semibold text-foreground">Informations de l'assuré</h3>
+                </div>
+                <div className="space-y-3">
+                  <div className="flex justify-between items-center py-1">
+                    <span className="text-sm text-muted-foreground">Nom complet</span>
+                    <span className="text-sm font-medium text-foreground">
+                      {getValue("singleInsuredData.firstName")} {getValue("singleInsuredData.lastName")}
+                    </span>
+                  </div>
+                  <div className="flex justify-between items-center py-1">
+                    <span className="text-sm text-muted-foreground">Email</span>
+                    <span className="text-sm text-foreground">{getValue("singleInsuredData.email")}</span>
+                  </div>
+                  <div className="flex justify-between items-center py-1">
+                    <span className="text-sm text-muted-foreground">Téléphone</span>
+                    <span className="text-sm text-foreground">{getValue("singleInsuredData.phone")}</span>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Vertical Separator - Only show when insured person info is present */}
+            {getValue("singleInsuranceCoverage.hasInsurance") === false && (
+              <div className="hidden lg:block w-px bg-border"></div>
+            )}
+
+            {/* Broker Information */}
+            <div className="flex-1">
+              <div className="flex items-center gap-3 mb-6">
+                <div className="flex items-center justify-center w-8 h-8 bg-blue-100 rounded-lg">
+                  <User className="h-4 w-4 text-blue-600" />
+                </div>
+                <h3 className="text-lg font-semibold text-foreground">Informations du courtier</h3>
+              </div>
+              <div className="space-y-3">
+                <div className="flex justify-between items-center py-1">
+                  <span className="text-sm text-muted-foreground">Nom complet</span>
+                  <span className="text-sm font-medium text-foreground">
+                    {getValue("singlePersonalData.firstName")} {getValue("singlePersonalData.lastName")}
+                  </span>
+                </div>
+                <div className="flex justify-between items-center py-1">
+                  <span className="text-sm text-muted-foreground">Email</span>
+                  <span className="text-sm text-foreground">{getValue("singlePersonalData.email")}</span>
+                </div>
+                <div className="flex justify-between items-center py-1">
+                  <span className="text-sm text-muted-foreground">Téléphone</span>
+                  <span className="text-sm text-foreground">{getValue("singlePersonalData.phone")}</span>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -261,39 +299,6 @@ export function SingleReviewConfirm({ form }: SingleReviewConfirmProps) {
                 )}
               </div>
             </div>
-
-            {/* Vertical Separator - Only show when insured person info is present */}
-            {getValue("singleInsuranceCoverage.hasInsurance") === false && (
-              <div className="hidden lg:block w-px bg-border"></div>
-            )}
-
-            {/* Insured Person Information - Only show when user doesn't have insurance */}
-            {getValue("singleInsuranceCoverage.hasInsurance") === false && (
-              <div className="flex-1">
-                <div className="flex items-center gap-3 mb-6">
-                  <div className="flex items-center justify-center w-8 h-8 bg-green-100 rounded-lg">
-                    <Shield className="h-5 w-5 text-green-600" />
-                  </div>
-                  <h3 className="text-lg font-semibold text-foreground">Informations de l'assuré</h3>
-                </div>
-                <div className="space-y-3">
-                  <div className="flex justify-between items-center py-1">
-                    <span className="text-sm text-muted-foreground">Nom complet</span>
-                    <span className="text-sm font-medium text-foreground">
-                      {getValue("singleInsuredData.firstName")} {getValue("singleInsuredData.lastName")}
-                    </span>
-                  </div>
-                  <div className="flex justify-between items-center py-1">
-                    <span className="text-sm text-muted-foreground">Email</span>
-                    <span className="text-sm text-foreground">{getValue("singleInsuredData.email")}</span>
-                  </div>
-                  <div className="flex justify-between items-center py-1">
-                    <span className="text-sm text-muted-foreground">Téléphone</span>
-                    <span className="text-sm text-foreground">{getValue("singleInsuredData.phone")}</span>
-                  </div>
-                </div>
-              </div>
-            )}
           </div>
         </div>
         
@@ -306,7 +311,7 @@ export function SingleReviewConfirm({ form }: SingleReviewConfirmProps) {
                 <div className="flex items-center justify-center w-8 h-8 bg-indigo-100 rounded-lg">
                   <Home className="h-5 w-5 text-indigo-600" />
                 </div>
-                <h3 className="text-lg font-semibold text-foreground">Préférences de relogement</h3>
+                <h3 className="text-lg font-semibold text-foreground">Préférences</h3>
               </div>
               <div className="space-y-3">
                 <div className="flex justify-between items-center py-1">
@@ -368,7 +373,7 @@ export function SingleReviewConfirm({ form }: SingleReviewConfirmProps) {
                 <div className="flex items-center justify-center w-8 h-8 bg-emerald-100 rounded-lg">
                   <Calendar className="h-5 w-5 text-emerald-600" />
                 </div>
-                <h3 className="text-lg font-semibold text-foreground">Arrivée & Durée</h3>
+                <h3 className="text-lg font-semibold text-foreground">Le séjour</h3>
               </div>
               <div className="space-y-3">
                 <div className="flex justify-between items-center py-1">

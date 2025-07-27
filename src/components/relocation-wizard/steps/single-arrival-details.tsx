@@ -300,7 +300,7 @@ export const SingleArrivalDetails = forwardRef<SingleArrivalDetailsRef, SingleAr
   return (
     <div className="space-y-8">
       <div className="text-center">
-        <h2 className="text-xl font-semibold mb-2">Détails d'arrivée</h2>
+        <h2 className="text-xl font-semibold mb-2">Le séjour</h2>
         <p className="text-sm text-muted-foreground mb-6 max-w-lg mx-auto whitespace-nowrap">
           Veuillez spécifier quand la date d'emménagement et la durée prévue de votre séjour.
         </p>

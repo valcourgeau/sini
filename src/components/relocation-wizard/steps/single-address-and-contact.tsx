@@ -36,7 +36,7 @@ export function SingleAddressAndContact({ form, userType }: SingleAddressAndCont
   return (
     <div className="space-y-8">
       <div className="text-center">
-        <h2 className="text-xl font-semibold mb-2">Adresse et coordonnées</h2>
+        <h2 className="text-xl font-semibold mb-2">L'adresse et les coordonnées</h2>
         <p className="text-sm text-muted-foreground mb-6 max-w-lg mx-auto">
           Veuillez fournir l'adresse du bien affecté et vos coordonnées.
         </p>
