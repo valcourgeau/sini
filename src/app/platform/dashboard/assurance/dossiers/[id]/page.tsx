@@ -1,6 +1,4 @@
-"use client";
 
-import { useSearchParams } from "next/navigation";
 import { 
   Users, 
   Building2, 
@@ -39,6 +37,18 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "../../../../../../components/ui/badge";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
+
+// Generate static params for all mock case IDs
+export async function generateStaticParams() {
+  return [
+    { id: "REL-001" },
+    { id: "REL-002" },
+    { id: "REL-003" },
+    { id: "REL-004" },
+    { id: "REL-005" },
+    { id: "REL-006" },
+  ];
+}
 
 // Types based on relocation wizard data structure
 interface RelocationData {
@@ -154,9 +164,15 @@ interface RelocationData {
   };
 }
 
-export default function CaseDetailPage() {
-  const searchParams = useSearchParams();
-  const id = searchParams.get("id") || "REL-001";
+interface PageProps {
+  params: Promise<{
+    id: string;
+  }>;
+}
+
+export default async function CaseDetailPage({ params }: PageProps) {
+  const { id } = await params;
+  const caseId = id || "REL-001";
 
   // Function to get case data based on ID
   // Mock data for a single detailed view
@@ -541,7 +557,7 @@ export default function CaseDetailPage() {
 
   // Get the current case data based on ID
   const currentCaseData = (() => {
-    switch (id) {
+    switch (caseId) {
       case "REL-002":
         return multipleRelocationExample;
       case "REL-003":
