@@ -347,8 +347,8 @@ export function MultipleRelocationRequests({ form }: MultipleRelocationRequestsP
                   <TableHead className="w-[110px] text-gray-900 font-medium text-sm whitespace-nowrap">Nom</TableHead>
                   <TableHead className="w-[180px] text-gray-900 font-medium text-sm whitespace-nowrap">Email</TableHead>
                   <TableHead className="w-[140px] text-gray-900 font-medium text-sm whitespace-nowrap">Téléphone</TableHead>
-                  <TableHead className="w-[120px] text-gray-900 font-medium text-sm whitespace-nowrap">Arrival</TableHead>
-                  <TableHead className="w-[200px] text-gray-900 font-medium text-sm whitespace-nowrap">Departure</TableHead>
+                  <TableHead className="w-[120px] text-gray-900 font-medium text-sm whitespace-nowrap">Arrivée</TableHead>
+                  <TableHead className="w-[200px] text-gray-900 font-medium text-sm whitespace-nowrap">Départ</TableHead>
 
                   {/* Property Requirements Column - Grouped */}
                   <TableHead className="w-[80px] text-gray-900 font-medium text-center text-sm">
