@@ -11,7 +11,7 @@ export const metadata = {
  */
 export default function PropertyListingPage() {
   return (
-    <main className="flex-1 py-0 md:py-0 lg:py-0">
+    <main className="flex-1 py-4 bg-primary min-h-screen">
       <div className="container mx-auto px-0 md:px-0">
         <div className="mt-0">
           <PropertyWizard />

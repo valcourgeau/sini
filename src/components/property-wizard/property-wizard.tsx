@@ -342,7 +342,7 @@ export function PropertyWizard() {
   }
 
   return (
-    <div className="container mx-auto py-8 px-4 md:px-0 bg-primary/5 max-w-5xl">
+    <div className="container mx-auto py-4 px-4 md:px-0 max-w-5xl">
       <Card className="border-2 shadow-lg">
         <CardHeader className="pb-6">
           <CardTitle className="text-2xl font-bold text-center">Proposer un logement</CardTitle>

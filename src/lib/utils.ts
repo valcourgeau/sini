@@ -11,6 +11,33 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 /**
+ * Get the correct image path for both development and production
+ * 
+ * @param imagePath - The image path relative to the public directory
+ * @returns The correct image path for the current environment
+ * 
+ * @example
+ * // In development: returns "/image.jpg"
+ * // In production: returns "/sini/image.jpg"
+ * 
+ * <Image src={getImagePath("/happy-swiss-family.jpg")} alt="Family" />
+ * <Image src={getImagePath("/logos/company-logo.png")} alt="Logo" />
+ * <Image src={getImagePath("/icons/arrow.svg")} alt="Arrow" />
+ */
+export function getImagePath(imagePath: string): string {
+  // Remove leading slash if present
+  const cleanPath = imagePath.startsWith('/') ? imagePath.slice(1) : imagePath
+  
+  // In production, prepend the basePath
+  if (process.env.NODE_ENV === 'production') {
+    return `/sini/${cleanPath}`
+  }
+  
+  // In development, use the path as is
+  return `/${cleanPath}`
+}
+
+/**
  * Formats a date to a localized string
  * @param date - Date to format
  * @param options - Intl.DateTimeFormatOptions

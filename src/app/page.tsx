@@ -8,6 +8,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
+import { getImagePath } from "@/lib/utils";
 
 export default function HomePage() {
   const [isLoading, setIsLoading] = useState(false);
@@ -215,12 +216,13 @@ export default function HomePage() {
 
             <div className="relative aspect-video rounded-2xl overflow-hidden bg-white/10">
               <Image
-                src="/happy-swiss-family.jpg"
+                src={getImagePath("/happy-swiss-family.jpg")}
                 alt="Famille heureuse devant leur nouvelle maison - Service de relogement d'urgence"
                 fill
                 className="object-cover"
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                 priority
+                unoptimized
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
             </div>
