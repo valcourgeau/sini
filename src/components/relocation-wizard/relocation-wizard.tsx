@@ -27,7 +27,6 @@ import { MultipleRelocationRequests } from "./steps/multiple-relocation-requests
 import { MultipleReviewConfirm } from "./steps/multiple-review-confirm";
 import { MultipleConsent } from "./steps/multiple-consent";
 import { SuccessMessage } from "./steps/success-message";
-// import { SwissInsuranceDetails } from "./steps/swiss-insurance-details";
 import { UseFormReturn } from "react-hook-form";
 import { SingleAddressAndContact } from "./steps/single-address-and-contact";
 import { cn } from "@/lib/utils";
@@ -142,71 +141,6 @@ const formSchema = z.object({
       .regex(/^[a-zA-ZÀ-ÿ0-9\s\-\.&]+$/, "Le nom de la compagnie ne peut contenir que des lettres, chiffres, espaces, tirets, points et &")
       .optional(),
   }).optional(),
-
-  // swissInsuranceDetails: z.object({
-  //   // RC Insurance
-  //   hasRCInsurance: z.boolean().optional(),
-  //   rcInsuranceCompany: z.string()
-  //     .max(100, "Le nom de la compagnie ne peut pas dépasser 100 caractères")
-  //     .regex(/^[a-zA-ZÀ-ÿ0-9\s\-\.&]+$/, "Le nom de la compagnie ne peut contenir que des lettres, chiffres, espaces, tirets, points et &")
-  //     .optional(),
-  //   rcPolicyNumber: z.string()
-  //     .min(3, "Le numéro de police doit contenir au moins 3 caractères")
-  //     .max(50, "Le numéro de police ne peut pas dépasser 50 caractères")
-  //     .regex(/^[a-zA-Z0-9\-\_\/\s]+$/, "Le numéro de police ne peut contenir que des lettres, chiffres, tirets, underscores, slashes et espaces")
-  //     .optional(),
-    
-  //   // Ménage Insurance
-  //   hasMenageInsurance: z.boolean().optional(),
-  //   menageInsuranceCompany: z.string()
-  //     .max(100, "Le nom de la compagnie ne peut pas dépasser 100 caractères")
-  //     .regex(/^[a-zA-ZÀ-ÿ0-9\s\-\.&]+$/, "Le nom de la compagnie ne peut contenir que des lettres, chiffres, espaces, tirets, points et &")
-  //     .optional(),
-  //   menagePolicyNumber: z.string()
-  //     .min(3, "Le numéro de police doit contenir au moins 3 caractères")
-  //     .max(50, "Le numéro de police ne peut pas dépasser 50 caractères")
-  //     .regex(/^[a-zA-Z0-9\-\_\/\s]+$/, "Le numéro de police ne peut contenir que des lettres, chiffres, tirets, underscores, slashes et espaces")
-  //     .optional(),
-    
-  //   // Natural Disaster Insurance
-  //   hasNaturalDisasterInsurance: z.boolean().optional(),
-  //   naturalDisasterInsuranceCompany: z.string()
-  //     .max(100, "Le nom de la compagnie ne peut pas dépasser 100 caractères")
-  //     .regex(/^[a-zA-ZÀ-ÿ0-9\s\-\.&]+$/, "Le nom de la compagnie ne peut contenir que des lettres, chiffres, espaces, tirets, points et &")
-  //     .optional(),
-  //   naturalDisasterPolicyNumber: z.string()
-  //     .min(3, "Le numéro de police doit contenir au moins 3 caractères")
-  //     .max(50, "Le numéro de police ne peut pas dépasser 50 caractères")
-  //     .regex(/^[a-zA-Z0-9\-\_\/\s]+$/, "Le numéro de police ne peut contenir que des lettres, chiffres, tirets, underscores, slashes et espaces")
-  //     .optional(),
-    
-  //   // Building Insurance (for owners)
-  //   hasBuildingInsurance: z.boolean().optional(),
-  //   buildingInsuranceCompany: z.string()
-  //     .max(100, "Le nom de la compagnie ne peut pas dépasser 100 caractères")
-  //     .regex(/^[a-zA-ZÀ-ÿ0-9\s\-\.&]+$/, "Le nom de la compagnie ne peut contenir que des lettres, chiffres, espaces, tirets, points et &")
-  //     .optional(),
-  //   buildingPolicyNumber: z.string()
-  //     .min(3, "Le numéro de police doit contenir au moins 3 caractères")
-  //     .max(50, "Le numéro de police ne peut pas dépasser 50 caractères")
-  //     .regex(/^[a-zA-Z0-9\-\_\/\s]+$/, "Le numéro de police ne peut contenir que des lettres, chiffres, tirets, underscores, slashes et espaces")
-  //     .optional(),
-    
-  //   // ECA Insurance (for Canton de Vaud)
-  //   ecaPolicyNumber: z.string()
-  //     .min(3, "Le numéro de police doit contenir au moins 3 caractères")
-  //     .max(50, "Le numéro de police ne peut pas dépasser 50 caractères")
-  //     .regex(/^[a-zA-Z0-9\-\_\/\s]+$/, "Le numéro de police ne peut contenir que des lettres, chiffres, tirets, underscores, slashes et espaces")
-  //     .optional(),
-    
-  //   // Additional Information
-  //   agentContact: z.string()
-  //     .max(200, "Les informations de contact ne peuvent pas dépasser 200 caractères")
-  //     .optional(),
-  //   additionalNotes: z.string()
-  //     .max(1000, "Les notes additionnelles ne peuvent pas dépasser 1000 caractères")
-  //     .optional(),
-  // }).optional(),
 
   singleConsent: z.object({
     agreeToTerms: z.boolean().refine(val => val === true, {
