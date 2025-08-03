@@ -25,7 +25,7 @@ export function Logo({ className, size = 'md' }: LogoProps) {
           'text-2xl': size === 'lg',
         }
       )}>
-        PHAREWEST
+        Pharewest
       </span>
       
       {/* Swiss Flag as asterisk in top right corner */}
