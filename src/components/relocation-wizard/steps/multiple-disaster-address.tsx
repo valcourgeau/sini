@@ -149,7 +149,7 @@ export function MultipleDisasterAddress({ form }: MultipleDisasterAddressProps) 
                 placeholder="Prénom"
               />
               {personalErrors.firstName && (
-                <p className="text-sm text-red-500 mt-1">
+                <p className="text-sm text-destructive mt-1">
                   {personalErrors.firstName.message as string}
                 </p>
               )}
@@ -166,7 +166,7 @@ export function MultipleDisasterAddress({ form }: MultipleDisasterAddressProps) 
                 placeholder="Nom"
               />
               {personalErrors.lastName && (
-                <p className="text-sm text-red-500 mt-1">
+                <p className="text-sm text-destructive mt-1">
                   {personalErrors.lastName.message as string}
                 </p>
               )}
@@ -184,7 +184,7 @@ export function MultipleDisasterAddress({ form }: MultipleDisasterAddressProps) 
                 placeholder="email@exemple.com"
               />
               {personalErrors.email && (
-                <p className="text-sm text-red-500 mt-1">
+                <p className="text-sm text-destructive mt-1">
                   {personalErrors.email.message as string}
                 </p>
               )}
@@ -202,7 +202,7 @@ export function MultipleDisasterAddress({ form }: MultipleDisasterAddressProps) 
                 placeholder="+41 XX XXX XX XX"
               />
               {personalErrors.phone && (
-                <p className="text-sm text-red-500 mt-1">
+                <p className="text-sm text-destructive mt-1">
                   {personalErrors.phone.message as string}
                 </p>
               )}

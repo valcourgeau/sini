@@ -254,6 +254,29 @@ const formSchema = z.object({
       .regex(/^[a-zA-ZÀ-ÿ\s\-]+$/, "Le pays ne peut contenir que des lettres, espaces et tirets"),
   }).optional(),
 
+  multiplePersonalData: z.object({
+    firstName: z.string()
+      .min(1, "Le prénom est requis")
+      .min(2, "Le prénom doit contenir au moins 2 caractères")
+      .max(50, "Le prénom ne peut pas dépasser 50 caractères")
+      .regex(/^[a-zA-ZÀ-ÿ\s\-']+$/, "Le prénom ne peut contenir que des lettres, espaces, tirets et apostrophes"),
+    lastName: z.string()
+      .min(1, "Le nom est requis")
+      .min(2, "Le nom doit contenir au moins 2 caractères")
+      .max(50, "Le nom ne peut pas dépasser 50 caractères")
+      .regex(/^[a-zA-ZÀ-ÿ\s\-']+$/, "Le nom ne peut contenir que des lettres, espaces, tirets et apostrophes"),
+    email: z.string()
+      .min(1, "L'email est requis")
+      .email("Veuillez entrer une adresse email valide")
+      .max(100, "L'email ne peut pas dépasser 100 caractères")
+      .regex(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/, "Format d'email invalide"),
+    phone: z.string()
+      .min(1, "Le numéro de téléphone est requis")
+      .min(10, "Le numéro de téléphone doit contenir au moins 10 caractères")
+      .max(20, "Le numéro de téléphone ne peut pas dépasser 20 caractères")
+      .regex(/^[\+]?[0-9\s\-\(\)]+$/, "Le numéro de téléphone ne peut contenir que des chiffres, espaces, tirets, parenthèses et le symbole +"),
+  }).optional(),
+
   multipleRelocationRequests: z.array(z.object({
     firstName: z.string()
       .min(1, "Le prénom est requis")
@@ -375,6 +398,12 @@ export function RelocationWizard() {
       multipleReviewConfirmation: {
         confirmDataAccuracy: false
       },
+      multiplePersonalData: {
+        firstName: "",
+        lastName: "",
+        email: "",
+        phone: ""
+      },
       singleConsent: {
         agreeToTerms: false,
         agreeToDataProcessing: false
@@ -451,7 +480,10 @@ export function RelocationWizard() {
             isValid = await form.trigger("singleInsuranceCoverage");
           }
         } else {
-          isValid = await form.trigger("multipleDisasterAddress");
+          // For multiple path, validate both disaster address and broker information
+          const addressValid = await form.trigger("multipleDisasterAddress");
+          const brokerValid = await form.trigger("multiplePersonalData");
+          isValid = addressValid && brokerValid;
         }
         break;
       case 3:

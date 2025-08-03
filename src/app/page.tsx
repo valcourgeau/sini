@@ -98,18 +98,18 @@ export default function HomePage() {
           <div className="mx-auto max-w-[980px] text-center">
             {/* Enhanced title with subtle animation */}
             <div className="mb-8">
-              <h1 className="text-3xl font-bold leading-tight tracking-tighter md:text-5xl lg:text-6xl lg:leading-[1.1] mb-4 animate-in fade-in duration-1000">
+              <h1 className="text-3xl font-bold leading-tight tracking-tighter md:text-5xl lg:text-6xl lg:leading-[1.1] mb-4 animate-in fade-in duration-500 slide-in-from-bottom-4">
                 Service de relogement d'urgence
               </h1>
             </div>
             
             {/* Enhanced subtitle */}
-            <p className="text-xl md:text-2xl text-muted-foreground mb-16 animate-in fade-in duration-1000 delay-200">
+            <p className="text-xl md:text-2xl text-muted-foreground mb-16 animate-in fade-in duration-500 delay-100 slide-in-from-bottom-4">
               pour le canton de Genève
             </p>
             
             {/* Enhanced action buttons with glass effect */}
-            <div className="grid md:grid-cols-2 gap-8 max-w-3xl mx-auto animate-in fade-in duration-1000 delay-500">
+            <div className="grid md:grid-cols-2 gap-8 max-w-3xl mx-auto animate-in fade-in duration-500 delay-200 slide-in-from-bottom-4">
               <ScrollButton
                 iconName="alert-triangle"
                 title="Sinistrés"
