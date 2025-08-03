@@ -604,8 +604,8 @@ export default function AssuranceDossiers() {
     try {
       const date = new Date(dateStr);
       return new Intl.DateTimeFormat("fr-FR", {
-        day: "numeric",
-        month: "short",
+        day: "2-digit",
+        month: "2-digit",
         year: "numeric"
       }).format(date);
     } catch (e) {
@@ -623,6 +623,19 @@ export default function AssuranceDossiers() {
     } else {
       const diffInDays = Math.floor(diffInHours / 24);
       return `Il y a ${diffInDays}j`;
+    }
+  };
+
+  const getNumberOfNights = (arrival?: string, departure?: string): number | null => {
+    if (!arrival || !departure) return null;
+    try {
+      const arrivalDate = new Date(arrival);
+      const departureDate = new Date(departure);
+      const diffTime = departureDate.getTime() - arrivalDate.getTime();
+      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+      return diffDays;
+    } catch (e) {
+      return null;
     }
   };
 
@@ -645,9 +658,9 @@ export default function AssuranceDossiers() {
 
       {/* Filters */}
       <Card className="p-6 bg-background border-primary/20">
-        <div className="flex flex-col lg:flex-row gap-4">
-          {/* Search */}
-          <div className="flex-1">
+        <div className="flex flex-col lg:flex-row gap-6">
+          {/* Column 1 - Narrow Search */}
+          <div className="lg:w-1/4">
             <div className="relative">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
               <Input
@@ -659,11 +672,11 @@ export default function AssuranceDossiers() {
             </div>
           </div>
 
-          {/* Filter Buttons */}
-          <div className="flex flex-wrap gap-2">
+          {/* Column 2 - Statut and Type */}
+          <div className="flex flex-col gap-4 lg:w-1/3">
             {/* Status Filter */}
-            <div className="flex items-center gap-2">
-              <span className="text-sm text-muted-foreground">Statut:</span>
+            <div className="flex flex-col gap-2">
+              <span className="text-sm font-medium text-muted-foreground">Statut</span>
               <div className="flex gap-1">
                 {["all", "pending", "processing", "completed"].map((status) => (
                   <button
@@ -685,8 +698,8 @@ export default function AssuranceDossiers() {
             </div>
 
             {/* Type Filter */}
-            <div className="flex items-center gap-2">
-              <span className="text-sm text-muted-foreground">Type:</span>
+            <div className="flex flex-col gap-2">
+              <span className="text-sm font-medium text-muted-foreground">Type</span>
               <div className="flex gap-1">
                 {["all", "single", "multiple"].map((type) => (
                   <button
@@ -705,10 +718,13 @@ export default function AssuranceDossiers() {
                 ))}
               </div>
             </div>
+          </div>
 
+          {/* Column 3 - Priorité and Réinitialiser */}
+          <div className="flex flex-col gap-4 lg:w-1/3">
             {/* Priority Filter */}
-            <div className="flex items-center gap-2">
-              <span className="text-sm text-muted-foreground">Priorité:</span>
+            <div className="flex flex-col gap-2">
+              <span className="text-sm font-medium text-muted-foreground">Priorité</span>
               <div className="flex gap-1">
                 {["all", "high", "normal", "low"].map((priority) => (
                   <button
@@ -732,9 +748,9 @@ export default function AssuranceDossiers() {
             {/* Reset Button */}
             <button
               onClick={resetFilters}
-              className="flex items-center gap-1 px-3 py-1 rounded-md text-xs font-medium bg-secondary text-muted-foreground hover:bg-secondary/80 transition-colors"
+              className="flex items-center justify-center gap-1 px-3 py-2 rounded-md text-sm font-medium bg-secondary text-muted-foreground hover:bg-secondary/80 transition-colors w-fit"
             >
-              <X className="h-3 w-3" />
+              <X className="h-4 w-4" />
               Réinitialiser
             </button>
           </div>
@@ -780,10 +796,10 @@ export default function AssuranceDossiers() {
               </div>
             </div>
             
-            {/* Main Content Grid */}
-            <div className="grid lg:grid-cols-3 gap-6">
+            {/* Main Content with Vertical Dividers */}
+            <div className="flex flex-col lg:flex-row gap-8">
               {/* Personal Information */}
-              <div className="bg-card border border-border rounded-lg p-4">
+              <div className="flex-1">
                 <div className="flex items-center gap-3 mb-4">
                   <div className="flex items-center justify-center w-6 h-6 bg-blue-100 rounded-lg">
                     <User className="h-4 w-4 text-blue-600" />
@@ -808,8 +824,11 @@ export default function AssuranceDossiers() {
                 </div>
               </div>
 
+              {/* Vertical Separator */}
+              <div className="hidden lg:block w-px bg-border"></div>
+
               {/* Disaster Address */}
-              <div className="bg-card border border-border rounded-lg p-4">
+              <div className="flex-1">
                 <div className="flex items-center gap-3 mb-4">
                   <div className="flex items-center justify-center w-6 h-6 bg-red-100 rounded-lg">
                     <MapPin className="h-4 w-4 text-red-600" />
@@ -834,8 +853,11 @@ export default function AssuranceDossiers() {
                 </div>
               </div>
 
+              {/* Vertical Separator */}
+              <div className="hidden lg:block w-px bg-border"></div>
+
               {/* Relocation Details */}
-              <div className="bg-card border border-border rounded-lg p-4">
+              <div className="flex-1">
                 <div className="flex items-center gap-3 mb-4">
                   <div className="flex items-center justify-center w-6 h-6 bg-indigo-100 rounded-lg">
                     <Home className="h-4 w-4 text-indigo-600" />
@@ -865,8 +887,13 @@ export default function AssuranceDossiers() {
                   )}
                   {case_.arrivalDetails && (
                     <div className="flex justify-between items-center py-1">
-                      <span className="text-xs text-muted-foreground">Arrivée</span>
-                      <span className="text-xs font-medium">{formatDate(case_.arrivalDetails.arrivalDate)}</span>
+                      <span className="text-xs text-muted-foreground">Dates</span>
+                      <span className="text-xs font-medium">
+                        {case_.arrivalDetails.useExactDates && case_.arrivalDetails.departureDate
+                          ? `${formatDate(case_.arrivalDetails.arrivalDate)} - ${formatDate(case_.arrivalDetails.departureDate)} (${getNumberOfNights(case_.arrivalDetails.arrivalDate, case_.arrivalDetails.departureDate)} nuits)`
+                          : `${formatDate(case_.arrivalDetails.arrivalDate)} (${case_.arrivalDetails.estimatedDuration})`
+                        }
+                      </span>
                     </div>
                   )}
                 </div>

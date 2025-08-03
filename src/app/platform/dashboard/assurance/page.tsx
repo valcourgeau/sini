@@ -28,11 +28,12 @@ import {
   Accessibility,
   CheckCircle,
   File,
-  Shield
+  Shield,
+  MessageSquare
 } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Select } from "@/components/ui/select";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 
@@ -114,12 +115,38 @@ interface RelocationData {
   };
 }
 
+// Helper function to format dates to dd/mm/yyyy
+const formatDate = (dateString: string): string => {
+  const date = new Date(dateString);
+  return date.toLocaleDateString('fr-FR', {
+    day: '2-digit',
+    month: '2-digit',
+    year: 'numeric'
+  });
+};
+
+// Helper function to get date range display
+const getDateRangeDisplay = (arrivalDetails: any): string => {
+  if (!arrivalDetails) return "Dates non définies";
+  
+  const startDate = formatDate(arrivalDetails.arrivalDate);
+  
+  if (arrivalDetails.useExactDates && arrivalDetails.departureDate) {
+    const endDate = formatDate(arrivalDetails.departureDate);
+    return `${startDate} - ${endDate}`;
+  } else if (arrivalDetails.estimatedDuration) {
+    return `${startDate} (${arrivalDetails.estimatedDuration})`;
+  } else {
+    return startDate;
+  }
+};
+
 export default function AssuranceDashboard() {
   const [selectedFilter, setSelectedFilter] = useState<"agent" | "canton" | "group">("agent");
   const [selectedAgent, setSelectedAgent] = useState<string>("all");
   const [selectedCanton, setSelectedCanton] = useState<string>("all");
 
-  // Mock data based on relocation wizard structure
+  // Mock data based on relocation wizard structure with 2025 dates
   const mockRelocations: RelocationData[] = [
     {
       id: "REL-001",
@@ -146,8 +173,8 @@ export default function AssuranceDashboard() {
         needsParking: true
       },
       arrivalDetails: {
-        arrivalDate: "2024-01-15",
-        departureDate: "2024-02-15",
+        arrivalDate: "2025-01-15",
+        departureDate: "2025-02-15",
         useExactDates: true
       },
       insuranceCoverage: {
@@ -160,8 +187,8 @@ export default function AssuranceDashboard() {
       },
       status: "processing",
       priority: "high",
-      createdAt: "2024-01-15T10:30:00Z",
-      updatedAt: "2024-01-15T14:45:00Z",
+      createdAt: "2025-01-15T10:30:00Z",
+      updatedAt: "2025-01-15T14:45:00Z",
       responseTime: 2.1,
       cost: {
         insuranceCost: 2800,
@@ -203,8 +230,8 @@ export default function AssuranceDashboard() {
         needsParking: true
       },
       arrivalDetails: {
-        arrivalDate: "2024-01-10",
-        departureDate: "2024-02-10",
+        arrivalDate: "2025-01-10",
+        departureDate: "2025-02-10",
         useExactDates: true
       },
       insuranceCoverage: {
@@ -217,8 +244,8 @@ export default function AssuranceDashboard() {
       },
       status: "completed",
       priority: "normal",
-      createdAt: "2024-01-10T09:15:00Z",
-      updatedAt: "2024-01-12T16:30:00Z",
+      createdAt: "2025-01-10T09:15:00Z",
+      updatedAt: "2025-01-12T16:30:00Z",
       responseTime: 1.8,
       cost: {
         insuranceCost: 3200,
@@ -260,7 +287,7 @@ export default function AssuranceDashboard() {
         needsParking: false
       },
       arrivalDetails: {
-        arrivalDate: "2024-01-08",
+        arrivalDate: "2025-01-08",
         estimatedDuration: "3 mois",
         useExactDates: false
       },
@@ -269,8 +296,8 @@ export default function AssuranceDashboard() {
       },
       status: "completed",
       priority: "low",
-      createdAt: "2024-01-08T11:20:00Z",
-      updatedAt: "2024-01-10T13:45:00Z",
+      createdAt: "2025-01-08T11:20:00Z",
+      updatedAt: "2025-01-10T13:45:00Z",
       responseTime: 3.2,
       cost: {
         insuranceCost: 0,
@@ -312,8 +339,8 @@ export default function AssuranceDashboard() {
         needsParking: true
       },
       arrivalDetails: {
-        arrivalDate: "2024-01-16",
-        departureDate: "2024-03-16",
+        arrivalDate: "2025-01-16",
+        departureDate: "2025-03-16",
         useExactDates: true
       },
       insuranceCoverage: {
@@ -326,8 +353,8 @@ export default function AssuranceDashboard() {
       },
       status: "processing",
       priority: "high",
-      createdAt: "2024-01-16T08:45:00Z",
-      updatedAt: "2024-01-16T12:30:00Z",
+      createdAt: "2025-01-16T08:45:00Z",
+      updatedAt: "2025-01-16T12:30:00Z",
       responseTime: 2.5,
       cost: {
         insuranceCost: 4500,
@@ -369,7 +396,7 @@ export default function AssuranceDashboard() {
         needsParking: false
       },
       arrivalDetails: {
-        arrivalDate: "2024-01-18",
+        arrivalDate: "2025-01-18",
         estimatedDuration: "2 mois",
         useExactDates: false
       },
@@ -383,8 +410,8 @@ export default function AssuranceDashboard() {
       },
       status: "pending",
       priority: "normal",
-      createdAt: "2024-01-18T14:20:00Z",
-      updatedAt: "2024-01-18T14:20:00Z",
+      createdAt: "2025-01-18T14:20:00Z",
+      updatedAt: "2025-01-18T14:20:00Z",
       responseTime: null,
       cost: null,
       satisfaction: null,
@@ -419,7 +446,7 @@ export default function AssuranceDashboard() {
         needsParking: true
       },
       arrivalDetails: {
-        arrivalDate: "2024-01-17",
+        arrivalDate: "2025-01-17",
         estimatedDuration: "4 mois",
         useExactDates: false
       },
@@ -433,8 +460,8 @@ export default function AssuranceDashboard() {
       },
       status: "pending",
       priority: "high",
-      createdAt: "2024-01-17T16:45:00Z",
-      updatedAt: "2024-01-17T16:45:00Z",
+      createdAt: "2025-01-17T16:45:00Z",
+      updatedAt: "2025-01-17T16:45:00Z",
       responseTime: null,
       cost: null,
       satisfaction: null,
@@ -469,8 +496,8 @@ export default function AssuranceDashboard() {
         needsParking: true
       },
       arrivalDetails: {
-        arrivalDate: "2024-01-19",
-        departureDate: "2024-02-19",
+        arrivalDate: "2025-01-19",
+        departureDate: "2025-02-19",
         useExactDates: true
       },
       insuranceCoverage: {
@@ -478,8 +505,8 @@ export default function AssuranceDashboard() {
       },
       status: "pending",
       priority: "low",
-      createdAt: "2024-01-19T09:30:00Z",
-      updatedAt: "2024-01-19T09:30:00Z",
+      createdAt: "2025-01-19T09:30:00Z",
+      updatedAt: "2025-01-19T09:30:00Z",
       responseTime: null,
       cost: null,
       satisfaction: null,
@@ -514,7 +541,7 @@ export default function AssuranceDashboard() {
         needsParking: true
       },
       arrivalDetails: {
-        arrivalDate: "2024-01-20",
+        arrivalDate: "2025-01-20",
         estimatedDuration: "6 mois",
         useExactDates: false
       },
@@ -528,8 +555,8 @@ export default function AssuranceDashboard() {
       },
       status: "pending",
       priority: "high",
-      createdAt: "2024-01-20T11:15:00Z",
-      updatedAt: "2024-01-20T11:15:00Z",
+      createdAt: "2025-01-20T11:15:00Z",
+      updatedAt: "2025-01-20T11:15:00Z",
       responseTime: null,
       cost: null,
       satisfaction: null,
@@ -648,7 +675,7 @@ export default function AssuranceDashboard() {
       <Card className="p-6 bg-background border-primary/20">
         <div className="flex items-center gap-4 mb-6">
           <Filter className="h-5 w-5 text-primary" />
-          <h3 className="font-semibold text-primary">Vue des données</h3>
+          <h3 className="font-semibold text-primary">Filtres</h3>
         </div>
         
         {/* Main Filter Tabs */}
@@ -693,18 +720,16 @@ export default function AssuranceDashboard() {
           <div className="flex items-center gap-4">
             <div className="flex items-center gap-2">
               <span className="text-sm text-muted-foreground">Agent:</span>
-              <div className="relative">
-                <select
-                  value={selectedAgent}
-                  onChange={(e) => setSelectedAgent(e.target.value)}
-                  className="appearance-none bg-background border border-primary/20 rounded-lg px-3 py-2 pr-8 text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary"
-                >
-                  <option value="all">Tous les agents</option>
-                  <option value="AG-001">Marie Dubois</option>
-                  <option value="AG-002">Thomas Moreau</option>
-                </select>
-                <ChevronDown className="absolute right-2 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground pointer-events-none" />
-              </div>
+              <Select value={selectedAgent} onValueChange={setSelectedAgent}>
+                <SelectTrigger className="w-48">
+                  <SelectValue placeholder="Sélectionnez un agent" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">Tous les agents</SelectItem>
+                  <SelectItem value="AG-001">Marie Dubois</SelectItem>
+                  <SelectItem value="AG-002">Thomas Moreau</SelectItem>
+                </SelectContent>
+              </Select>
             </div>
           </div>
         )}
@@ -713,18 +738,16 @@ export default function AssuranceDashboard() {
           <div className="flex items-center gap-4">
             <div className="flex items-center gap-2">
               <span className="text-sm text-muted-foreground">Canton:</span>
-              <div className="relative">
-                <select
-                  value={selectedCanton}
-                  onChange={(e) => setSelectedCanton(e.target.value)}
-                  className="appearance-none bg-background border border-primary/20 rounded-lg px-3 py-2 pr-8 text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary"
-                >
-                  <option value="all">Tous les cantons</option>
-                  <option value="Genève">Genève</option>
-                  <option value="Vaud">Vaud</option>
-                </select>
-                <ChevronDown className="absolute right-2 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground pointer-events-none" />
-              </div>
+              <Select value={selectedCanton} onValueChange={setSelectedCanton}>
+                <SelectTrigger className="w-48">
+                  <SelectValue placeholder="Sélectionnez un canton" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">Tous les cantons</SelectItem>
+                  <SelectItem value="Genève">Genève</SelectItem>
+                  <SelectItem value="Vaud">Vaud</SelectItem>
+                </SelectContent>
+              </Select>
             </div>
           </div>
         )}
@@ -797,40 +820,46 @@ export default function AssuranceDashboard() {
         
         <div className="space-y-3">
           {filteredData.slice(0, 3).map((relocation) => (
-            <div key={relocation.id} className="flex items-center justify-between p-4 border border-primary/20 rounded-lg bg-secondary/50">
-              <div className="flex items-center gap-4">
-                <div className="flex items-center gap-2">
-                  {getStatusIcon(relocation.status)}
-                  <span className={`font-medium ${getStatusColor(relocation.status)}`}>
-                    {relocation.status === "processing" ? "En cours" : 
-                     relocation.status === "completed" ? "Terminé" : 
-                     relocation.status === "pending" ? "En attente" : "Annulé"}
-                  </span>
-                </div>
-                <div>
-                  <p className="font-medium text-primary">{relocation.id}</p>
-                  <p className="text-sm text-muted-foreground">
-                    {relocation.personalData.firstName} {relocation.personalData.lastName}
-                  </p>
-                </div>
-                <div>
-                  <p className="text-sm font-medium text-primary">
-                    {relocation.relocationType === "single" ? "1 relogement" : "Plusieurs relogements"}
-                  </p>
-                  <p className="text-xs text-muted-foreground">
-                    {relocation.disasterAddress.city}, {relocation.disasterAddress.canton}
-                  </p>
-                </div>
-                {relocation.cost && (
-                  <div>
-                    <p className="text-sm font-medium text-green-600">CHF {relocation.cost.totalCost}</p>
-                    <p className="text-xs text-muted-foreground">
-                      {relocation.cost.insuranceCost > 0 ? "Assurance" : "Assuré"}
-                    </p>
-                  </div>
+            <div key={relocation.id} className="grid grid-cols-5 gap-4 p-4 border border-primary/20 rounded-lg bg-secondary/50 items-center">
+              {/* Status */}
+              <div className="flex items-center gap-2">
+                {getStatusIcon(relocation.status)}
+                <span className={`font-medium ${getStatusColor(relocation.status)}`}>
+                  {relocation.status === "processing" ? "En cours" : 
+                   relocation.status === "completed" ? "Terminé" : 
+                   relocation.status === "pending" ? "En attente" : "Annulé"}
+                </span>
+              </div>
+              
+              {/* ID and Name */}
+              <div>
+                <p className="font-medium text-primary">{relocation.id}</p>
+                <p className="text-sm text-muted-foreground">
+                  {relocation.personalData.firstName} {relocation.personalData.lastName}
+                </p>
+              </div>
+              
+              {/* Date Range */}
+              <div>
+                <p className="text-sm font-medium text-primary">
+                  {getDateRangeDisplay(relocation.arrivalDetails)}
+                </p>
+                <p className="text-xs text-muted-foreground">
+                  {relocation.disasterAddress.city}, {relocation.disasterAddress.canton}
+                </p>
+              </div>
+              
+              {/* Cost */}
+              <div>
+                {relocation.cost ? (
+                  <p className="text-sm font-medium text-green-600">CHF {relocation.cost.totalCost}</p>
+                ) : (
+                  <p className="text-sm text-muted-foreground">-</p>
                 )}
               </div>
-              <div className="flex items-center gap-2">
+              
+              {/* Priority and Actions */}
+              <div className="flex items-center gap-2 justify-end">
                 <span className={`px-2 py-1 rounded-full text-xs font-medium ${getPriorityColor(relocation.priority)}`}>
                   {relocation.priority === "high" ? "Haute" : 
                    relocation.priority === "normal" ? "Normale" : "Basse"}
@@ -846,47 +875,95 @@ export default function AssuranceDashboard() {
         </div>
       </Card>
 
-      {/* Quick Actions */}
+      {/* Quick Actions - Messages and Notifications */}
       <div className="grid md:grid-cols-3 gap-4">
         <Card className="p-4 bg-background border-primary/20">
           <div className="flex items-center gap-3 mb-3">
+            <MessageSquare className="h-5 w-5 text-primary" />
+            <h3 className="font-semibold text-primary">Messages</h3>
+          </div>
+          <p className="text-sm text-muted-foreground mb-3">
+            3 nouveau(x) message(s)
+          </p>
+          <Button variant="outline" size="sm" className="w-full border-primary/20 text-primary hover:bg-primary hover:text-primary-foreground">
+            Voir les messages
+          </Button>
+        </Card>
+
+        <Card className="p-4 bg-background border-primary/20">
+          <div className="flex items-center gap-3 mb-3">
+            <AlertTriangle className="h-5 w-5 text-primary" />
+            <h3 className="font-semibold text-primary">Notifications</h3>
+          </div>
+          <p className="text-sm text-muted-foreground mb-3">
+            2 notification(s) en attente
+          </p>
+          <Button variant="outline" size="sm" className="w-full border-primary/20 text-primary hover:bg-primary hover:text-primary-foreground">
+            Voir les notifications
+          </Button>
+        </Card>
+
+        <Card className="p-4 bg-background border-primary/20">
+          <div className="flex items-center gap-3 mb-3">
             <FileText className="h-5 w-5 text-primary" />
-            <h3 className="font-semibold text-primary">Nouveau dossier</h3>
+            <h3 className="font-semibold text-primary">Documents</h3>
           </div>
           <p className="text-sm text-muted-foreground mb-3">
-            Créer un nouveau dossier de sinistre
+            1 document(s) en attente
           </p>
           <Button variant="outline" size="sm" className="w-full border-primary/20 text-primary hover:bg-primary hover:text-primary-foreground">
-            Créer un dossier
-          </Button>
-        </Card>
-
-        <Card className="p-4 bg-background border-primary/20">
-          <div className="flex items-center gap-3 mb-3">
-            <Building2 className="h-5 w-5 text-primary" />
-            <h3 className="font-semibold text-primary">Recherche logement</h3>
-          </div>
-          <p className="text-sm text-muted-foreground mb-3">
-            Trouver un logement pour un assuré
-          </p>
-          <Button variant="outline" size="sm" className="w-full border-primary/20 text-primary hover:bg-primary hover:text-primary-foreground">
-            Rechercher
-          </Button>
-        </Card>
-
-        <Card className="p-4 bg-background border-primary/20">
-          <div className="flex items-center gap-3 mb-3">
-            <BarChart3 className="h-5 w-5 text-primary" />
-            <h3 className="font-semibold text-primary">Rapports</h3>
-          </div>
-          <p className="text-sm text-muted-foreground mb-3">
-            Consulter les statistiques et rapports
-          </p>
-          <Button variant="outline" size="sm" className="w-full border-primary/20 text-primary hover:bg-primary hover:text-primary-foreground">
-            Voir les rapports
+            Voir les documents
           </Button>
         </Card>
       </div>
+
+      {/* Recent Messages */}
+      <Card className="p-6 bg-background border-primary/20">
+        <div className="flex items-center justify-between mb-4">
+          <h2 className="text-xl font-semibold text-primary">Messages récents</h2>
+          <Button variant="outline" size="sm" className="border-primary/20 text-primary hover:bg-primary hover:text-primary-foreground">
+            Voir tout
+          </Button>
+        </div>
+        
+        <div className="space-y-3">
+          {[
+            {
+              id: 1,
+              from: "Marie Dubois",
+              subject: "Nouveau dossier REL-009 créé",
+              date: "Il y a 2 heures",
+              unread: true
+            },
+            {
+              id: 2,
+              from: "Thomas Moreau",
+              subject: "Mise à jour dossier REL-005",
+              date: "Hier",
+              unread: true
+            },
+            {
+              id: 3,
+              from: "Système",
+              subject: "Rapport mensuel disponible",
+              date: "Il y a 3 jours",
+              unread: false
+            }
+          ].map((message) => (
+            <div key={message.id} className="flex items-center justify-between p-3 border border-primary/20 rounded-lg bg-secondary/50">
+              <div className="flex items-center gap-3">
+                <div className={`w-2 h-2 rounded-full ${message.unread ? 'bg-primary' : 'bg-muted-foreground'}`} />
+                <div>
+                  <p className="font-medium text-primary">{message.from}</p>
+                  <p className="text-sm text-muted-foreground">{message.subject}</p>
+                </div>
+              </div>
+              <span className="text-sm text-muted-foreground">{message.date}</span>
+            </div>
+          ))}
+        </div>
+      </Card>
+
     </div>
   );
 } 

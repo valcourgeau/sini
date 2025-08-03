@@ -42,7 +42,6 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
         return [
           { href: '/platform/dashboard/assurance', icon: Home, label: 'Tableau de bord' },
           { href: '/platform/dashboard/assurance/dossiers', icon: FileText, label: 'Dossiers' },
-          { href: '/platform/dashboard/assurance/relogements', icon: Building2, label: 'Relogements' },
           { href: '/platform/dashboard/assurance/statistiques', icon: BarChart3, label: 'Statistiques' },
           { href: '/platform/dashboard/assurance/profile', icon: User, label: 'Profil' },
         ];
