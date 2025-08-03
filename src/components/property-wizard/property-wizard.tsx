@@ -345,7 +345,7 @@ export function PropertyWizard() {
     <div className="container mx-auto py-8 px-4 md:px-0 bg-sand/50 max-w-5xl">
       <Card className="border-2 shadow-lg">
         <CardHeader className="pb-6">
-          <CardTitle className="text-2xl font-bold text-center">Ajouter un bien</CardTitle>
+          <CardTitle className="text-2xl font-bold text-center">Proposer un logement</CardTitle>
           <CardDescription className="text-center text-base">
             Veuillez remplir ce formulaire pour ajouter votre bien à notre plateforme.
           </CardDescription>
