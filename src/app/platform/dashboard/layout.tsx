@@ -86,10 +86,10 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
 
       {/* Sidebar */}
       <aside className={`
-        fixed top-16 left-0 z-40 h-[calc(100vh-4rem)] w-64 bg-primary text-primary-foreground 
+        fixed top-32 left-0 z-40 h-[calc(100vh-8rem)] w-64 bg-primary text-primary-foreground 
         transform transition-transform duration-300 ease-in-out
         ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'} 
-        lg:sticky lg:translate-x-0 lg:border-r lg:border-primary/20
+        lg:sticky lg:top-16 lg:h-[calc(100vh-4rem)] lg:translate-x-0 lg:border-r lg:border-primary/20
       `}>
         <div className="flex flex-col h-full">
           {/* Header */}

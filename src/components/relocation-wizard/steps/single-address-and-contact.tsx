@@ -320,7 +320,6 @@ export function SingleAddressAndContact({ form, userType }: SingleAddressAndCont
                 {...register("singlePersonalData.firstName")}
                 className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
                 placeholder="Prénom"
-                defaultValue="Valentin"
               />
               {personalErrors.firstName && (
                 <p className="text-sm text-red-500 mt-1">
@@ -338,7 +337,6 @@ export function SingleAddressAndContact({ form, userType }: SingleAddressAndCont
                 {...register("singlePersonalData.lastName")}
                 className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
                 placeholder="Nom"
-                defaultValue="Garnier"
               />
               {personalErrors.lastName && (
                 <p className="text-sm text-red-500 mt-1">
@@ -357,7 +355,6 @@ export function SingleAddressAndContact({ form, userType }: SingleAddressAndCont
                 {...register("singlePersonalData.email")}
                 className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
                 placeholder="email@exemple.com"
-                defaultValue="valentin.garnier@gmail.com"
               />
               {personalErrors.email && (
                 <p className="text-sm text-red-500 mt-1">
@@ -376,7 +373,6 @@ export function SingleAddressAndContact({ form, userType }: SingleAddressAndCont
                 {...register("singlePersonalData.phone")}
                 className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
                 placeholder="+41 XX XXX XX XX"
-                defaultValue="+41 79 123 45 67"
               />
               {personalErrors.phone && (
                 <p className="text-sm text-red-500 mt-1">
