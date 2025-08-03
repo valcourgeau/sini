@@ -197,7 +197,7 @@ export default function HomePage() {
                 <button 
                   onClick={handleRelocationClick}
                   disabled={isLoading}
-                  className="group inline-flex items-center gap-2 bg-secondary text-primary px-8 py-4 rounded-full text-lg font-semibold hover:bg-secondary/90 transition-colors disabled:opacity-70 disabled:cursor-not-allowed"
+                  className="group inline-flex items-center gap-2 bg-secondary text-primary px-8 py-4 rounded-full text-lg font-semibold hover:bg-secondary/90 transition-all duration-300 shadow-xl hover:shadow-2xl hover:scale-105 backdrop-blur-sm border-2 border-white/30 disabled:opacity-70 disabled:cursor-not-allowed"
                 >
                   {isLoading ? (
                     <>
@@ -294,7 +294,7 @@ export default function HomePage() {
                 <button 
                   onClick={handleInsuranceClick}
                   disabled={isLoading}
-                  className="group inline-flex items-center gap-2 bg-primary text-primary-foreground px-8 py-4 rounded-full text-lg font-semibold hover:bg-primary/90 transition-colors disabled:opacity-70 disabled:cursor-not-allowed"
+                  className="group inline-flex items-center gap-2 bg-primary text-primary-foreground px-8 py-4 rounded-full text-lg font-semibold hover:bg-primary/90 transition-all duration-300 shadow-xl hover:shadow-2xl hover:scale-105 backdrop-blur-sm border-2 border-white/30 disabled:opacity-70 disabled:cursor-not-allowed"
                 >
                   {isLoading ? (
                     <>
@@ -377,7 +377,7 @@ export default function HomePage() {
                 <button
                   onClick={handlePropertyClick}
                   disabled={isLoading || isManagementLoading}
-                  className="group inline-flex items-center gap-2 bg-secondary text-primary px-8 py-4 rounded-full text-lg font-semibold hover:bg-secondary/90 transition-colors disabled:opacity-70 disabled:cursor-not-allowed"
+                  className="group inline-flex items-center gap-2 bg-secondary text-primary px-8 py-4 rounded-full text-lg font-semibold hover:bg-secondary/90 transition-all duration-300 shadow-xl hover:shadow-2xl hover:scale-105 backdrop-blur-sm border-2 border-white/30 disabled:opacity-70 disabled:cursor-not-allowed"
                 >
                   {isLoading ? (
                     <>
@@ -394,7 +394,7 @@ export default function HomePage() {
                 <button
                   onClick={handleManagementClick}
                   disabled={isLoading || isManagementLoading}
-                  className="group inline-flex items-center gap-2 bg-white/20 text-white px-8 py-4 rounded-full text-lg font-semibold hover:bg-white/20 transition-colors disabled:opacity-70 disabled:cursor-not-allowed"
+                  className="group inline-flex items-center gap-2 bg-white/20 text-white px-8 py-4 rounded-full text-lg font-semibold hover:bg-white/20 transition-all duration-300 shadow-xl hover:shadow-2xl hover:scale-105 backdrop-blur-sm border-2 border-white/30 disabled:opacity-70 disabled:cursor-not-allowed"
                 >
                   {isManagementLoading ? (
                     <>
@@ -411,16 +411,15 @@ export default function HomePage() {
               </div>
             </div>
 
-            <div className="relative aspect-video rounded-2xl overflow-hidden bg-white/10">
-              <div className="absolute inset-0 flex items-center justify-center">
-                <div className="text-center">
-                  <div className="w-16 h-16 rounded-full bg-white/20 flex items-center justify-center mx-auto mb-4">
-                    <Home className="h-8 w-8 text-white" />
-                  </div>
-                  <p className="text-lg font-medium text-white">Découvrer le programme</p>
-                  <p className="text-sm text-white/60 mt-2">Rejoigner notre réseau d'hôtes</p>
-                </div>
-              </div>
+            <div className="relative aspect-video rounded-2xl overflow-hidden">
+              <Image
+                src={getImagePath("/happy-landlord.jpg")}
+                alt="Happy landlord - property owner with keys"
+                fill
+                className="object-cover"
+                sizes="(max-width: 768px) 100vw, 50vw"
+                priority
+              />
             </div>
           </div>
         </div>

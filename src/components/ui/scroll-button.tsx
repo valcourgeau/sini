@@ -27,7 +27,7 @@ export function ScrollButton({ iconName, title, description, sectionId }: Scroll
   return (
     <button
       onClick={scrollToSection}
-      className="group relative overflow-hidden rounded-2xl bg-primary p-12 text-primary-foreground transition-all hover:bg-primary/90 hover:scale-[1.02]"
+      className="group relative overflow-hidden rounded-2xl bg-primary p-12 text-primary-foreground transition-all duration-300 hover:bg-primary/90 hover:scale-105 shadow-xl hover:shadow-2xl backdrop-blur-sm border-2 border-white/30"
     >
       <div className="relative z-10">
         <Icon className="h-16 w-16 mb-6 mx-auto" />
