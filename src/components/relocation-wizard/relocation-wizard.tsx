@@ -122,7 +122,7 @@ const formSchema = z.object({
     if (data.hasInsurance === true) {
       return data.claimDocument !== undefined;
     }
-    return true; // If they select "no", they can proceed
+    return true; // If they select "no", they can proceed (validation will be handled in the component for sinistre users)
   }, {
     message: "Veuillez télécharger la déclaration de sinistre pour continuer.",
     path: ["claimDocument"]
@@ -345,8 +345,8 @@ export function RelocationWizard() {
         canton: "Genève"
       },
       singlePersonalData: {
-        firstName: "Valentin",
-        lastName: "Garnier",
+        firstName: "",
+        lastName: "",
         email: "valentin.garnier@gmail.com",
         phone: "+41 79 123 45 67"
       },
@@ -438,6 +438,13 @@ export function RelocationWizard() {
             form.setError("singleInsuranceCoverage", {
               type: "manual",
               message: "Veuillez télécharger la déclaration de sinistre pour continuer"
+            });
+            isValid = false;
+          } else if (insuranceData.hasInsurance === false && userTypeParam === "sinistre") {
+            // For sinistre users, prevent proceeding when "no" is selected
+            form.setError("singleInsuranceCoverage", {
+              type: "manual",
+              message: "Une déclaration de sinistre doit être téléchargée pour continuer."
             });
             isValid = false;
           } else {

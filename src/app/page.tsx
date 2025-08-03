@@ -311,16 +311,15 @@ export default function HomePage() {
               </div>
             </div>
 
-            <div className="relative aspect-video rounded-2xl overflow-hidden bg-primary/10">
-              <div className="absolute inset-0 flex items-center justify-center">
-                <div className="text-center">
-                  <div className="w-16 h-16 rounded-full bg-primary/20 flex items-center justify-center mx-auto mb-4">
-                    <Users className="h-8 w-8 text-primary" />
-                  </div>
-                  <p className="text-lg font-medium">Démonstration</p>
-                  <p className="text-sm text-muted-foreground mt-2">Découvrer notre plateforme en action</p>
-                </div>
-              </div>
+            <div className="relative aspect-video rounded-2xl overflow-hidden">
+              <Image
+                src={getImagePath("/happy-swiss-insurers.png")}
+                alt="Happy Swiss insurers - professionals shaking hands"
+                fill
+                className="object-cover"
+                sizes="(max-width: 768px) 100vw, 50vw"
+                priority
+              />
             </div>
           </div>
         </div>
@@ -348,7 +347,7 @@ export default function HomePage() {
                   <div>
                     <h3 className="text-xl font-bold mb-2 text-secondary">Maximiser vos revenus</h3>
                     <p className="text-secondary/90">
-                      Optimiser vos rendements et elargisser votre clientèle en rejoignant le réseau partenaire des assurances.
+                      Optimiser vos rendements et élargisser votre clientèle en rejoignant le réseau partenaire des assurances.
                     </p>
                   </div>
                 </div>

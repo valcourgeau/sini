@@ -48,7 +48,6 @@ export function MultipleDisasterAddress({ form }: MultipleDisasterAddressProps) 
                 {...register("multipleDisasterAddress.street")}
                 className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
                 placeholder="Rue et Numéro"
-                defaultValue="123 Rue de la Paix"
               />
               {addressErrors.street && (
                 <p className="text-sm text-destructive mt-1">
@@ -66,7 +65,6 @@ export function MultipleDisasterAddress({ form }: MultipleDisasterAddressProps) 
                   {...register("multipleDisasterAddress.city")}
                   className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
                   placeholder="Ville"
-                  defaultValue="Genève"
                 />
                 {addressErrors.city && (
                   <p className="text-sm text-destructive mt-1">
@@ -82,7 +80,6 @@ export function MultipleDisasterAddress({ form }: MultipleDisasterAddressProps) 
                   {...register("multipleDisasterAddress.postalCode")}
                   className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
                   placeholder="Code postal"
-                  defaultValue="1201"
                 />
                 {addressErrors.postalCode && (
                   <p className="text-sm text-destructive mt-1">
@@ -95,7 +92,6 @@ export function MultipleDisasterAddress({ form }: MultipleDisasterAddressProps) 
                 <Label htmlFor="multipleDisasterAddress.canton">Canton</Label>
                 <Select 
                   onValueChange={(value) => setValue("multipleDisasterAddress.canton", value)}
-                  defaultValue="Genève"
                 >
                   <SelectTrigger className="w-full">
                     <SelectValue placeholder="Canton" />
@@ -151,7 +147,6 @@ export function MultipleDisasterAddress({ form }: MultipleDisasterAddressProps) 
                 {...register("multiplePersonalData.firstName")}
                 className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
                 placeholder="Prénom"
-                defaultValue="Valentin"
               />
               {personalErrors.firstName && (
                 <p className="text-sm text-red-500 mt-1">
@@ -169,7 +164,6 @@ export function MultipleDisasterAddress({ form }: MultipleDisasterAddressProps) 
                 {...register("multiplePersonalData.lastName")}
                 className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
                 placeholder="Nom"
-                defaultValue="Garnier"
               />
               {personalErrors.lastName && (
                 <p className="text-sm text-red-500 mt-1">
@@ -188,7 +182,6 @@ export function MultipleDisasterAddress({ form }: MultipleDisasterAddressProps) 
                 {...register("multiplePersonalData.email")}
                 className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
                 placeholder="email@exemple.com"
-                defaultValue="valentin.garnier@gmail.com"
               />
               {personalErrors.email && (
                 <p className="text-sm text-red-500 mt-1">
@@ -207,7 +200,6 @@ export function MultipleDisasterAddress({ form }: MultipleDisasterAddressProps) 
                 {...register("multiplePersonalData.phone")}
                 className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
                 placeholder="+41 XX XXX XX XX"
-                defaultValue="+41 79 123 45 67"
               />
               {personalErrors.phone && (
                 <p className="text-sm text-red-500 mt-1">

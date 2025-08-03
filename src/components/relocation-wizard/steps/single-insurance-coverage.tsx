@@ -90,6 +90,8 @@ export function SingleInsuranceCoverage({ form, userType }: SingleInsuranceCover
         shouldDirty: true,
         shouldTouch: true 
       });
+      // Clear any custom error when selecting "yes"
+      form.clearErrors("singleInsuranceCoverage");
     } else if (value === "no") {
       setValue("singleInsuranceCoverage.hasInsurance", false, { 
         shouldValidate: true,
@@ -100,6 +102,14 @@ export function SingleInsuranceCoverage({ form, userType }: SingleInsuranceCover
       setSelectedFile(null);
       setValue("singleInsuranceCoverage.claimDocument", undefined);
       setValue("singleInsuranceCoverage.hasUploadedClaim", false);
+      
+      // For sinistre users, set a custom error when selecting "no"
+      if (userType === "sinistre") {
+        form.setError("singleInsuranceCoverage", {
+          type: "manual",
+          message: "Une déclaration de sinistre doit être téléchargée pour continuer."
+        });
+      }
     }
   };
 
@@ -109,6 +119,8 @@ export function SingleInsuranceCoverage({ form, userType }: SingleInsuranceCover
       setSelectedFile(file);
       setValue("singleInsuranceCoverage.claimDocument", file);
       setValue("singleInsuranceCoverage.hasUploadedClaim", true);
+      // Clear any custom error when a file is uploaded
+      form.clearErrors("singleInsuranceCoverage");
     }
   };
 
