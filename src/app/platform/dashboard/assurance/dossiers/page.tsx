@@ -149,8 +149,8 @@ export default function AssuranceDossiers() {
         needsParking: true
       },
       arrivalDetails: {
-        arrivalDate: "2024-01-15",
-        departureDate: "2024-02-15",
+        arrivalDate: "2025-08-01",
+        departureDate: "2025-09-01",
         useExactDates: true
       },
       insuranceCoverage: {
@@ -315,8 +315,8 @@ export default function AssuranceDossiers() {
         needsParking: true
       },
       arrivalDetails: {
-        arrivalDate: "2024-01-16",
-        departureDate: "2024-03-16",
+        arrivalDate: "2025-08-05",
+        departureDate: "2025-10-05",
         useExactDates: true
       },
       insuranceCoverage: {
@@ -658,24 +658,22 @@ export default function AssuranceDossiers() {
 
       {/* Filters */}
       <Card className="p-6 bg-background border-primary/20">
-        <div className="flex flex-col lg:flex-row gap-6">
-          {/* Column 1 - Narrow Search */}
-          <div className="lg:w-1/4">
-            <div className="relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-              <Input
-                placeholder="Rechercher par ID, nom ou ville..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-10"
-              />
-            </div>
+        <div className="flex flex-col gap-6">
+          {/* Search Bar - Above everything */}
+          <div className="relative">
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+            <Input
+              placeholder="Rechercher par ID, nom ou ville..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="pl-10"
+            />
           </div>
 
-          {/* Column 2 - Statut and Type */}
-          <div className="flex flex-col gap-4 lg:w-1/3">
+          {/* Filters Row - Statut, Type, Priorité horizontally aligned */}
+          <div className="flex flex-col lg:flex-row gap-6">
             {/* Status Filter */}
-            <div className="flex flex-col gap-2">
+            <div className="flex flex-col gap-2 lg:flex-1">
               <span className="text-sm font-medium text-muted-foreground">Statut</span>
               <div className="flex gap-1">
                 {["all", "pending", "processing", "completed"].map((status) => (
@@ -698,7 +696,7 @@ export default function AssuranceDossiers() {
             </div>
 
             {/* Type Filter */}
-            <div className="flex flex-col gap-2">
+            <div className="flex flex-col gap-2 lg:flex-1">
               <span className="text-sm font-medium text-muted-foreground">Type</span>
               <div className="flex gap-1">
                 {["all", "single", "multiple"].map((type) => (
@@ -713,17 +711,14 @@ export default function AssuranceDossiers() {
                     )}
                   >
                     {type === "all" ? "Tous" : 
-                     type === "single" ? "Unique" : "Multiple"}
+                     type === "single" ? "Simple" : "Multiple"}
                   </button>
                 ))}
               </div>
             </div>
-          </div>
 
-          {/* Column 3 - Priorité and Réinitialiser */}
-          <div className="flex flex-col gap-4 lg:w-1/3">
             {/* Priority Filter */}
-            <div className="flex flex-col gap-2">
+            <div className="flex flex-col gap-2 lg:flex-1">
               <span className="text-sm font-medium text-muted-foreground">Priorité</span>
               <div className="flex gap-1">
                 {["all", "high", "normal", "low"].map((priority) => (
@@ -746,13 +741,15 @@ export default function AssuranceDossiers() {
             </div>
 
             {/* Reset Button */}
-            <button
-              onClick={resetFilters}
-              className="flex items-center justify-center gap-1 px-3 py-2 rounded-md text-sm font-medium bg-secondary text-muted-foreground hover:bg-secondary/80 transition-colors w-fit"
-            >
-              <X className="h-4 w-4" />
-              Réinitialiser
-            </button>
+            <div className="flex items-end">
+              <button
+                onClick={resetFilters}
+                className="flex items-center justify-center gap-1 px-3 py-2 rounded-md text-sm font-medium bg-secondary text-muted-foreground hover:bg-secondary/80 transition-colors"
+              >
+                <X className="h-4 w-4" />
+                Réinitialiser
+              </button>
+            </div>
           </div>
         </div>
       </Card>
@@ -868,7 +865,7 @@ export default function AssuranceDossiers() {
                   <div className="flex justify-between items-center py-1">
                     <span className="text-xs text-muted-foreground">Type</span>
                     <span className="text-xs font-medium">
-                      {case_.relocationType === "single" ? "Unique" : "Multiple"}
+                      {case_.relocationType === "single" ? "Simple" : "Multiple"}
                     </span>
                   </div>
                   {case_.relocationPreferences && (

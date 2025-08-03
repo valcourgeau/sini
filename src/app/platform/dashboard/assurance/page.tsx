@@ -145,6 +145,24 @@ export default function AssuranceDashboard() {
   const [selectedFilter, setSelectedFilter] = useState<"agent" | "canton" | "group">("agent");
   const [selectedAgent, setSelectedAgent] = useState<string>("all");
   const [selectedCanton, setSelectedCanton] = useState<string>("all");
+  const [selectedDateFilter, setSelectedDateFilter] = useState<"month" | "year" | "all">("month");
+
+  // Helper function to check if a date is within the selected filter range
+  const isDateInRange = (dateString: string, filter: "month" | "year" | "all"): boolean => {
+    const date = new Date(dateString);
+    const now = new Date();
+    
+    switch (filter) {
+      case "month":
+        return date.getMonth() === now.getMonth() && date.getFullYear() === now.getFullYear();
+      case "year":
+        return date.getFullYear() === now.getFullYear();
+      case "all":
+        return true;
+      default:
+        return true;
+    }
+  };
 
   // Mock data based on relocation wizard structure with 2025 dates
   const mockRelocations: RelocationData[] = [
