@@ -12,9 +12,9 @@ export const metadata = {
  */
 export default function NewRelocationPage() {
   return (
-    <main className="flex-1 py-12 md:py-16 lg:py-20">
-      <div className="container mx-auto px-4 md:px-6">        
-        <div className="mt-12">
+    <main className="flex-1 py-0 md:py-0 lg:py-0">
+      <div className="container mx-auto px-0 md:px-0">
+        <div className="mt-0">
           <Suspense fallback={<div>Chargement...</div>}>
             <RelocationWizard />
           </Suspense>
