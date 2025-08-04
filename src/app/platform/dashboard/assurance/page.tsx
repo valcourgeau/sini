@@ -1510,129 +1510,122 @@ export default function AssuranceDashboard() {
 
         {/* Compact Filters Card */}
         <Card className="p-4 bg-background border-primary/20">
-          <div className="flex flex-col gap-2">
-            {/* Single Line Filters */}
-            <div className="flex items-center gap-4">
-              {/* Vue Filter */}
-              <div className="flex items-center gap-2">
-                <span className="text-xs font-medium text-muted-foreground">Vue:</span>
-                <div className="flex gap-1">
-                  {[
-                    { key: "agent", label: "Mes données" },
-                    { key: "canton", label: "Canton" },
-                    { key: "group", label: "Groupe" }
-                  ].map((filter) => (
-                    <button
-                      key={filter.key}
-                      onClick={() => setSelectedFilter(filter.key as "agent" | "canton" | "group")}
-                      className={cn(
-                        "px-2 py-1 rounded text-xs font-medium transition-colors",
-                        selectedFilter === filter.key
-                          ? "bg-primary text-primary-foreground"
-                          : "bg-secondary text-muted-foreground hover:bg-secondary/80"
-                      )}
-                    >
-                      {filter.label}
-                    </button>
-                  ))}
-                </div>
+          <div className="flex flex-col gap-3">
+            {/* Vue Filter */}
+            <div className="space-y-2">
+              <div className="flex items-center justify-between">
+                <span className="text-xs font-medium text-muted-foreground">Vue</span>
+                <button
+                  onClick={() => {
+                    setSelectedFilter("agent");
+                    setSelectedAgent("all");
+                    setSelectedCanton("all");
+                    setSelectedDateFilter("all");
+                  }}
+                  className="flex items-center justify-center w-6 h-6 rounded-md text-muted-foreground hover:bg-secondary/80 transition-colors"
+                  title="Réinitialiser les filtres"
+                >
+                  <RotateCcw className="h-3 w-3" />
+                </button>
               </div>
-
-              {/* Date Filter */}
-              <div className="flex items-center gap-2">
-                <span className="text-xs font-medium text-muted-foreground">Période:</span>
-                <div className="flex gap-1">
-                  {[
-                    { key: "all", label: "Tout" },
-                    { key: "year", label: "Année" },
-                    { key: "month", label: "Mois" }
-                  ].map((period) => (
-                    <button
-                      key={period.key}
-                      onClick={() => setSelectedDateFilter(period.key as "month" | "year" | "all")}
-                      className={cn(
-                        "px-2 py-1 rounded text-xs font-medium transition-colors",
-                        selectedDateFilter === period.key
-                          ? "bg-primary text-primary-foreground"
-                          : "bg-secondary text-muted-foreground hover:bg-secondary/80"
-                      )}
-                    >
-                      {period.label}
-                    </button>
-                  ))}
-                </div>
+              <div className="flex flex-wrap gap-1">
+                {[
+                  { key: "agent", label: "Mes données" },
+                  { key: "canton", label: "Canton" },
+                  { key: "group", label: "Groupe" }
+                ].map((filter) => (
+                  <button
+                    key={filter.key}
+                    onClick={() => setSelectedFilter(filter.key as "agent" | "canton" | "group")}
+                    className={cn(
+                      "px-2 py-1 rounded text-xs font-medium transition-colors",
+                      selectedFilter === filter.key
+                        ? "bg-primary text-primary-foreground"
+                        : "bg-secondary text-muted-foreground hover:bg-secondary/80"
+                    )}
+                  >
+                    {filter.label}
+                  </button>
+                ))}
               </div>
-
-              {/* Reset Button */}
-              <button
-                onClick={() => {
-                  setSelectedFilter("agent");
-                  setSelectedAgent("all");
-                  setSelectedCanton("all");
-                  setSelectedDateFilter("all");
-                }}
-                className="flex items-center justify-center w-6 h-6 rounded-md text-muted-foreground hover:bg-secondary/80 transition-colors ml-auto"
-                title="Réinitialiser les filtres"
-              >
-                <RotateCcw className="h-3 w-3" />
-              </button>
             </div>
             
-            {/* Conditional Filters - Second Line */}
-            {(selectedFilter === "agent" || selectedFilter === "canton") && (
-              <div className="flex items-center gap-4 pt-2 border-t border-primary/20">
-                {selectedFilter === "agent" && (
-                  <div className="flex items-center gap-2">
-                    <span className="text-xs font-medium text-muted-foreground">Agent:</span>
-                    <div className="flex gap-1">
-                      {[
-                        { key: "all", label: "Tous" },
-                        { key: "AG-001", label: "M. Dubois" },
-                        { key: "AG-002", label: "T. Moreau" },
-                        { key: "AG-003", label: "C. Martin" }
-                      ].map((agent) => (
-                        <button
-                          key={agent.key}
-                          onClick={() => setSelectedAgent(agent.key)}
-                          className={cn(
-                            "px-2 py-1 rounded text-xs font-medium transition-colors",
-                            selectedAgent === agent.key
-                              ? "bg-primary text-primary-foreground"
-                              : "bg-secondary text-muted-foreground hover:bg-secondary/80"
-                          )}
-                        >
-                          {agent.label}
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-                )}
-                
-                {selectedFilter === "canton" && (
-                  <div className="flex items-center gap-2">
-                    <span className="text-xs font-medium text-muted-foreground">Canton:</span>
-                    <div className="flex gap-1">
-                      {[
-                        { key: "all", label: "Tous" },
-                        { key: "Genève", label: "Genève" },
-                        { key: "Vaud", label: "Vaud" }
-                      ].map((canton) => (
-                        <button
-                          key={canton.key}
-                          onClick={() => setSelectedCanton(canton.key)}
-                          className={cn(
-                            "px-2 py-1 rounded text-xs font-medium transition-colors",
-                            selectedCanton === canton.key
-                              ? "bg-primary text-primary-foreground"
-                              : "bg-secondary text-muted-foreground hover:bg-secondary/80"
-                          )}
-                        >
-                          {canton.label}
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-                )}
+            {/* Date Filter */}
+            <div className="space-y-2">
+              <span className="text-xs font-medium text-muted-foreground">Période</span>
+              <div className="flex flex-wrap gap-1">
+                {[
+                  { key: "all", label: "Tout" },
+                  { key: "year", label: "Année" },
+                  { key: "month", label: "Mois" }
+                ].map((period) => (
+                  <button
+                    key={period.key}
+                    onClick={() => setSelectedDateFilter(period.key as "month" | "year" | "all")}
+                    className={cn(
+                      "px-2 py-1 rounded text-xs font-medium transition-colors",
+                      selectedDateFilter === period.key
+                        ? "bg-primary text-primary-foreground"
+                        : "bg-secondary text-muted-foreground hover:bg-secondary/80"
+                    )}
+                  >
+                    {period.label}
+                  </button>
+                ))}
+              </div>
+            </div>
+            
+            {/* Conditional Filters */}
+            {selectedFilter === "agent" && (
+              <div className="space-y-2">
+                <span className="text-xs font-medium text-muted-foreground">Agent</span>
+                <div className="flex flex-wrap gap-1">
+                  {[
+                    { key: "all", label: "Tous" },
+                    { key: "AG-001", label: "M. Dubois" },
+                    { key: "AG-002", label: "T. Moreau" },
+                    { key: "AG-003", label: "C. Martin" }
+                  ].map((agent) => (
+                    <button
+                      key={agent.key}
+                      onClick={() => setSelectedAgent(agent.key)}
+                      className={cn(
+                        "px-2 py-1 rounded text-xs font-medium transition-colors",
+                        selectedAgent === agent.key
+                          ? "bg-primary text-primary-foreground"
+                          : "bg-secondary text-muted-foreground hover:bg-secondary/80"
+                      )}
+                    >
+                      {agent.label}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+            
+            {selectedFilter === "canton" && (
+              <div className="space-y-2">
+                <span className="text-xs font-medium text-muted-foreground">Canton</span>
+                <div className="flex flex-wrap gap-1">
+                  {[
+                    { key: "all", label: "Tous" },
+                    { key: "Genève", label: "Genève" },
+                    { key: "Vaud", label: "Vaud" }
+                  ].map((canton) => (
+                    <button
+                      key={canton.key}
+                      onClick={() => setSelectedCanton(canton.key)}
+                      className={cn(
+                        "px-2 py-1 rounded text-xs font-medium transition-colors",
+                        selectedCanton === canton.key
+                          ? "bg-primary text-primary-foreground"
+                          : "bg-secondary text-muted-foreground hover:bg-secondary/80"
+                      )}
+                    >
+                      {canton.label}
+                    </button>
+                  ))}
+                </div>
               </div>
             )}
           </div>
