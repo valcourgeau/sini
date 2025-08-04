@@ -304,8 +304,8 @@ export function RelocationWizard() {
       singlePersonalData: {
         firstName: "",
         lastName: "",
-        email: "valentin.garnier@gmail.com",
-        phone: "+41 79 123 45 67"
+        email: "",
+        phone: ""
       },
       singleInsuredData: {
         firstName: "",

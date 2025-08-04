@@ -465,7 +465,7 @@ export function MultipleRelocationRequests({ form }: MultipleRelocationRequestsP
                           {...register(`multipleRelocationRequests.${index}.firstName`, {
                             required: "Le prénom est requis"
                           })}
-                          placeholder="Paul"
+                          placeholder="Prénom"
                           className={cn(
                             "h-8 px-2 py-1 text-xs",
                             getErrorMessage(index, 'firstName') ? "border-red-500" : ""
@@ -477,7 +477,7 @@ export function MultipleRelocationRequests({ form }: MultipleRelocationRequestsP
                           {...register(`multipleRelocationRequests.${index}.lastName`, {
                             required: "Le nom est requis"
                           })}
-                          placeholder="Dupont"
+                          placeholder="Nom"
                           className={cn(
                             "h-8 px-2 py-1 text-xs",
                             getErrorMessage(index, 'lastName') ? "border-red-500" : ""
@@ -488,7 +488,7 @@ export function MultipleRelocationRequests({ form }: MultipleRelocationRequestsP
                         <Input
                           type="email"
                           {...register(`multipleRelocationRequests.${index}.email`)}
-                          placeholder="paul.dupont@gmail.com"
+                          placeholder="exemple@email.com"
                           className={cn(
                             "h-8 px-2 py-1 text-xs",
                             getErrorMessage(index, 'email') ? "border-red-500" : ""

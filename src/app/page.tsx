@@ -12,7 +12,6 @@ import { getImagePath } from "@/lib/utils";
 
 export default function HomePage() {
   const [isLoading, setIsLoading] = useState(false);
-  const [isManagementLoading, setIsManagementLoading] = useState(false);
   const router = useRouter();
 
   const handleRelocationClick = async (e: React.MouseEvent) => {
@@ -55,15 +54,7 @@ export default function HomePage() {
     router.push("/property/new");
   };
 
-  const handleManagementClick = async (e: React.MouseEvent) => {
-    e.preventDefault();
-    setIsManagementLoading(true);
-    
-    // Add a small delay to show the loading state
-    await new Promise(resolve => setTimeout(resolve, 400));
-    
-    router.push("/platform");
-  };
+
 
   return (
     <main className="min-h-screen scroll-smooth">
@@ -77,18 +68,13 @@ export default function HomePage() {
         and "hero-accent" with "hero-accent-corporate"
       */}
       <section id="home" className="relative hero-background min-h-[calc(100vh-4rem)] flex items-center justify-center scroll-mt-16">
-        {/* Background accent elements */}
+        {/* Background accent elements - reduced number for stability */}
         <div className="hero-accent hidden lg:block" />
         <div className="hero-accent-circle-1 hidden lg:block" />
         <div className="hero-accent-circle-2 hidden lg:block" />
         <div className="hero-accent-circle-3 hidden lg:block" />
         <div className="hero-accent-circle-4 hidden lg:block" />
         <div className="hero-accent-circle-5 hidden lg:block" />
-        <div className="hero-accent-circle-6 hidden lg:block" />
-        <div className="hero-accent-circle-7 hidden lg:block" />
-        <div className="hero-accent-circle-8 hidden lg:block" />
-        <div className="hero-accent-circle-9 hidden lg:block" />
-        <div className="hero-accent-circle-10 hidden lg:block" />
         
         {/* Content overlay */}
         <div className="hero-overlay" />
@@ -111,13 +97,13 @@ export default function HomePage() {
             {/* Enhanced action buttons with glass effect */}
             <div className="grid md:grid-cols-2 gap-8 max-w-3xl mx-auto animate-in fade-in duration-500 delay-200 slide-in-from-bottom-4">
               <ScrollButton
-                iconName="alert-triangle"
+                iconName="userround"
                 title="Sinistrés"
                 description="Particuliers affectés par un sinistre"
                 sectionId="sinistres"
               />
               <ScrollButton
-                iconName="building2"
+                iconName="landmark"
                 title="Assurances"
                 description="Professionnels de l'assurance"
                 sectionId="assurances"
@@ -373,10 +359,10 @@ export default function HomePage() {
                 </div>
               </div>
 
-              <div className="pt-6 flex gap-4">
+              <div className="pt-6">
                 <button
                   onClick={handlePropertyClick}
-                  disabled={isLoading || isManagementLoading}
+                  disabled={isLoading}
                   className="group inline-flex items-center gap-2 bg-secondary text-primary px-8 py-4 rounded-full text-lg font-semibold hover:bg-secondary/90 transition-all duration-300 shadow-xl hover:shadow-2xl hover:scale-105 backdrop-blur-sm border-2 border-white/30 disabled:opacity-70 disabled:cursor-not-allowed"
                 >
                   {isLoading ? (
@@ -387,23 +373,6 @@ export default function HomePage() {
                   ) : (
                     <>
                       Devenir hôte
-                      <ArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-transform" />
-                    </>
-                  )}
-                </button>
-                <button
-                  onClick={handleManagementClick}
-                  disabled={isLoading || isManagementLoading}
-                  className="group inline-flex items-center gap-2 bg-white/20 text-white px-8 py-4 rounded-full text-lg font-semibold hover:bg-white/20 transition-all duration-300 shadow-xl hover:shadow-2xl hover:scale-105 backdrop-blur-sm border-2 border-white/30 disabled:opacity-70 disabled:cursor-not-allowed"
-                >
-                  {isManagementLoading ? (
-                    <>
-                      <Loader2 className="h-5 w-5 animate-spin" />
-                      Chargement...
-                    </>
-                  ) : (
-                    <>
-                      Connexion
                       <ArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-transform" />
                     </>
                   )}
