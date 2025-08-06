@@ -378,7 +378,7 @@ export function RelocationWizard() {
     
     if (!relocationType) return 8; // Default steps until relocation type selection
     
-    return relocationType === "single" ? 8 : 6; // Single: 8 steps, Multiple: 6 steps
+    return relocationType === "single" ? 8 : 4; // Single: 8 steps, Multiple: 4 steps
   };
 
   const totalSteps = getTotalSteps();
@@ -935,8 +935,8 @@ export function RelocationWizard() {
           // Step 4 is always relocation preferences for single path
           isValid = await form.trigger("singleRelocationPreferences");
         } else {
-          // Multiple path - validate broker information
-          isValid = await form.trigger("multiplePersonalData");
+          // Multiple path - consent step, validate consent
+          isValid = await form.trigger("multipleConsent");
         }
         break;
       case 5:
@@ -944,9 +944,6 @@ export function RelocationWizard() {
         if (form.watch("relocationType") === "single") {
           // Step 5 is always arrival details for single path
           isValid = arrivalDetailsRef.current?.validate() ?? false;
-        } else {
-          // Multiple path - review step, validate confirmation checkbox
-          isValid = await form.trigger("multipleReviewConfirmation");
         }
         break;
       case 6:
@@ -954,9 +951,6 @@ export function RelocationWizard() {
         if (form.watch("relocationType") === "single") {
           // Step 6 is always review confirmation for single path
           isValid = await form.trigger("singleReviewConfirmation");
-        } else {
-          // Multiple path - consent step, validate consent
-          isValid = await form.trigger("multipleConsent");
         }
         break;
       case 7:
@@ -1027,15 +1021,11 @@ export function RelocationWizard() {
       case 5:
         if (relocationType === "single") {
           return <SingleArrivalDetails ref={arrivalDetailsRef} form={form} onValidationChange={setIsArrivalDetailsValid} />;
-        } else if (relocationType === "multiple") {
-          return <SuccessMessage />;
         }
         break;
       case 6:
         if (relocationType === "single") {
           return <SingleReviewConfirm form={form} />;
-        } else if (relocationType === "multiple") {
-          return <SuccessMessage />;
         }
         break;
       case 7:
@@ -1060,7 +1050,7 @@ export function RelocationWizard() {
     
     const isFinalStep = 
       (relocationType === "single" && step === 8) ||
-      (relocationType === "multiple" && step === 5);
+      (relocationType === "multiple" && step === 4);
     
     // Don't show navigation buttons on the final step or consent step
     if (isFinalStep || (relocationType === "single" && step === 7) || (relocationType === "multiple" && step === 4)) {
