@@ -179,7 +179,7 @@ export function MultipleReviewConfirm({ form }: MultipleReviewConfirmProps) {
                       </h4>
                     </div>
                     
-                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-6" style={{ gridTemplateColumns: '2fr 1fr 1fr' }}>
                       {/* Contact & Timing Column */}
                       <div className="space-y-4">
                         <div className="flex items-center gap-2 mb-3">
@@ -195,9 +195,18 @@ export function MultipleReviewConfirm({ form }: MultipleReviewConfirmProps) {
                             <span className="text-sm text-foreground">{request.phone || "Non spécifié"}</span>
                           </div>
                           <div className="flex items-center justify-between">
-                            <span className="text-xs font-medium text-muted-foreground">Adresse de sinistre:</span>
-                            <span className="text-sm text-foreground">
-                              {disasterAddress ? formatCompleteAddress(disasterAddress) : "Non spécifiée"}
+                            <span className="text-xs font-medium text-muted-foreground">Adresse:</span>
+                            <span className="text-sm text-foreground text-right">
+                              {disasterAddress?.street || "Non spécifiée"}
+                            </span>
+                          </div>
+                          <div className="flex items-center justify-between">
+                            <span className="text-xs font-medium text-muted-foreground">Localité:</span>
+                            <span className="text-sm text-foreground text-right">
+                              {disasterAddress ? 
+                                `${disasterAddress.postalCode} ${disasterAddress.city}, ${disasterAddress.country}` : 
+                                "Non spécifiée"
+                              }
                             </span>
                           </div>
                           <div className="flex items-center justify-between">

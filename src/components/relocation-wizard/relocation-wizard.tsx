@@ -545,6 +545,52 @@ export function RelocationWizard() {
             }
           }
           
+          // Validate broker information (multiplePersonalData)
+          const brokerData = form.getValues("multiplePersonalData");
+          if (!brokerData) {
+            form.setError("multiplePersonalData", {
+              type: "manual",
+              message: "Les informations du courtier sont requises"
+            });
+            isValid = false;
+          } else {
+            // Validate broker firstName
+            if (!brokerData.firstName || brokerData.firstName.length < 2) {
+              form.setError("multiplePersonalData.firstName", {
+                type: "manual",
+                message: "Le prénom du courtier est requis (minimum 2 caractères)"
+              });
+              requestsValid = false;
+            }
+            
+            // Validate broker lastName
+            if (!brokerData.lastName || brokerData.lastName.length < 2) {
+              form.setError("multiplePersonalData.lastName", {
+                type: "manual",
+                message: "Le nom du courtier est requis (minimum 2 caractères)"
+              });
+              requestsValid = false;
+            }
+            
+            // Validate broker email
+            if (!brokerData.email || !/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(brokerData.email)) {
+              form.setError("multiplePersonalData.email", {
+                type: "manual",
+                message: "Veuillez entrer une adresse email valide pour le courtier"
+              });
+              requestsValid = false;
+            }
+            
+            // Validate broker phone
+            if (!brokerData.phone || brokerData.phone.length < 10) {
+              form.setError("multiplePersonalData.phone", {
+                type: "manual",
+                message: "Le numéro de téléphone du courtier est requis (minimum 10 caractères)"
+              });
+              requestsValid = false;
+            }
+          }
+          
           // Also validate that at least one disaster address exists
           const addresses = form.getValues("multipleDisasterAddresses");
           if (!addresses || addresses.length === 0) {

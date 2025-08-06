@@ -444,15 +444,21 @@ export function MultipleRelocationRequests({ form }: MultipleRelocationRequestsP
               </Label>
               <input
                 id="multiplePersonalData.firstName"
-                {...register("multiplePersonalData.firstName")}
-                className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                {...register("multiplePersonalData.firstName", {
+                  required: "Le prénom est requis"
+                })}
+                onChange={(e) => {
+                  if (e.target.value.length >= 2) {
+                    form.clearErrors("multiplePersonalData.firstName");
+                  }
+                }}
+                className={cn(
+                  "w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50",
+                  (errors.multiplePersonalData as any)?.firstName ? "border-red-500 focus-visible:ring-red-500 !border-red-500" : "border-input"
+                )}
                 placeholder="Prénom"
               />
-              {(errors.multiplePersonalData as any)?.firstName && (
-                <p className="text-sm text-destructive mt-1">
-                  {(errors.multiplePersonalData as any).firstName.message as string}
-                </p>
-              )}
+
             </div>
 
             <div className="space-y-2">
@@ -461,15 +467,21 @@ export function MultipleRelocationRequests({ form }: MultipleRelocationRequestsP
               </Label>
               <input
                 id="multiplePersonalData.lastName"
-                {...register("multiplePersonalData.lastName")}
-                className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                {...register("multiplePersonalData.lastName", {
+                  required: "Le nom est requis"
+                })}
+                onChange={(e) => {
+                  if (e.target.value.length >= 2) {
+                    form.clearErrors("multiplePersonalData.lastName");
+                  }
+                }}
+                className={cn(
+                  "w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50",
+                  (errors.multiplePersonalData as any)?.lastName ? "border-red-500 focus-visible:ring-red-500 !border-red-500" : "border-input"
+                )}
                 placeholder="Nom"
               />
-              {(errors.multiplePersonalData as any)?.lastName && (
-                <p className="text-sm text-destructive mt-1">
-                  {(errors.multiplePersonalData as any).lastName.message as string}
-                </p>
-              )}
+
             </div>
 
             <div className="col-span-2 space-y-2">
@@ -479,15 +491,22 @@ export function MultipleRelocationRequests({ form }: MultipleRelocationRequestsP
               <input
                 id="multiplePersonalData.email"
                 type="email"
-                {...register("multiplePersonalData.email")}
-                className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                {...register("multiplePersonalData.email", {
+                  required: "L'email est requis"
+                })}
+                onChange={(e) => {
+                  const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+                  if (emailRegex.test(e.target.value)) {
+                    form.clearErrors("multiplePersonalData.email");
+                  }
+                }}
+                className={cn(
+                  "w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50",
+                  (errors.multiplePersonalData as any)?.email ? "border-red-500 focus-visible:ring-red-500 !border-red-500" : "border-input"
+                )}
                 placeholder="email@exemple.com"
               />
-              {(errors.multiplePersonalData as any)?.email && (
-                <p className="text-sm text-destructive mt-1">
-                  {(errors.multiplePersonalData as any).email.message as string}
-                </p>
-              )}
+
             </div>
 
             <div className="space-y-2">
@@ -497,15 +516,21 @@ export function MultipleRelocationRequests({ form }: MultipleRelocationRequestsP
               <input
                 id="multiplePersonalData.phone"
                 type="tel"
-                {...register("multiplePersonalData.phone")}
-                className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                {...register("multiplePersonalData.phone", {
+                  required: "Le téléphone est requis"
+                })}
+                onChange={(e) => {
+                  if (e.target.value.length >= 10) {
+                    form.clearErrors("multiplePersonalData.phone");
+                  }
+                }}
+                className={cn(
+                  "w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50",
+                  (errors.multiplePersonalData as any)?.phone ? "border-red-500 focus-visible:ring-red-500 !border-red-500" : "border-input"
+                )}
                 placeholder="+41 00 000 00 00"
               />
-              {(errors.multiplePersonalData as any)?.phone && (
-                <p className="text-sm text-destructive mt-1">
-                  {(errors.multiplePersonalData as any).phone.message as string}
-                </p>
-              )}
+
             </div>
           </div>
         </div>
@@ -544,11 +569,6 @@ export function MultipleRelocationRequests({ form }: MultipleRelocationRequestsP
                           getAddressErrorMessage(index, 'street') ? "border-red-500 focus-visible:ring-red-500 !border-red-500" : ""
                         )}
                       />
-                      {getAddressErrorMessage(index, 'street') && (
-                        <p className="text-xs text-red-500 mt-1">
-                          {getAddressErrorMessage(index, 'street')}
-                        </p>
-                      )}
                     </TableCell>
                     <TableCell>
                       <Input
@@ -561,11 +581,6 @@ export function MultipleRelocationRequests({ form }: MultipleRelocationRequestsP
                           getAddressErrorMessage(index, 'city') ? "border-red-500 focus-visible:ring-red-500 !border-red-500" : ""
                         )}
                       />
-                      {getAddressErrorMessage(index, 'city') && (
-                        <p className="text-xs text-red-500 mt-1">
-                          {getAddressErrorMessage(index, 'city')}
-                        </p>
-                      )}
                     </TableCell>
                     <TableCell>
                       <Input
@@ -578,11 +593,6 @@ export function MultipleRelocationRequests({ form }: MultipleRelocationRequestsP
                           getAddressErrorMessage(index, 'postalCode') ? "border-red-500 focus-visible:ring-red-500 !border-red-500" : ""
                         )}
                       />
-                      {getAddressErrorMessage(index, 'postalCode') && (
-                        <p className="text-xs text-red-500 mt-1">
-                          {getAddressErrorMessage(index, 'postalCode')}
-                        </p>
-                      )}
                     </TableCell>
                     <TableCell>
                       <Select 
@@ -614,11 +624,6 @@ export function MultipleRelocationRequests({ form }: MultipleRelocationRequestsP
                           getAddressErrorMessage(index, 'country') ? "border-red-500 focus-visible:ring-red-500 !border-red-500" : ""
                         )}
                       />
-                      {getAddressErrorMessage(index, 'country') && (
-                        <p className="text-xs text-red-500 mt-1">
-                          {getAddressErrorMessage(index, 'country')}
-                        </p>
-                      )}
                     </TableCell>
                     <TableCell className="text-right">
                       <div className="flex justify-end gap-1">
