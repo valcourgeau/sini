@@ -1,0 +1,5 @@
+Make sure your changes are integrated seamlessly into the current data structure;
+Make sure we can review those changes in the review panel if you work with user data.
+Don't stop working until you've implemented everything you've been tasked to do; 
+Make sure we use our predefined colours if you need them;
+Always use getImagePath() utility function for all image references to ensure proper GitHub Pages deployment; 

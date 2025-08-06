@@ -1,0 +1,315 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Vaudoise Green and White Color Scheme - Final #009640 */
+    --background: 0 0% 100%; /* Pure white background */
+    --foreground: 146 100% 20%; /* Darker green for text - better readability */
+
+    --card: 0 0% 100%;
+    --card-foreground: 146 100% 20%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 146 100% 20%;
+
+    --primary: 146 100% 29%; /* Final Vaudoise green #009640 */
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 146 50% 95%; /* Very light green for backgrounds only */
+    --secondary-foreground: 146 100% 20%; /* Dark green text on light backgrounds */
+
+    --muted: 146 50% 95%;
+    --muted-foreground: 146 100% 25%; /* Darker green for muted text */
+
+    --accent: 146 100% 35%; /* Slightly lighter green */
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 146 50% 90%;
+    --input: 146 50% 90%;
+    --ring: 146 100% 29%;
+
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 146 100% 29%; /* Final Vaudoise green background */
+    --foreground: 0 0% 100%; /* White text */
+
+    --card: 146 100% 29%;
+    --card-foreground: 0 0% 100%;
+
+    --popover: 146 100% 29%;
+    --popover-foreground: 0 0% 100%;
+
+    --primary: 0 0% 100%; /* White primary */
+    --primary-foreground: 146 100% 29%;
+
+    --secondary: 146 100% 35%;
+    --secondary-foreground: 0 0% 100%;
+
+    --muted: 146 100% 35%;
+    --muted-foreground: 146 50% 90%;
+
+    --accent: 146 50% 95%;
+    --accent-foreground: 146 100% 20%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 146 100% 35%;
+    --input: 146 100% 35%;
+    --ring: 0 0% 100%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  html {
+    /* Removed scroll-behavior: smooth to prevent wobbly scrolling */
+  }
+  body {
+    @apply bg-background text-foreground font-sans;
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif;
+  }
+}
+
+@layer components {
+  /* Vaudoise Hero Background Pattern */
+  .hero-background-vaudoise {
+    background: linear-gradient(135deg, hsl(0 0% 100%) 0%, hsl(146 50% 95%) 100%);
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Vaudoise background accent elements */
+  .hero-accent-vaudoise,
+  .hero-accent-circle-vaudoise-1,
+  .hero-accent-circle-vaudoise-2,
+  .hero-accent-circle-vaudoise-3,
+  .hero-accent-circle-vaudoise-4,
+  .hero-accent-circle-vaudoise-5 {
+    animation: gentle-pulse-vaudoise 4s ease-in-out infinite;
+  }
+
+  @keyframes gentle-pulse-vaudoise {
+    0%, 100% { 
+      opacity: 0.3;
+      transform: translate(-50%, -50%) scale(1);
+    }
+    50% { 
+      opacity: 0.5;
+      transform: translate(-50%, -50%) scale(1.02);
+    }
+  }
+
+  /* Vaudoise Corporate Background */
+  .hero-background-vaudoise-corporate {
+    background: linear-gradient(135deg, hsl(0 0% 100%) 0%, hsl(146 50% 95%) 100%);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-background-vaudoise-corporate::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: 
+      linear-gradient(90deg, transparent 0%, hsl(146 100% 29% / 0.02) 25%, transparent 50%, hsl(146 100% 29% / 0.02) 75%, transparent 100%),
+      linear-gradient(0deg, transparent 0%, hsl(146 100% 29% / 0.015) 50%, transparent 100%);
+    background-size: 200px 200px, 100% 100%;
+    animation: corporate-shift-vaudoise 20s ease-in-out infinite;
+  }
+
+  .hero-background-vaudoise-corporate::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+      radial-gradient(ellipse 800px 400px at 0% 0%, hsl(146 100% 29% / 0.03) 0%, transparent 50%),
+      radial-gradient(ellipse 600px 300px at 100% 100%, hsl(146 100% 29% / 0.02) 0%, transparent 50%);
+    pointer-events: none;
+  }
+
+  /* Vaudoise mesh gradient overlay */
+  .hero-overlay-vaudoise {
+    background: 
+      radial-gradient(ellipse at top left, hsl(146 50% 95% / 0.8) 0%, transparent 50%),
+      radial-gradient(ellipse at bottom right, hsl(146 100% 29% / 0.05) 0%, transparent 50%);
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none;
+  }
+
+  /* Vaudoise accent elements */
+  .hero-accent-vaudoise {
+    position: absolute;
+    width: 500px;
+    height: 500px;
+    border: 2px solid hsl(146 100% 29% / 0.2);
+    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 0.4;
+  }
+
+  .hero-accent-vaudoise::before {
+    content: '';
+    position: absolute;
+    width: 400px;
+    height: 400px;
+    border: 2px solid hsl(146 100% 29% / 0.18);
+    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    animation: gentle-pulse-vaudoise 4s ease-in-out infinite 0.5s;
+  }
+
+  .hero-accent-vaudoise::after {
+    content: '';
+    position: absolute;
+    width: 300px;
+    height: 300px;
+    border: 2px solid hsl(146 100% 29% / 0.15);
+    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    animation: gentle-pulse-vaudoise 4s ease-in-out infinite 1s;
+  }
+
+  /* Vaudoise accent circles */
+  .hero-accent-circle-vaudoise-1 {
+    position: absolute;
+    width: 600px;
+    height: 600px;
+    border: 2px solid hsl(146 100% 29% / 0.12);
+    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    animation: gentle-pulse-vaudoise 4s ease-in-out infinite 1.5s;
+  }
+
+  .hero-accent-circle-vaudoise-2 {
+    position: absolute;
+    width: 700px;
+    height: 700px;
+    border: 2px solid hsl(146 100% 29% / 0.11);
+    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    animation: gentle-pulse-vaudoise 4s ease-in-out infinite 2s;
+  }
+
+  .hero-accent-circle-vaudoise-3 {
+    position: absolute;
+    width: 800px;
+    height: 800px;
+    border: 2px solid hsl(146 100% 29% / 0.1);
+    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    animation: gentle-pulse-vaudoise 4s ease-in-out infinite 2.5s;
+  }
+
+  .hero-accent-circle-vaudoise-4 {
+    position: absolute;
+    width: 900px;
+    height: 900px;
+    border: 2px solid hsl(146 100% 29% / 0.09);
+    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    animation: gentle-pulse-vaudoise 4s ease-in-out infinite 3s;
+  }
+
+  .hero-accent-circle-vaudoise-5 {
+    position: absolute;
+    width: 1000px;
+    height: 1000px;
+    border: 2px solid hsl(146 100% 29% / 0.08);
+    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    animation: gentle-pulse-vaudoise 4s ease-in-out infinite 3.5s;
+  }
+
+  /* Vaudoise corporate accent lines */
+  .hero-accent-vaudoise-corporate {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none;
+  }
+
+  .hero-accent-vaudoise-corporate::before {
+    content: '';
+    position: absolute;
+    top: 20%;
+    left: 10%;
+    width: 2px;
+    height: 60px;
+    background: linear-gradient(to bottom, transparent, hsl(146 100% 29% / 0.1), transparent);
+    animation: corporate-line-vaudoise 6s ease-in-out infinite;
+  }
+
+  .hero-accent-vaudoise-corporate::after {
+    content: '';
+    position: absolute;
+    bottom: 30%;
+    right: 15%;
+    width: 60px;
+    height: 2px;
+    background: linear-gradient(to right, transparent, hsl(146 100% 29% / 0.1), transparent);
+    animation: corporate-line-vaudoise 6s ease-in-out infinite 1s;
+  }
+}
+
+@layer utilities {
+  /* Vaudoise Animation keyframes */
+  @keyframes corporate-shift-vaudoise {
+    0%, 100% { transform: translateX(0) translateY(0); }
+    25% { transform: translateX(-5px) translateY(-3px); }
+    50% { transform: translateX(3px) translateY(-5px); }
+    75% { transform: translateX(-3px) translateY(3px); }
+  }
+
+  @keyframes corporate-line-vaudoise {
+    0%, 100% { opacity: 0.3; transform: scaleY(1); }
+    50% { opacity: 0.5; transform: scaleY(1.05); }
+  }
+
+  /* Vaudoise Glass morphism effect */
+  .glass-card-vaudoise {
+    background: hsl(0 0% 100% / 0.8);
+    backdrop-filter: blur(10px);
+    border: 1px solid hsl(146 100% 29% / 0.1);
+    box-shadow: 0 8px 32px hsl(146 100% 29% / 0.1);
+  }
+} 
