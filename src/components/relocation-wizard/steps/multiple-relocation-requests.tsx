@@ -42,16 +42,27 @@ import {
   Upload,
   Check,
   Clock,
-  CalendarRange
+  CalendarRange,
+  MapPin,
+  Plus
 } from "lucide-react";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
+
+interface DisasterAddress {
+  street: string;
+  city: string;
+  postalCode: string;
+  canton?: string;
+  country: string;
+}
 
 interface RelocationRequest {
   firstName: string;
   lastName: string;
   email: string;
   phone: string;
+  disasterAddressIndex: number;
   estimatedDuration: string;
   arrivalDate: Date | undefined;
   departureDate?: string;
@@ -78,7 +89,20 @@ export function MultipleRelocationRequests({ form }: MultipleRelocationRequestsP
   // Cast errors to any to avoid type issues
   const requestErrors = (errors.multipleRelocationRequests as any) || [];
   
-  // Initialize with one person when component mounts
+  // Get current disaster addresses or initialize empty array
+  const disasterAddresses = watch("multipleDisasterAddresses") || [];
+  const addressErrors = (errors.multipleDisasterAddresses as any) || [];
+  
+  // Swiss cantons
+  const swissCantons = [
+    "Argovie", "Appenzell Rhodes-Extérieures", "Appenzell Rhodes-Intérieures", "Bâle-Campagne", 
+    "Bâle-Ville", "Berne", "Fribourg", "Genève", "Glaris", "Grisons", "Jura", 
+    "Lucerne", "Neuchâtel", "Nidwald", "Obwald", "Schaffhouse", "Schwytz", 
+    "Soleure", "Saint-Gall", "Thurgovie", "Tessin", "Uri", "Valais", "Vaud", 
+    "Zoug", "Zurich"
+  ];
+  
+  // Initialize with one person and one disaster address when component mounts
   useEffect(() => {
     if (requests.length === 0) {
       const initialPerson: RelocationRequest = {
@@ -86,6 +110,7 @@ export function MultipleRelocationRequests({ form }: MultipleRelocationRequestsP
         lastName: "",
         email: "",
         phone: "",
+        disasterAddressIndex: 0,
         estimatedDuration: "",
         arrivalDate: undefined,
         departureDate: "",
@@ -98,6 +123,17 @@ export function MultipleRelocationRequests({ form }: MultipleRelocationRequestsP
         needsParking: false,
       };
       setValue("multipleRelocationRequests", [initialPerson]);
+    }
+    
+    if (disasterAddresses.length === 0) {
+      const initialAddress: DisasterAddress = {
+        street: "",
+        city: "",
+        postalCode: "",
+        canton: "Genève",
+        country: "Suisse"
+      };
+      setValue("multipleDisasterAddresses", [initialAddress]);
     }
   }, []);
   
@@ -252,6 +288,7 @@ export function MultipleRelocationRequests({ form }: MultipleRelocationRequestsP
       lastName: "",
       email: "",
       phone: "",
+      disasterAddressIndex: 0, // Reset to first available address
       estimatedDuration: "",
       arrivalDate: undefined,
       departureDate: "",
@@ -265,7 +302,7 @@ export function MultipleRelocationRequests({ form }: MultipleRelocationRequestsP
     };
     
     setValue("multipleRelocationRequests", [...requests, newPerson]);
-    toast.success("Nouvelle personne ajoutée à la liste");
+    toast.success("Nouveau foyer ajouté à la liste");
   };
   
   // Remove a person by index
@@ -285,11 +322,70 @@ export function MultipleRelocationRequests({ form }: MultipleRelocationRequestsP
     toast.success("Personne dupliquée");
   };
 
+  // Add a new disaster address
+  const addDisasterAddress = () => {
+    const newAddress: DisasterAddress = {
+      street: "",
+      city: "",
+      postalCode: "",
+      canton: "Genève",
+      country: "Suisse"
+    };
+    
+    setValue("multipleDisasterAddresses", [...disasterAddresses, newAddress]);
+    toast.success("Nouvelle adresse de sinistre ajoutée");
+  };
+  
+  // Remove a disaster address by index
+  const removeDisasterAddress = (index: number) => {
+    const updatedAddresses = [...disasterAddresses];
+    updatedAddresses.splice(index, 1);
+    setValue("multipleDisasterAddresses", updatedAddresses);
+    toast.success("Adresse de sinistre retirée");
+  };
+
+  // Duplicate a disaster address
+  const duplicateDisasterAddress = (index: number) => {
+    const addressToDuplicate = { ...disasterAddresses[index] };
+    const updatedAddresses = [...disasterAddresses];
+    updatedAddresses.splice(index + 1, 0, addressToDuplicate);
+    setValue("multipleDisasterAddresses", updatedAddresses);
+    toast.success("Adresse de sinistre dupliquée");
+  };
+
 
   // Function to get error message for a specific field
   const getErrorMessage = (index: number, field: string): string | undefined => {
     const fieldErrors = requestErrors[index] as any;
     return fieldErrors?.[field]?.message;
+  };
+
+  // Function to get error message for a specific address field
+  const getAddressErrorMessage = (index: number, field: string): string | undefined => {
+    const fieldErrors = addressErrors[index] as any;
+    return fieldErrors?.[field]?.message;
+  };
+
+  // Function to format complete address
+  const formatCompleteAddress = (address: DisasterAddress): string => {
+    const parts = [
+      address.street,
+      address.postalCode && address.city ? `${address.postalCode} ${address.city}` : address.city,
+      address.canton && address.canton !== "none" ? address.canton : null,
+      address.country
+    ].filter(Boolean);
+    
+    return parts.join(", ");
+  };
+
+  // Function to format short address for dropdown
+  const formatShortAddress = (address: DisasterAddress): string => {
+    const parts = [
+      address.street,
+      address.city
+    ].filter(Boolean);
+    
+    return parts.join(", ");
   };
 
 
@@ -328,15 +424,275 @@ export function MultipleRelocationRequests({ form }: MultipleRelocationRequestsP
   };
 
   return (
-    <div className="space-y-6">
-      <div>
-        <h2 className="text-lg font-medium mb-4">Demandes de relogement multiples</h2>
-        <p className="text-sm text-muted-foreground mb-6">
-          Veuillez fournir les informations d'une personne pour chaque foyer nécessitant une assistance au relogement.
+    <div className="space-y-8">
+      <div className="text-center">
+        <h2 className="text-xl font-semibold mb-2">Adresses de sinistre et demandes de relogement</h2>
+        <p className="text-sm text-muted-foreground mb-6 max-w-lg mx-auto">
+          Veuillez d'abord ajouter les adresses de sinistre, puis les demandes de relogement pour chaque foyer.
         </p>
       </div>
 
+      {/* Broker Information Section */}
       <div className="space-y-6">
+        <h3 className="text-lg font-medium">Informations du courtier</h3>
+        <div className="space-y-4">
+          {/* All fields on same line */}
+          <div className="grid grid-cols-5 gap-4">
+            <div className="space-y-2">
+              <Label htmlFor="multiplePersonalData.firstName">
+                Prénom <span className="text-red-500">*</span>
+              </Label>
+              <input
+                id="multiplePersonalData.firstName"
+                {...register("multiplePersonalData.firstName")}
+                className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                placeholder="Prénom"
+              />
+              {(errors.multiplePersonalData as any)?.firstName && (
+                <p className="text-sm text-destructive mt-1">
+                  {(errors.multiplePersonalData as any).firstName.message as string}
+                </p>
+              )}
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="multiplePersonalData.lastName">
+                Nom <span className="text-red-500">*</span>
+              </Label>
+              <input
+                id="multiplePersonalData.lastName"
+                {...register("multiplePersonalData.lastName")}
+                className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                placeholder="Nom"
+              />
+              {(errors.multiplePersonalData as any)?.lastName && (
+                <p className="text-sm text-destructive mt-1">
+                  {(errors.multiplePersonalData as any).lastName.message as string}
+                </p>
+              )}
+            </div>
+
+            <div className="col-span-2 space-y-2">
+              <Label htmlFor="multiplePersonalData.email">
+                Email <span className="text-red-500">*</span>
+              </Label>
+              <input
+                id="multiplePersonalData.email"
+                type="email"
+                {...register("multiplePersonalData.email")}
+                className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                placeholder="email@exemple.com"
+              />
+              {(errors.multiplePersonalData as any)?.email && (
+                <p className="text-sm text-destructive mt-1">
+                  {(errors.multiplePersonalData as any).email.message as string}
+                </p>
+              )}
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="multiplePersonalData.phone">
+                Téléphone <span className="text-red-500">*</span>
+              </Label>
+              <input
+                id="multiplePersonalData.phone"
+                type="tel"
+                {...register("multiplePersonalData.phone")}
+                className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                placeholder="+41 00 000 00 00"
+              />
+              {(errors.multiplePersonalData as any)?.phone && (
+                <p className="text-sm text-destructive mt-1">
+                  {(errors.multiplePersonalData as any).phone.message as string}
+                </p>
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Disaster Addresses Section */}
+    <div className="space-y-6">
+      <div>
+          <h3 className="text-lg font-medium mb-4">Lieux de sinistre</h3>
+        </div>
+        
+        {disasterAddresses.length > 0 ? (
+          <div className="rounded-lg border overflow-hidden bg-white shadow-sm">
+            <Table>
+              <TableHeader>
+                <TableRow className="bg-muted/50">
+                  <TableHead className="w-[200px] text-gray-900 font-medium text-sm">Adresse</TableHead>
+                  <TableHead className="w-[120px] text-gray-900 font-medium text-sm">Ville</TableHead>
+                  <TableHead className="w-[100px] text-gray-900 font-medium text-sm">Code postal</TableHead>
+                  <TableHead className="w-[120px] text-gray-900 font-medium text-sm">Canton</TableHead>
+                  <TableHead className="w-[100px] text-gray-900 font-medium text-sm">Pays</TableHead>
+                  <TableHead className="w-[100px] text-gray-900 font-medium text-right text-sm"></TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {disasterAddresses.map((address: DisasterAddress, index: number) => (
+                  <TableRow key={index} className="hover:bg-muted/30">
+                    <TableCell>
+                      <Input
+                        {...register(`multipleDisasterAddresses.${index}.street`, {
+                          required: "L'adresse est requise"
+                        })}
+                        placeholder="Rue et Numéro"
+                        className={cn(
+                          "h-8 px-2 py-1 text-xs",
+                          getAddressErrorMessage(index, 'street') ? "border-red-500 focus-visible:ring-red-500 !border-red-500" : ""
+                        )}
+                      />
+                      {getAddressErrorMessage(index, 'street') && (
+                        <p className="text-xs text-red-500 mt-1">
+                          {getAddressErrorMessage(index, 'street')}
+                        </p>
+                      )}
+                    </TableCell>
+                    <TableCell>
+                      <Input
+                        {...register(`multipleDisasterAddresses.${index}.city`, {
+                          required: "La ville est requise"
+                        })}
+                        placeholder="Ville"
+                        className={cn(
+                          "h-8 px-2 py-1 text-xs",
+                          getAddressErrorMessage(index, 'city') ? "border-red-500 focus-visible:ring-red-500 !border-red-500" : ""
+                        )}
+                      />
+                      {getAddressErrorMessage(index, 'city') && (
+                        <p className="text-xs text-red-500 mt-1">
+                          {getAddressErrorMessage(index, 'city')}
+                        </p>
+                      )}
+                    </TableCell>
+                    <TableCell>
+                      <Input
+                        {...register(`multipleDisasterAddresses.${index}.postalCode`, {
+                          required: "Le code postal est requis"
+                        })}
+                        placeholder="Code postal"
+                        className={cn(
+                          "h-8 px-2 py-1 text-xs",
+                          getAddressErrorMessage(index, 'postalCode') ? "border-red-500 focus-visible:ring-red-500 !border-red-500" : ""
+                        )}
+                      />
+                      {getAddressErrorMessage(index, 'postalCode') && (
+                        <p className="text-xs text-red-500 mt-1">
+                          {getAddressErrorMessage(index, 'postalCode')}
+                        </p>
+                      )}
+                    </TableCell>
+                    <TableCell>
+                      <Select 
+                        value={watch(`multipleDisasterAddresses.${index}.canton`) || ""}
+                        onValueChange={(value) => setValue(`multipleDisasterAddresses.${index}.canton`, value)}
+                      >
+                        <SelectTrigger className="h-8 px-2 py-1 text-xs">
+                          <SelectValue placeholder="Canton" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="none">Non applicable</SelectItem>
+                          {swissCantons.map((canton) => (
+                            <SelectItem key={canton} value={canton}>
+                              {canton}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </TableCell>
+                    <TableCell>
+                      <Input
+                        {...register(`multipleDisasterAddresses.${index}.country`, {
+                          required: "Le pays est requis"
+                        })}
+                        placeholder="Pays"
+                        defaultValue="Suisse"
+                        className={cn(
+                          "h-8 px-2 py-1 text-xs",
+                          getAddressErrorMessage(index, 'country') ? "border-red-500 focus-visible:ring-red-500 !border-red-500" : ""
+                        )}
+                      />
+                      {getAddressErrorMessage(index, 'country') && (
+                        <p className="text-xs text-red-500 mt-1">
+                          {getAddressErrorMessage(index, 'country')}
+                        </p>
+                      )}
+                    </TableCell>
+                    <TableCell className="text-right">
+                      <div className="flex justify-end gap-1">
+                        <TooltipProvider>
+                          <Tooltip>
+                            <TooltipTrigger asChild>
+                              <Button
+                                variant="ghost"
+                                size="icon"
+                                onClick={() => duplicateDisasterAddress(index)}
+                                type="button"
+                                className="h-7 w-7 text-black hover:text-black/70 hover:bg-gray-100"
+                              >
+                                <Copy className="h-4 w-4" />
+                              </Button>
+                            </TooltipTrigger>
+                            <TooltipContent>
+                              <p>Dupliquer cette adresse</p>
+                            </TooltipContent>
+                          </Tooltip>
+                        </TooltipProvider>
+                        <TooltipProvider>
+                          <Tooltip>
+                            <TooltipTrigger asChild>
+                              <Button
+                                variant="ghost"
+                                size="icon"
+                                onClick={() => removeDisasterAddress(index)}
+                                type="button"
+                                className="h-7 w-7 text-red-500 hover:text-red-700 hover:bg-red-50"
+                              >
+                                <Trash2 className="h-4 w-4" />
+                              </Button>
+                            </TooltipTrigger>
+                            <TooltipContent>
+                              <p>Supprimer cette adresse</p>
+                            </TooltipContent>
+                          </Tooltip>
+                        </TooltipProvider>
+                      </div>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </div>
+        ) : (
+          <div className="text-center p-8 border border-dashed rounded-md bg-muted/10">
+            <MapPin className="h-10 w-10 mx-auto text-muted-foreground mb-3" />
+            <h3 className="text-lg font-medium mb-1">Aucune adresse ajoutée</h3>
+            <p className="text-sm text-muted-foreground mb-4">
+              Veuillez ajouter au moins une adresse de sinistre
+        </p>
+      </div>
+        )}
+        
+        <div className="flex flex-col sm:flex-row gap-3">
+          <Button 
+            type="button" 
+            onClick={addDisasterAddress}
+            className="flex-1"
+          >
+            <Plus className="h-4 w-4 mr-2" />
+            Ajouter une adresse de sinistre
+          </Button>
+        </div>
+      </div>
+
+      {/* Relocation Requests Section */}
+      <div className="space-y-6">
+        <div>
+          <h3 className="text-lg font-medium mb-4">Demandes de relogement</h3>
+        </div>
+        
         {requests.length > 0 ? (
           <div className="rounded-lg border overflow-hidden bg-white shadow-sm">
             <Table>
@@ -345,10 +701,11 @@ export function MultipleRelocationRequests({ form }: MultipleRelocationRequestsP
                   {/* Contact Information Column */}
                   <TableHead className="w-[90px] text-gray-900 font-medium text-sm whitespace-nowrap">Prénom</TableHead>
                   <TableHead className="w-[110px] text-gray-900 font-medium text-sm whitespace-nowrap">Nom</TableHead>
-                  <TableHead className="w-[180px] text-gray-900 font-medium text-sm whitespace-nowrap">Email</TableHead>
+                  <TableHead className="w-[230px] text-gray-900 font-medium text-sm whitespace-nowrap">Email</TableHead>
                   <TableHead className="w-[140px] text-gray-900 font-medium text-sm whitespace-nowrap">Téléphone</TableHead>
-                  <TableHead className="w-[120px] text-gray-900 font-medium text-sm whitespace-nowrap">Arrivée</TableHead>
-                  <TableHead className="w-[200px] text-gray-900 font-medium text-sm whitespace-nowrap">Départ</TableHead>
+                  <TableHead className="w-[80px] text-gray-900 font-medium text-sm whitespace-nowrap">Adresse</TableHead>
+                  <TableHead className="w-[100px] text-gray-900 font-medium text-sm whitespace-nowrap">Arrivée</TableHead>
+                  <TableHead className="w-[150px] text-gray-900 font-medium text-sm whitespace-nowrap">Départ</TableHead>
 
                   {/* Property Requirements Column - Grouped */}
                   <TableHead className="w-[80px] text-gray-900 font-medium text-center text-sm">
@@ -499,12 +856,39 @@ export function MultipleRelocationRequests({ form }: MultipleRelocationRequestsP
                         <Input
                           type="tel"
                           {...register(`multipleRelocationRequests.${index}.phone`)}
-                          placeholder="+41 XX XXX XX XX"
+                          placeholder="+41 00 000 00 00"
                           className={cn(
                             "h-8 px-2 py-1 text-xs",
                             getErrorMessage(index, 'phone') ? "border-red-500" : ""
                           )}
                         />
+                      </TableCell>
+                      <TableCell>
+                        <Select
+                          value={watch(`multipleRelocationRequests.${index}.disasterAddressIndex`)?.toString() || "0"}
+                          onValueChange={(value) => setValue(`multipleRelocationRequests.${index}.disasterAddressIndex`, parseInt(value))}
+                        >
+                          <SelectTrigger className={cn(
+                            "h-8 px-2 py-1 text-xs w-[100px]",
+                            getErrorMessage(index, 'disasterAddressIndex') ? "border-red-500" : ""
+                          )}>
+                            <SelectValue placeholder="Sélectionner une adresse" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            {disasterAddresses.map((address: DisasterAddress, addressIndex: number) => (
+                              <SelectItem key={addressIndex} value={addressIndex.toString()}>
+                                <div className="flex flex-col">
+                                  <span className="font-medium truncate whitespace-nowrap overflow-hidden">{formatShortAddress(address)}</span>
+                                </div>
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                        {getErrorMessage(index, 'disasterAddressIndex') && (
+                          <p className="text-xs text-red-500 mt-1">
+                            {getErrorMessage(index, 'disasterAddressIndex')}
+                          </p>
+                        )}
                       </TableCell>
                       <TableCell>
                         <input
@@ -515,7 +899,7 @@ export function MultipleRelocationRequests({ form }: MultipleRelocationRequestsP
                             onChange: (e) => handleArrivalDateChange(index, e)
                           })}
                           className={cn(
-                            "w-[120px] rounded-md border bg-background px-2 py-1 text-xs ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 text-foreground [color-scheme:light]",
+                            "w-[110px] rounded-md border bg-background px-2 py-1 text-xs ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 text-foreground [color-scheme:light]",
                             getErrorMessage(index, 'arrivalDate') 
                               ? "border-red-500 focus-visible:ring-red-500 !border-red-500" 
                               : "border-input"
@@ -582,7 +966,7 @@ export function MultipleRelocationRequests({ form }: MultipleRelocationRequestsP
                               })}
                               placeholder="Date de départ"
                               className={cn(
-                                "w-[120px] rounded-md border bg-background px-2 py-1 text-xs ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 text-foreground [color-scheme:light]",
+                                "w-[110px] rounded-md border bg-background px-2 py-1 text-xs ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 text-foreground [color-scheme:light]",
                                 getErrorMessage(index, 'departureDate') 
                                   ? "border-red-500 focus-visible:ring-red-500 !border-red-500" 
                                   : "border-input"
@@ -823,11 +1207,11 @@ export function MultipleRelocationRequests({ form }: MultipleRelocationRequestsP
                   </div>
                 </TooltipTrigger>
                 <TooltipContent>
-                  <p>Aucune personne ajoutée</p>
+                  <p>Aucun foyer nécessitant une assistance au relogement ajouté</p>
                 </TooltipContent>
               </Tooltip>
             </TooltipProvider>
-            <h3 className="text-lg font-medium mb-1">Aucune personne ajoutée</h3>
+            <h3 className="text-lg font-medium mb-1">Aucun foyer ajouté</h3>
             <p className="text-sm text-muted-foreground mb-4">
               Veuillez ajouter les personnes nécessitant une assistance au relogement
             </p>

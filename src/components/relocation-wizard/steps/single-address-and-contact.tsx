@@ -207,7 +207,7 @@ export function SingleAddressAndContact({ form, userType }: SingleAddressAndCont
                   type="tel"
                   {...register("singleInsuredData.phone")}
                   className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-                  placeholder="+41 XX XXX XX XX"
+                  placeholder="+41 00 000 00 00"
                 />
                 {insuredErrors.phone && (
                   <p className="text-sm text-red-500 mt-1">
@@ -372,7 +372,7 @@ export function SingleAddressAndContact({ form, userType }: SingleAddressAndCont
                 type="tel"
                 {...register("singlePersonalData.phone")}
                 className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-                placeholder="+41 XX XXX XX XX"
+                placeholder="+41 00 000 00 00"
               />
               {personalErrors.phone && (
                 <p className="text-sm text-red-500 mt-1">

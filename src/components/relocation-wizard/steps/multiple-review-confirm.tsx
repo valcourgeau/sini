@@ -27,9 +27,18 @@ interface MultipleReviewConfirmProps {
   form: UseFormReturn<any>;
 }
 
+interface DisasterAddress {
+  street: string;
+  city: string;
+  postalCode: string;
+  canton?: string;
+  country: string;
+}
+
 export function MultipleReviewConfirm({ form }: MultipleReviewConfirmProps) {
   const formValues = form.getValues();
   const requests = formValues.multipleRelocationRequests || [];
+  const disasterAddresses = formValues.multipleDisasterAddresses || [];
   
   // Helper function to safely get nested values
   const getValue = (path: string, defaultValue: string = "Non spécifié") => {
@@ -70,6 +79,18 @@ export function MultipleReviewConfirm({ form }: MultipleReviewConfirmProps) {
     return nights > 0 ? nights : 0;
   };
 
+  // Function to format complete address
+  const formatCompleteAddress = (address: DisasterAddress): string => {
+    const parts = [
+      address.street,
+      address.postalCode && address.city ? `${address.postalCode} ${address.city}` : address.city,
+      address.canton && address.canton !== "none" ? address.canton : null,
+      address.country
+    ].filter(Boolean);
+    
+    return parts.join(", ");
+  };
+
   // Get form errors for validation
   const { formState: { errors } } = form;
   const reviewErrors = errors.multipleReviewConfirmation as any;
@@ -88,68 +109,28 @@ export function MultipleReviewConfirm({ form }: MultipleReviewConfirmProps) {
 
       {/* Main Content */}
       <div className="space-y-6">
-        {/* Disaster Address & Broker Information */}
+        {/* Broker Information Only */}
         <div className="bg-card border border-border rounded-xl p-6 shadow-sm">
-          <div className="flex flex-col lg:flex-row gap-8">
-            {/* Disaster Address */}
-            <div className="flex-1">
-              <div className="flex items-center gap-3 mb-6">
-                <div className="flex items-center justify-center w-8 h-8 bg-red-100 rounded-lg">
-                  <MapPin className="h-5 w-5 text-red-600" />
-                </div>
-                <h3 className="text-lg font-semibold text-foreground">Adresse commune du sinistre</h3>
-              </div>
-              <div className="space-y-3">
-                <div className="flex justify-between items-center py-1">
-                  <span className="text-sm text-muted-foreground">Rue</span>
-                  <span className="text-sm text-foreground">{getValue("multipleDisasterAddress.street")}</span>
-                </div>
-                <div className="flex justify-between items-center py-1">
-                  <span className="text-sm text-muted-foreground">Ville</span>
-                  <span className="text-sm text-foreground">{getValue("multipleDisasterAddress.city")}</span>
-                </div>
-                <div className="flex justify-between items-center py-1">
-                  <span className="text-sm text-muted-foreground">Code postal</span>
-                  <span className="text-sm text-foreground">{getValue("multipleDisasterAddress.postalCode")}</span>
-                </div>
-                <div className="flex justify-between items-center py-1">
-                  <span className="text-sm text-muted-foreground">Canton</span>
-                  <span className="text-sm text-foreground">{getValue("multipleDisasterAddress.canton")}</span>
-                </div>
-                <div className="flex justify-between items-center py-1">
-                  <span className="text-sm text-muted-foreground">Pays</span>
-                  <span className="text-sm text-foreground">{getValue("multipleDisasterAddress.country")}</span>
-                </div>
-              </div>
+          <div className="flex items-center gap-3 mb-6">
+            <div className="flex items-center justify-center w-8 h-8 bg-blue-100 rounded-lg">
+              <User className="h-4 w-4 text-blue-600" />
             </div>
-
-            {/* Vertical Separator */}
-            <div className="hidden lg:block w-px bg-border"></div>
-
-            {/* Broker Information */}
-            <div className="flex-1">
-              <div className="flex items-center gap-3 mb-6">
-                <div className="flex items-center justify-center w-8 h-8 bg-blue-100 rounded-lg">
-                  <User className="h-4 w-4 text-blue-600" />
-                </div>
-                <h3 className="text-lg font-semibold text-foreground">Informations du courtier</h3>
-              </div>
-              <div className="space-y-3">
-                <div className="flex justify-between items-center py-1">
-                  <span className="text-sm text-muted-foreground">Nom complet</span>
-                  <span className="text-sm font-medium text-foreground">
-                    {getValue("multiplePersonalData.firstName")} {getValue("multiplePersonalData.lastName")}
-                  </span>
-                </div>
-                <div className="flex justify-between items-center py-1">
-                  <span className="text-sm text-muted-foreground">Email</span>
-                  <span className="text-sm text-foreground">{getValue("multiplePersonalData.email")}</span>
-                </div>
-                <div className="flex justify-between items-center py-1">
-                  <span className="text-sm text-muted-foreground">Téléphone</span>
-                  <span className="text-sm text-foreground">{getValue("multiplePersonalData.phone")}</span>
-                </div>
-              </div>
+            <h3 className="text-lg font-semibold text-foreground">Informations du courtier</h3>
+          </div>
+          <div className="space-y-3">
+            <div className="flex justify-between items-center py-1">
+              <span className="text-sm text-muted-foreground">Nom complet</span>
+              <span className="text-sm font-medium text-foreground">
+                {getValue("multiplePersonalData.firstName")} {getValue("multiplePersonalData.lastName")}
+              </span>
+            </div>
+            <div className="flex justify-between items-center py-1">
+              <span className="text-sm text-muted-foreground">Email</span>
+              <span className="text-sm text-foreground">{getValue("multiplePersonalData.email")}</span>
+            </div>
+            <div className="flex justify-between items-center py-1">
+              <span className="text-sm text-muted-foreground">Téléphone</span>
+              <span className="text-sm text-foreground">{getValue("multiplePersonalData.phone")}</span>
             </div>
           </div>
         </div>
@@ -175,6 +156,8 @@ export function MultipleReviewConfirm({ form }: MultipleReviewConfirmProps) {
                 const arrivalDate = request.arrivalDate;
                 const departureDate = request.departureDate;
                 const estimatedDuration = request.estimatedDuration;
+                const disasterAddressIndex = request.disasterAddressIndex ?? 0;
+                const disasterAddress = disasterAddresses[disasterAddressIndex];
                 
                 // Calculate duration display
                 let durationDisplay = "Non spécifié";
@@ -210,6 +193,12 @@ export function MultipleReviewConfirm({ form }: MultipleReviewConfirmProps) {
                           <div className="flex items-center justify-between">
                             <span className="text-xs font-medium text-muted-foreground">Téléphone:</span>
                             <span className="text-sm text-foreground">{request.phone || "Non spécifié"}</span>
+                          </div>
+                          <div className="flex items-center justify-between">
+                            <span className="text-xs font-medium text-muted-foreground">Adresse de sinistre:</span>
+                            <span className="text-sm text-foreground">
+                              {disasterAddress ? formatCompleteAddress(disasterAddress) : "Non spécifiée"}
+                            </span>
                           </div>
                           <div className="flex items-center justify-between">
                             <span className="text-xs font-medium text-muted-foreground">Date d'arrivée:</span>
