@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { 
   Users, 
@@ -118,7 +118,8 @@ interface RelocationData {
   };
 }
 
-export default function AssuranceDossiers() {
+// Separate component that uses useSearchParams
+function AssuranceDossiersContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
   
@@ -1092,5 +1093,31 @@ export default function AssuranceDossiers() {
         </Card>
       )}
     </div>
+  );
+}
+
+// Loading component for Suspense fallback
+function LoadingFallback() {
+  return (
+    <div className="space-y-6">
+      <div>
+        <h1 className="text-3xl font-bold text-primary">Dossiers de relogement</h1>
+        <p className="text-muted-foreground mt-2">
+          Gérez et suivez tous vos dossiers de relogement
+        </p>
+      </div>
+      <div className="flex justify-center items-center h-64">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+      </div>
+    </div>
+  );
+}
+
+// Main component with Suspense boundary
+export default function AssuranceDossiers() {
+  return (
+    <Suspense fallback={<LoadingFallback />}>
+      <AssuranceDossiersContent />
+    </Suspense>
   );
 } 
