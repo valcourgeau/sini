@@ -75,7 +75,7 @@ export default function GeneraliHomePage() {
           <div className="mx-auto max-w-[980px] text-center">
             {/* Collaboration Logo */}
             <div className="mb-12 animate-in fade-in duration-500 slide-in-from-bottom-4">
-              <CollaborationLogo size="xl" className="justify-center mb-8" />
+              <CollaborationLogo size="2xl" className="justify-center mb-8" />
             </div>
             
             {/* Enhanced title with Generali branding */}
@@ -101,12 +101,14 @@ export default function GeneraliHomePage() {
                 title="Sinistrés"
                 description="Particuliers affectés par un sinistre"
                 sectionId="sinistres"
+                opacity="90"
               />
               <ScrollButton
                 iconName="landmark"
                 title="Assurances"
                 description="Professionnels de l'assurance"
                 sectionId="assurances"
+                opacity="90"
               />
             </div>
           </div>

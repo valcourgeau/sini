@@ -101,12 +101,14 @@ export default function VaudoiseHomePage() {
                 title="Sinistrés"
                 description="Particuliers affectés par un sinistre"
                 sectionId="sinistres"
+                opacity="80"
               />
               <ScrollButton
                 iconName="landmark"
                 title="Assurances"
                 description="Professionnels de l'assurance"
                 sectionId="assurances"
+                opacity="80"
               />
             </div>
           </div>

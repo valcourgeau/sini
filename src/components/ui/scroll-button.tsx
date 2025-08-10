@@ -7,6 +7,7 @@ interface ScrollButtonProps {
   title: string;
   description: string;
   sectionId: string;
+  opacity?: '60' | '80' | '90' | '100';
 }
 
 const iconMap: Record<ScrollButtonProps['iconName'], LucideIcon> = {
@@ -18,7 +19,7 @@ const iconMap: Record<ScrollButtonProps['iconName'], LucideIcon> = {
   'landmark': Landmark,
 };
 
-export function ScrollButton({ iconName, title, description, sectionId }: ScrollButtonProps) {
+export function ScrollButton({ iconName, title, description, sectionId, opacity = '60' }: ScrollButtonProps) {
   const scrollToSection = () => {
     const element = document.getElementById(sectionId);
     element?.scrollIntoView({ behavior: 'smooth' });
@@ -29,7 +30,7 @@ export function ScrollButton({ iconName, title, description, sectionId }: Scroll
   return (
     <button
       onClick={scrollToSection}
-      className="group relative overflow-hidden rounded-2xl bg-primary/60 p-12 text-secondary transition-all duration-300 hover:bg-primary/90 hover:scale-105 shadow-2xl hover:shadow-3xl backdrop-blur-sm"
+      className={`group relative overflow-hidden rounded-2xl bg-primary/${opacity} p-12 text-secondary transition-all duration-300 hover:bg-primary/90 hover:scale-105 shadow-2xl hover:shadow-3xl backdrop-blur-sm`}
     >
       <div className="relative z-10">
         <Icon className="h-16 w-16 mb-6 mx-auto text-secondary" />

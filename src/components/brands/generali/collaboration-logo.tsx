@@ -6,14 +6,15 @@ import { GeneraliLogo } from './generali-logo';
 
 interface CollaborationLogoProps {
   className?: string;
-  size?: 'sm' | 'md' | 'lg' | 'xl';
+  size?: 'sm' | 'md' | 'lg' | 'xl' | '2xl';
 }
 
 const sizes = {
   sm: 'text-sm',
   md: 'text-base',
   lg: 'text-lg',
-  xl: 'text-xl'
+  xl: 'text-xl',
+  '2xl': 'text-2xl'
 };
 
 export function CollaborationLogo({ className, size = 'lg' }: CollaborationLogoProps) {
@@ -30,13 +31,14 @@ export function CollaborationLogo({ className, size = 'lg' }: CollaborationLogoP
           'text-2xl': size === 'md',
           'text-3xl': size === 'lg',
           'text-4xl': size === 'xl',
+          'text-5xl': size === '2xl',
         }
       )}>
         <span>×</span>
       </div>
       
       {/* Generali Logo */}
-      <GeneraliLogo size={size === 'sm' ? 'sm' : size === 'md' ? 'md' : size === 'lg' ? 'lg' : 'lg'} />
+      <GeneraliLogo size={size} />
     </div>
   );
 }

@@ -5,13 +5,15 @@ import { getImagePath } from '@/lib/utils';
 
 interface GeneraliLogoProps {
   className?: string;
-  size?: 'sm' | 'md' | 'lg';
+  size?: 'sm' | 'md' | 'lg' | 'xl' | '2xl';
 }
 
 const sizes = {
   sm: 'h-8',
   md: 'h-12',
-  lg: 'h-16'
+  lg: 'h-16',
+  xl: 'h-20',
+  '2xl': 'h-24'
 };
 
 export function GeneraliLogo({ className, size = 'md' }: GeneraliLogoProps) {
