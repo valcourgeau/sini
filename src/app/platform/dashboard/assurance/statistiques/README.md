@@ -12,10 +12,10 @@ This directory contains the statistics and analytics components for the assuranc
 
 ## Features
 
-### 📊 Revenue Analytics
-- **Monthly Revenue Chart**: Bar chart showing revenue trends by month
-- **Cumulative Revenue Chart**: Area chart displaying total revenue progression
-- **Revenue Summary**: Total revenue calculation with real-time updates
+### 📊 Cost Analytics
+- **Monthly Costs Chart**: Bar chart showing cost trends by month
+- **Cumulative Costs Chart**: Area chart displaying total cost progression
+- **Cost Summary**: Total cost calculation with real-time updates
 
 ### 🎯 Performance Metrics
 - **Status Distribution**: Pie chart showing dossier status breakdown
@@ -47,8 +47,8 @@ This directory contains the statistics and analytics components for the assuranc
 
 ### Data Processing
 The component processes relocation data to generate:
-- Monthly revenue aggregations
-- Cumulative revenue calculations
+- Monthly cost aggregations
+- Cumulative cost calculations
 - Agent performance statistics
 - Status and canton distributions
 - Satisfaction trend analysis
@@ -90,9 +90,9 @@ This provides a full-screen view of all statistics and analytics with enhanced n
 
 ## Chart Types
 
-1. **Revenue Tab**
-   - Monthly Revenue (Bar Chart)
-   - Cumulative Revenue (Area Chart)
+1. **Costs Tab**
+   - Monthly Costs (Bar Chart)
+   - Cumulative Costs (Area Chart)
 
 2. **Performance Tab**
    - Status Distribution (Pie Chart)

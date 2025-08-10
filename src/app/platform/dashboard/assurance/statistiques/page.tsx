@@ -1197,7 +1197,7 @@ export default function AssuranceStatistiquesPage() {
           </Link>
           <h1 className="text-3xl font-bold text-primary">Statistiques et analyses</h1>
           <p className="text-muted-foreground mt-2">
-            Visualisez les performances, revenus et tendances de vos dossiers
+            Visualisez les performances, coûts et tendances de vos dossiers
           </p>
         </div>
       </div>

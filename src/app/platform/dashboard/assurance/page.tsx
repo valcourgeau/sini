@@ -1437,10 +1437,135 @@ export default function AssuranceDashboard() {
 
 
 
-      {/* Filter Selection Tool - Removed, now integrated into KPI cards grid */}
+      {/* Filters - Single line, right-aligned */}
+      <div className="flex justify-end items-center gap-6 mb-2">
+        {/* Vue Filter */}
+        <div className="flex items-center gap-2">
+          <div className="flex gap-0.5">
+            {[
+              { key: "agent", label: "Mes données" },
+              { key: "canton", label: "Canton" },
+              { key: "group", label: "Groupe" }
+            ].map((filter) => (
+              <button
+                key={filter.key}
+                onClick={() => setSelectedFilter(filter.key as "agent" | "canton" | "group")}
+                className={cn(
+                  "px-2 py-1 rounded text-xs font-medium transition-colors",
+                  selectedFilter === filter.key
+                    ? "bg-primary text-primary-foreground"
+                    : "bg-secondary text-muted-foreground hover:bg-secondary/80"
+                )}
+              >
+                {filter.label}
+              </button>
+            ))}
+          </div>
+        </div>
+        <div className="w-px h-4 bg-muted-foreground/30 mx-1"></div>
+        {/* Date Filter */}
+        <div className="flex items-center gap-2">
+          <div className="flex gap-0.5">
+            {[
+              { key: "all", label: "Tout" },
+              { key: "year", label: "Année" },
+              { key: "month", label: "Mois" }
+            ].map((period) => (
+              <button
+                key={period.key}
+                onClick={() => setSelectedDateFilter(period.key as "month" | "year" | "all")}
+                className={cn(
+                  "px-2 py-1 rounded text-xs font-medium transition-colors",
+                  selectedDateFilter === period.key
+                    ? "bg-primary text-primary-foreground"
+                    : "bg-secondary text-muted-foreground hover:bg-secondary/80"
+                )}
+              >
+                {period.label}
+              </button>
+            ))}
+          </div>
+        </div>
+        
+        {/* Conditional Filters */}
+        {selectedFilter === "agent" && (
+          <>
+            <div className="w-px h-4 bg-muted-foreground/30 mx-1"></div>
+            <div className="flex items-center gap-2">
+              <div className="flex gap-0.5">
+                {[
+                  { key: "all", label: "Agence" },
+                  { key: "AG-001", label: "M. Dubois" },
+                  { key: "AG-002", label: "T. Moreau" },
+                  { key: "AG-003", label: "C. Martin" }
+                ].map((agent) => (
+                  <button
+                    key={agent.key}
+                    onClick={() => setSelectedAgent(agent.key)}
+                    className={cn(
+                      "px-2 py-1 rounded text-xs font-medium transition-colors",
+                      selectedAgent === agent.key
+                        ? "bg-primary text-primary-foreground"
+                        : "bg-secondary text-muted-foreground hover:bg-secondary/80"
+                    )}
+                  >
+                    {agent.label}
+                  </button>
+                ))}
+              </div>
+            </div>
+          </>
+        )}
+        
+        {selectedFilter === "canton" && (
+          <>
+            <div className="w-px h-4 bg-muted-foreground/30 mx-1"></div>
+            <div className="flex items-center gap-2">
+              <span className="text-xs font-medium text-muted-foreground">Canton:</span>
+              <div className="flex gap-0.5">
+                {[
+                  { key: "all", label: "Tous" },
+                  { key: "Genève", label: "Genève" },
+                  { key: "Vaud", label: "Vaud" }
+                ].map((canton) => (
+                  <button
+                    key={canton.key}
+                    onClick={() => setSelectedCanton(canton.key)}
+                    className={cn(
+                      "px-2 py-1 rounded text-xs font-medium transition-colors",
+                      selectedCanton === canton.key
+                        ? "bg-primary text-primary-foreground"
+                        : "bg-secondary text-muted-foreground hover:bg-secondary/80"
+                    )}
+                  >
+                    {canton.label}
+                  </button>
+                ))}
+              </div>
+            </div>
+          </>
+        )}
+
+        <div className="w-px h-4 bg-muted-foreground/30 mx-1"></div>
+
+        {/* Reset Button */}
+        <button
+          onClick={() => {
+            setSelectedFilter("agent");
+            setSelectedAgent("all");
+            setSelectedCanton("all");
+            setSelectedDateFilter("all");
+          }}
+          className="flex items-center gap-1 px-2 py-1 rounded text-xs text-muted-foreground hover:bg-secondary/80 transition-colors"
+          title="Réinitialiser les filtres"
+        >
+          <RotateCcw className="h-3 w-3" />
+          <span>Réinitialiser</span>
+        </button>
+      </div>
 
       {/* KPI Cards */}
-      <div className="grid md:grid-cols-4 gap-4">
+      <div className="grid md:grid-cols-3 gap-4">
         {/* Operations KPI */}
         <Card className="p-6 bg-background border-primary/20">
           <div className="flex items-start justify-between mb-6">
@@ -1454,15 +1579,39 @@ export default function AssuranceDashboard() {
           <div className="space-y-4">
             <div className="flex justify-between items-center pt-3 border-t border-primary/20">
               <span className="text-xs font-medium text-yellow-600">En attente</span>
-              <span className="text-sm font-medium text-primary">{kpis.pendingFiles}</span>
+              <div className="flex items-center gap-2">
+                <span className="text-sm font-medium text-primary">{kpis.pendingFiles}</span>
+                <Link 
+                  href="/platform/dashboard/assurance/dossiers?status=pending"
+                  className="text-xs text-primary hover:text-primary/80 transition-colors underline"
+                >
+                  Voir
+                </Link>
+              </div>
             </div>
             <div className="flex justify-between items-center">
               <span className="text-xs font-medium text-blue-600">En cours</span>
-              <span className="text-sm font-medium text-primary">{kpis.processingFiles}</span>
+              <div className="flex items-center gap-2">
+                <span className="text-sm font-medium text-primary">{kpis.processingFiles}</span>
+                <Link 
+                  href="/platform/dashboard/assurance/dossiers?status=processing"
+                  className="text-xs text-primary hover:text-primary/80 transition-colors underline"
+                >
+                  Voir
+                </Link>
+              </div>
             </div>
             <div className="flex justify-between items-center">
               <span className="text-xs font-medium text-green-600">Terminés</span>
-              <span className="text-sm font-medium text-primary">{kpis.completedFiles}</span>
+              <div className="flex items-center gap-2">
+                <span className="text-sm font-medium text-primary">{kpis.completedFiles}</span>
+                <Link 
+                  href="/platform/dashboard/assurance/dossiers?status=completed"
+                  className="text-xs text-primary hover:text-primary/80 transition-colors underline"
+                >
+                  Voir
+                </Link>
+              </div>
             </div>
           </div>
         </Card>
@@ -1498,14 +1647,14 @@ export default function AssuranceDashboard() {
           <div className="flex items-start justify-between mb-6">
             <div>
               <p className="text-base font-semibold text-muted-foreground">Satisfaction client</p>
-              <div className="flex items-center gap-2 mt-2">
+              <div className="flex items-center gap-3 mt-3">
                 <div className="flex">
                   {renderStars(parseFloat(kpis.averageSatisfaction))}
                 </div>
-                <span className="text-xl font-bold text-primary">{kpis.averageSatisfaction}/5</span>
+                <span className="text-2xl font-bold text-primary">{kpis.averageSatisfaction}/5</span>
               </div>
             </div>
-            <Star className="h-10 w-10 text-primary" />
+            <Star className="h-12 w-12 text-primary" />
           </div>
           <div className="space-y-4">
             <div className="flex justify-between items-center pt-3 border-t border-primary/20">
@@ -1516,135 +1665,14 @@ export default function AssuranceDashboard() {
               <span className="text-xs text-muted-foreground">Attente moyenne</span>
               <span className="text-sm font-medium text-primary">{kpis.averageWaitingTime} jours</span>
             </div>
-            <div className="flex justify-between items-center ">
+            <div className="flex justify-between items-center">
               <span className="text-xs text-muted-foreground">Délai d'acceptation moyen</span>
               <span className="text-sm font-medium text-primary">{kpis.averageAcceptanceDelay} jours</span>
             </div>
           </div>
         </Card>
 
-        {/* Compact Filters Card */}
-        <Card className="p-4 bg-background border-primary/20">
-          <div className="flex flex-col gap-3">
-            {/* Vue Filter */}
-            <div className="space-y-2">
-              <div className="flex items-center justify-between">
-                <span className="text-xs font-medium text-muted-foreground">Vue</span>
-                <button
-                  onClick={() => {
-                    setSelectedFilter("agent");
-                    setSelectedAgent("all");
-                    setSelectedCanton("all");
-                    setSelectedDateFilter("all");
-                  }}
-                  className="flex items-center justify-center w-6 h-6 rounded-md text-muted-foreground hover:bg-secondary/80 transition-colors"
-                  title="Réinitialiser les filtres"
-                >
-                  <RotateCcw className="h-3 w-3" />
-                </button>
-              </div>
-              <div className="flex flex-wrap gap-1">
-                {[
-                  { key: "agent", label: "Mes données" },
-                  { key: "canton", label: "Canton" },
-                  { key: "group", label: "Groupe" }
-                ].map((filter) => (
-                  <button
-                    key={filter.key}
-                    onClick={() => setSelectedFilter(filter.key as "agent" | "canton" | "group")}
-                    className={cn(
-                      "px-2 py-1 rounded text-xs font-medium transition-colors",
-                      selectedFilter === filter.key
-                        ? "bg-primary text-primary-foreground"
-                        : "bg-secondary text-muted-foreground hover:bg-secondary/80"
-                    )}
-                  >
-                    {filter.label}
-                  </button>
-                ))}
-              </div>
-            </div>
-            
-            {/* Date Filter */}
-            <div className="space-y-2">
-              <span className="text-xs font-medium text-muted-foreground">Période</span>
-              <div className="flex flex-wrap gap-1">
-                {[
-                  { key: "all", label: "Tout" },
-                  { key: "year", label: "Année" },
-                  { key: "month", label: "Mois" }
-                ].map((period) => (
-                  <button
-                    key={period.key}
-                    onClick={() => setSelectedDateFilter(period.key as "month" | "year" | "all")}
-                    className={cn(
-                      "px-2 py-1 rounded text-xs font-medium transition-colors",
-                      selectedDateFilter === period.key
-                        ? "bg-primary text-primary-foreground"
-                        : "bg-secondary text-muted-foreground hover:bg-secondary/80"
-                    )}
-                  >
-                    {period.label}
-                  </button>
-                ))}
-              </div>
-            </div>
-            
-            {/* Conditional Filters */}
-            {selectedFilter === "agent" && (
-              <div className="space-y-2">
-                <span className="text-xs font-medium text-muted-foreground">Agent</span>
-                <div className="flex flex-wrap gap-1">
-                  {[
-                    { key: "all", label: "Tous" },
-                    { key: "AG-001", label: "M. Dubois" },
-                    { key: "AG-002", label: "T. Moreau" },
-                    { key: "AG-003", label: "C. Martin" }
-                  ].map((agent) => (
-                    <button
-                      key={agent.key}
-                      onClick={() => setSelectedAgent(agent.key)}
-                      className={cn(
-                        "px-2 py-1 rounded text-xs font-medium transition-colors",
-                        selectedAgent === agent.key
-                          ? "bg-primary text-primary-foreground"
-                          : "bg-secondary text-muted-foreground hover:bg-secondary/80"
-                      )}
-                    >
-                      {agent.label}
-                    </button>
-                  ))}
-                </div>
-              </div>
-            )}
-            
-            {selectedFilter === "canton" && (
-              <div className="space-y-2">
-                <span className="text-xs font-medium text-muted-foreground">Canton</span>
-                <div className="flex flex-wrap gap-1">
-                  {[
-                    { key: "all", label: "Tous" },
-                    { key: "Genève", label: "Genève" },
-                    { key: "Vaud", label: "Vaud" }
-                  ].map((canton) => (
-                    <button
-                      key={canton.key}
-                      onClick={() => setSelectedCanton(canton.key)}
-                      className={cn(
-                        "px-2 py-1 rounded text-xs font-medium transition-colors",
-                        selectedCanton === canton.key
-                          ? "bg-primary text-primary-foreground"
-                          : "bg-secondary text-muted-foreground hover:bg-secondary/80"
-                      )}
-                    >
-                      {canton.label}
-                    </button>
-                  ))}
-                </div>
-              </div>
-            )}
-          </div>
-        </Card>
+
       </div>
 
       {/* Recent Relocations - Compact Style */}
@@ -1762,9 +1790,9 @@ export default function AssuranceDashboard() {
         <div className="flex items-center justify-between mb-6">
           <div>
             <h2 className="text-xl font-semibold text-primary">Statistiques et analyses</h2>
-            <p className="text-sm text-muted-foreground">
-              Visualisez les performances, revenus et tendances de vos dossiers
-            </p>
+                          <p className="text-sm text-muted-foreground">
+                Visualisez les performances, coûts et tendances de vos dossiers
+              </p>
           </div>
           <Link href="/platform/dashboard/assurance/statistiques">
             <Button variant="outline" size="sm" className="border-primary/20 text-primary hover:bg-primary hover:text-primary-foreground">

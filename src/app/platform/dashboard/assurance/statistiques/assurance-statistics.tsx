@@ -142,7 +142,7 @@ export default function AssuranceStatistics({
   selectedCanton, 
   selectedDateFilter 
 }: AssuranceStatisticsProps) {
-  const [activeTab, setActiveTab] = useState<"revenue" | "performance" | "agents" | "trends">("revenue");
+  const [activeTab, setActiveTab] = useState<"costs" | "performance" | "agents" | "trends">("costs");
   const [animationKey, setAnimationKey] = useState(0);
 
   // Trigger animation on data change
@@ -151,7 +151,7 @@ export default function AssuranceStatistics({
   }, [data, selectedFilter, selectedAgent, selectedCanton, selectedDateFilter]);
 
   // Process data for charts
-  const processMonthlyRevenue = () => {
+  const processMonthlyCosts = () => {
     const monthlyData: { [key: string]: number } = {};
     
     data.forEach(item => {
@@ -163,9 +163,9 @@ export default function AssuranceStatistics({
     });
 
     return Object.entries(monthlyData)
-      .map(([month, revenue]) => ({
+      .map(([month, costs]) => ({
         month,
-        revenue,
+        costs,
         formattedMonth: new Date(month + '-01').toLocaleDateString('fr-FR', { 
           month: 'short', 
           year: 'numeric' 
@@ -174,12 +174,12 @@ export default function AssuranceStatistics({
       .sort((a, b) => a.month.localeCompare(b.month));
   };
 
-  const processCumulativeRevenue = () => {
-    const monthlyRevenue = processMonthlyRevenue();
+  const processCumulativeCosts = () => {
+    const monthlyCosts = processMonthlyCosts();
     let cumulative = 0;
     
-    return monthlyRevenue.map(item => {
-      cumulative += item.revenue;
+    return monthlyCosts.map(item => {
+      cumulative += item.costs;
       return {
         ...item,
         cumulative
@@ -196,7 +196,7 @@ export default function AssuranceStatistics({
         agentStats[agentId] = {
           name: item.agent.name,
           canton: item.agent.canton,
-          totalRevenue: 0,
+          totalCosts: 0,
           totalCases: 0,
           completedCases: 0,
           averageResponseTime: 0,
@@ -214,7 +214,7 @@ export default function AssuranceStatistics({
       agentStats[agentId].totalCases++;
       if (item.status === "completed") agentStats[agentId].completedCases++;
       if (item.cost?.totalCost) {
-        agentStats[agentId].totalRevenue += item.cost.totalCost;
+        agentStats[agentId].totalCosts += item.cost.totalCost;
         agentStats[agentId].totalCost += item.cost.totalCost;
         agentStats[agentId].costCount++;
       }
@@ -236,7 +236,7 @@ export default function AssuranceStatistics({
         averageCost: agent.costCount > 0 ? agent.totalCost / agent.costCount : 0,
         completionRate: agent.totalCases > 0 ? (agent.completedCases / agent.totalCases) * 100 : 0
       }))
-      .sort((a, b) => a.totalRevenue - b.totalRevenue); // Sort in increasing order by revenue
+      .sort((a, b) => a.totalCosts - b.totalCosts); // Sort in increasing order by costs
   };
 
   const processStatusDistribution = () => {
@@ -327,8 +327,8 @@ export default function AssuranceStatistics({
       .sort((a, b) => a.month.localeCompare(b.month));
   };
 
-  const monthlyRevenue = processMonthlyRevenue();
-  const cumulativeRevenue = processCumulativeRevenue();
+  const monthlyCosts = processMonthlyCosts();
+  const cumulativeCosts = processCumulativeCosts();
   const agentPerformance = processAgentPerformance();
   const statusDistribution = processStatusDistribution();
   const cantonDistribution = processCantonDistribution();
@@ -404,7 +404,7 @@ export default function AssuranceStatistics({
         <Card className="p-4 bg-gradient-to-br from-blue-50 to-blue-100 border-blue-200">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-blue-600 font-medium">Revenus totaux</p>
+              <p className="text-sm text-blue-600 font-medium">Coûts totaux</p>
               <p className="text-2xl font-bold text-blue-800">
                 CHF {data.reduce((sum, item) => sum + (item.cost?.totalCost || 0), 0).toLocaleString()}
               </p>
@@ -456,7 +456,7 @@ export default function AssuranceStatistics({
       {/* Tab Navigation */}
       <div className="flex flex-wrap gap-2 mb-6">
         {[
-          { key: "revenue", label: "Revenus", icon: Coins },
+          { key: "costs", label: "Coûts", icon: Coins },
           { key: "performance", label: "Performance", icon: Target },
           { key: "agents", label: "Agents", icon: Users },
           { key: "trends", label: "Tendances", icon: TrendingUp }
@@ -474,20 +474,20 @@ export default function AssuranceStatistics({
         ))}
       </div>
 
-      {/* Revenue Tab */}
-      {activeTab === "revenue" && (
+      {/* Costs Tab */}
+      {activeTab === "costs" && (
         <div className="grid lg:grid-cols-2 gap-6">
-          {/* Monthly Revenue Chart */}
+          {/* Monthly Costs Chart */}
           <Card className="p-6">
             <div className="flex items-center justify-between mb-4">
               <div>
-                <h3 className="text-lg font-semibold text-foreground">Revenus mensuels</h3>
-                <p className="text-sm text-muted-foreground">Évolution des revenus par mois</p>
+                <h3 className="text-lg font-semibold text-foreground">Coûts mensuels</h3>
+                <p className="text-sm text-muted-foreground">Évolution des coûts par mois</p>
               </div>
               <BarChart3 className="h-6 w-6 text-primary" />
             </div>
             <ResponsiveContainer width="100%" height={300}>
-              <BarChart data={monthlyRevenue} key={animationKey}>
+              <BarChart data={monthlyCosts} key={animationKey}>
                 <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
                 <XAxis 
                   dataKey="formattedMonth" 
@@ -501,7 +501,7 @@ export default function AssuranceStatistics({
                 />
                 <Tooltip content={<CustomTooltip />} />
                 <Bar 
-                  dataKey="revenue" 
+                  dataKey="costs" 
                   fill={COLORS.primary}
                   radius={[4, 4, 0, 0]}
                   animationDuration={1000}
@@ -510,17 +510,17 @@ export default function AssuranceStatistics({
             </ResponsiveContainer>
           </Card>
 
-          {/* Cumulative Revenue Chart */}
+          {/* Cumulative Costs Chart */}
           <Card className="p-6">
             <div className="flex items-center justify-between mb-4">
               <div>
-                <h3 className="text-lg font-semibold text-foreground">Revenus cumulés</h3>
-                <p className="text-sm text-muted-foreground">Progression des revenus totaux</p>
+                <h3 className="text-lg font-semibold text-foreground">Coûts cumulés</h3>
+                <p className="text-sm text-muted-foreground">Progression des coûts totaux</p>
               </div>
               <TrendingUp className="h-6 w-6 text-primary" />
             </div>
             <ResponsiveContainer width="100%" height={300}>
-              <AreaChart data={cumulativeRevenue} key={animationKey}>
+              <AreaChart data={cumulativeCosts} key={animationKey}>
                 <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
                 <XAxis 
                   dataKey="formattedMonth" 
@@ -651,10 +651,10 @@ export default function AssuranceStatistics({
                 <Legend />
                 <Bar 
                   yAxisId="left"
-                  dataKey="totalRevenue" 
+                  dataKey="totalCosts" 
                   fill={COLORS.primary}
                   radius={[4, 4, 0, 0]}
-                  name="Revenus totaux"
+                  name="Coûts totaux"
                   animationDuration={1000}
                 />
                 <Line 
@@ -687,9 +687,9 @@ export default function AssuranceStatistics({
                 
                 <div className="space-y-2">
                   <div className="flex justify-between items-center">
-                    <span className="text-xs text-muted-foreground">Revenus totaux</span>
+                    <span className="text-xs text-muted-foreground">Coûts totaux</span>
                     <span className="text-sm font-medium text-green-600">
-                      CHF {agent.totalRevenue.toLocaleString()}
+                      CHF {agent.totalCosts.toLocaleString()}
                     </span>
                   </div>
                   

@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useSearchParams, useRouter } from "next/navigation";
 import { 
   Users, 
   Building2, 
@@ -30,7 +31,8 @@ import {
   File,
   Shield,
   Search,
-  X
+  X,
+  RotateCcw
 } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -117,10 +119,39 @@ interface RelocationData {
 }
 
 export default function AssuranceDossiers() {
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState<string>("all");
   const [typeFilter, setTypeFilter] = useState<string>("all");
   const [priorityFilter, setPriorityFilter] = useState<string>("all");
+
+  // Initialize filters from URL parameters on component mount
+  useEffect(() => {
+    const statusFromUrl = searchParams.get("status");
+    const typeFromUrl = searchParams.get("type");
+    const priorityFromUrl = searchParams.get("priority");
+    const searchFromUrl = searchParams.get("search");
+
+    if (statusFromUrl) setStatusFilter(statusFromUrl);
+    if (typeFromUrl) setTypeFilter(typeFromUrl);
+    if (priorityFromUrl) setPriorityFilter(priorityFromUrl);
+    if (searchFromUrl) setSearchTerm(searchFromUrl);
+  }, [searchParams]);
+
+  // Update URL when filters change
+  const updateUrl = (newStatus?: string, newType?: string, newPriority?: string, newSearch?: string) => {
+    const params = new URLSearchParams();
+    
+    if (newStatus && newStatus !== "all") params.set("status", newStatus);
+    if (newType && newType !== "all") params.set("type", newType);
+    if (newPriority && newPriority !== "all") params.set("priority", newPriority);
+    if (newSearch && newSearch !== "") params.set("search", newSearch);
+    
+    const newUrl = params.toString() ? `?${params.toString()}` : "/platform/dashboard/assurance/dossiers";
+    router.replace(newUrl);
+  };
 
   // Mock data based on relocation wizard structure
   const mockRelocations: RelocationData[] = [
@@ -644,6 +675,7 @@ export default function AssuranceDossiers() {
     setStatusFilter("all");
     setTypeFilter("all");
     setPriorityFilter("all");
+    updateUrl("all", "all", "all", "");
   };
 
   return (
@@ -656,103 +688,169 @@ export default function AssuranceDossiers() {
         </p>
       </div>
 
-      {/* Filters */}
-      <Card className="p-6 bg-background border-primary/20">
-        <div className="flex flex-col gap-6">
-          {/* Search Bar - Above everything */}
+      {/* Filters - Single line, right-aligned */}
+      <div className="flex justify-end items-center gap-6 mb-2">
+        {/* Search Input */}
+        <div className="flex items-center gap-2">
           <div className="relative">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
             <Input
-              placeholder="Rechercher par ID, nom ou ville..."
+              placeholder="Par ID, nom ou ville..."
               value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="pl-10"
+              onChange={(e) => {
+                setSearchTerm(e.target.value);
+                updateUrl(statusFilter, typeFilter, priorityFilter, e.target.value);
+              }}
+              className="pl-10 w-64 bg-background border-0 shadow-none focus-visible:ring-0 flex items-center"
             />
           </div>
-
-          {/* Filters Row - Statut, Type, Priorité horizontally aligned */}
-          <div className="flex flex-col lg:flex-row gap-6">
-            {/* Status Filter */}
-            <div className="flex flex-col gap-2 lg:flex-1">
-              <span className="text-sm font-medium text-muted-foreground">Statut</span>
-              <div className="flex gap-1">
-                {["all", "pending", "processing", "completed"].map((status) => (
-                  <button
-                    key={status}
-                    onClick={() => setStatusFilter(status)}
-                    className={cn(
-                      "px-3 py-1 rounded-md text-xs font-medium transition-colors",
-                      statusFilter === status
-                        ? "bg-primary text-primary-foreground"
-                        : "bg-secondary text-muted-foreground hover:bg-secondary/80"
-                    )}
-                  >
-                    {status === "all" ? "Tous" : 
-                     status === "pending" ? "En attente" :
-                     status === "processing" ? "En cours" : "Terminé"}
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            {/* Type Filter */}
-            <div className="flex flex-col gap-2 lg:flex-1">
-              <span className="text-sm font-medium text-muted-foreground">Type</span>
-              <div className="flex gap-1">
-                {["all", "single", "multiple"].map((type) => (
-                  <button
-                    key={type}
-                    onClick={() => setTypeFilter(type)}
-                    className={cn(
-                      "px-3 py-1 rounded-md text-xs font-medium transition-colors",
-                      typeFilter === type
-                        ? "bg-primary text-primary-foreground"
-                        : "bg-secondary text-muted-foreground hover:bg-secondary/80"
-                    )}
-                  >
-                    {type === "all" ? "Tous" : 
-                     type === "single" ? "Simple" : "Multiple"}
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            {/* Priority Filter */}
-            <div className="flex flex-col gap-2 lg:flex-1">
-              <span className="text-sm font-medium text-muted-foreground">Priorité</span>
-              <div className="flex gap-1">
-                {["all", "high", "normal", "low"].map((priority) => (
-                  <button
-                    key={priority}
-                    onClick={() => setPriorityFilter(priority)}
-                    className={cn(
-                      "px-3 py-1 rounded-md text-xs font-medium transition-colors",
-                      priorityFilter === priority
-                        ? "bg-primary text-primary-foreground"
-                        : "bg-secondary text-muted-foreground hover:bg-secondary/80"
-                    )}
-                  >
-                    {priority === "all" ? "Toutes" : 
-                     priority === "high" ? "Haute" :
-                     priority === "normal" ? "Normale" : "Basse"}
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            {/* Reset Button */}
-            <div className="flex items-end">
+        </div>
+        
+        <div className="w-px h-4 bg-muted-foreground/30 mx-1"></div>
+        
+        {/* Status Filter */}
+        <div className="flex items-center gap-2">
+          <div className="flex gap-0.5">
+            {[
+              { key: "all", label: "Tous" },
+              { key: "pending", label: "En attente" },
+              { key: "processing", label: "En cours" },
+              { key: "completed", label: "Terminé" }
+            ].map((status) => (
               <button
-                onClick={resetFilters}
-                className="flex items-center justify-center gap-1 px-3 py-2 rounded-md text-sm font-medium bg-secondary text-muted-foreground hover:bg-secondary/80 transition-colors"
+                key={status.key}
+                onClick={() => {
+                  setStatusFilter(status.key);
+                  updateUrl(status.key, typeFilter, priorityFilter, searchTerm);
+                }}
+                className={cn(
+                  "px-2 py-1 rounded text-xs font-medium transition-colors",
+                  statusFilter === status.key
+                    ? "bg-primary text-primary-foreground"
+                    : "bg-secondary text-muted-foreground hover:bg-secondary/80"
+                )}
               >
-                <X className="h-4 w-4" />
-                Réinitialiser
+                {status.label}
               </button>
-            </div>
+            ))}
           </div>
         </div>
-      </Card>
+        
+        <div className="w-px h-4 bg-muted-foreground/30 mx-1"></div>
+        
+        {/* Type Filter */}
+        <div className="flex items-center gap-2">
+          <div className="flex gap-0.5">
+            {[
+              { key: "all", label: "Tous" },
+              { key: "single", label: "Simple" },
+              { key: "multiple", label: "Multiple" }
+            ].map((type) => (
+              <button
+                key={type.key}
+                onClick={() => {
+                  setTypeFilter(type.key);
+                  updateUrl(statusFilter, type.key, priorityFilter, searchTerm);
+                }}
+                className={cn(
+                  "px-2 py-1 rounded text-xs font-medium transition-colors",
+                  typeFilter === type.key
+                    ? "bg-primary text-primary-foreground"
+                    : "bg-secondary text-muted-foreground hover:bg-secondary/80"
+                )}
+              >
+                {type.label}
+              </button>
+            ))}
+          </div>
+        </div>
+        
+        <div className="w-px h-4 bg-muted-foreground/30 mx-1"></div>
+        
+        {/* Priority Filter */}
+        <div className="flex items-center gap-2">
+          <div className="flex gap-0.5">
+            {[
+              { key: "all", label: "Toutes" },
+              { key: "high", label: "Haute" },
+              { key: "normal", label: "Normale" },
+              { key: "low", label: "Basse" }
+            ].map((priority) => (
+              <button
+                key={priority.key}
+                onClick={() => {
+                  setPriorityFilter(priority.key);
+                  updateUrl(statusFilter, typeFilter, priority.key, searchTerm);
+                }}
+                className={cn(
+                  "px-2 py-1 rounded text-xs font-medium transition-colors",
+                  priorityFilter === priority.key
+                    ? "bg-primary text-primary-foreground"
+                    : "bg-secondary text-muted-foreground hover:bg-secondary/80"
+                )}
+              >
+                {priority.label}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <div className="w-px h-4 bg-muted-foreground/30 mx-1"></div>
+
+        {/* Reset Button */}
+        <button
+          onClick={resetFilters}
+          className="flex items-center gap-1 px-2 py-1 rounded text-xs text-muted-foreground hover:bg-secondary/80 transition-colors"
+          title="Réinitialiser les filtres"
+        >
+          <RotateCcw className="h-3 w-3" />
+          <span>Réinitialiser</span>
+        </button>
+      </div>
+
+      {/* Results Summary */}
+      {(statusFilter !== "all" || typeFilter !== "all" || priorityFilter !== "all" || searchTerm !== "") && (
+        <Card className="p-4 bg-background border-primary/20">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-4">
+              <span className="text-sm font-medium text-muted-foreground">
+                Résultats filtrés: {filteredCases.length} dossier(s)
+              </span>
+              <div className="flex items-center gap-2">
+                {statusFilter !== "all" && (
+                  <span className="px-2 py-1 rounded-full text-xs font-medium bg-primary/10 text-primary">
+                    Statut: {statusFilter === "pending" ? "En attente" : 
+                             statusFilter === "processing" ? "En cours" : "Terminé"}
+                  </span>
+                )}
+                {typeFilter !== "all" && (
+                  <span className="px-2 py-1 rounded-full text-xs font-medium bg-primary/10 text-primary">
+                    Type: {typeFilter === "single" ? "Simple" : "Multiple"}
+                  </span>
+                )}
+                {priorityFilter !== "all" && (
+                  <span className="px-2 py-1 rounded-full text-xs font-medium bg-primary/10 text-primary">
+                    Priorité: {priorityFilter === "high" ? "Haute" : 
+                               priorityFilter === "normal" ? "Normale" : "Basse"}
+                  </span>
+                )}
+                {searchTerm !== "" && (
+                  <span className="px-2 py-1 rounded-full text-xs font-medium bg-primary/10 text-primary">
+                    Recherche: "{searchTerm}"
+                  </span>
+                )}
+              </div>
+            </div>
+            <button
+              onClick={resetFilters}
+              className="flex items-center gap-1 px-2 py-1 rounded text-xs text-muted-foreground hover:bg-secondary/80 transition-colors"
+            >
+              <X className="h-3 w-3" />
+              Effacer les filtres
+            </button>
+          </div>
+        </Card>
+      )}
 
       {/* Cases List */}
       <div className="space-y-4">
