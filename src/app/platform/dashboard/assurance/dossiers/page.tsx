@@ -811,46 +811,11 @@ function AssuranceDossiersContent() {
 
       {/* Results Summary */}
       {(statusFilter !== "all" || typeFilter !== "all" || priorityFilter !== "all" || searchTerm !== "") && (
-        <Card className="p-4 bg-background border-primary/20">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-4">
-              <span className="text-sm font-medium text-muted-foreground">
-                Résultats filtrés: {filteredCases.length} dossier(s)
-              </span>
-              <div className="flex items-center gap-2">
-                {statusFilter !== "all" && (
-                  <span className="px-2 py-1 rounded-full text-xs font-medium bg-primary/10 text-primary">
-                    Statut: {statusFilter === "pending" ? "En attente" : 
-                             statusFilter === "processing" ? "En cours" : "Terminé"}
-                  </span>
-                )}
-                {typeFilter !== "all" && (
-                  <span className="px-2 py-1 rounded-full text-xs font-medium bg-primary/10 text-primary">
-                    Type: {typeFilter === "single" ? "Simple" : "Multiple"}
-                  </span>
-                )}
-                {priorityFilter !== "all" && (
-                  <span className="px-2 py-1 rounded-full text-xs font-medium bg-primary/10 text-primary">
-                    Priorité: {priorityFilter === "high" ? "Haute" : 
-                               priorityFilter === "normal" ? "Normale" : "Basse"}
-                  </span>
-                )}
-                {searchTerm !== "" && (
-                  <span className="px-2 py-1 rounded-full text-xs font-medium bg-primary/10 text-primary">
-                    Recherche: "{searchTerm}"
-                  </span>
-                )}
-              </div>
-            </div>
-            <button
-              onClick={resetFilters}
-              className="flex items-center gap-1 px-2 py-1 rounded text-xs text-muted-foreground hover:bg-secondary/80 transition-colors"
-            >
-              <X className="h-3 w-3" />
-              Effacer les filtres
-            </button>
-          </div>
-        </Card>
+        <div>
+          <span className="text-sm font-medium text-muted-foreground">
+            Résultats filtrés: {filteredCases.length} dossier(s)
+          </span>
+        </div>
       )}
 
       {/* Cases List */}

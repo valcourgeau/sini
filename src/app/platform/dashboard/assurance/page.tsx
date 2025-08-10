@@ -1521,7 +1521,6 @@ export default function AssuranceDashboard() {
           <>
             <div className="w-px h-4 bg-muted-foreground/30 mx-1"></div>
             <div className="flex items-center gap-2">
-              <span className="text-xs font-medium text-muted-foreground">Canton:</span>
               <div className="flex gap-0.5">
                 {[
                   { key: "all", label: "Tous" },
@@ -1647,11 +1646,14 @@ export default function AssuranceDashboard() {
           <div className="flex items-start justify-between mb-6">
             <div>
               <p className="text-base font-semibold text-muted-foreground">Satisfaction client</p>
-              <div className="flex items-center gap-3 mt-3">
-                <div className="flex">
-                  {renderStars(parseFloat(kpis.averageSatisfaction))}
+              <div className="flex flex-col gap-1">
+                <div className="flex items-center gap-3">
+                  <div className="flex">
+                    {renderStars(parseFloat(kpis.averageSatisfaction))}
+                  </div>
+                  <span className="text-2xl font-bold text-primary">{kpis.averageSatisfaction}/5</span>
                 </div>
-                <span className="text-2xl font-bold text-primary">{kpis.averageSatisfaction}/5</span>
+                <span className="text-sm text-muted-foreground">Sur cette période</span>
               </div>
             </div>
             <Star className="h-12 w-12 text-primary" />
