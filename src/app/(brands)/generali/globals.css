@@ -1,0 +1,325 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Generali Red and White Color Scheme - #c11a16 */
+    --background: 0 0% 100%; /* Pure white background */
+    --foreground: 2 78% 25%; /* Darker red for text - better readability */
+
+    --card: 0 0% 100%;
+    --card-foreground: 2 78% 25%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 2 78% 25%;
+
+    --primary: 2 78% 42%; /* Generali red #c11a16 */
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 2 50% 95%; /* Very light red for backgrounds only */
+    --secondary-foreground: 2 78% 25%; /* Dark red text on light backgrounds */
+
+    --muted: 2 50% 95%;
+    --muted-foreground: 2 78% 30%; /* Darker red for muted text */
+
+    --accent: 2 78% 48%; /* Slightly lighter red */
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 2 50% 90%;
+    --input: 2 50% 90%;
+    --ring: 2 78% 42%;
+
+    /* Generali specific background colors */
+    --generali-red-bg: 2 78% 32%; /* Darker red for full background sections */
+
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 2 78% 42%; /* Generali red background */
+    --foreground: 0 0% 100%; /* White text */
+
+    --card: 2 78% 42%;
+    --card-foreground: 0 0% 100%;
+
+    --popover: 2 78% 42%;
+    --popover-foreground: 0 0% 100%;
+
+    --primary: 0 0% 100%; /* White primary */
+    --primary-foreground: 2 78% 42%;
+
+    --secondary: 2 78% 48%;
+    --secondary-foreground: 0 0% 100%;
+
+    --muted: 2 78% 48%;
+    --muted-foreground: 2 50% 90%;
+
+    --accent: 2 50% 95%;
+    --accent-foreground: 2 78% 25%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 2 78% 48%;
+    --input: 2 78% 48%;
+    --ring: 0 0% 100%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  html {
+    /* Removed scroll-behavior: smooth to prevent wobbly scrolling */
+  }
+  body {
+    @apply bg-background text-foreground font-sans;
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif;
+  }
+}
+
+@layer components {
+  /* Generali Hero Background Pattern */
+  .hero-background-generali {
+    background: linear-gradient(135deg, hsl(0 0% 100%) 0%, hsl(2 50% 95%) 100%);
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Generali background accent elements */
+  .hero-accent-generali,
+  .hero-accent-circle-generali-1,
+  .hero-accent-circle-generali-2,
+  .hero-accent-circle-generali-3,
+  .hero-accent-circle-generali-4,
+  .hero-accent-circle-generali-5 {
+    animation: gentle-pulse-generali 4s ease-in-out infinite;
+  }
+
+  @keyframes gentle-pulse-generali {
+    0%, 100% { 
+      opacity: 0.3;
+      transform: translate(-50%, -50%) scale(1);
+    }
+    50% { 
+      opacity: 0.5;
+      transform: translate(-50%, -50%) scale(1.02);
+    }
+  }
+
+  /* Generali Corporate Background */
+  .hero-background-generali-corporate {
+    background: linear-gradient(135deg, hsl(0 0% 100%) 0%, hsl(2 50% 95%) 100%);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-background-generali-corporate::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: 
+      linear-gradient(90deg, transparent 0%, hsl(2 78% 42% / 0.02) 25%, transparent 50%, hsl(2 78% 42% / 0.02) 75%, transparent 100%),
+      linear-gradient(0deg, transparent 0%, hsl(2 78% 42% / 0.015) 50%, transparent 100%);
+    background-size: 200px 200px, 100% 100%;
+    animation: corporate-shift-generali 20s ease-in-out infinite;
+  }
+
+  .hero-background-generali-corporate::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+      radial-gradient(ellipse 800px 400px at 0% 0%, hsl(2 78% 42% / 0.03) 0%, transparent 50%),
+      radial-gradient(ellipse 600px 300px at 100% 100%, hsl(2 78% 42% / 0.02) 0%, transparent 50%);
+    pointer-events: none;
+  }
+
+  /* Generali mesh gradient overlay */
+  .hero-overlay-generali {
+    background: 
+      radial-gradient(ellipse at top left, hsl(2 50% 95% / 0.8) 0%, transparent 50%),
+      radial-gradient(ellipse at bottom right, hsl(2 78% 42% / 0.05) 0%, transparent 50%);
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none;
+  }
+
+  /* Generali accent elements */
+  .hero-accent-generali {
+    position: absolute;
+    width: 500px;
+    height: 500px;
+    border: 2px solid hsl(2 78% 42% / 0.2);
+    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 0.4;
+  }
+
+  .hero-accent-generali::before {
+    content: '';
+    position: absolute;
+    width: 400px;
+    height: 400px;
+    border: 2px solid hsl(2 78% 42% / 0.18);
+    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    animation: gentle-pulse-generali 4s ease-in-out infinite 0.5s;
+  }
+
+  .hero-accent-generali::after {
+    content: '';
+    position: absolute;
+    width: 300px;
+    height: 300px;
+    border: 2px solid hsl(2 78% 42% / 0.15);
+    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    animation: gentle-pulse-generali 4s ease-in-out infinite 1s;
+  }
+
+  /* Generali accent circles */
+  .hero-accent-circle-generali-1 {
+    position: absolute;
+    width: 600px;
+    height: 600px;
+    border: 2px solid hsl(2 78% 42% / 0.12);
+    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    animation: gentle-pulse-generali 4s ease-in-out infinite 1.5s;
+  }
+
+  .hero-accent-circle-generali-2 {
+    position: absolute;
+    width: 700px;
+    height: 700px;
+    border: 2px solid hsl(2 78% 42% / 0.11);
+    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    animation: gentle-pulse-generali 4s ease-in-out infinite 2s;
+  }
+
+  .hero-accent-circle-generali-3 {
+    position: absolute;
+    width: 800px;
+    height: 800px;
+    border: 2px solid hsl(2 78% 42% / 0.1);
+    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    animation: gentle-pulse-generali 4s ease-in-out infinite 2.5s;
+  }
+
+  .hero-accent-circle-generali-4 {
+    position: absolute;
+    width: 900px;
+    height: 900px;
+    border: 2px solid hsl(2 78% 42% / 0.09);
+    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    animation: gentle-pulse-generali 4s ease-in-out infinite 3s;
+  }
+
+  .hero-accent-circle-generali-5 {
+    position: absolute;
+    width: 1000px;
+    height: 1000px;
+    border: 2px solid hsl(2 78% 42% / 0.08);
+    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    animation: gentle-pulse-generali 4s ease-in-out infinite 3.5s;
+  }
+
+  /* Generali corporate accent lines */
+  .hero-accent-generali-corporate {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none;
+  }
+
+  .hero-accent-generali-corporate::before {
+    content: '';
+    position: absolute;
+    top: 20%;
+    left: 10%;
+    width: 2px;
+    height: 60px;
+    background: linear-gradient(to bottom, transparent, hsl(2 78% 42% / 0.1), transparent);
+    animation: corporate-line-generali 6s ease-in-out infinite;
+  }
+
+  .hero-accent-generali-corporate::after {
+    content: '';
+    position: absolute;
+    bottom: 30%;
+    right: 15%;
+    width: 60px;
+    height: 2px;
+    background: linear-gradient(to right, transparent, hsl(2 78% 42% / 0.1), transparent);
+    animation: corporate-line-generali 6s ease-in-out infinite 1s;
+  }
+
+
+}
+
+@layer utilities {
+  /* Generali Animation keyframes */
+  @keyframes corporate-shift-generali {
+    0%, 100% { transform: translateX(0) translateY(0); }
+    25% { transform: translateX(-5px) translateY(-3px); }
+    50% { transform: translateX(3px) translateY(-5px); }
+    75% { transform: translateX(-3px) translateY(3px); }
+  }
+
+  @keyframes corporate-line-generali {
+    0%, 100% { opacity: 0.3; transform: scaleY(1); }
+    50% { opacity: 0.5; transform: scaleY(1.05); }
+  }
+
+  /* Generali Glass morphism effect */
+  .glass-card-generali {
+    background: hsl(0 0% 100% / 0.8);
+    backdrop-filter: blur(10px);
+    border: 1px solid hsl(2 78% 42% / 0.1);
+    box-shadow: 0 8px 32px hsl(2 78% 42% / 0.1);
+  }
+
+  /* Generali darker red background for full sections */
+  .bg-generali-red {
+    background-color: hsl(var(--generali-red-bg));
+  }
+}

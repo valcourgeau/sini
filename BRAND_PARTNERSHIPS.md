@@ -31,6 +31,12 @@ src/
 - **Logo**: Official Vaudoise Assurances SVG
 - **Partnership**: "Pharewest × Vaudoise Assurances"
 
+### Generali
+- **URL**: `/generali`
+- **Colors**: Red `#c11a16` (HSL: 2, 78%, 42%)
+- **Logo**: Official Generali PNG
+- **Partnership**: "Pharewest × Generali"
+
 ## Adding New Brand Partnerships
 
 ### Step 1: Create Directory Structure
