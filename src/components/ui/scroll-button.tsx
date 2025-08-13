@@ -27,10 +27,18 @@ export function ScrollButton({ iconName, title, description, sectionId, opacity 
 
   const Icon = iconMap[iconName];
 
+  // Map opacity values to Tailwind classes to ensure they're recognized
+  const opacityClasses = {
+    '60': 'bg-primary/60',
+    '80': 'bg-primary/80',
+    '90': 'bg-primary/90',
+    '100': 'bg-primary'
+  };
+
   return (
     <button
       onClick={scrollToSection}
-      className={`group relative overflow-hidden rounded-2xl bg-primary/${opacity} p-12 text-secondary transition-all duration-300 hover:bg-primary/90 hover:scale-105 shadow-2xl hover:shadow-3xl backdrop-blur-sm`}
+      className={`group relative overflow-hidden rounded-2xl ${opacityClasses[opacity as keyof typeof opacityClasses]} p-12 text-secondary transition-all duration-300 hover:bg-primary/90 hover:scale-105 shadow-2xl hover:shadow-3xl backdrop-blur-sm`}
     >
       <div className="relative z-10">
         <Icon className="h-16 w-16 mb-6 mx-auto text-secondary" />

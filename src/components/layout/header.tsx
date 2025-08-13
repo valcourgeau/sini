@@ -1,16 +1,49 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
-import { usePathname } from "next/navigation";
+import { useState, useEffect } from "react";
+import { usePathname, useRouter } from "next/navigation";
 import { Logo } from "@/components/ui/logo";
 
 export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [brandContext, setBrandContext] = useState<string | null>(null);
   const pathname = usePathname();
+  const router = useRouter();
+
+  // Track brand context when user navigates
+  useEffect(() => {
+    if (pathname.startsWith("/generali")) {
+      setBrandContext("generali");
+    } else if (pathname.startsWith("/vaudoise")) {
+      setBrandContext("vaudoise");
+    } else if (pathname === "/") {
+      // Clear brand context when user explicitly goes to main site
+      setBrandContext(null);
+    }
+    // Don't clear brand context when on other pages to maintain navigation memory
+  }, [pathname]);
 
   // Hide nav links on platform dashboard pages
   const showNav = !pathname.startsWith("/platform/dashboard");
+
+  // Handle logo click navigation
+  const handleLogoClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    
+    let targetPath = "/";
+    
+    // If we have a brand context, go back to that branded page
+    if (brandContext === "generali") {
+      targetPath = "/generali";
+    } else if (brandContext === "vaudoise") {
+      targetPath = "/vaudoise";
+    } else {
+      targetPath = "/";
+    }
+    
+    router.push(targetPath);
+  };
 
   const handleHostsClick = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -33,9 +66,12 @@ export function Header() {
       <div className="container mx-auto px-4 md:px-6">
         <div className="flex h-16 items-center justify-between">
           <div className="flex items-center">
-            <Link href="/" className="flex items-center">
-              <Logo />
-            </Link>
+            <button 
+              onClick={handleLogoClick}
+              className="flex items-center hover:opacity-80 transition-opacity"
+            >
+              <Logo size="lg" />
+            </button>
           </div>
           
           {/* Desktop navigation */}

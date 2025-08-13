@@ -21,7 +21,7 @@ export function CollaborationLogo({ className, size = 'lg' }: CollaborationLogoP
   return (
     <div className={cn('flex items-center justify-center gap-6', className)}>
       {/* Pharewest Logo */}
-      <Logo size={size === 'sm' ? 'sm' : size === 'md' ? 'md' : size === 'lg' ? 'lg' : 'lg'} />
+      <Logo size={size === 'sm' ? 'sm' : size === 'md' ? 'md' : size === 'lg' ? 'lg' : 'xl'} />
       
       {/* Stylized × */}
       <div className={cn(

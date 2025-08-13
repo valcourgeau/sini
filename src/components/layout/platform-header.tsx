@@ -51,7 +51,7 @@ export function PlatformHeader() {
         <div className="flex h-16 items-center justify-between">
           <div className="flex items-center">
             <Link href="/" className="flex items-center">
-              <Logo />
+              <Logo size="lg" />
             </Link>
           </div>
           

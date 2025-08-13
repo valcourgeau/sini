@@ -195,6 +195,52 @@ Brand assets are organized:
 - Easy to manage multiple partnerships
 - Prevents asset conflicts
 
+### Header Navigation Logic
+The main header component includes smart navigation for branded pages:
+- **Brand Context Tracking**: Uses `useState` and `useEffect` to track user's brand context
+- **Context Persistence**: Maintains brand context when navigating to other pages (About, Contact, etc.)
+- **Smart Logo Navigation**: Logo click behavior depends on brand context:
+  - If brand context exists: Returns to branded landing page
+  - If no brand context: Goes to main site
+- **Context Clearing**: Brand context is cleared when user explicitly visits main site (`/`)
+
+#### Implementation Details:
+```tsx
+// Brand context tracking
+const [brandContext, setBrandContext] = useState<string | null>(null);
+
+useEffect(() => {
+  if (pathname.startsWith("/generali")) {
+    setBrandContext("generali");
+  } else if (pathname.startsWith("/vaudoise")) {
+    setBrandContext("vaudoise");
+  } else if (pathname === "/") {
+    setBrandContext(null); // Clear context on main site
+  }
+}, [pathname]);
+
+// Logo click navigation
+const handleLogoClick = (e: React.MouseEvent) => {
+  e.preventDefault();
+  let targetPath = "/";
+  
+  if (brandContext === "generali") {
+    targetPath = "/generali";
+  } else if (brandContext === "vaudoise") {
+    targetPath = "/vaudoise";
+  }
+  
+  router.push(targetPath);
+};
+```
+
+#### User Experience Flow:
+1. User visits `/generali` → Brand context: `"generali"`
+2. User clicks "About" → Goes to `/about`, context remains `"generali"`
+3. User clicks logo → Returns to `/generali`
+4. User visits main site `/` → Context cleared to `null`
+5. User clicks logo → Stays on main site
+
 ## Maintenance
 
 ### Adding New Brands

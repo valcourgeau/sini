@@ -2,4 +2,6 @@ Make sure your changes are integrated seamlessly into the current data structure
 Make sure we can review those changes in the review panel if you work with user data.
 Don't stop working until you've implemented everything you've been tasked to do; 
 Make sure we use our predefined colours if you need them;
-Always use getImagePath() utility function for all image references to ensure proper GitHub Pages deployment; 
+Always use getImagePath() utility function for all image references to ensure proper GitHub Pages deployment;
+Use 'lg' size for Pharewest logo in headers and main navigation areas for better visibility;
+When on branded landing pages (/generali, /vaudoise), the header logo should link back to the branded landing page, not the main site; 
