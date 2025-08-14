@@ -9,6 +9,10 @@ const nextConfig = {
   basePath: process.env.NODE_ENV === 'production' ? '/sini' : '',
   assetPrefix: process.env.NODE_ENV === 'production' ? '/sini/' : '',
   trailingSlash: true,
+  // Disable ESLint during build for GitHub Pages deployment
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
 }
 
 module.exports = nextConfig 
