@@ -44,66 +44,7 @@ import {
   FileText
 } from "lucide-react";
 import { cn } from "@/lib/utils";
-
-interface RelocationData {
-  id: string;
-  relocationType: "single" | "multiple";
-  disasterAddress: {
-    street: string;
-    city: string;
-    postalCode: string;
-    country: string;
-    canton?: string;
-  };
-  personalData: {
-    firstName: string;
-    lastName: string;
-    email: string;
-    phone: string;
-  };
-  relocationPreferences?: {
-    bedrooms: number;
-    adults: number;
-    children: number;
-    hasAnimals?: boolean;
-    hasAccessibilityNeeds?: boolean;
-    needsParking?: boolean;
-  };
-  arrivalDetails?: {
-    arrivalDate: string;
-    departureDate?: string;
-    useExactDates: boolean;
-    estimatedDuration?: string;
-  };
-  insuranceCoverage?: {
-    hasInsurance: boolean;
-    claimDocument?: File;
-  };
-  insuranceDetails?: {
-    insuranceCompany: string;
-    policyNumber: string;
-    customInsuranceCompany?: string;
-  };
-  status: "pending" | "processing" | "completed" | "cancelled";
-  priority: "high" | "normal" | "low";
-  createdAt: string;
-  updatedAt: string;
-  responseTime?: number | null;
-  cost?: {
-    insuranceCost: number;
-    insuredCost: number;
-    totalCost: number;
-  } | null;
-  satisfaction?: {
-    rating: number;
-    feedback?: string;
-  } | null;
-  agent: {
-    id: string;
-    name: string;
-    canton: string;
-  };
-}
+import { RelocationData } from '@/types/relocation';
 
 interface AssuranceStatisticsProps {
   data: RelocationData[];
