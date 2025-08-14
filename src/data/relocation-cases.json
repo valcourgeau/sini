@@ -1,0 +1,452 @@
+{
+  "cases": [
+    {
+      "id": "REL-001",
+      "relocationType": "single",
+      "disasterAddress": {
+        "street": "Rue de la Paix 10",
+        "city": "Genève",
+        "postalCode": "1201",
+        "country": "Suisse",
+        "canton": "Genève"
+      },
+      "contactPerson": {
+        "firstName": "Jean",
+        "lastName": "Dupont",
+        "email": "jean.dupont@email.com",
+        "phone": "+41 22 123 45 67"
+      },
+      "relocationRequests": [
+        {
+          "firstName": "Jean",
+          "lastName": "Dupont",
+          "email": "jean.dupont@email.com",
+          "phone": "+41 22 123 45 67",
+          "bedrooms": 2,
+          "adults": 2,
+          "children": 1,
+          "hasAnimals": false,
+          "hasAccessibilityNeeds": false,
+          "needsParking": true,
+          "arrivalDate": "2025-08-01",
+          "departureDate": "2025-09-01",
+          "useExactDates": true
+        }
+      ],
+      "insurance": {
+        "hasInsurance": true,
+        "company": "Assurance Genève",
+        "policyNumber": "POL-123456"
+      },
+      "status": "processing",
+      "priority": "high",
+      "createdAt": "2024-01-15T10:30:00Z",
+      "updatedAt": "2024-01-15T14:45:00Z",
+      "responseTime": 2.1,
+      "cost": {
+        "insuranceCost": 2800,
+        "insuredCost": 400,
+        "totalCost": 3200
+      },
+      "satisfaction": {
+        "rating": 5,
+        "feedback": "Excellent service, très réactif"
+      },
+      "agent": {
+        "id": "AG-001",
+        "name": "Marie Dubois",
+        "canton": "Genève"
+      }
+    },
+    {
+      "id": "REL-002",
+      "relocationType": "multiple",
+      "disasterAddress": {
+        "street": "Avenue des Alpes 25",
+        "city": "Genève",
+        "postalCode": "1201",
+        "country": "Suisse",
+        "canton": "Genève"
+      },
+      "contactPerson": {
+        "firstName": "Sophie",
+        "lastName": "Bernard",
+        "email": "sophie.bernard@email.com",
+        "phone": "+41 22 234 56 78"
+      },
+      "relocationRequests": [
+        {
+          "firstName": "Pierre",
+          "lastName": "Durand",
+          "email": "pierre.durand@email.com",
+          "phone": "+41 21 123 45 67",
+          "specialNeeds": "Accès handicapé requis",
+          "bedrooms": 1,
+          "adults": 1,
+          "children": 0,
+          "hasAnimals": false,
+          "hasAccessibilityNeeds": true,
+          "needsParking": false,
+          "arrivalDate": "2025-08-15",
+          "departureDate": "2025-10-15",
+          "useExactDates": true,
+          "hasInsurance": true,
+          "insuranceDetails": "Assurance ménage - AXA"
+        },
+        {
+          "firstName": "Marie",
+          "lastName": "Leroy",
+          "email": "marie.leroy@email.com",
+          "phone": "+41 21 234 56 78",
+          "bedrooms": 2,
+          "adults": 2,
+          "children": 1,
+          "hasAnimals": true,
+          "hasAccessibilityNeeds": false,
+          "needsParking": true,
+          "arrivalDate": "2025-08-20",
+          "estimatedDuration": "2-3 mois",
+          "useExactDates": false,
+          "hasInsurance": false
+        }
+      ],
+      "status": "completed",
+      "priority": "normal",
+      "createdAt": "2024-01-10T09:15:00Z",
+      "updatedAt": "2024-01-12T16:30:00Z",
+      "responseTime": 1.8,
+      "cost": {
+        "insuranceCost": 3200,
+        "insuredCost": 600,
+        "totalCost": 3800
+      },
+      "satisfaction": {
+        "rating": 5,
+        "feedback": "Service impeccable, relogement rapide"
+      },
+      "agent": {
+        "id": "AG-001",
+        "name": "Marie Dubois",
+        "canton": "Genève"
+      }
+    },
+    {
+      "id": "REL-003",
+      "relocationType": "single",
+      "disasterAddress": {
+        "street": "Rue du Rhône 45",
+        "city": "Genève",
+        "postalCode": "1204",
+        "country": "Suisse",
+        "canton": "Genève"
+      },
+      "contactPerson": {
+        "firstName": "Pierre",
+        "lastName": "Durand",
+        "email": "pierre.durand@email.com",
+        "phone": "+41 22 345 67 89"
+      },
+      "relocationRequests": [
+        {
+          "firstName": "Pierre",
+          "lastName": "Durand",
+          "email": "pierre.durand@email.com",
+          "phone": "+41 22 345 67 89",
+          "bedrooms": 1,
+          "adults": 1,
+          "children": 0,
+          "hasAnimals": true,
+          "hasAccessibilityNeeds": false,
+          "needsParking": false,
+          "arrivalDate": "2024-01-08",
+          "estimatedDuration": "3 mois",
+          "useExactDates": false
+        }
+      ],
+      "insurance": {
+        "hasInsurance": false
+      },
+      "status": "completed",
+      "priority": "low",
+      "createdAt": "2024-01-08T11:20:00Z",
+      "updatedAt": "2024-01-10T13:45:00Z",
+      "responseTime": 3.2,
+      "cost": {
+        "insuranceCost": 0,
+        "insuredCost": 2500,
+        "totalCost": 2500
+      },
+      "satisfaction": {
+        "rating": 4,
+        "feedback": "Service correct mais délais un peu longs"
+      },
+      "agent": {
+        "id": "AG-002",
+        "name": "Thomas Moreau",
+        "canton": "Vaud"
+      }
+    },
+    {
+      "id": "REL-004",
+      "relocationType": "single",
+      "disasterAddress": {
+        "street": "Rue de Lausanne 90",
+        "city": "Lausanne",
+        "postalCode": "1003",
+        "country": "Suisse",
+        "canton": "Vaud"
+      },
+      "contactPerson": {
+        "firstName": "Marie",
+        "lastName": "Martin",
+        "email": "marie.martin@email.com",
+        "phone": "+41 21 456 78 90"
+      },
+      "relocationRequests": [
+        {
+          "firstName": "Marie",
+          "lastName": "Martin",
+          "email": "marie.martin@email.com",
+          "phone": "+41 21 456 78 90",
+          "bedrooms": 3,
+          "adults": 2,
+          "children": 2,
+          "hasAnimals": false,
+          "hasAccessibilityNeeds": true,
+          "needsParking": true,
+          "arrivalDate": "2025-08-05",
+          "departureDate": "2025-10-05",
+          "useExactDates": true
+        }
+      ],
+      "insurance": {
+        "hasInsurance": true,
+        "company": "Assurance Vaudoise",
+        "policyNumber": "POL-789012"
+      },
+      "status": "processing",
+      "priority": "high",
+      "createdAt": "2024-01-16T08:45:00Z",
+      "updatedAt": "2024-01-16T12:30:00Z",
+      "responseTime": 2.5,
+      "cost": {
+        "insuranceCost": 4500,
+        "insuredCost": 800,
+        "totalCost": 5300
+      },
+      "satisfaction": {
+        "rating": 5,
+        "feedback": "Très satisfaite du service"
+      },
+      "agent": {
+        "id": "AG-002",
+        "name": "Thomas Moreau",
+        "canton": "Vaud"
+      }
+    },
+    {
+      "id": "REL-005",
+      "relocationType": "single",
+      "disasterAddress": {
+        "street": "Rue de Carouge 15",
+        "city": "Genève",
+        "postalCode": "1227",
+        "country": "Suisse",
+        "canton": "Genève"
+      },
+      "contactPerson": {
+        "firstName": "Antoine",
+        "lastName": "Moreau",
+        "email": "antoine.moreau@email.com",
+        "phone": "+41 22 567 89 01"
+      },
+      "relocationRequests": [
+        {
+          "firstName": "Antoine",
+          "lastName": "Moreau",
+          "email": "antoine.moreau@email.com",
+          "phone": "+41 22 567 89 01",
+          "bedrooms": 2,
+          "adults": 1,
+          "children": 0,
+          "hasAnimals": false,
+          "hasAccessibilityNeeds": false,
+          "needsParking": false,
+          "arrivalDate": "2024-01-18",
+          "estimatedDuration": "2 mois",
+          "useExactDates": false
+        }
+      ],
+      "insurance": {
+        "hasInsurance": true,
+        "company": "Assurance Genève",
+        "policyNumber": "POL-345678"
+      },
+      "status": "pending",
+      "priority": "normal",
+      "createdAt": "2024-01-18T14:20:00Z",
+      "updatedAt": "2024-01-18T14:20:00Z",
+      "responseTime": null,
+      "cost": null,
+      "satisfaction": null,
+      "agent": {
+        "id": "AG-001",
+        "name": "Marie Dubois",
+        "canton": "Genève"
+      }
+    },
+    {
+      "id": "REL-006",
+      "relocationType": "multiple",
+      "disasterAddress": {
+        "street": "Avenue de Champel 78",
+        "city": "Genève",
+        "postalCode": "1206",
+        "country": "Suisse",
+        "canton": "Genève"
+      },
+      "contactPerson": {
+        "firstName": "Isabelle",
+        "lastName": "Leroy",
+        "email": "isabelle.leroy@email.com",
+        "phone": "+41 22 678 90 12"
+      },
+      "relocationRequests": [
+        {
+          "firstName": "Isabelle",
+          "lastName": "Leroy",
+          "email": "isabelle.leroy@email.com",
+          "phone": "+41 22 678 90 12",
+          "bedrooms": 4,
+          "adults": 3,
+          "children": 2,
+          "hasAnimals": true,
+          "hasAccessibilityNeeds": false,
+          "needsParking": true,
+          "arrivalDate": "2024-01-17",
+          "estimatedDuration": "4 mois",
+          "useExactDates": false,
+          "hasInsurance": true,
+          "insuranceDetails": "Assurance Genève"
+        }
+      ],
+      "insurance": {
+        "hasInsurance": true,
+        "company": "Assurance Genève",
+        "policyNumber": "POL-678901"
+      },
+      "status": "pending",
+      "priority": "high",
+      "createdAt": "2024-01-17T16:45:00Z",
+      "updatedAt": "2024-01-17T16:45:00Z",
+      "responseTime": null,
+      "cost": null,
+      "satisfaction": null,
+      "agent": {
+        "id": "AG-001",
+        "name": "Marie Dubois",
+        "canton": "Genève"
+      }
+    },
+    {
+      "id": "REL-007",
+      "relocationType": "single",
+      "disasterAddress": {
+        "street": "Rue de la Corraterie 12",
+        "city": "Genève",
+        "postalCode": "1204",
+        "country": "Suisse",
+        "canton": "Genève"
+      },
+      "contactPerson": {
+        "firstName": "François",
+        "lastName": "Petit",
+        "email": "francois.petit@email.com",
+        "phone": "+41 22 789 01 23"
+      },
+      "relocationRequests": [
+        {
+          "firstName": "François",
+          "lastName": "Petit",
+          "email": "francois.petit@email.com",
+          "phone": "+41 22 789 01 23",
+          "bedrooms": 1,
+          "adults": 1,
+          "children": 0,
+          "hasAnimals": false,
+          "hasAccessibilityNeeds": false,
+          "needsParking": true,
+          "arrivalDate": "2024-01-19",
+          "departureDate": "2024-02-19",
+          "useExactDates": true
+        }
+      ],
+      "insurance": {
+        "hasInsurance": false
+      },
+      "status": "pending",
+      "priority": "low",
+      "createdAt": "2024-01-19T09:30:00Z",
+      "updatedAt": "2024-01-19T09:30:00Z",
+      "responseTime": null,
+      "cost": null,
+      "satisfaction": null,
+      "agent": {
+        "id": "AG-002",
+        "name": "Thomas Moreau",
+        "canton": "Vaud"
+      }
+    },
+    {
+      "id": "REL-008",
+      "relocationType": "single",
+      "disasterAddress": {
+        "street": "Rue du Stand 60",
+        "city": "Lausanne",
+        "postalCode": "1006",
+        "country": "Suisse",
+        "canton": "Vaud"
+      },
+      "contactPerson": {
+        "firstName": "Catherine",
+        "lastName": "Rousseau",
+        "email": "catherine.rousseau@email.com",
+        "phone": "+41 21 890 12 34"
+      },
+      "relocationRequests": [
+        {
+          "firstName": "Catherine",
+          "lastName": "Rousseau",
+          "email": "catherine.rousseau@email.com",
+          "phone": "+41 21 890 12 34",
+          "bedrooms": 4,
+          "adults": 2,
+          "children": 3,
+          "hasAnimals": true,
+          "hasAccessibilityNeeds": false,
+          "needsParking": true,
+          "arrivalDate": "2024-01-20",
+          "estimatedDuration": "6 mois",
+          "useExactDates": false
+        }
+      ],
+      "insurance": {
+        "hasInsurance": true,
+        "company": "Assurance Vaudoise",
+        "policyNumber": "POL-901234"
+      },
+      "status": "pending",
+      "priority": "high",
+      "createdAt": "2024-01-20T11:15:00Z",
+      "updatedAt": "2024-01-20T11:15:00Z",
+      "responseTime": null,
+      "cost": null,
+      "satisfaction": null,
+      "agent": {
+        "id": "AG-002",
+        "name": "Thomas Moreau",
+        "canton": "Vaud"
+      }
+    }
+  ]
+}

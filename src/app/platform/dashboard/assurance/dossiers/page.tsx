@@ -40,83 +40,8 @@ import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 
-// Types based on relocation wizard data structure
-interface RelocationData {
-  id: string;
-  relocationType: "single" | "multiple";
-  disasterAddress: {
-    street: string;
-    city: string;
-    postalCode: string;
-    country: string;
-    canton?: string;
-  };
-  personalData: {
-    firstName: string;
-    lastName: string;
-    email: string;
-    phone: string;
-  };
-  relocationPreferences?: {
-    bedrooms: number;
-    adults: number;
-    children: number;
-    hasAnimals?: boolean;
-    hasAccessibilityNeeds?: boolean;
-    needsParking?: boolean;
-  };
-  arrivalDetails?: {
-    arrivalDate: string;
-    departureDate?: string;
-    useExactDates: boolean;
-    estimatedDuration?: string;
-  };
-  insuranceCoverage?: {
-    hasInsurance: boolean;
-    claimDocument?: File;
-  };
-  insuranceDetails?: {
-    insuranceCompany: string;
-    policyNumber: string;
-    customInsuranceCompany?: string;
-  };
-  swissInsuranceDetails?: {
-    hasRCInsurance?: boolean;
-    rcInsuranceCompany?: string;
-    rcPolicyNumber?: string;
-    hasMenageInsurance?: boolean;
-    menageInsuranceCompany?: string;
-    menagePolicyNumber?: string;
-    hasNaturalDisasterInsurance?: boolean;
-    naturalDisasterInsuranceCompany?: string;
-    naturalDisasterPolicyNumber?: string;
-    hasBuildingInsurance?: boolean;
-    buildingInsuranceCompany?: string;
-    buildingPolicyNumber?: string;
-    ecaPolicyNumber?: string;
-    agentContact?: string;
-    additionalNotes?: string;
-  };
-  status: "pending" | "processing" | "completed" | "cancelled";
-  priority: "high" | "normal" | "low";
-  createdAt: string;
-  updatedAt: string;
-  responseTime?: number | null; // in days
-  cost?: {
-    insuranceCost: number;
-    insuredCost: number;
-    totalCost: number;
-  } | null;
-  satisfaction?: {
-    rating: number; // 1-5 stars
-    feedback?: string;
-  } | null;
-  agent: {
-    id: string;
-    name: string;
-    canton: string;
-  };
-}
+import { RelocationData } from '@/types/relocation';
+import { relocationCases, getPrimaryRequest, getTotalPeople, hasSpecialNeeds, getTotalBedrooms, hasInsuranceCoverage, getArrivalDateRange } from '@/lib/data-loader';
 
 // Separate component that uses useSearchParams
 function AssuranceDossiersContent() {
@@ -154,433 +79,14 @@ function AssuranceDossiersContent() {
     router.replace(newUrl);
   };
 
-  // Mock data based on relocation wizard structure
-  const mockRelocations: RelocationData[] = [
-    {
-      id: "REL-001",
-      relocationType: "single",
-      disasterAddress: {
-        street: "Rue de la Paix 10",
-        city: "Genève",
-        postalCode: "1201",
-        country: "Suisse",
-        canton: "Genève"
-      },
-      personalData: {
-        firstName: "Jean",
-        lastName: "Dupont",
-        email: "jean.dupont@email.com",
-        phone: "+41 22 123 45 67"
-      },
-      relocationPreferences: {
-        bedrooms: 2,
-        adults: 2,
-        children: 1,
-        hasAnimals: false,
-        hasAccessibilityNeeds: false,
-        needsParking: true
-      },
-      arrivalDetails: {
-        arrivalDate: "2025-08-01",
-        departureDate: "2025-09-01",
-        useExactDates: true
-      },
-      insuranceCoverage: {
-        hasInsurance: true
-      },
-      insuranceDetails: {
-        insuranceCompany: "other",
-        policyNumber: "POL-123456",
-        customInsuranceCompany: "Assurance Genève"
-      },
-      status: "processing",
-      priority: "high",
-      createdAt: "2024-01-15T10:30:00Z",
-      updatedAt: "2024-01-15T14:45:00Z",
-      responseTime: 2.1,
-      cost: {
-        insuranceCost: 2800,
-        insuredCost: 400,
-        totalCost: 3200
-      },
-      satisfaction: {
-        rating: 5,
-        feedback: "Excellent service, très réactif"
-      },
-      agent: {
-        id: "AG-001",
-        name: "Marie Dubois",
-        canton: "Genève"
-      }
-    },
-    {
-      id: "REL-002",
-      relocationType: "multiple",
-      disasterAddress: {
-        street: "Avenue des Alpes 25",
-        city: "Genève",
-        postalCode: "1201",
-        country: "Suisse",
-        canton: "Genève"
-      },
-      personalData: {
-        firstName: "Sophie",
-        lastName: "Bernard",
-        email: "sophie.bernard@email.com",
-        phone: "+41 22 234 56 78"
-      },
-      relocationPreferences: {
-        bedrooms: 3,
-        adults: 2,
-        children: 1,
-        hasAnimals: false,
-        hasAccessibilityNeeds: false,
-        needsParking: true
-      },
-      arrivalDetails: {
-        arrivalDate: "2024-01-10",
-        departureDate: "2024-02-10",
-        useExactDates: true
-      },
-      insuranceCoverage: {
-        hasInsurance: true
-      },
-      insuranceDetails: {
-        insuranceCompany: "other",
-        policyNumber: "POL-234567",
-        customInsuranceCompany: "Assurance Genève"
-      },
-      status: "completed",
-      priority: "normal",
-      createdAt: "2024-01-10T09:15:00Z",
-      updatedAt: "2024-01-12T16:30:00Z",
-      responseTime: 1.8,
-      cost: {
-        insuranceCost: 3200,
-        insuredCost: 600,
-        totalCost: 3800
-      },
-      satisfaction: {
-        rating: 5,
-        feedback: "Service impeccable, relogement rapide"
-      },
-      agent: {
-        id: "AG-001",
-        name: "Marie Dubois",
-        canton: "Genève"
-      }
-    },
-    {
-      id: "REL-003",
-      relocationType: "single",
-      disasterAddress: {
-        street: "Rue du Rhône 45",
-        city: "Genève",
-        postalCode: "1204",
-        country: "Suisse",
-        canton: "Genève"
-      },
-      personalData: {
-        firstName: "Pierre",
-        lastName: "Durand",
-        email: "pierre.durand@email.com",
-        phone: "+41 22 345 67 89"
-      },
-      relocationPreferences: {
-        bedrooms: 1,
-        adults: 1,
-        children: 0,
-        hasAnimals: true,
-        hasAccessibilityNeeds: false,
-        needsParking: false
-      },
-      arrivalDetails: {
-        arrivalDate: "2024-01-08",
-        estimatedDuration: "3 mois",
-        useExactDates: false
-      },
-      insuranceCoverage: {
-        hasInsurance: false
-      },
-      status: "completed",
-      priority: "low",
-      createdAt: "2024-01-08T11:20:00Z",
-      updatedAt: "2024-01-10T13:45:00Z",
-      responseTime: 3.2,
-      cost: {
-        insuranceCost: 0,
-        insuredCost: 2500,
-        totalCost: 2500
-      },
-      satisfaction: {
-        rating: 4,
-        feedback: "Service correct mais délais un peu longs"
-      },
-      agent: {
-        id: "AG-002",
-        name: "Thomas Moreau",
-        canton: "Vaud"
-      }
-    },
-    {
-      id: "REL-004",
-      relocationType: "single",
-      disasterAddress: {
-        street: "Rue de Lausanne 90",
-        city: "Lausanne",
-        postalCode: "1003",
-        country: "Suisse",
-        canton: "Vaud"
-      },
-      personalData: {
-        firstName: "Marie",
-        lastName: "Martin",
-        email: "marie.martin@email.com",
-        phone: "+41 21 456 78 90"
-      },
-      relocationPreferences: {
-        bedrooms: 3,
-        adults: 2,
-        children: 2,
-        hasAnimals: false,
-        hasAccessibilityNeeds: true,
-        needsParking: true
-      },
-      arrivalDetails: {
-        arrivalDate: "2025-08-05",
-        departureDate: "2025-10-05",
-        useExactDates: true
-      },
-      insuranceCoverage: {
-        hasInsurance: true
-      },
-      insuranceDetails: {
-        insuranceCompany: "other",
-        policyNumber: "POL-789012",
-        customInsuranceCompany: "Assurance Vaudoise"
-      },
-      status: "processing",
-      priority: "high",
-      createdAt: "2024-01-16T08:45:00Z",
-      updatedAt: "2024-01-16T12:30:00Z",
-      responseTime: 2.5,
-      cost: {
-        insuranceCost: 4500,
-        insuredCost: 800,
-        totalCost: 5300
-      },
-      satisfaction: {
-        rating: 5,
-        feedback: "Très satisfaite du service"
-      },
-      agent: {
-        id: "AG-002",
-        name: "Thomas Moreau",
-        canton: "Vaud"
-      }
-    },
-    {
-      id: "REL-005",
-      relocationType: "single",
-      disasterAddress: {
-        street: "Rue de Carouge 15",
-        city: "Genève",
-        postalCode: "1227",
-        country: "Suisse",
-        canton: "Genève"
-      },
-      personalData: {
-        firstName: "Antoine",
-        lastName: "Moreau",
-        email: "antoine.moreau@email.com",
-        phone: "+41 22 567 89 01"
-      },
-      relocationPreferences: {
-        bedrooms: 2,
-        adults: 1,
-        children: 0,
-        hasAnimals: false,
-        hasAccessibilityNeeds: false,
-        needsParking: false
-      },
-      arrivalDetails: {
-        arrivalDate: "2024-01-18",
-        estimatedDuration: "2 mois",
-        useExactDates: false
-      },
-      insuranceCoverage: {
-        hasInsurance: true
-      },
-      insuranceDetails: {
-        insuranceCompany: "other",
-        policyNumber: "POL-345678",
-        customInsuranceCompany: "Assurance Genève"
-      },
-      status: "pending",
-      priority: "normal",
-      createdAt: "2024-01-18T14:20:00Z",
-      updatedAt: "2024-01-18T14:20:00Z",
-      responseTime: null,
-      cost: null,
-      satisfaction: null,
-      agent: {
-        id: "AG-001",
-        name: "Marie Dubois",
-        canton: "Genève"
-      }
-    },
-    {
-      id: "REL-006",
-      relocationType: "multiple",
-      disasterAddress: {
-        street: "Avenue de Champel 78",
-        city: "Genève",
-        postalCode: "1206",
-        country: "Suisse",
-        canton: "Genève"
-      },
-      personalData: {
-        firstName: "Isabelle",
-        lastName: "Leroy",
-        email: "isabelle.leroy@email.com",
-        phone: "+41 22 678 90 12"
-      },
-      relocationPreferences: {
-        bedrooms: 4,
-        adults: 3,
-        children: 2,
-        hasAnimals: true,
-        hasAccessibilityNeeds: false,
-        needsParking: true
-      },
-      arrivalDetails: {
-        arrivalDate: "2024-01-17",
-        estimatedDuration: "4 mois",
-        useExactDates: false
-      },
-      insuranceCoverage: {
-        hasInsurance: true
-      },
-      insuranceDetails: {
-        insuranceCompany: "other",
-        policyNumber: "POL-678901",
-        customInsuranceCompany: "Assurance Genève"
-      },
-      status: "pending",
-      priority: "high",
-      createdAt: "2024-01-17T16:45:00Z",
-      updatedAt: "2024-01-17T16:45:00Z",
-      responseTime: null,
-      cost: null,
-      satisfaction: null,
-      agent: {
-        id: "AG-001",
-        name: "Marie Dubois",
-        canton: "Genève"
-      }
-    },
-    {
-      id: "REL-007",
-      relocationType: "single",
-      disasterAddress: {
-        street: "Rue de la Corraterie 12",
-        city: "Genève",
-        postalCode: "1204",
-        country: "Suisse",
-        canton: "Genève"
-      },
-      personalData: {
-        firstName: "François",
-        lastName: "Petit",
-        email: "francois.petit@email.com",
-        phone: "+41 22 789 01 23"
-      },
-      relocationPreferences: {
-        bedrooms: 1,
-        adults: 1,
-        children: 0,
-        hasAnimals: false,
-        hasAccessibilityNeeds: false,
-        needsParking: true
-      },
-      arrivalDetails: {
-        arrivalDate: "2024-01-19",
-        departureDate: "2024-02-19",
-        useExactDates: true
-      },
-      insuranceCoverage: {
-        hasInsurance: false
-      },
-      status: "pending",
-      priority: "low",
-      createdAt: "2024-01-19T09:30:00Z",
-      updatedAt: "2024-01-19T09:30:00Z",
-      responseTime: null,
-      cost: null,
-      satisfaction: null,
-      agent: {
-        id: "AG-002",
-        name: "Thomas Moreau",
-        canton: "Vaud"
-      }
-    },
-    {
-      id: "REL-008",
-      relocationType: "single",
-      disasterAddress: {
-        street: "Rue du Stand 60",
-        city: "Lausanne",
-        postalCode: "1006",
-        country: "Suisse",
-        canton: "Vaud"
-      },
-      personalData: {
-        firstName: "Catherine",
-        lastName: "Rousseau",
-        email: "catherine.rousseau@email.com",
-        phone: "+41 21 890 12 34"
-      },
-      relocationPreferences: {
-        bedrooms: 4,
-        adults: 2,
-        children: 3,
-        hasAnimals: true,
-        hasAccessibilityNeeds: false,
-        needsParking: true
-      },
-      arrivalDetails: {
-        arrivalDate: "2024-01-20",
-        estimatedDuration: "6 mois",
-        useExactDates: false
-      },
-      insuranceCoverage: {
-        hasInsurance: true
-      },
-      insuranceDetails: {
-        insuranceCompany: "other",
-        policyNumber: "POL-901234",
-        customInsuranceCompany: "Assurance Vaudoise"
-      },
-      status: "pending",
-      priority: "high",
-      createdAt: "2024-01-20T11:15:00Z",
-      updatedAt: "2024-01-20T11:15:00Z",
-      responseTime: null,
-      cost: null,
-      satisfaction: null,
-      agent: {
-        id: "AG-002",
-        name: "Thomas Moreau",
-        canton: "Vaud"
-      }
-    }
-  ];
+  // Use centralized mock data
+  const mockRelocations = relocationCases;
 
   // Filter cases based on search and filters
   const filteredCases = mockRelocations.filter((case_) => {
     const matchesSearch = searchTerm === "" || 
       case_.id.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      `${case_.personalData.firstName} ${case_.personalData.lastName}`.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      `${case_.contactPerson.firstName} ${case_.contactPerson.lastName}`.toLowerCase().includes(searchTerm.toLowerCase()) ||
       case_.disasterAddress.city.toLowerCase().includes(searchTerm.toLowerCase());
     
     const matchesStatus = statusFilter === "all" || case_.status === statusFilter;
@@ -871,16 +377,16 @@ function AssuranceDossiersContent() {
                   <div className="flex justify-between items-center py-1">
                     <span className="text-xs text-muted-foreground">Nom</span>
                     <span className="text-xs font-medium">
-                      {case_.personalData.firstName} {case_.personalData.lastName}
+                      {case_.contactPerson.firstName} {case_.contactPerson.lastName}
                     </span>
                   </div>
                   <div className="flex justify-between items-center py-1">
                     <span className="text-xs text-muted-foreground">Email</span>
-                    <span className="text-xs font-medium">{case_.personalData.email}</span>
+                    <span className="text-xs font-medium">{case_.contactPerson.email}</span>
                   </div>
                   <div className="flex justify-between items-center py-1">
                     <span className="text-xs text-muted-foreground">Téléphone</span>
-                    <span className="text-xs font-medium">{case_.personalData.phone}</span>
+                    <span className="text-xs font-medium">{case_.contactPerson.phone}</span>
                   </div>
                 </div>
               </div>
@@ -932,27 +438,27 @@ function AssuranceDossiersContent() {
                       {case_.relocationType === "single" ? "Simple" : "Multiple"}
                     </span>
                   </div>
-                  {case_.relocationPreferences && (
+                  {case_.relocationRequests && case_.relocationRequests.length > 0 && (
                     <>
                       <div className="flex justify-between items-center py-1">
                         <span className="text-xs text-muted-foreground">Chambres</span>
-                        <span className="text-xs font-medium">{case_.relocationPreferences.bedrooms}</span>
+                        <span className="text-xs font-medium">{case_.relocationRequests[0].bedrooms}</span>
                       </div>
                       <div className="flex justify-between items-center py-1">
                         <span className="text-xs text-muted-foreground">Personnes</span>
                         <span className="text-xs font-medium">
-                          {case_.relocationPreferences.adults + (case_.relocationPreferences.children || 0)}
+                          {case_.relocationRequests[0].adults + case_.relocationRequests[0].children}
                         </span>
                       </div>
                     </>
                   )}
-                  {case_.arrivalDetails && (
+                  {case_.relocationRequests && case_.relocationRequests.length > 0 && (
                     <div className="flex justify-between items-center py-1">
                       <span className="text-xs text-muted-foreground">Dates</span>
                       <span className="text-xs font-medium">
-                        {case_.arrivalDetails.useExactDates && case_.arrivalDetails.departureDate
-                          ? `${formatDate(case_.arrivalDetails.arrivalDate)} - ${formatDate(case_.arrivalDetails.departureDate)} (${getNumberOfNights(case_.arrivalDetails.arrivalDate, case_.arrivalDetails.departureDate)} nuits)`
-                          : `${formatDate(case_.arrivalDetails.arrivalDate)} (${case_.arrivalDetails.estimatedDuration})`
+                        {case_.relocationRequests[0].useExactDates && case_.relocationRequests[0].departureDate
+                          ? `${formatDate(case_.relocationRequests[0].arrivalDate)} - ${formatDate(case_.relocationRequests[0].departureDate)} (${getNumberOfNights(case_.relocationRequests[0].arrivalDate, case_.relocationRequests[0].departureDate)} nuits)`
+                          : `${formatDate(case_.relocationRequests[0].arrivalDate)} (${case_.relocationRequests[0].estimatedDuration})`
                         }
                       </span>
                     </div>
@@ -970,7 +476,7 @@ function AssuranceDossiersContent() {
                 </div>
                 <div>
                   <p className="text-xs text-muted-foreground">Agent responsable</p>
-                  <p className="text-xs font-medium">{case_.agent.name}</p>
+                  <p className="text-xs font-medium">{case_.agent?.name || "Non assigné"}</p>
                 </div>
               </div>
               
@@ -1020,7 +526,7 @@ function AssuranceDossiersContent() {
             </div>
 
             {/* Declaration de sinistre */}
-            {case_.insuranceCoverage && (
+            {case_.insurance && (
               <div className="mt-4 pt-4 border-t">
                 <div className="flex items-center gap-3">
                   <div className="flex items-center justify-center w-6 h-6 bg-orange-100 rounded-lg">
@@ -1028,7 +534,7 @@ function AssuranceDossiersContent() {
                   </div>
                   <div className="flex items-center gap-2">
                     <span className="text-xs text-muted-foreground">Déclaration de sinistre:</span>
-                    {case_.insuranceCoverage.hasInsurance ? (
+                    {case_.insurance.hasInsurance ? (
                       <div className="flex items-center gap-2">
                         <CheckCircle className="h-3 w-3 text-green-500" />
                         <span className="text-xs font-medium text-green-600">Téléchargée</span>

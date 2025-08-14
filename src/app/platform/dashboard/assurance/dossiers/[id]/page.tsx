@@ -37,6 +37,8 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "../../../../../../components/ui/badge";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
+import { RelocationData } from '@/types/relocation';
+import { getCaseById } from '@/lib/data-loader';
 
 // Generate static params for all mock case IDs
 export async function generateStaticParams() {
@@ -47,121 +49,9 @@ export async function generateStaticParams() {
     { id: "REL-004" },
     { id: "REL-005" },
     { id: "REL-006" },
+    { id: "REL-007" },
+    { id: "REL-008" },
   ];
-}
-
-// Types based on relocation wizard data structure
-interface RelocationData {
-  id: string;
-  relocationType: "single" | "multiple";
-  
-  // Single relocation path
-  singleDisasterAddress?: {
-    street: string;
-    city: string;
-    postalCode: string;
-    country: string;
-    canton?: string;
-  };
-  
-  singlePersonalData?: {
-    firstName: string;
-    lastName: string;
-    email: string;
-    phone: string;
-  };
-  
-  singleInsuredData?: {
-    firstName: string;
-    lastName: string;
-    email: string;
-    phone: string;
-  };
-  
-  singleRelocationPreferences?: {
-    bedrooms: number;
-    adults: number;
-    children: number;
-    hasAnimals?: boolean;
-    hasAccessibilityNeeds?: boolean;
-    needsParking?: boolean;
-  };
-  
-  singleArrivalDetails?: {
-    arrivalDate: string;
-    departureDate?: string;
-    useExactDates: boolean;
-    estimatedDuration?: string;
-  };
-  
-  singleInsuranceCoverage?: {
-    hasInsurance: boolean;
-    claimDocument?: File;
-  };
-  
-  singleInsuranceDetails?: {
-    insuranceCompany: string;
-    policyNumber: string;
-    customInsuranceCompany?: string;
-  };
-  
-  // Multiple relocation path
-  multipleDisasterAddress?: {
-    street: string;
-    city: string;
-    postalCode: string;
-    country: string;
-  };
-  
-  multiplePersonalData?: {
-    firstName: string;
-    lastName: string;
-    email: string;
-    phone: string;
-  };
-  
-  multipleRelocationRequests?: Array<{
-    firstName: string;
-    lastName: string;
-    email: string;
-    phone: string;
-    specialNeeds?: string;
-    arrivalDate: string;
-    departureDate?: string;
-    useExactDates: boolean;
-    estimatedDuration?: string;
-    bedrooms: number;
-    adults: number;
-    children: number;
-    hasAnimals?: boolean;
-    hasAccessibilityNeeds?: boolean;
-    needsParking?: boolean;
-    hasInsurance?: boolean;
-    insuranceDetails?: string;
-    claimDocument?: File;
-    hasUploadedClaim?: boolean;
-  }>;
-  
-  // Common fields
-  status: "pending" | "processing" | "completed" | "cancelled";
-  priority: "high" | "normal" | "low";
-  createdAt: string;
-  updatedAt: string;
-  responseTime?: number; // in days
-  cost?: {
-    insuranceCost: number;
-    insuredCost: number;
-    totalCost: number;
-  };
-  satisfaction?: {
-    rating: number; // 1-5 stars
-    feedback?: string;
-  };
-  agent: {
-    id: string;
-    name: string;
-    canton: string;
-  };
 }
 
 interface PageProps {
@@ -174,404 +64,26 @@ export default async function CaseDetailPage({ params }: PageProps) {
   const { id } = await params;
   const caseId = id || "REL-001";
 
-  // Function to get case data based on ID
-  // Mock data for a single detailed view
-  const caseData: RelocationData = {
-    id: "REL-001",
-    relocationType: "single",
-    singleDisasterAddress: {
-      street: "Rue de la Paix 10",
-      city: "Genève",
-      postalCode: "1201",
-      country: "Suisse",
-      canton: "Genève"
-    },
-    singlePersonalData: {
-      firstName: "Jean",
-      lastName: "Dupont",
-      email: "jean.dupont@email.com",
-      phone: "+41 22 123 45 67"
-    },
-    singleInsuredData: {
-      firstName: "Jean",
-      lastName: "Dupont",
-      email: "jean.dupont@email.com",
-      phone: "+41 22 123 45 67"
-    },
-    singleRelocationPreferences: {
-      bedrooms: 2,
-      adults: 2,
-      children: 1,
-      hasAnimals: false,
-      hasAccessibilityNeeds: false,
-      needsParking: true
-    },
-    singleArrivalDetails: {
-      arrivalDate: "2025-08-01",
-      departureDate: "2025-09-01",
-      useExactDates: true
-    },
-    singleInsuranceCoverage: {
-      hasInsurance: true
-    },
-    singleInsuranceDetails: {
-      insuranceCompany: "other",
-      policyNumber: "POL-123456",
-      customInsuranceCompany: "Assurance Genève"
-    },
-    status: "processing",
-    priority: "high",
-    createdAt: "2025-08-01T10:30:00Z",
-    updatedAt: "2025-08-08T14:45:00Z",
-    responseTime: 2.1,
-    cost: {
-      insuranceCost: 2800,
-      insuredCost: 400,
-      totalCost: 3200
-    },
-    satisfaction: {
-      rating: 5,
-      feedback: "Excellent service, très réactif"
-    },
-    agent: {
-      id: "AG-001",
-      name: "Marie Dubois",
-      canton: "Genève"
-    }
-  };
+  // Get case data from centralized source
+  const currentCaseData = getCaseById(caseId);
 
-  // Additional mock data examples for different scenarios
-  const multipleRelocationExample: RelocationData = {
-    id: "REL-002",
-    relocationType: "multiple",
-    multipleDisasterAddress: {
-      street: "Avenue des Alpes 25",
-      city: "Lausanne",
-      postalCode: "1000",
-      country: "Suisse"
-    },
-    multiplePersonalData: {
-      firstName: "Sophie",
-      lastName: "Martin",
-      email: "sophie.martin@email.com",
-      phone: "+41 21 987 65 43"
-    },
-    multipleRelocationRequests: [
-      {
-        firstName: "Pierre",
-        lastName: "Durand",
-        email: "pierre.durand@email.com",
-        phone: "+41 21 123 45 67",
-        specialNeeds: "Accès handicapé requis",
-        arrivalDate: "2025-08-15",
-        departureDate: "2025-10-15",
-        useExactDates: true,
-        bedrooms: 1,
-        adults: 1,
-        children: 0,
-        hasAnimals: false,
-        hasAccessibilityNeeds: true,
-        needsParking: false,
-        hasInsurance: true,
-        insuranceDetails: "Assurance ménage - AXA"
-      },
-      {
-        firstName: "Marie",
-        lastName: "Leroy",
-        email: "marie.leroy@email.com",
-        phone: "+41 21 234 56 78",
-        arrivalDate: "2025-08-20",
-        estimatedDuration: "2-3 mois",
-        useExactDates: false,
-        bedrooms: 2,
-        adults: 2,
-        children: 1,
-        hasAnimals: true,
-        hasAccessibilityNeeds: false,
-        needsParking: true,
-        hasInsurance: false
-      }
-    ],
-    status: "pending",
-    priority: "normal",
-    createdAt: "2025-08-05T09:15:00Z",
-    updatedAt: "2025-08-08T09:15:00Z",
-    agent: {
-      id: "AG-002",
-      name: "Thomas Weber",
-      canton: "Vaud"
-    }
-  };
-
-  const noInsuranceExample: RelocationData = {
-    id: "REL-003",
-    relocationType: "single",
-    singleDisasterAddress: {
-      street: "Rue du Rhône 45",
-      city: "Genève",
-      postalCode: "1204",
-      country: "Suisse",
-      canton: "Genève"
-    },
-    singlePersonalData: {
-      firstName: "Claire",
-      lastName: "Bernard",
-      email: "claire.bernard@email.com",
-      phone: "+41 22 456 78 90"
-    },
-    singleInsuredData: {
-      firstName: "Marc",
-      lastName: "Bernard",
-      email: "marc.bernard@email.com",
-      phone: "+41 22 456 78 91"
-    },
-    singleRelocationPreferences: {
-      bedrooms: 3,
-      adults: 2,
-      children: 2,
-      hasAnimals: true,
-      hasAccessibilityNeeds: false,
-      needsParking: true
-    },
-    singleArrivalDetails: {
-      arrivalDate: "2025-07-25",
-      estimatedDuration: "6-8 mois",
-      useExactDates: false
-    },
-    singleInsuranceCoverage: {
-      hasInsurance: false
-    },
-    singleInsuranceDetails: {
-      insuranceCompany: "other",
-      policyNumber: "POL-789012",
-      customInsuranceCompany: "Assurance Privée"
-    },
-    status: "completed",
-    priority: "low",
-    createdAt: "2025-07-20T14:20:00Z",
-    updatedAt: "2025-08-05T16:30:00Z",
-    responseTime: 1.5,
-    cost: {
-      insuranceCost: 0,
-      insuredCost: 4500,
-      totalCost: 4500
-    },
-    satisfaction: {
-      rating: 4,
-      feedback: "Service correct, délais respectés"
-    },
-    agent: {
-      id: "AG-003",
-      name: "Anne Müller",
-      canton: "Genève"
-    }
-  };
-
-  // New examples for different cantons and scenarios
-  const vaudCompletedExample: RelocationData = {
-    id: "REL-004",
-    relocationType: "single",
-    singleDisasterAddress: {
-      street: "Rue de la Tour 78",
-      city: "Montreux",
-      postalCode: "1820",
-      country: "Suisse",
-      canton: "Vaud"
-    },
-    singlePersonalData: {
-      firstName: "Antoine",
-      lastName: "Moreau",
-      email: "antoine.moreau@email.com",
-      phone: "+41 21 345 67 89"
-    },
-    singleInsuredData: {
-      firstName: "Antoine",
-      lastName: "Moreau",
-      email: "antoine.moreau@email.com",
-      phone: "+41 21 345 67 89"
-    },
-    singleRelocationPreferences: {
-      bedrooms: 2,
-      adults: 1,
-      children: 0,
-      hasAnimals: false,
-      hasAccessibilityNeeds: false,
-      needsParking: true
-    },
-    singleArrivalDetails: {
-      arrivalDate: "2025-07-10",
-      departureDate: "2025-08-10",
-      useExactDates: true
-    },
-    singleInsuranceCoverage: {
-      hasInsurance: true
-    },
-    singleInsuranceDetails: {
-      insuranceCompany: "other",
-      policyNumber: "POL-456789",
-      customInsuranceCompany: "Assurance Vaudoise"
-    },
-    status: "completed",
-    priority: "normal",
-    createdAt: "2025-07-08T11:30:00Z",
-    updatedAt: "2025-08-01T13:45:00Z",
-    responseTime: 2.8,
-    cost: {
-      insuranceCost: 1800,
-      insuredCost: 300,
-      totalCost: 2100
-    },
-    satisfaction: {
-      rating: 5,
-      feedback: "Service impeccable, relogement rapide"
-    },
-    agent: {
-      id: "AG-004",
-      name: "Claire Martin",
-      canton: "Vaud"
-    }
-  };
-
-  const genevaProcessingExample: RelocationData = {
-    id: "REL-005",
-    relocationType: "single",
-    singleDisasterAddress: {
-      street: "Avenue de Champel 45",
-      city: "Genève",
-      postalCode: "1206",
-      country: "Suisse",
-      canton: "Genève"
-    },
-    singlePersonalData: {
-      firstName: "Isabelle",
-      lastName: "Lefebvre",
-      email: "isabelle.lefebvre@email.com",
-      phone: "+41 22 567 89 01"
-    },
-    singleInsuredData: {
-      firstName: "Isabelle",
-      lastName: "Lefebvre",
-      email: "isabelle.lefebvre@email.com",
-      phone: "+41 22 567 89 01"
-    },
-    singleRelocationPreferences: {
-      bedrooms: 4,
-      adults: 2,
-      children: 2,
-      hasAnimals: true,
-      hasAccessibilityNeeds: false,
-      needsParking: true
-    },
-    singleArrivalDetails: {
-      arrivalDate: "2025-08-12",
-      estimatedDuration: "4-5 mois",
-      useExactDates: false
-    },
-    singleInsuranceCoverage: {
-      hasInsurance: true
-    },
-    singleInsuranceDetails: {
-      insuranceCompany: "other",
-      policyNumber: "POL-234567",
-      customInsuranceCompany: "Assurance Genève"
-    },
-    status: "processing",
-    priority: "high",
-    createdAt: "2025-08-10T16:45:00Z",
-    updatedAt: "2025-08-08T10:20:00Z",
-    responseTime: 1.2,
-    cost: {
-      insuranceCost: 3800,
-      insuredCost: 600,
-      totalCost: 4400
-    },
-    satisfaction: undefined,
-    agent: {
-      id: "AG-001",
-      name: "Marie Dubois",
-      canton: "Genève"
-    }
-  };
-
-  const vaudPendingExample: RelocationData = {
-    id: "REL-006",
-    relocationType: "multiple",
-    multipleDisasterAddress: {
-      street: "Rue du Lac 90",
-      city: "Vevey",
-      postalCode: "1800",
-      country: "Suisse"
-    },
-    multiplePersonalData: {
-      firstName: "François",
-      lastName: "Rousseau",
-      email: "francois.rousseau@email.com",
-      phone: "+41 21 678 90 12"
-    },
-    multipleRelocationRequests: [
-      {
-        firstName: "François",
-        lastName: "Rousseau",
-        email: "francois.rousseau@email.com",
-        phone: "+41 21 678 90 12",
-        arrivalDate: "2025-08-25",
-        estimatedDuration: "3-4 mois",
-        useExactDates: false,
-        bedrooms: 3,
-        adults: 2,
-        children: 1,
-        hasAnimals: false,
-        hasAccessibilityNeeds: false,
-        needsParking: true,
-        hasInsurance: true,
-        insuranceDetails: "Assurance ménage - Helvetia"
-      },
-      {
-        firstName: "Catherine",
-        lastName: "Rousseau",
-        email: "catherine.rousseau@email.com",
-        phone: "+41 21 678 90 13",
-        arrivalDate: "2025-08-25",
-        estimatedDuration: "3-4 mois",
-        useExactDates: false,
-        bedrooms: 2,
-        adults: 1,
-        children: 0,
-        hasAnimals: true,
-        hasAccessibilityNeeds: false,
-        needsParking: false,
-        hasInsurance: true,
-        insuranceDetails: "Assurance ménage - Helvetia"
-      }
-    ],
-    status: "pending",
-    priority: "normal",
-    createdAt: "2025-08-08T14:30:00Z",
-    updatedAt: "2025-08-08T14:30:00Z",
-    agent: {
-      id: "AG-004",
-      name: "Claire Martin",
-      canton: "Vaud"
-    }
-  };
-
-  // Get the current case data based on ID
-  const currentCaseData = (() => {
-    switch (caseId) {
-      case "REL-002":
-        return multipleRelocationExample;
-      case "REL-003":
-        return noInsuranceExample;
-      case "REL-004":
-        return vaudCompletedExample;
-      case "REL-005":
-        return genevaProcessingExample;
-      case "REL-006":
-        return vaudPendingExample;
-      default:
-        return caseData;
-    }
-  })();
+  if (!currentCaseData) {
+    return (
+      <div className="flex items-center justify-center min-h-[400px]">
+        <div className="text-center">
+          <AlertTriangle className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
+          <h2 className="text-xl font-semibold text-foreground mb-2">Dossier non trouvé</h2>
+          <p className="text-muted-foreground mb-4">Le dossier {caseId} n'existe pas.</p>
+          <Link href="/platform/dashboard/assurance/dossiers">
+            <Button variant="outline">
+              <ArrowLeft className="h-4 w-4 mr-2" />
+              Retour aux dossiers
+            </Button>
+          </Link>
+        </div>
+      </div>
+    );
+  }
 
   const getStatusColor = (status: string) => {
     switch (status) {
@@ -638,27 +150,27 @@ export default async function CaseDetailPage({ params }: PageProps) {
     return nights > 0 ? nights : 0;
   };
 
+  // Get the primary request for single relocations
+  const primaryRequest = currentCaseData.relocationRequests[0];
+
   return (
     <div className="space-y-6">
       {/* Header with Navigation */}
-              <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between">
+        <div>
+          <Link href="/platform/dashboard/assurance/dossiers">
+            <Button variant="outline" size="sm" className="mb-4">
+              <ArrowLeft className="h-4 w-4 mr-2" />
+              Retour
+            </Button>
+          </Link>
           <div>
-            <Link href="/platform/dashboard/assurance/dossiers">
-              <Button variant="outline" size="sm" className="mb-4">
-                <ArrowLeft className="h-4 w-4 mr-2" />
-                Retour
-              </Button>
-            </Link>
-            <div>
-              <h1 className="text-3xl font-bold text-primary">Dossier {currentCaseData.id}</h1>
-              <p className="text-muted-foreground mt-1">
-                {currentCaseData.relocationType === "single" 
-                  ? `${currentCaseData.singlePersonalData?.firstName} ${currentCaseData.singlePersonalData?.lastName}`
-                  : `${currentCaseData.multiplePersonalData?.firstName} ${currentCaseData.multiplePersonalData?.lastName}`
-                }
-              </p>
-            </div>
+            <h1 className="text-3xl font-bold text-primary">Dossier {currentCaseData.id}</h1>
+            <p className="text-muted-foreground mt-1">
+              {currentCaseData.contactPerson.firstName} {currentCaseData.contactPerson.lastName}
+            </p>
           </div>
+        </div>
         
         <div className="flex items-center gap-4">
           <div className="flex items-center gap-2">
@@ -683,78 +195,28 @@ export default async function CaseDetailPage({ params }: PageProps) {
           {/* Personal Information */}
           <div className="bg-card border border-border rounded-xl p-6 shadow-sm">
             <div className="flex flex-col lg:flex-row gap-8">
-              {/* Insured Person Information - Only show when user doesn't have insurance */}
-              {currentCaseData.relocationType === "single" && 
-               currentCaseData.singleInsuranceCoverage?.hasInsurance === false && (
-                <div className="flex-1">
-                  <div className="flex items-center gap-3 mb-6">
-                    <div className="flex items-center justify-center w-8 h-8 bg-green-100 rounded-lg">
-                      <Shield className="h-5 w-5 text-green-600" />
-                    </div>
-                    <h3 className="text-lg font-semibold text-foreground">Informations de l'assuré</h3>
-                  </div>
-                  <div className="space-y-3">
-                    <div className="flex justify-between items-center py-1">
-                      <span className="text-sm text-muted-foreground">Nom complet</span>
-                      <span className="text-sm font-medium text-foreground">
-                        {currentCaseData.singleInsuredData?.firstName} {currentCaseData.singleInsuredData?.lastName}
-                      </span>
-                    </div>
-                    <div className="flex justify-between items-center py-1">
-                      <span className="text-sm text-muted-foreground">Email</span>
-                      <span className="text-sm text-foreground">{currentCaseData.singleInsuredData?.email}</span>
-                    </div>
-                    <div className="flex justify-between items-center py-1">
-                      <span className="text-sm text-muted-foreground">Téléphone</span>
-                      <span className="text-sm text-foreground">{currentCaseData.singleInsuredData?.phone}</span>
-                    </div>
-                  </div>
-                </div>
-              )}
-
-              {/* Vertical Separator - Only show when insured person info is present */}
-              {currentCaseData.relocationType === "single" && 
-               currentCaseData.singleInsuranceCoverage?.hasInsurance === false && (
-                <div className="hidden lg:block w-px bg-border"></div>
-              )}
-
-              {/* Broker Information */}
+              {/* Contact Person Information */}
               <div className="flex-1">
                 <div className="flex items-center gap-3 mb-6">
                   <div className="flex items-center justify-center w-8 h-8 bg-blue-100 rounded-lg">
                     <User className="h-4 w-4 text-blue-600" />
                   </div>
-                  <h3 className="text-lg font-semibold text-foreground">
-                    {currentCaseData.relocationType === "single" ? "Informations du courtier" : "Informations du contact"}
-                  </h3>
+                  <h3 className="text-lg font-semibold text-foreground">Informations du contact</h3>
                 </div>
                 <div className="space-y-3">
                   <div className="flex justify-between items-center py-1">
                     <span className="text-sm text-muted-foreground">Nom complet</span>
                     <span className="text-sm font-medium text-foreground">
-                      {currentCaseData.relocationType === "single" 
-                        ? `${currentCaseData.singlePersonalData?.firstName} ${currentCaseData.singlePersonalData?.lastName}`
-                        : `${currentCaseData.multiplePersonalData?.firstName} ${currentCaseData.multiplePersonalData?.lastName}`
-                      }
+                      {currentCaseData.contactPerson.firstName} {currentCaseData.contactPerson.lastName}
                     </span>
                   </div>
                   <div className="flex justify-between items-center py-1">
                     <span className="text-sm text-muted-foreground">Email</span>
-                    <span className="text-sm text-foreground">
-                      {currentCaseData.relocationType === "single" 
-                        ? currentCaseData.singlePersonalData?.email
-                        : currentCaseData.multiplePersonalData?.email
-                      }
-                    </span>
+                    <span className="text-sm text-foreground">{currentCaseData.contactPerson.email}</span>
                   </div>
                   <div className="flex justify-between items-center py-1">
                     <span className="text-sm text-muted-foreground">Téléphone</span>
-                    <span className="text-sm text-foreground">
-                      {currentCaseData.relocationType === "single" 
-                        ? currentCaseData.singlePersonalData?.phone
-                        : currentCaseData.multiplePersonalData?.phone
-                      }
-                    </span>
+                    <span className="text-sm text-foreground">{currentCaseData.contactPerson.phone}</span>
                   </div>
                 </div>
               </div>
@@ -775,40 +237,22 @@ export default async function CaseDetailPage({ params }: PageProps) {
                 <div className="space-y-3">
                   <div className="flex justify-between items-center py-1">
                     <span className="text-sm text-muted-foreground">Rue</span>
-                    <span className="text-sm text-foreground">
-                      {currentCaseData.relocationType === "single" 
-                        ? currentCaseData.singleDisasterAddress?.street
-                        : currentCaseData.multipleDisasterAddress?.street
-                      }
-                    </span>
+                    <span className="text-sm text-foreground">{currentCaseData.disasterAddress.street}</span>
                   </div>
                   <div className="flex justify-between items-center py-1">
                     <span className="text-sm text-muted-foreground">Ville</span>
-                    <span className="text-sm text-foreground">
-                      {currentCaseData.relocationType === "single" 
-                        ? currentCaseData.singleDisasterAddress?.city
-                        : currentCaseData.multipleDisasterAddress?.city
-                      }
-                    </span>
+                    <span className="text-sm text-foreground">{currentCaseData.disasterAddress.city}</span>
                   </div>
                   <div className="flex justify-between items-center py-1">
                     <span className="text-sm text-muted-foreground">Code postal</span>
-                    <span className="text-sm text-foreground">
-                      {currentCaseData.relocationType === "single" 
-                        ? currentCaseData.singleDisasterAddress?.postalCode
-                        : currentCaseData.multipleDisasterAddress?.postalCode
-                      }
-                    </span>
+                    <span className="text-sm text-foreground">{currentCaseData.disasterAddress.postalCode}</span>
                   </div>
                   <div className="flex justify-between items-center py-1">
                     <span className="text-sm text-muted-foreground">
-                      {currentCaseData.relocationType === "single" ? "Canton" : "Pays"}
+                      {currentCaseData.disasterAddress.canton ? "Canton" : "Pays"}
                     </span>
                     <span className="text-sm text-foreground">
-                      {currentCaseData.relocationType === "single" 
-                        ? currentCaseData.singleDisasterAddress?.canton
-                        : currentCaseData.multipleDisasterAddress?.country
-                      }
+                      {currentCaseData.disasterAddress.canton || currentCaseData.disasterAddress.country}
                     </span>
                   </div>
                 </div>
@@ -827,57 +271,34 @@ export default async function CaseDetailPage({ params }: PageProps) {
                 </div>
                 <div className="space-y-3">
                   <div className="flex justify-between items-center py-1">
-                    <span className="text-sm text-muted-foreground">Déclaration de sinistre</span>
+                    <span className="text-sm text-muted-foreground">Assurance</span>
                     <div className="flex items-center gap-2">
-                      {currentCaseData.relocationType === "single" ? (
-                        currentCaseData.singleInsuranceCoverage?.hasInsurance === true ? (
-                          <>
-                            <CheckCircle className="h-4 w-4 text-green-500" />
-                            <span className="text-sm text-foreground">Oui</span>
-                          </>
-                        ) : currentCaseData.singleInsuranceCoverage?.hasInsurance === false ? (
-                          <>
-                            <AlertTriangle className="h-4 w-4 text-orange-500" />
-                            <span className="text-sm text-foreground">Non</span>
-                          </>
-                        ) : (
-                          <span className="text-sm text-foreground">Non spécifié</span>
-                        )
+                      {currentCaseData.insurance?.hasInsurance ? (
+                        <>
+                          <CheckCircle className="h-4 w-4 text-green-500" />
+                          <span className="text-sm text-foreground">Oui</span>
+                        </>
                       ) : (
-                        <span className="text-sm text-foreground">Multiple demandes</span>
+                        <>
+                          <AlertTriangle className="h-4 w-4 text-orange-500" />
+                          <span className="text-sm text-foreground">Non</span>
+                        </>
                       )}
                     </div>
                   </div>
                   
-                  {currentCaseData.relocationType === "single" && 
-                   currentCaseData.singleInsuranceCoverage?.hasInsurance === true && 
-                   currentCaseData.singleInsuranceCoverage?.claimDocument && (
+                  {currentCaseData.insurance?.hasInsurance && currentCaseData.insurance?.company && (
                     <div className="flex justify-between items-center py-1">
-                      <span className="text-sm text-muted-foreground">Fichier</span>
-                      <div className="flex items-center gap-2">
-                        <File className="h-4 w-4 text-foreground" />
-                        <span className="text-sm text-foreground">Document téléchargé</span>
-                      </div>
+                      <span className="text-sm text-muted-foreground">Compagnie d'assurance</span>
+                      <span className="text-sm text-foreground">{currentCaseData.insurance.company}</span>
                     </div>
                   )}
                   
-                  {currentCaseData.relocationType === "single" && 
-                   currentCaseData.singleInsuranceCoverage?.hasInsurance === false && (
-                    <>
-                      <div className="flex justify-between items-center py-1">
-                        <span className="text-sm text-muted-foreground">Compagnie d'assurance</span>
-                        <span className="text-sm text-foreground">
-                          {currentCaseData.singleInsuranceDetails?.insuranceCompany === "other" 
-                            ? currentCaseData.singleInsuranceDetails?.customInsuranceCompany
-                            : currentCaseData.singleInsuranceDetails?.insuranceCompany
-                          }
-                        </span>
-                      </div>
-                      <div className="flex justify-between items-center py-1">
-                        <span className="text-sm text-muted-foreground">Numéro de police</span>
-                        <span className="text-sm text-foreground">{currentCaseData.singleInsuranceDetails?.policyNumber}</span>
-                      </div>
-                    </>
+                  {currentCaseData.insurance?.hasInsurance && currentCaseData.insurance?.policyNumber && (
+                    <div className="flex justify-between items-center py-1">
+                      <span className="text-sm text-muted-foreground">Numéro de police</span>
+                      <span className="text-sm text-foreground">{currentCaseData.insurance.policyNumber}</span>
+                    </div>
                   )}
                 </div>
               </div>
@@ -901,16 +322,16 @@ export default async function CaseDetailPage({ params }: PageProps) {
                   <div className="space-y-3">
                     <div className="flex justify-between items-center py-1">
                       <span className="text-sm text-muted-foreground">Chambres</span>
-                      <span className="text-sm font-medium text-foreground">{currentCaseData.singleRelocationPreferences?.bedrooms}</span>
+                      <span className="text-sm font-medium text-foreground">{primaryRequest.bedrooms}</span>
                     </div>
                     <div className="flex justify-between items-center py-1">
                       <span className="text-sm text-muted-foreground">Adultes</span>
-                      <span className="text-sm font-medium text-foreground">{currentCaseData.singleRelocationPreferences?.adults}</span>
+                      <span className="text-sm font-medium text-foreground">{primaryRequest.adults}</span>
                     </div>
-                    {currentCaseData.singleRelocationPreferences?.children && currentCaseData.singleRelocationPreferences.children > 0 && (
+                    {primaryRequest.children && primaryRequest.children > 0 && (
                       <div className="flex justify-between items-center py-1">
                         <span className="text-sm text-muted-foreground">Enfants</span>
-                        <span className="text-sm font-medium text-foreground">{currentCaseData.singleRelocationPreferences.children}</span>
+                        <span className="text-sm font-medium text-foreground">{primaryRequest.children}</span>
                       </div>
                     )}
                   </div>
@@ -918,12 +339,12 @@ export default async function CaseDetailPage({ params }: PageProps) {
                   <div className="space-y-3">
                     <div className="flex justify-between items-center py-1">
                       <span className="text-sm text-muted-foreground">Nombre de demandes</span>
-                      <span className="text-sm font-medium text-foreground">{currentCaseData.multipleRelocationRequests?.length || 0}</span>
+                      <span className="text-sm font-medium text-foreground">{currentCaseData.relocationRequests.length}</span>
                     </div>
                     <div className="flex justify-between items-center py-1">
                       <span className="text-sm text-muted-foreground">Total de personnes</span>
                       <span className="text-sm font-medium text-foreground">
-                        {currentCaseData.multipleRelocationRequests?.reduce((total, req) => total + req.adults + req.children, 0) || 0}
+                        {currentCaseData.relocationRequests.reduce((total, req) => total + req.adults + req.children, 0)}
                       </span>
                     </div>
                   </div>
@@ -946,19 +367,19 @@ export default async function CaseDetailPage({ params }: PageProps) {
                     <div className="flex justify-between items-center py-1">
                       <span className="text-sm text-muted-foreground">Animaux</span>
                       <span className="text-sm text-foreground">
-                        {currentCaseData.singleRelocationPreferences?.hasAnimals ? "Oui" : "Non"}
+                        {primaryRequest.hasAnimals ? "Oui" : "Non"}
                       </span>
                     </div>
                     <div className="flex justify-between items-center py-1">
                       <span className="text-sm text-muted-foreground">Accessibilité</span>
                       <span className="text-sm text-foreground">
-                        {currentCaseData.singleRelocationPreferences?.hasAccessibilityNeeds ? "Oui" : "Non"}
+                        {primaryRequest.hasAccessibilityNeeds ? "Oui" : "Non"}
                       </span>
                     </div>
                     <div className="flex justify-between items-center py-1">
                       <span className="text-sm text-muted-foreground">Stationnement</span>
                       <span className="text-sm text-foreground">
-                        {currentCaseData.singleRelocationPreferences?.needsParking ? "Oui" : "Non"}
+                        {primaryRequest.needsParking ? "Oui" : "Non"}
                       </span>
                     </div>
                   </div>
@@ -967,19 +388,19 @@ export default async function CaseDetailPage({ params }: PageProps) {
                     <div className="flex justify-between items-center py-1">
                       <span className="text-sm text-muted-foreground">Avec animaux</span>
                       <span className="text-sm text-foreground">
-                        {currentCaseData.multipleRelocationRequests?.filter(r => r.hasAnimals).length || 0} demandes
+                        {currentCaseData.relocationRequests.filter(r => r.hasAnimals).length} demandes
                       </span>
                     </div>
                     <div className="flex justify-between items-center py-1">
                       <span className="text-sm text-muted-foreground">Avec accessibilité</span>
                       <span className="text-sm text-foreground">
-                        {currentCaseData.multipleRelocationRequests?.filter(r => r.hasAccessibilityNeeds).length || 0} demandes
+                        {currentCaseData.relocationRequests.filter(r => r.hasAccessibilityNeeds).length} demandes
                       </span>
                     </div>
                     <div className="flex justify-between items-center py-1">
                       <span className="text-sm text-muted-foreground">Avec stationnement</span>
                       <span className="text-sm text-foreground">
-                        {currentCaseData.multipleRelocationRequests?.filter(r => r.needsParking).length || 0} demandes
+                        {currentCaseData.relocationRequests.filter(r => r.needsParking).length} demandes
                       </span>
                     </div>
                   </div>
@@ -1001,22 +422,22 @@ export default async function CaseDetailPage({ params }: PageProps) {
                   <div className="space-y-3">
                     <div className="flex justify-between items-center py-1">
                       <span className="text-sm text-muted-foreground">Date d'arrivée</span>
-                      <span className="text-sm text-foreground">{formatDate(currentCaseData.singleArrivalDetails?.arrivalDate || "")}</span>
+                      <span className="text-sm text-foreground">{formatDate(primaryRequest.arrivalDate)}</span>
                     </div>
-                    {currentCaseData.singleArrivalDetails?.departureDate && (
+                    {primaryRequest.departureDate && (
                       <div className="flex justify-between items-center py-1">
                         <span className="text-sm text-muted-foreground">Date de départ</span>
-                        <span className="text-sm text-foreground">{formatDate(currentCaseData.singleArrivalDetails.departureDate)}</span>
+                        <span className="text-sm text-foreground">{formatDate(primaryRequest.departureDate)}</span>
                       </div>
                     )}
                     <div className="flex justify-between items-center py-1">
                       <span className="text-sm text-muted-foreground">
-                        {currentCaseData.singleArrivalDetails?.useExactDates === true ? "Durée" : "Durée estimée"}
+                        {primaryRequest.useExactDates ? "Durée" : "Durée estimée"}
                       </span>
                       <span className="text-sm text-foreground">
-                        {currentCaseData.singleArrivalDetails?.useExactDates === true && currentCaseData.singleArrivalDetails?.arrivalDate && currentCaseData.singleArrivalDetails?.departureDate 
-                          ? `${getNumberOfNights(currentCaseData.singleArrivalDetails.arrivalDate, currentCaseData.singleArrivalDetails.departureDate)} nuits`
-                          : currentCaseData.singleArrivalDetails?.estimatedDuration || "Non spécifié"
+                        {primaryRequest.useExactDates && primaryRequest.arrivalDate && primaryRequest.departureDate 
+                          ? `${getNumberOfNights(primaryRequest.arrivalDate, primaryRequest.departureDate)} nuits`
+                          : primaryRequest.estimatedDuration || "Non spécifié"
                         }
                       </span>
                     </div>
@@ -1026,25 +447,23 @@ export default async function CaseDetailPage({ params }: PageProps) {
                     <div className="flex justify-between items-center py-1">
                       <span className="text-sm text-muted-foreground">Première arrivée</span>
                       <span className="text-sm text-foreground">
-                        {currentCaseData.multipleRelocationRequests?.length ? 
-                          formatDate(currentCaseData.multipleRelocationRequests[0].arrivalDate) : "Non spécifié"
+                        {currentCaseData.relocationRequests.length ? 
+                          formatDate(currentCaseData.relocationRequests[0].arrivalDate) : "Non spécifié"
                         }
                       </span>
                     </div>
                     <div className="flex justify-between items-center py-1">
                       <span className="text-sm text-muted-foreground">Dernière arrivée</span>
                       <span className="text-sm text-foreground">
-                        {currentCaseData.multipleRelocationRequests?.length ? 
-                          formatDate(currentCaseData.multipleRelocationRequests[currentCaseData.multipleRelocationRequests.length - 1].arrivalDate) : "Non spécifié"
+                        {currentCaseData.relocationRequests.length ? 
+                          formatDate(currentCaseData.relocationRequests[currentCaseData.relocationRequests.length - 1].arrivalDate) : "Non spécifié"
                         }
                       </span>
                     </div>
                     <div className="flex justify-between items-center py-1">
-                      <span className="text-sm text-muted-foreground">Durée moyenne</span>
+                      <span className="text-sm text-muted-foreground">Nombre de demandes</span>
                       <span className="text-sm text-foreground">
-                        {currentCaseData.multipleRelocationRequests?.length ? 
-                          `${currentCaseData.multipleRelocationRequests.length} demandes` : "Non spécifié"
-                        }
+                        {currentCaseData.relocationRequests.length} demandes
                       </span>
                     </div>
                   </div>
@@ -1054,7 +473,7 @@ export default async function CaseDetailPage({ params }: PageProps) {
           </div>
 
           {/* Multiple Relocation Requests - Detailed View */}
-          {currentCaseData.relocationType === "multiple" && currentCaseData.multipleRelocationRequests && (
+          {currentCaseData.relocationType === "multiple" && (
             <div className="bg-card border border-border rounded-xl p-6 shadow-sm">
               <div className="flex items-center gap-3 mb-6">
                 <div className="flex items-center justify-center w-8 h-8 bg-blue-100 rounded-lg">
@@ -1063,7 +482,7 @@ export default async function CaseDetailPage({ params }: PageProps) {
                 <h3 className="text-lg font-semibold text-foreground">Détails des demandes</h3>
               </div>
               <div className="space-y-4">
-                {currentCaseData.multipleRelocationRequests.map((request, index) => (
+                {currentCaseData.relocationRequests.map((request, index) => (
                   <div key={index} className="border rounded-lg p-4 bg-gray-50">
                     <div className="flex items-center justify-between mb-3">
                       <h4 className="font-medium text-foreground">
@@ -1160,15 +579,15 @@ export default async function CaseDetailPage({ params }: PageProps) {
             <div className="space-y-3">
               <div className="flex justify-between items-center py-1">
                 <span className="text-sm text-muted-foreground">Nom</span>
-                <span className="text-sm font-medium text-foreground">{currentCaseData.agent.name}</span>
+                <span className="text-sm font-medium text-foreground">{currentCaseData.agent?.name || "Non assigné"}</span>
               </div>
               <div className="flex justify-between items-center py-1">
                 <span className="text-sm text-muted-foreground">Canton</span>
-                <span className="text-sm font-medium text-foreground">{currentCaseData.agent.canton}</span>
+                <span className="text-sm font-medium text-foreground">{currentCaseData.agent?.canton || "Non assigné"}</span>
               </div>
               <div className="flex justify-between items-center py-1">
                 <span className="text-sm text-muted-foreground">ID Agent</span>
-                <span className="text-sm font-medium text-foreground">{currentCaseData.agent.id}</span>
+                <span className="text-sm font-medium text-foreground">{currentCaseData.agent?.id || "Non assigné"}</span>
               </div>
             </div>
           </div>
@@ -1282,16 +701,12 @@ export default async function CaseDetailPage({ params }: PageProps) {
               <Button 
                 variant="outline" 
                 className={`w-full size-sm ${
-                  currentCaseData.relocationType === "single" && 
-                  currentCaseData.singleInsuranceCoverage?.hasInsurance === true && 
-                  currentCaseData.singleInsuranceCoverage?.claimDocument
+                  currentCaseData.insurance?.hasInsurance && currentCaseData.insurance?.claimDocument
                     ? "border-primary/20 text-primary hover:bg-primary hover:text-primary-foreground"
                     : "border-muted text-muted-foreground cursor-not-allowed opacity-50"
                 }`}
                 disabled={
-                  !(currentCaseData.relocationType === "single" && 
-                    currentCaseData.singleInsuranceCoverage?.hasInsurance === true && 
-                    currentCaseData.singleInsuranceCoverage?.claimDocument)
+                  !(currentCaseData.insurance?.hasInsurance && currentCaseData.insurance?.claimDocument)
                 }
               >
                 <Download className="h-4 w-4 mr-2" />
