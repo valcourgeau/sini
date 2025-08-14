@@ -690,7 +690,7 @@ function AssuranceDossiersContent() {
       </div>
 
       {/* Filters - Single line, right-aligned */}
-      <div className="flex justify-end items-center gap-6 mb-2">
+      <div className="flex justify-end items-center gap-3 mb-2">
         {/* Search Input */}
         <div className="flex items-center gap-2">
           <div className="relative">
@@ -702,15 +702,15 @@ function AssuranceDossiersContent() {
                 setSearchTerm(e.target.value);
                 updateUrl(statusFilter, typeFilter, priorityFilter, e.target.value);
               }}
-              className="pl-10 w-64 bg-background border-0 shadow-none focus-visible:ring-0 flex items-center"
+              className="pl-10 w-80 bg-background border-0 shadow-none focus-visible:ring-0 flex items-center"
             />
           </div>
         </div>
         
-        <div className="w-px h-4 bg-muted-foreground/30 mx-1"></div>
+        <div className="w-px h-4 bg-muted-foreground/30 mx-0"></div>
         
         {/* Status Filter */}
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 whitespace-nowrap">
           <div className="flex gap-0.5">
             {[
               { key: "all", label: "Tous" },
@@ -737,10 +737,10 @@ function AssuranceDossiersContent() {
           </div>
         </div>
         
-        <div className="w-px h-4 bg-muted-foreground/30 mx-1"></div>
+        <div className="w-px h-4 bg-muted-foreground/30 mx-0"></div>
         
         {/* Type Filter */}
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 whitespace-nowrap">
           <div className="flex gap-0.5">
             {[
               { key: "all", label: "Tous" },
@@ -766,10 +766,10 @@ function AssuranceDossiersContent() {
           </div>
         </div>
         
-        <div className="w-px h-4 bg-muted-foreground/30 mx-1"></div>
+        <div className="w-px h-4 bg-muted-foreground/30 mx-0"></div>
         
         {/* Priority Filter */}
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 whitespace-nowrap">
           <div className="flex gap-0.5">
             {[
               { key: "all", label: "Toutes" },
@@ -796,12 +796,12 @@ function AssuranceDossiersContent() {
           </div>
         </div>
 
-        <div className="w-px h-4 bg-muted-foreground/30 mx-1"></div>
+        <div className="w-px h-4 bg-muted-foreground/30 mx-0"></div>
 
         {/* Reset Button */}
         <button
           onClick={resetFilters}
-          className="flex items-center gap-1 px-2 py-1 rounded text-xs text-muted-foreground hover:bg-secondary/80 transition-colors"
+          className="flex items-center gap-1 px-2 py-1 rounded text-xs text-muted-foreground hover:bg-secondary/80 transition-colors whitespace-nowrap"
           title="Réinitialiser les filtres"
         >
           <RotateCcw className="h-3 w-3" />

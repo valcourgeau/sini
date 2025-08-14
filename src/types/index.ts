@@ -74,26 +74,4 @@ export interface RelocationRequest {
   status: "pending" | "processing" | "completed" | "cancelled";
 }
 
-/**
- * Batch relocation request
- */
-export interface BatchRelocationRequest {
-  id: string;
-  disasterAddress: {
-    street: string;
-    houseNumber: string;
-    postalCode: string;
-    city: string;
-    canton: string;
-  };
-  requests: RelocationRequest[];
-  submittedBy: {
-    name: string;
-    role: UserRole;
-    organization: string;
-    contactInfo: string;
-  };
-  createdAt: Date;
-  updatedAt: Date;
-  status: "pending" | "processing" | "completed" | "cancelled";
-} 
+ 
