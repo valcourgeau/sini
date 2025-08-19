@@ -121,8 +121,8 @@ export default function VaudoiseHomePage() {
         </div>
       </section>
 
-      {/* Second Section - Vaudoise Green Background */}
-      <section id="sinistres" className="relative bg-primary min-h-[calc(100vh-4rem)] flex items-center justify-center text-primary-foreground scroll-mt-16">
+      {/* Second Section - White Background */}
+      <section id="sinistres" className="relative bg-secondary min-h-[calc(100vh-4rem)] flex items-center justify-center scroll-mt-16">
         <div className="absolute top-24 right-8">
           <NavigationArrow direction="up" targetId="home" position="top" />
         </div>
@@ -134,47 +134,47 @@ export default function VaudoiseHomePage() {
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div className="space-y-8">
               <div>
-                <h2 className="text-5xl font-bold mb-6 text-secondary">Sinistrés</h2>
-                <p className="text-xl text-secondary/90 mb-8">
+                <h2 className="text-5xl font-bold mb-6 text-primary">Sinistrés</h2>
+                <p className="text-xl text-muted-foreground mb-8">
                   Votre partenaire de confiance pour un relogement rapide et serein
                 </p>
               </div>
 
               <div className="space-y-6">
                 <div className="flex items-start gap-4">
-                  <Timer className="h-6 w-6 text-secondary/90 mt-1 flex-shrink-0" />
+                  <Timer className="h-6 w-6 text-primary mt-1 flex-shrink-0" />
                   <div>
-                    <h3 className="text-xl font-bold mb-2 text-secondary">Rapidité de relogement</h3>
-                    <p className="text-secondary/90">
+                    <h3 className="text-xl font-bold mb-2 text-primary">Rapidité de relogement</h3>
+                    <p className="text-muted-foreground">
                       Une solution d'hébergement temporaire adaptée visant à proposer un relogement dans les 24-48 heures.
                     </p>
                   </div>
                 </div>
 
                 <div className="flex items-start gap-4">
-                  <Home className="h-6 w-6 text-secondary/90 mt-1 flex-shrink-0" />
+                  <Home className="h-6 w-6 text-primary mt-1 flex-shrink-0" />
                   <div>
-                    <h3 className="text-xl font-bold mb-2 text-secondary">Logements adaptés</h3>
-                    <p className="text-secondary/90">
+                    <h3 className="text-xl font-bold mb-2 text-primary">Logements adaptés</h3>
+                    <p className="text-muted-foreground">
                       Profiter de notre réseau d'habitations (meublés, équipés et proches de votre lieu de vie actuel).
                     </p>
                   </div>
                 </div>
                 
                 <div className="flex items-start gap-4">
-                  <UserRound className="h-6 w-6 text-secondary/90 mt-1 flex-shrink-0" />
+                  <UserRound className="h-6 w-6 text-primary mt-1 flex-shrink-0" />
                   <div>
-                    <h3 className="text-xl font-bold mb-2 text-secondary">Accompagnement personnalisé</h3>
-                    <p className="text-secondary/90">
+                    <h3 className="text-xl font-bold mb-2 text-primary">Accompagnement personnalisé</h3>
+                    <p className="text-muted-foreground">
                       Un interlocuteur unique qui facilite vos démarches.
                     </p>
-                    <ul className="text-secondary/90 mt-3 space-y-1 ml-4">
+                    <ul className="text-muted-foreground mt-3 space-y-1 ml-4">
                       <li className="flex items-center gap-2">
-                        <span className="w-1.5 h-1.5 bg-secondary rounded-full"></span>
+                        <span className="w-1.5 h-1.5 bg-primary rounded-full"></span>
                         Clarté des coûts de la prise en charge de votre assurance.
                       </li>
                       <li className="flex items-center gap-2">
-                        <span className="w-1.5 h-1.5 bg-secondary rounded-full"></span>
+                        <span className="w-1.5 h-1.5 bg-primary rounded-full"></span>
                         Assure le suivi auprès de votre assurance et des autres intervenants.
                       </li>
                     </ul>
@@ -186,7 +186,7 @@ export default function VaudoiseHomePage() {
                 <button 
                   onClick={handleRelocationClick}
                   disabled={isLoading}
-                  className="group inline-flex items-center gap-2 bg-secondary text-primary px-8 py-4 rounded-full text-lg font-semibold hover:bg-secondary/90 transition-all duration-300 shadow-xl hover:shadow-2xl hover:scale-105 backdrop-blur-sm border-2 border-white/30 disabled:opacity-70 disabled:cursor-not-allowed"
+                  className="group inline-flex items-center gap-2 bg-primary text-primary-foreground px-8 py-4 rounded-full text-lg font-semibold hover:bg-primary/90 transition-all duration-300 shadow-xl hover:shadow-2xl hover:scale-105 backdrop-blur-sm border-2 border-white/30 disabled:opacity-70 disabled:cursor-not-allowed"
                 >
                   {isLoading ? (
                     <>
@@ -219,39 +219,44 @@ export default function VaudoiseHomePage() {
         </div>
       </section>
 
-      {/* Third Section - Vaudoise Light Green Background */}
-      <section id="assurances" className="relative bg-secondary min-h-[calc(100vh-4rem)] flex items-center justify-center scroll-mt-16">
+      {/* Third Section - Vaudoise Green Background with Diagonal Separation */}
+      <section id="assurances" className="relative bg-secondary min-h-[calc(100vh-4rem)] flex items-center justify-center scroll-mt-16 overflow-hidden">
+        {/* Diagonal Green Background */}
+        <div className="absolute inset-0 bg-primary" style={{
+          clipPath: 'polygon(0 0, 70% 0, 40% 100%, 0% 100%)'
+        }}></div>
+        
         <div className="absolute top-24 right-8">
           <NavigationArrow direction="up" targetId="sinistres" position="top" />
         </div>
         <div className="absolute bottom-8 right-8">
           <NavigationArrow direction="down" targetId="hosts" position="bottom" />
         </div>
-        <div className="container">
+        <div className="container relative z-10">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div className="space-y-8">
               <div>
-                <h2 className="text-5xl font-bold mb-6 text-primary">Assurances</h2>
-                <p className="text-xl text-muted-foreground mb-8">
+                <h2 className="text-5xl font-bold mb-6 text-secondary">Assurances</h2>
+                <p className="text-xl text-secondary/90 mb-8">
                   Une solution complète pour la gestion des relogements de vos assurés
                 </p>
               </div>
 
               <div className="space-y-6">
                 <div className="flex items-start gap-4">
-                  <Building2 className="h-6 w-6 text-primary mt-1 flex-shrink-0" />
+                  <Building2 className="h-6 w-6 text-secondary/90 mt-1 flex-shrink-0" />
                   <div>
-                    <h3 className="text-xl font-bold mb-2 text-primary">Améliorer l'efficacité de vos équipes</h3>
-                    <p className="text-muted-foreground">
+                    <h3 className="text-xl font-bold mb-2 text-secondary">Améliorer l'efficacité de vos équipes</h3>
+                    <p className="text-secondary/90">
                       Accéder à notre interface pour gérer les dossiers de vos assurés.
                     </p>
-                    <ul className="text-muted-foreground mt-3 space-y-1 ml-4">
+                    <ul className="text-secondary/90 mt-3 space-y-1 ml-4">
                       <li className="flex items-center gap-2">
-                        <span className="w-1.5 h-1.5 bg-primary rounded-full"></span>
+                        <span className="w-1.5 h-1.5 bg-secondary rounded-full"></span>
                         Faciliter et centraliser la recherche de logements.
                       </li>
                       <li className="flex items-center gap-2">
-                        <span className="w-1.5 h-1.5 bg-primary rounded-full"></span>
+                        <span className="w-1.5 h-1.5 bg-secondary rounded-full"></span>
                         Gérer plusieurs assurés en une seule demande.
                       </li>
                     </ul>
@@ -259,20 +264,20 @@ export default function VaudoiseHomePage() {
                 </div>
 
                 <div className="flex items-start gap-4">
-                  <Clock className="h-6 w-6 text-primary mt-1 flex-shrink-0" />
+                  <Clock className="h-6 w-6 text-secondary/90 mt-1 flex-shrink-0" />
                   <div>
-                    <h3 className="text-xl font-bold mb-2 text-primary">Reloger à moindre coût</h3>
-                    <p className="text-muted-foreground">
+                    <h3 className="text-xl font-bold mb-2 text-secondary">Reloger à moindre coût</h3>
+                    <p className="text-secondary/90">
                       Comparer les prix des logements grâce à notre base de données complète.
                     </p>
                   </div>
                 </div>
 
                 <div className="flex items-start gap-4">
-                  <Users className="h-6 w-6 text-primary mt-1 flex-shrink-0" />
+                  <Users className="h-6 w-6 text-secondary/90 mt-1 flex-shrink-0" />
                   <div>
-                    <h3 className="text-xl font-bold mb-2 text-primary">Satisfaction client</h3>
-                    <p className="text-muted-foreground">
+                    <h3 className="text-xl font-bold mb-2 text-secondary">Satisfaction client</h3>
+                    <p className="text-secondary/90">
                       Bénéficier d'un interlocuteur unique pour un relogement rapide et adapté aux besoins de vos assurés.
                     </p>
                   </div>
@@ -283,7 +288,7 @@ export default function VaudoiseHomePage() {
                 <button 
                   onClick={handleInsuranceClick}
                   disabled={isLoading}
-                  className="group inline-flex items-center gap-2 bg-primary text-primary-foreground px-8 py-4 rounded-full text-lg font-semibold hover:bg-primary/90 transition-all duration-300 shadow-xl hover:shadow-2xl hover:scale-105 backdrop-blur-sm border-2 border-white/30 disabled:opacity-70 disabled:cursor-not-allowed"
+                  className="group inline-flex items-center gap-2 bg-secondary text-primary px-8 py-4 rounded-full text-lg font-semibold hover:bg-secondary/90 transition-all duration-300 shadow-xl hover:shadow-2xl hover:scale-105 backdrop-blur-sm border-2 border-white/30 disabled:opacity-70 disabled:cursor-not-allowed"
                 >
                   {isLoading ? (
                     <>
@@ -314,8 +319,8 @@ export default function VaudoiseHomePage() {
         </div>
       </section>
 
-      {/* Fourth Section - Vaudoise Green Background */}
-      <section id="hosts" className="relative bg-primary min-h-[calc(100vh-4rem)] flex items-center justify-center text-primary-foreground scroll-mt-16">
+      {/* Fourth Section - White Background */}
+      <section id="hosts" className="relative bg-secondary min-h-[calc(100vh-4rem)] flex items-center justify-center scroll-mt-16">
         <div className="absolute top-24 right-8">
           <NavigationArrow direction="up" targetId="assurances" position="top" />
         </div>
@@ -324,38 +329,38 @@ export default function VaudoiseHomePage() {
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div className="space-y-8">
               <div>
-                <h2 className="text-5xl font-bold mb-6 text-secondary">Hôtes</h2>
-                <p className="text-xl text-secondary/90 mb-8">
+                <h2 className="text-5xl font-bold mb-6 text-primary">Hôtes</h2>
+                <p className="text-xl text-muted-foreground mb-8">
                   Une opportunité simple et sécurisée de proposer votre logement à notre réseau de sinistrés et assurances.
                 </p>
               </div>
 
               <div className="space-y-6">
                 <div className="flex items-start gap-4">
-                  <HandCoins className="h-6 w-6 text-secondary/90 mt-1 flex-shrink-0" />
+                  <HandCoins className="h-6 w-6 text-primary mt-1 flex-shrink-0" />
                   <div>
-                    <h3 className="text-xl font-bold mb-2 text-secondary">Maximiser vos revenus</h3>
-                    <p className="text-secondary/90">
+                    <h3 className="text-xl font-bold mb-2 text-primary">Maximiser vos revenus</h3>
+                    <p className="text-muted-foreground">
                       Optimiser vos rendements et élargisser votre clientèle en rejoignant le réseau partenaire des assurances.
                     </p>
                   </div>
                 </div>
 
                 <div className="flex items-start gap-4">
-                  <Calendar className="h-6 w-6 text-secondary/90 mt-1 flex-shrink-0" />
+                  <Calendar className="h-6 w-6 text-primary mt-1 flex-shrink-0" />
                   <div>
-                    <h3 className="text-xl font-bold mb-2 text-secondary">Gestion centralisée de vos annonces</h3>
-                    <p className="text-secondary/90">
+                    <h3 className="text-xl font-bold mb-2 text-primary">Gestion centralisée de vos annonces</h3>
+                    <p className="text-muted-foreground">
                       Un calendrier multi-plateforme pour la gestion et les réservations de vos biens.
                     </p>
                   </div>
                 </div>
 
                 <div className="flex items-start gap-4">
-                  <Shield className="h-6 w-6 text-secondary/90 mt-1 flex-shrink-0" />
+                  <Shield className="h-6 w-6 text-primary mt-1 flex-shrink-0" />
                   <div>
-                    <h3 className="text-xl font-bold mb-2 text-secondary">Protéger votre bien</h3>
-                    <p className="text-secondary/90">
+                    <h3 className="text-xl font-bold mb-2 text-primary">Protéger votre bien</h3>
+                    <p className="text-muted-foreground">
                       Chaque sejour est encadré avec des sinistrés verifiés et garanties pour preserver l'integrité de votre logement.
                     </p>
                   </div>
@@ -366,7 +371,7 @@ export default function VaudoiseHomePage() {
                 <button
                   onClick={handlePropertyClick}
                   disabled={isLoading}
-                  className="group inline-flex items-center gap-2 bg-secondary text-primary px-8 py-4 rounded-full text-lg font-semibold hover:bg-secondary/90 transition-all duration-300 shadow-xl hover:shadow-2xl hover:scale-105 backdrop-blur-sm border-2 border-white/30 disabled:opacity-70 disabled:cursor-not-allowed"
+                  className="group inline-flex items-center gap-2 bg-primary text-primary-foreground px-8 py-4 rounded-full text-lg font-semibold hover:bg-primary/90 transition-all duration-300 shadow-xl hover:shadow-2xl hover:scale-105 backdrop-blur-sm border-2 border-white/30 disabled:opacity-70 disabled:cursor-not-allowed"
                 >
                   {isLoading ? (
                     <>

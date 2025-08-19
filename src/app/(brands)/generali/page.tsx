@@ -220,15 +220,20 @@ export default function GeneraliHomePage() {
         </div>
       </section>
 
-      {/* Third Section - Generali Red Background */}
-      <section id="assurances" className="relative bg-generali-red min-h-[calc(100vh-4rem)] flex items-center justify-center text-primary-foreground scroll-mt-16">
+      {/* Third Section - Generali Red Background with Diagonal Separation */}
+      <section id="assurances" className="relative bg-secondary min-h-[calc(100vh-4rem)] flex items-center justify-center scroll-mt-16 overflow-hidden">
+        {/* Diagonal Red Background */}
+        <div className="absolute inset-0 bg-generali-red" style={{
+          clipPath: 'polygon(0 0, 60% 0, 40% 100%, 0% 100%)'
+        }}></div>
+        
         <div className="absolute top-24 right-8">
           <NavigationArrow direction="up" targetId="sinistres" position="top" />
         </div>
         <div className="absolute bottom-8 right-8">
           <NavigationArrow direction="down" targetId="hosts" position="bottom" />
         </div>
-        <div className="container">
+        <div className="container relative z-10">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div className="space-y-8">
               <div>
