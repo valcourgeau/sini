@@ -132,7 +132,7 @@ function AssuranceDossiersContent() {
         key={i}
         className={cn(
           "h-4 w-4",
-          i < rating ? "text-yellow-400 fill-current" : "text-gray-300"
+          i < rating ? "text-primary fill-current" : "text-gray-300"
         )}
       />
     ));
@@ -196,8 +196,8 @@ function AssuranceDossiersContent() {
         </p>
       </div>
 
-      {/* Filters - Single line, right-aligned */}
-      <div className="flex justify-end items-center gap-3 mb-2">
+      {/* Filters - Responsive layout that wraps to two lines */}
+      <div className="flex flex-wrap justify-end items-center gap-3 mb-2">
         {/* Search Input */}
         <div className="flex items-center gap-2">
           <div className="relative">
@@ -209,12 +209,12 @@ function AssuranceDossiersContent() {
                 setSearchTerm(e.target.value);
                 updateUrl(statusFilter, typeFilter, priorityFilter, e.target.value);
               }}
-              className="pl-10 w-80 bg-background border-0 shadow-none focus-visible:ring-0 flex items-center"
+              className="pl-10 w-64 bg-background border-0 shadow-none focus-visible:ring-0 flex items-center text-sm"
             />
           </div>
         </div>
         
-        <div className="w-px h-4 bg-muted-foreground/30 mx-0"></div>
+        <div className="w-px h-4 bg-muted-foreground/30 mx-0 hidden sm:block"></div>
         
         {/* Status Filter */}
         <div className="flex items-center gap-2 whitespace-nowrap">
@@ -222,9 +222,9 @@ function AssuranceDossiersContent() {
             {[
               { key: "all", label: "Tous" },
               { key: "initie", label: "Initié" },
+              { key: "pending", label: "En attente" },
               { key: "processing", label: "En cours" },
               { key: "completed", label: "Terminé" },
-              { key: "pending", label: "En attente" },
               { key: "cancelled", label: "Annulé" }
             ].map((status) => (
               <button
@@ -234,7 +234,7 @@ function AssuranceDossiersContent() {
                   updateUrl(status.key, typeFilter, priorityFilter, searchTerm);
                 }}
                 className={cn(
-                  "px-2 py-1 rounded text-[10px] font-medium transition-colors",
+                  "px-3 py-1.5 rounded text-xs font-medium transition-colors",
                   statusFilter === status.key
                     ? "bg-primary text-primary-foreground"
                     : "bg-secondary text-muted-foreground hover:bg-secondary/80"
@@ -246,7 +246,7 @@ function AssuranceDossiersContent() {
           </div>
         </div>
         
-        <div className="w-px h-4 bg-muted-foreground/30 mx-0"></div>
+        <div className="w-px h-4 bg-muted-foreground/30 mx-0 hidden sm:block"></div>
         
         {/* Type Filter */}
         <div className="flex items-center gap-2 whitespace-nowrap">
@@ -263,7 +263,7 @@ function AssuranceDossiersContent() {
                   updateUrl(statusFilter, type.key, priorityFilter, searchTerm);
                 }}
                 className={cn(
-                  "px-2 py-1 rounded text-[10px] font-medium transition-colors",
+                  "px-3 py-1.5 rounded text-xs font-medium transition-colors",
                   typeFilter === type.key
                     ? "bg-primary text-primary-foreground"
                     : "bg-secondary text-muted-foreground hover:bg-secondary/80"
@@ -275,7 +275,7 @@ function AssuranceDossiersContent() {
           </div>
         </div>
         
-        <div className="w-px h-4 bg-muted-foreground/30 mx-0"></div>
+        <div className="w-px h-4 bg-muted-foreground/30 mx-0 hidden sm:block"></div>
         
         {/* Priority Filter */}
         <div className="flex items-center gap-2 whitespace-nowrap">
@@ -292,7 +292,7 @@ function AssuranceDossiersContent() {
                   updateUrl(statusFilter, typeFilter, priority.key, searchTerm);
                 }}
                 className={cn(
-                  "px-2 py-1 rounded text-[10px] font-medium transition-colors",
+                  "px-3 py-1.5 rounded text-xs font-medium transition-colors",
                   priorityFilter === priority.key
                     ? "bg-primary text-primary-foreground"
                     : "bg-secondary text-muted-foreground hover:bg-secondary/80"
@@ -304,12 +304,12 @@ function AssuranceDossiersContent() {
           </div>
         </div>
 
-        <div className="w-px h-4 bg-muted-foreground/30 mx-0"></div>
+        <div className="w-px h-4 bg-muted-foreground/30 mx-0 hidden sm:block"></div>
 
         {/* Reset Button */}
         <button
           onClick={resetFilters}
-          className="flex items-center gap-1 px-2 py-1 rounded text-[10px] text-muted-foreground hover:bg-secondary/80 transition-colors whitespace-nowrap"
+          className="flex items-center gap-1 px-3 py-1.5 rounded text-xs text-muted-foreground hover:bg-secondary/80 transition-colors whitespace-nowrap"
           title="Réinitialiser les filtres"
         >
           <RotateCcw className="h-3 w-3" />
@@ -328,9 +328,13 @@ function AssuranceDossiersContent() {
       <div className="space-y-4">
         {filteredCases.map((case_) => (
           <Card key={case_.id} className="p-6">
-            {/* Header with Status and Priority */}
+            {/* Header with Reference Number, Status and Priority */}
             <div className="flex items-center justify-between mb-6">
               <div className="flex items-center gap-4">
+                <span className="text-lg font-semibold text-primary">
+                  {case_.id}
+                </span>
+                <div className="w-px h-4 bg-muted-foreground/30"></div>
                 <div className="flex items-center gap-2">
                   {getStatusIcon(case_.status)}
                   <span className={`font-medium ${getStatusColor(case_.status)}`}>
@@ -342,9 +346,6 @@ function AssuranceDossiersContent() {
                 </div>
                 <span className={`px-2 py-1 rounded-full text-xs font-medium ${getPriorityColor(case_.priority)}`}>
                   {case_.priority === "high" ? "Haute" : "Normale"}
-                </span>
-                <span className="text-sm text-muted-foreground">
-                  {case_.id}
                 </span>
               </div>
               

@@ -34,7 +34,8 @@ import {
 } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Badge } from "../../../../../../components/ui/badge";
+import { Badge } from "@/components/ui/badge";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { RelocationData } from '@/types/relocation';
@@ -123,7 +124,7 @@ export default async function CaseDetailPage({ params }: PageProps) {
         key={i}
         className={cn(
           "h-4 w-4",
-          i < rating ? "text-yellow-400 fill-current" : "text-gray-300"
+          i < rating ? "text-primary fill-current" : "text-gray-300"
         )}
       />
     ));
@@ -134,8 +135,8 @@ export default async function CaseDetailPage({ params }: PageProps) {
     try {
       const date = new Date(dateStr);
       return new Intl.DateTimeFormat("fr-FR", {
-        day: "numeric",
-        month: "long",
+        day: "2-digit",
+        month: "2-digit",
         year: "numeric"
       }).format(date);
     } catch (e) {
@@ -145,12 +146,15 @@ export default async function CaseDetailPage({ params }: PageProps) {
 
   const getNumberOfNights = (arrival?: string, departure?: string): number | null => {
     if (!arrival || !departure) return null;
-    const arrivalDate = new Date(arrival);
-    const departureDate = new Date(departure);
-    if (isNaN(arrivalDate.getTime()) || isNaN(departureDate.getTime())) return null;
-    const diff = departureDate.getTime() - arrivalDate.getTime();
-    const nights = Math.round(diff / (1000 * 60 * 60 * 24));
-    return nights > 0 ? nights : 0;
+    try {
+      const arrivalDate = new Date(arrival);
+      const departureDate = new Date(departure);
+      const diffTime = departureDate.getTime() - arrivalDate.getTime();
+      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+      return diffDays;
+    } catch (e) {
+      return null;
+    }
   };
 
   // Get the primary request for single relocations
@@ -158,38 +162,113 @@ export default async function CaseDetailPage({ params }: PageProps) {
 
   return (
     <div className="space-y-6">
-      {/* Header with Navigation */}
-      <div className="flex items-center justify-between">
-        <div>
-          <Link href="/platform/dashboard/assurance/dossiers">
-            <Button variant="outline" size="sm" className="mb-4">
-              <ArrowLeft className="h-4 w-4 mr-2" />
-              Retour
-            </Button>
-          </Link>
+      {/* Header with Navigation, Status, and Actions */}
+      <div>
+        <Link href="/platform/dashboard/assurance/dossiers">
+          <Button variant="outline" size="sm" className="mb-4">
+            <ArrowLeft className="h-4 w-4 mr-2" />
+            Retour
+          </Button>
+        </Link>
+        <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-3xl font-bold text-primary">Dossier {currentCaseData.id}</h1>
-            <p className="text-muted-foreground mt-1">
-              {currentCaseData.contactPerson.firstName} {currentCaseData.contactPerson.lastName}
-            </p>
+            <div className="flex items-center gap-4">
+              <h1 className="text-3xl font-bold text-primary">Dossier {currentCaseData.id}</h1>
+              <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2">
+                  {getStatusIcon(currentCaseData.status)}
+                  <span className={`font-medium ${getStatusColor(currentCaseData.status)}`}>
+                    {currentCaseData.status === "initie" ? "Initié" : 
+                     currentCaseData.status === "processing" ? "En cours" : 
+                     currentCaseData.status === "completed" ? "Terminé" : 
+                     currentCaseData.status === "pending" ? "En attente" : "Annulé"}
+                  </span>
+                </div>
+                <Badge variant="outline" className={getPriorityColor(currentCaseData.priority)}>
+                  {currentCaseData.priority === "high" ? "Haute" : "Normale"}
+                </Badge>
+              </div>
+            </div>
           </div>
-        </div>
-        
-        <div className="flex items-center gap-4">
+          
           <div className="flex items-center gap-2">
-            {getStatusIcon(currentCaseData.status)}
-            <span className={`font-medium ${getStatusColor(currentCaseData.status)}`}>
-              {currentCaseData.status === "initie" ? "Initié" : 
-               currentCaseData.status === "processing" ? "En cours" : 
-               currentCaseData.status === "completed" ? "Terminé" : 
-               currentCaseData.status === "pending" ? "En attente" : "Annulé"}
-            </span>
-          </div>
-          <Badge variant="outline" className={getPriorityColor(currentCaseData.priority)}>
-            {currentCaseData.priority === "high" ? "Haute" : "Normale"}
-          </Badge>
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button 
+                  variant="outline" 
+                  size="sm" 
+                  className="flex items-center justify-center w-10 h-10 p-0"
+                >
+                  <Edit className="h-4 w-4" />
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>Modifier le dossier</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+          
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button 
+                  variant="outline" 
+                  size="sm" 
+                  className="flex items-center justify-center w-10 h-10 p-0"
+                >
+                  <Download className="h-4 w-4" />
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>Exporter le dossier</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+          
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button 
+                  variant="outline" 
+                  size="sm" 
+                  className="flex items-center justify-center w-10 h-10 p-0"
+                >
+                  <FileText className="h-4 w-4" />
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>Générer rapport</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+          
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button 
+                  variant="outline" 
+                  size="sm"
+                  className={`flex items-center justify-center w-10 h-10 p-0 ${
+                    currentCaseData.insurance?.hasInsurance && currentCaseData.insurance?.claimDocument
+                      ? "border-primary/20 text-primary hover:bg-primary hover:text-primary-foreground"
+                      : "border-muted text-muted-foreground cursor-not-allowed opacity-50"
+                  }`}
+                  disabled={
+                    !(currentCaseData.insurance?.hasInsurance && currentCaseData.insurance?.claimDocument)
+                  }
+                >
+                  <Download className="h-4 w-4" />
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>Télécharger déclaration de sinistre</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
         </div>
       </div>
+    </div>
 
       {/* Main Content - Two Column Layout */}
       <div className="grid lg:grid-cols-3 gap-6">
@@ -202,9 +281,9 @@ export default async function CaseDetailPage({ params }: PageProps) {
               <div className="flex-1">
                 <div className="flex items-center gap-3 mb-6">
                   <div className="flex items-center justify-center w-8 h-8 bg-blue-100 rounded-lg">
-                    <User className="h-4 w-4 text-blue-600" />
+                    <User className="h-5 w-5 text-blue-600" />
                   </div>
-                  <h3 className="text-lg font-semibold text-foreground">Informations du contact</h3>
+                  <h3 className="text-lg font-semibold text-foreground">Coordonnées de l'assuré</h3>
                 </div>
                 <div className="space-y-3">
                   <div className="flex justify-between items-center py-1">
@@ -215,11 +294,11 @@ export default async function CaseDetailPage({ params }: PageProps) {
                   </div>
                   <div className="flex justify-between items-center py-1">
                     <span className="text-sm text-muted-foreground">Email</span>
-                    <span className="text-sm text-foreground">{currentCaseData.contactPerson.email}</span>
+                    <span className="text-sm font-medium text-foreground">{currentCaseData.contactPerson.email}</span>
                   </div>
                   <div className="flex justify-between items-center py-1">
                     <span className="text-sm text-muted-foreground">Téléphone</span>
-                    <span className="text-sm text-foreground">{currentCaseData.contactPerson.phone}</span>
+                    <span className="text-sm font-medium text-foreground">{currentCaseData.contactPerson.phone}</span>
                   </div>
                 </div>
               </div>
@@ -240,21 +319,21 @@ export default async function CaseDetailPage({ params }: PageProps) {
                 <div className="space-y-3">
                   <div className="flex justify-between items-center py-1">
                     <span className="text-sm text-muted-foreground">Rue</span>
-                    <span className="text-sm text-foreground">{currentCaseData.disasterAddress.street}</span>
+                    <span className="text-sm font-medium text-foreground">{currentCaseData.disasterAddress.street}</span>
                   </div>
                   <div className="flex justify-between items-center py-1">
                     <span className="text-sm text-muted-foreground">Ville</span>
-                    <span className="text-sm text-foreground">{currentCaseData.disasterAddress.city}</span>
+                    <span className="text-sm font-medium text-foreground">{currentCaseData.disasterAddress.city}</span>
                   </div>
                   <div className="flex justify-between items-center py-1">
                     <span className="text-sm text-muted-foreground">Code postal</span>
-                    <span className="text-sm text-foreground">{currentCaseData.disasterAddress.postalCode}</span>
+                    <span className="text-sm font-medium text-foreground">{currentCaseData.disasterAddress.postalCode}</span>
                   </div>
                   <div className="flex justify-between items-center py-1">
                     <span className="text-sm text-muted-foreground">
                       {currentCaseData.disasterAddress.canton ? "Canton" : "Pays"}
                     </span>
-                    <span className="text-sm text-foreground">
+                    <span className="text-sm font-medium text-foreground">
                       {currentCaseData.disasterAddress.canton || currentCaseData.disasterAddress.country}
                     </span>
                   </div>
@@ -293,14 +372,14 @@ export default async function CaseDetailPage({ params }: PageProps) {
                   {currentCaseData.insurance?.hasInsurance && currentCaseData.insurance?.company && (
                     <div className="flex justify-between items-center py-1">
                       <span className="text-sm text-muted-foreground">Compagnie d'assurance</span>
-                      <span className="text-sm text-foreground">{currentCaseData.insurance.company}</span>
+                      <span className="text-sm font-medium text-foreground">{currentCaseData.insurance.company}</span>
                     </div>
                   )}
                   
                   {currentCaseData.insurance?.hasInsurance && currentCaseData.insurance?.policyNumber && (
                     <div className="flex justify-between items-center py-1">
                       <span className="text-sm text-muted-foreground">Numéro de police</span>
-                      <span className="text-sm text-foreground">{currentCaseData.insurance.policyNumber}</span>
+                      <span className="text-sm font-medium text-foreground">{currentCaseData.insurance.policyNumber}</span>
                     </div>
                   )}
                 </div>
@@ -635,12 +714,12 @@ export default async function CaseDetailPage({ params }: PageProps) {
                   <span className="text-sm text-muted-foreground">Coût total</span>
                   <span className="text-sm font-bold text-green-600">CHF {currentCaseData.cost.totalCost}</span>
                 </div>
-                <div className="space-y-2">
-                  <div className="flex justify-between items-center">
+                <div className="space-y-3">
+                  <div className="flex justify-between items-center py-1">
                     <span className="text-sm text-muted-foreground">Assurance</span>
                     <span className="text-sm font-medium">CHF {currentCaseData.cost.insuranceCost}</span>
                   </div>
-                  <div className="flex justify-between items-center">
+                  <div className="flex justify-between items-center py-1">
                     <span className="text-sm text-muted-foreground">Assuré</span>
                     <span className="text-sm font-medium">CHF {currentCaseData.cost.insuredCost}</span>
                   </div>
@@ -677,44 +756,6 @@ export default async function CaseDetailPage({ params }: PageProps) {
                   <p className="text-sm text-muted-foreground">En attente du retour client</p>
                 </div>
               )}
-            </div>
-          </div>
-
-          {/* Actions */}
-          <div className="bg-card border border-border rounded-xl p-6 shadow-sm">
-            <div className="flex items-center gap-3 mb-6">
-              <div className="flex items-center justify-center w-8 h-8 bg-blue-100 rounded-lg">
-                <Edit className="h-5 w-5 text-blue-600" />
-              </div>
-              <h3 className="text-lg font-semibold text-foreground">Actions</h3>
-            </div>
-            <div className="space-y-3">
-              <Button className="w-full" size="sm">
-                <Edit className="h-4 w-4 mr-2" />
-                Modifier le dossier
-              </Button>
-              <Button variant="outline" className="w-full" size="sm">
-                <Download className="h-4 w-4 mr-2" />
-                Exporter le dossier
-              </Button>
-              <Button variant="outline" className="w-full" size="sm">
-                <FileText className="h-4 w-4 mr-2" />
-                Générer rapport
-              </Button>
-              <Button 
-                variant="outline" 
-                className={`w-full size-sm ${
-                  currentCaseData.insurance?.hasInsurance && currentCaseData.insurance?.claimDocument
-                    ? "border-primary/20 text-primary hover:bg-primary hover:text-primary-foreground"
-                    : "border-muted text-muted-foreground cursor-not-allowed opacity-50"
-                }`}
-                disabled={
-                  !(currentCaseData.insurance?.hasInsurance && currentCaseData.insurance?.claimDocument)
-                }
-              >
-                <Download className="h-4 w-4 mr-2" />
-                Télécharger déclaration
-              </Button>
             </div>
           </div>
         </div>
