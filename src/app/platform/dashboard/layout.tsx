@@ -17,6 +17,7 @@ import {
   BarChart3
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 
 interface DashboardLayoutProps {
   children: React.ReactNode;
@@ -98,7 +99,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
                <Button
                 variant="ghost"
                 size="sm"
-                className="lg:hidden text-primary-foreground hover:bg-primary/20"
+                className="lg:hidden text-primary-foreground hover:bg-primary/20 transition-colors duration-200"
                 onClick={() => setIsSidebarOpen(false)}
               >
                 <X className="h-4 w-4" />
@@ -112,25 +113,49 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
 
           {/* Navigation */}
           <nav className="flex-1 p-4 overflow-y-auto">
-            <ul className="space-y-2">
+            <ul className="space-y-1">
               {navigationItems.map((item) => {
                 const isActive = pathname === item.href;
                 return (
                   <li key={item.href}>
                     <Button
-                      variant={isActive ? "default" : "ghost"}
-                      className={`w-full justify-start ${
-                        isActive 
-                          ? 'bg-secondary text-primary hover:bg-secondary/90' 
-                          : 'text-primary-foreground hover:bg-primary/20'
-                      }`}
+                      variant="ghost"
+                      className={cn(
+                        "w-full justify-start relative group transition-all duration-200 ease-in-out",
+                        "hover:bg-accent/20 hover:text-accent-foreground",
+                        "focus:bg-accent/20 focus:text-accent-foreground focus:ring-2 focus:ring-accent/50 focus:ring-offset-2 focus:ring-offset-primary",
+                        isActive && [
+                          "bg-secondary text-primary shadow-sm",
+                          "hover:bg-secondary/90 hover:text-primary",
+                          "before:absolute before:left-0 before:top-1/2 before:-translate-y-1/2",
+                          "before:w-1 before:h-8 before:bg-secondary before:rounded-r-full",
+                          "after:absolute after:left-0 after:top-0 after:bottom-0",
+                          "after:w-1 after:bg-accent after:rounded-r-full after:opacity-60"
+                        ]
+                      )}
                       onClick={() => {
                         router.push(item.href);
                         setIsSidebarOpen(false);
                       }}
                     >
-                      <item.icon className="h-4 w-4 mr-3" />
-                      {item.label}
+                      <item.icon className={cn(
+                        "h-4 w-4 mr-3 transition-transform duration-200",
+                        "group-hover:scale-110",
+                        isActive && "text-primary"
+                      )} />
+                      <span className={cn(
+                        "font-medium transition-colors duration-200",
+                        isActive && "text-primary"
+                      )}>
+                        {item.label}
+                      </span>
+                      
+                      {/* Hover indicator */}
+                      <div className={cn(
+                        "absolute inset-0 bg-accent/10 rounded-md opacity-0 transition-opacity duration-200",
+                        "group-hover:opacity-100",
+                        isActive && "hidden"
+                      )} />
                     </Button>
                   </li>
                 );
@@ -142,10 +167,10 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
           <div className="p-4 border-t border-primary/20">
             <Button
               variant="ghost"
-              className="w-full justify-start text-red-400 hover:text-red-300 hover:bg-red-500/10"
+              className="w-full justify-start text-red-400 hover:text-red-300 hover:bg-red-500/10 transition-all duration-200 group"
               onClick={handleLogout}
             >
-              <LogOut className="h-4 w-4 mr-3" />
+              <LogOut className="h-4 w-4 mr-3 transition-transform duration-200 group-hover:scale-110" />
               Déconnexion
             </Button>
           </div>
@@ -160,7 +185,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
               <Button
                 variant="ghost"
                 size="sm"
-                className="text-primary hover:bg-primary/10"
+                className="text-primary hover:bg-primary/10 transition-colors duration-200"
                 onClick={() => setIsSidebarOpen(true)}
               >
                 <Menu className="h-5 w-5" />

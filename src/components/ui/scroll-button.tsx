@@ -7,7 +7,7 @@ interface ScrollButtonProps {
   title: string;
   description: string;
   sectionId: string;
-  opacity?: '60' | '80' | '90' | '100';
+  opacity?: '60' | '70' | '80' | '90' | '100';
 }
 
 const iconMap: Record<ScrollButtonProps['iconName'], LucideIcon> = {
@@ -30,6 +30,7 @@ export function ScrollButton({ iconName, title, description, sectionId, opacity 
   // Map opacity values to Tailwind classes to ensure they're recognized
   const opacityClasses = {
     '60': 'bg-primary/60',
+    '70': 'bg-primary/70',
     '80': 'bg-primary/80',
     '90': 'bg-primary/90',
     '100': 'bg-primary'

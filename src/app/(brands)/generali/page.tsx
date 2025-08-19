@@ -58,15 +58,17 @@ export default function GeneraliHomePage() {
   return (
     <main className="min-h-screen scroll-smooth">
       {/* First Section - Generali Professional Background */}
-      <section id="home" className="relative hero-background-generali min-h-[calc(100vh-4rem)] flex items-center justify-center scroll-mt-16">
-        {/* Background accent elements - Generali themed */}
-        <div className="hero-accent-generali hidden lg:block" />
-        <div className="hero-accent-circle-generali-1 hidden lg:block" />
-        <div className="hero-accent-circle-generali-2 hidden lg:block" />
-        <div className="hero-accent-circle-generali-3 hidden lg:block" />
-        <div className="hero-accent-circle-generali-4 hidden lg:block" />
-        <div className="hero-accent-circle-generali-5 hidden lg:block" />
-        
+      <section 
+        id="home" 
+        className="relative min-h-[calc(100vh-4rem)] flex items-center justify-center scroll-mt-16"
+        style={{
+          backgroundImage: `url(${getImagePath('/lighthouse-red.JPG')})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center 60%',
+          backgroundRepeat: 'no-repeat'
+        }}
+      >
+  
         {/* Content overlay */}
         <div className="hero-overlay-generali" />
         
@@ -80,17 +82,17 @@ export default function GeneraliHomePage() {
             
             {/* Enhanced title with Generali branding */}
             <div className="mb-8">
-              <h1 className="text-3xl font-bold leading-tight tracking-tighter md:text-5xl lg:text-6xl lg:leading-[1.1] mb-4 animate-in fade-in duration-500 slide-in-from-bottom-4">
+              <h1 className="text-3xl font-bold leading-tight tracking-tighter md:text-5xl lg:text-6xl lg:leading-[1.1] mb-4 animate-in fade-in duration-500 slide-in-from-bottom-4 text-primary-foreground drop-shadow-lg">
                 Service de relogement d'urgence
               </h1>
               <div className="flex items-center justify-center gap-2 mt-4">
-                <span className="text-lg text-foreground font-semibold">Partenaire officiel</span>
-                <span className="text-xl font-bold text-foreground">Generali</span>
+                <span className="text-lg text-primary-foreground font-semibold drop-shadow-md">Partenaire officiel</span>
+                <span className="text-xl font-bold text-primary-foreground drop-shadow-md">Generali</span>
               </div>
             </div>
             
             {/* Enhanced subtitle */}
-            <p className="text-xl md:text-2xl text-muted-foreground mb-16 animate-in fade-in duration-500 delay-100 slide-in-from-bottom-4">
+            <p className="text-xl md:text-2xl text-primary-foreground/90 mb-16 animate-in fade-in duration-500 delay-100 slide-in-from-bottom-4 drop-shadow-md">
               pour le canton de Genève
             </p>
             
@@ -101,14 +103,14 @@ export default function GeneraliHomePage() {
                 title="Sinistrés"
                 description="Particuliers affectés par un sinistre"
                 sectionId="sinistres"
-                opacity="90"
+                opacity="70"
               />
               <ScrollButton
                 iconName="landmark"
                 title="Assurances"
                 description="Professionnels de l'assurance"
                 sectionId="assurances"
-                opacity="90"
+                opacity="70"
               />
             </div>
           </div>
@@ -120,8 +122,8 @@ export default function GeneraliHomePage() {
         </div>
       </section>
 
-      {/* Second Section - Generali Red Background */}
-      <section id="sinistres" className="relative bg-generali-red min-h-[calc(100vh-4rem)] flex items-center justify-center text-primary-foreground scroll-mt-16">
+      {/* Second Section - Cream Background */}
+      <section id="sinistres" className="relative bg-secondary min-h-[calc(100vh-4rem)] flex items-center justify-center scroll-mt-16">
         <div className="absolute top-24 right-8">
           <NavigationArrow direction="up" targetId="home" position="top" />
         </div>
@@ -133,47 +135,47 @@ export default function GeneraliHomePage() {
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div className="space-y-8">
               <div>
-                <h2 className="text-5xl font-bold mb-6 text-secondary">Sinistrés</h2>
-                <p className="text-xl text-secondary/90 mb-8">
+                <h2 className="text-5xl font-bold mb-6 text-primary">Sinistrés</h2>
+                <p className="text-xl text-muted-foreground mb-8">
                   Votre partenaire de confiance pour un relogement rapide et serein
                 </p>
               </div>
 
               <div className="space-y-6">
                 <div className="flex items-start gap-4">
-                  <Timer className="h-6 w-6 text-secondary/90 mt-1 flex-shrink-0" />
+                  <Timer className="h-6 w-6 text-primary mt-1 flex-shrink-0" />
                   <div>
-                    <h3 className="text-xl font-bold mb-2 text-secondary">Rapidité de relogement</h3>
-                    <p className="text-secondary/90">
+                    <h3 className="text-xl font-bold mb-2 text-primary">Rapidité de relogement</h3>
+                    <p className="text-muted-foreground">
                       Une solution d'hébergement temporaire adaptée visant à proposer un relogement dans les 24-48 heures.
                     </p>
                   </div>
                 </div>
 
                 <div className="flex items-start gap-4">
-                  <Home className="h-6 w-6 text-secondary/90 mt-1 flex-shrink-0" />
+                  <Home className="h-6 w-6 text-primary mt-1 flex-shrink-0" />
                   <div>
-                    <h3 className="text-xl font-bold mb-2 text-secondary">Logements adaptés</h3>
-                    <p className="text-secondary/90">
+                    <h3 className="text-xl font-bold mb-2 text-primary">Logements adaptés</h3>
+                    <p className="text-muted-foreground">
                       Profiter de notre réseau d'habitations (meublés, équipés et proches de votre lieu de vie actuel).
                     </p>
                   </div>
                 </div>
                 
                 <div className="flex items-start gap-4">
-                  <UserRound className="h-6 w-6 text-secondary/90 mt-1 flex-shrink-0" />
+                  <UserRound className="h-6 w-6 text-primary mt-1 flex-shrink-0" />
                   <div>
-                    <h3 className="text-xl font-bold mb-2 text-secondary">Accompagnement personnalisé</h3>
-                    <p className="text-secondary/90">
+                    <h3 className="text-xl font-bold mb-2 text-primary">Accompagnement personnalisé</h3>
+                    <p className="text-muted-foreground">
                       Un interlocuteur unique qui facilite vos démarches.
                     </p>
-                    <ul className="text-secondary/90 mt-3 space-y-1 ml-4">
+                    <ul className="text-muted-foreground mt-3 space-y-1 ml-4">
                       <li className="flex items-center gap-2">
-                        <span className="w-1.5 h-1.5 bg-secondary rounded-full"></span>
+                        <span className="w-1.5 h-1.5 bg-primary rounded-full"></span>
                         Clarté des coûts de la prise en charge de votre assurance.
                       </li>
                       <li className="flex items-center gap-2">
-                        <span className="w-1.5 h-1.5 bg-secondary rounded-full"></span>
+                        <span className="w-1.5 h-1.5 bg-primary rounded-full"></span>
                         Assure le suivi auprès de votre assurance et des autres intervenants.
                       </li>
                     </ul>
@@ -185,7 +187,7 @@ export default function GeneraliHomePage() {
                 <button 
                   onClick={handleRelocationClick}
                   disabled={isLoading}
-                  className="group inline-flex items-center gap-2 bg-secondary text-primary px-8 py-4 rounded-full text-lg font-semibold hover:bg-secondary/90 transition-all duration-300 shadow-xl hover:shadow-2xl hover:scale-105 backdrop-blur-sm border-2 border-white/30 disabled:opacity-70 disabled:cursor-not-allowed"
+                  className="group inline-flex items-center gap-2 bg-primary text-primary-foreground px-8 py-4 rounded-full text-lg font-semibold hover:bg-primary/90 transition-all duration-300 shadow-xl hover:shadow-2xl hover:scale-105 backdrop-blur-sm border-2 border-white/30 disabled:opacity-70 disabled:cursor-not-allowed"
                 >
                   {isLoading ? (
                     <>
@@ -218,8 +220,8 @@ export default function GeneraliHomePage() {
         </div>
       </section>
 
-      {/* Third Section - Generali Light Red Background */}
-      <section id="assurances" className="relative bg-secondary min-h-[calc(100vh-4rem)] flex items-center justify-center scroll-mt-16">
+      {/* Third Section - Generali Red Background */}
+      <section id="assurances" className="relative bg-generali-red min-h-[calc(100vh-4rem)] flex items-center justify-center text-primary-foreground scroll-mt-16">
         <div className="absolute top-24 right-8">
           <NavigationArrow direction="up" targetId="sinistres" position="top" />
         </div>
@@ -230,27 +232,27 @@ export default function GeneraliHomePage() {
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div className="space-y-8">
               <div>
-                <h2 className="text-5xl font-bold mb-6 text-primary">Assurances</h2>
-                <p className="text-xl text-muted-foreground mb-8">
+                <h2 className="text-5xl font-bold mb-6 text-secondary">Assurances</h2>
+                <p className="text-xl text-secondary/90 mb-8">
                   Une solution complète pour la gestion des relogements de vos assurés
                 </p>
               </div>
 
               <div className="space-y-6">
                 <div className="flex items-start gap-4">
-                  <Building2 className="h-6 w-6 text-primary mt-1 flex-shrink-0" />
+                  <Building2 className="h-6 w-6 text-secondary/90 mt-1 flex-shrink-0" />
                   <div>
-                    <h3 className="text-xl font-bold mb-2 text-primary">Améliorer l'efficacité de vos équipes</h3>
-                    <p className="text-muted-foreground">
+                    <h3 className="text-xl font-bold mb-2 text-secondary">Améliorer l'efficacité de vos équipes</h3>
+                    <p className="text-secondary/90">
                       Accéder à notre interface pour gérer les dossiers de vos assurés.
                     </p>
-                    <ul className="text-muted-foreground mt-3 space-y-1 ml-4">
+                    <ul className="text-secondary/90 mt-3 space-y-1 ml-4">
                       <li className="flex items-center gap-2">
-                        <span className="w-1.5 h-1.5 bg-primary rounded-full"></span>
+                        <span className="w-1.5 h-1.5 bg-secondary rounded-full"></span>
                         Faciliter et centraliser la recherche de logements.
                       </li>
                       <li className="flex items-center gap-2">
-                        <span className="w-1.5 h-1.5 bg-primary rounded-full"></span>
+                        <span className="w-1.5 h-1.5 bg-secondary rounded-full"></span>
                         Gérer plusieurs assurés en une seule demande.
                       </li>
                     </ul>
@@ -258,20 +260,20 @@ export default function GeneraliHomePage() {
                 </div>
 
                 <div className="flex items-start gap-4">
-                  <Clock className="h-6 w-6 text-primary mt-1 flex-shrink-0" />
+                  <Clock className="h-6 w-6 text-secondary/90 mt-1 flex-shrink-0" />
                   <div>
-                    <h3 className="text-xl font-bold mb-2 text-primary">Reloger à moindre coût</h3>
-                    <p className="text-muted-foreground">
+                    <h3 className="text-xl font-bold mb-2 text-secondary">Reloger à moindre coût</h3>
+                    <p className="text-secondary/90">
                       Comparer les prix des logements grâce à notre base de données complète.
                     </p>
                   </div>
                 </div>
 
                 <div className="flex items-start gap-4">
-                  <Users className="h-6 w-6 text-primary mt-1 flex-shrink-0" />
+                  <Users className="h-6 w-6 text-secondary/90 mt-1 flex-shrink-0" />
                   <div>
-                    <h3 className="text-xl font-bold mb-2 text-primary">Satisfaction client</h3>
-                    <p className="text-muted-foreground">
+                    <h3 className="text-xl font-bold mb-2 text-secondary">Satisfaction client</h3>
+                    <p className="text-secondary/90">
                       Bénéficier d'un interlocuteur unique pour un relogement rapide et adapté aux besoins de vos assurés.
                     </p>
                   </div>
@@ -282,7 +284,7 @@ export default function GeneraliHomePage() {
                 <button 
                   onClick={handleInsuranceClick}
                   disabled={isLoading}
-                  className="group inline-flex items-center gap-2 bg-primary text-primary-foreground px-8 py-4 rounded-full text-lg font-semibold hover:bg-primary/90 transition-all duration-300 shadow-xl hover:shadow-2xl hover:scale-105 backdrop-blur-sm border-2 border-white/30 disabled:opacity-70 disabled:cursor-not-allowed"
+                  className="group inline-flex items-center gap-2 bg-secondary text-primary px-8 py-4 rounded-full text-lg font-semibold hover:bg-secondary/90 transition-all duration-300 shadow-xl hover:shadow-2xl hover:scale-105 backdrop-blur-sm border-2 border-white/30 disabled:opacity-70 disabled:cursor-not-allowed"
                 >
                   {isLoading ? (
                     <>
@@ -313,8 +315,8 @@ export default function GeneraliHomePage() {
         </div>
       </section>
 
-      {/* Fourth Section - Generali Red Background */}
-      <section id="hosts" className="relative bg-generali-red min-h-[calc(100vh-4rem)] flex items-center justify-center text-primary-foreground scroll-mt-16">
+      {/* Fourth Section - Cream Background */}
+      <section id="hosts" className="relative bg-secondary min-h-[calc(100vh-4rem)] flex items-center justify-center scroll-mt-16">
         <div className="absolute top-24 right-8">
           <NavigationArrow direction="up" targetId="assurances" position="top" />
         </div>
@@ -323,38 +325,38 @@ export default function GeneraliHomePage() {
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div className="space-y-8">
               <div>
-                <h2 className="text-5xl font-bold mb-6 text-secondary">Hôtes</h2>
-                <p className="text-xl text-secondary/90 mb-8">
+                <h2 className="text-5xl font-bold mb-6 text-primary">Hôtes</h2>
+                <p className="text-xl text-muted-foreground mb-8">
                   Une opportunité simple et sécurisée de proposer votre logement à notre réseau de sinistrés et assurances.
                 </p>
               </div>
 
               <div className="space-y-6">
                 <div className="flex items-start gap-4">
-                  <HandCoins className="h-6 w-6 text-secondary/90 mt-1 flex-shrink-0" />
+                  <HandCoins className="h-6 w-6 text-primary mt-1 flex-shrink-0" />
                   <div>
-                    <h3 className="text-xl font-bold mb-2 text-secondary">Maximiser vos revenus</h3>
-                    <p className="text-secondary/90">
+                    <h3 className="text-xl font-bold mb-2 text-primary">Maximiser vos revenus</h3>
+                    <p className="text-muted-foreground">
                       Optimiser vos rendements et élargisser votre clientèle en rejoignant le réseau partenaire des assurances.
                     </p>
                   </div>
                 </div>
 
                 <div className="flex items-start gap-4">
-                  <Calendar className="h-6 w-6 text-secondary/90 mt-1 flex-shrink-0" />
+                  <Calendar className="h-6 w-6 text-primary mt-1 flex-shrink-0" />
                   <div>
-                    <h3 className="text-xl font-bold mb-2 text-secondary">Gestion centralisée de vos annonces</h3>
-                    <p className="text-secondary/90">
+                    <h3 className="text-xl font-bold mb-2 text-primary">Gestion centralisée de vos annonces</h3>
+                    <p className="text-muted-foreground">
                       Un calendrier multi-plateforme pour la gestion et les réservations de vos biens.
                     </p>
                   </div>
                 </div>
 
                 <div className="flex items-start gap-4">
-                  <Shield className="h-6 w-6 text-secondary/90 mt-1 flex-shrink-0" />
+                  <Shield className="h-6 w-6 text-primary mt-1 flex-shrink-0" />
                   <div>
-                    <h3 className="text-xl font-bold mb-2 text-secondary">Protéger votre bien</h3>
-                    <p className="text-secondary/90">
+                    <h3 className="text-xl font-bold mb-2 text-primary">Protéger votre bien</h3>
+                    <p className="text-muted-foreground">
                       Chaque sejour est encadré avec des sinistrés verifiés et garanties pour preserver l'integrité de votre logement.
                     </p>
                   </div>
@@ -365,7 +367,7 @@ export default function GeneraliHomePage() {
                 <button
                   onClick={handlePropertyClick}
                   disabled={isLoading}
-                  className="group inline-flex items-center gap-2 bg-secondary text-primary px-8 py-4 rounded-full text-lg font-semibold hover:bg-secondary/90 transition-all duration-300 shadow-xl hover:shadow-2xl hover:scale-105 backdrop-blur-sm border-2 border-white/30 disabled:opacity-70 disabled:cursor-not-allowed"
+                  className="group inline-flex items-center gap-2 bg-primary text-primary-foreground px-8 py-4 rounded-full text-lg font-semibold hover:bg-primary/90 transition-all duration-300 shadow-xl hover:shadow-2xl hover:scale-105 backdrop-blur-sm border-2 border-white/30 disabled:opacity-70 disabled:cursor-not-allowed"
                 >
                   {isLoading ? (
                     <>

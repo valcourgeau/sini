@@ -231,7 +231,7 @@ function AssuranceDossiersContent() {
                   updateUrl(status.key, typeFilter, priorityFilter, searchTerm);
                 }}
                 className={cn(
-                  "px-2 py-1 rounded text-xs font-medium transition-colors",
+                  "px-2 py-1 rounded text-[10px] font-medium transition-colors",
                   statusFilter === status.key
                     ? "bg-primary text-primary-foreground"
                     : "bg-secondary text-muted-foreground hover:bg-secondary/80"
@@ -260,7 +260,7 @@ function AssuranceDossiersContent() {
                   updateUrl(statusFilter, type.key, priorityFilter, searchTerm);
                 }}
                 className={cn(
-                  "px-2 py-1 rounded text-xs font-medium transition-colors",
+                  "px-2 py-1 rounded text-[10px] font-medium transition-colors",
                   typeFilter === type.key
                     ? "bg-primary text-primary-foreground"
                     : "bg-secondary text-muted-foreground hover:bg-secondary/80"
@@ -290,7 +290,7 @@ function AssuranceDossiersContent() {
                   updateUrl(statusFilter, typeFilter, priority.key, searchTerm);
                 }}
                 className={cn(
-                  "px-2 py-1 rounded text-xs font-medium transition-colors",
+                  "px-2 py-1 rounded text-[10px] font-medium transition-colors",
                   priorityFilter === priority.key
                     ? "bg-primary text-primary-foreground"
                     : "bg-secondary text-muted-foreground hover:bg-secondary/80"
@@ -307,7 +307,7 @@ function AssuranceDossiersContent() {
         {/* Reset Button */}
         <button
           onClick={resetFilters}
-          className="flex items-center gap-1 px-2 py-1 rounded text-xs text-muted-foreground hover:bg-secondary/80 transition-colors whitespace-nowrap"
+          className="flex items-center gap-1 px-2 py-1 rounded text-[10px] text-muted-foreground hover:bg-secondary/80 transition-colors whitespace-nowrap"
           title="Réinitialiser les filtres"
         >
           <RotateCcw className="h-3 w-3" />
