@@ -86,8 +86,8 @@ export default function GeneraliHomePage() {
                 Service de relogement d'urgence
               </h1>
               <div className="flex items-center justify-center gap-2 mt-4">
-                <span className="text-lg text-primary-foreground font-semibold drop-shadow-md">Partenaire officiel</span>
-                <span className="text-xl font-bold text-primary-foreground drop-shadow-md">Generali</span>
+                <span className="text-lg text-primary-foreground font-semibold drop-shadow-xl">Partenaire officiel</span>
+                <span className="text-xl font-bold text-primary-foreground drop-shadow-xl">Generali</span>
               </div>
             </div>
             
