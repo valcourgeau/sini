@@ -14,6 +14,7 @@ import {
   MapPin,
   ArrowLeft,
   Plus,
+  X,
   Filter,
   MoreVertical,
   Phone,
@@ -27,7 +28,7 @@ import { cn } from "@/lib/utils";
 import Link from "next/link";
 
 import { RelocationData } from '@/types/relocation';
-import { relocationCases, getConversations, getConversationById, Conversation, Message } from '@/lib/data-loader';
+import { relocationCases, getConversations, getConversationById, Conversation, Message, getCaseById } from '@/lib/data-loader';
 
 
 
@@ -39,6 +40,8 @@ export default function AssuranceMessagesPage() {
   const [newMessage, setNewMessage] = useState("");
   const [searchCaseId, setSearchCaseId] = useState("");
   const [isSearchingCase, setIsSearchingCase] = useState(false);
+  const [isNewConversationMode, setIsNewConversationMode] = useState(false);
+  const [searchResults, setSearchResults] = useState<RelocationData[]>([]);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   // Load conversations from data
@@ -168,6 +171,62 @@ export default function AssuranceMessagesPage() {
     setIsSearchingCase(false);
   };
 
+  const handleNewConversationClick = () => {
+    setIsNewConversationMode(true);
+    setSearchCaseId("");
+    setSearchResults([]);
+  };
+
+  const handleSearchInputChange = (value: string) => {
+    setSearchCaseId(value);
+    
+    if (value.trim().length >= 2) {
+      const results = relocationCases.filter(case_ => 
+        case_.id.toLowerCase().includes(value.toLowerCase()) ||
+        `${case_.contactPerson.firstName} ${case_.contactPerson.lastName}`.toLowerCase().includes(value.toLowerCase())
+      );
+      setSearchResults(results.slice(0, 5)); // Limit to 5 results
+    } else {
+      setSearchResults([]);
+    }
+  };
+
+  const handleCaseSelect = (selectedCase: RelocationData) => {
+    // Check if conversation already exists
+    const existingConversation = conversations.find(conv => conv.caseId === selectedCase.id);
+    
+    if (existingConversation) {
+      setSelectedConversation(existingConversation);
+    } else {
+      // Create new conversation
+      const newConversation: Conversation = {
+        id: `conv-${Date.now()}`,
+        participantId: selectedCase.contactPerson.email,
+        participantName: `${selectedCase.contactPerson.firstName} ${selectedCase.contactPerson.lastName}`,
+        participantType: 'client',
+        lastMessage: "Nouvelle conversation créée",
+        lastMessageTime: new Date().toISOString(),
+        unreadCount: 0,
+        caseId: selectedCase.id,
+        caseTitle: `Dossier ${selectedCase.id}`,
+        status: 'active'
+      };
+      
+      setConversations(prev => [newConversation, ...prev]);
+      setSelectedConversation(newConversation);
+    }
+    
+    setSearchCaseId("");
+    setSearchResults([]);
+    setIsNewConversationMode(false);
+  };
+
+  const handleCancelNewConversation = () => {
+    setIsNewConversationMode(false);
+    setSearchCaseId("");
+    setSearchResults([]);
+  };
+
   const formatTime = (timestamp: string) => {
     const date = new Date(timestamp);
     const now = new Date();
@@ -197,46 +256,13 @@ export default function AssuranceMessagesPage() {
             </Button>
           </Link>
           <h1 className="text-3xl font-bold text-primary">Messages</h1>
-          <p className="text-muted-foreground mt-2">
-            Gérez vos conversations avec les clients et collègues
-          </p>
+
         </div>
         
-        <Button 
-          onClick={() => setIsSearchingCase(true)}
-          className="flex items-center gap-2"
-        >
-          <Plus className="h-4 w-4" />
-          Nouvelle conversation
-        </Button>
+
       </div>
 
-      {/* Case Search Modal */}
-      {isSearchingCase && (
-        <Card className="p-6 bg-background border-primary/20">
-          <div className="flex items-center gap-4">
-            <div className="flex-1">
-              <h3 className="text-lg font-semibold text-primary mb-2">Rechercher un dossier</h3>
-              <p className="text-sm text-muted-foreground mb-4">
-                Entrez l'ID du dossier pour créer ou rejoindre une conversation
-              </p>
-              <div className="flex gap-2">
-                <Input
-                  placeholder="Ex: REL-001"
-                  value={searchCaseId}
-                  onChange={(e) => setSearchCaseId(e.target.value)}
-                  onKeyPress={(e) => e.key === 'Enter' && handleSearchCase()}
-                  className="flex-1"
-                />
-                <Button onClick={handleSearchCase}>Rechercher</Button>
-                <Button variant="outline" onClick={() => setIsSearchingCase(false)}>
-                  Annuler
-                </Button>
-              </div>
-            </div>
-          </div>
-        </Card>
-      )}
+
 
       {/* Main Chat Interface */}
       <div className="grid lg:grid-cols-3 gap-6 h-[calc(100vh-300px)]">
@@ -246,12 +272,70 @@ export default function AssuranceMessagesPage() {
           <div className="relative">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
             <Input
-              placeholder="Rechercher des conversations..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="pl-10"
+              placeholder={isNewConversationMode ? "Rechercher un dossier ou un nom..." : "Rechercher des conversations..."}
+              value={isNewConversationMode ? searchCaseId : searchTerm}
+              onChange={(e) => isNewConversationMode ? handleSearchInputChange(e.target.value) : setSearchTerm(e.target.value)}
+              className={cn(
+                "pl-10 transition-all duration-300",
+                isNewConversationMode && "bg-primary/10 border-primary/20 text-primary placeholder:text-primary/70"
+              )}
             />
+            <Button
+              onClick={isNewConversationMode ? handleCancelNewConversation : handleNewConversationClick}
+              variant="ghost"
+              size="sm"
+              className={cn(
+                "absolute right-2 top-1/2 transform -translate-y-1/2 h-8 w-8 p-0 transition-all duration-300",
+                isNewConversationMode 
+                  ? "bg-red-500 hover:bg-red-600 text-white" 
+                  : "bg-primary hover:bg-primary/90 text-white"
+              )}
+            >
+              {isNewConversationMode ? (
+                <X className="h-4 w-4" />
+              ) : (
+                <Plus className="h-4 w-4" />
+              )}
+            </Button>
           </div>
+
+          {/* Search Results */}
+          {isNewConversationMode && searchResults.length > 0 && (
+            <Card className="p-2 bg-background border-primary/20">
+              <div className="space-y-1">
+                {searchResults.map((case_) => (
+                  <div
+                    key={case_.id}
+                    onClick={() => handleCaseSelect(case_)}
+                    className="p-2 rounded-lg hover:bg-primary/10 cursor-pointer transition-colors"
+                  >
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <p className="text-sm font-medium text-primary">{case_.id}</p>
+                        <p className="text-xs text-muted-foreground">
+                          {case_.contactPerson.firstName} {case_.contactPerson.lastName}
+                        </p>
+                      </div>
+                      <Badge 
+                        variant="outline" 
+                        className={cn(
+                          "text-xs",
+                          case_.status === 'completed' && "border-green-500 text-green-600",
+                          case_.status === 'processing' && "border-blue-500 text-blue-600",
+                          case_.status === 'pending' && "border-yellow-500 text-yellow-600"
+                        )}
+                      >
+                        {case_.status === 'completed' ? 'Terminé' : 
+                         case_.status === 'processing' ? 'En cours' : 'En attente'}
+                      </Badge>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </Card>
+          )}
+
+
 
           {/* Conversations */}
           <Card className="flex-1 overflow-hidden">
@@ -279,22 +363,64 @@ export default function AssuranceMessagesPage() {
                             {conversation.participantName}
                           </p>
                           <div className="flex items-center gap-2">
-                            <Badge 
-                              variant="outline" 
-                              className={cn(
-                                "text-xs",
-                                conversation.status === 'active' && "border-green-500 text-green-600",
-                                conversation.status === 'pending' && "border-yellow-500 text-yellow-600",
-                                conversation.status === 'resolved' && "border-gray-500 text-gray-600"
-                              )}
-                            >
-                              {conversation.status === 'active' ? 'Actif' : 
-                               conversation.status === 'pending' ? 'En attente' : 'Résolu'}
-                            </Badge>
                             {conversation.caseId && (
-                              <span className="text-xs text-muted-foreground">
-                                {conversation.caseId}
-                              </span>
+                              <>
+                                <span className="text-xs text-muted-foreground">
+                                  {conversation.caseId}
+                                </span>
+                                {(() => {
+                                  const caseData = getCaseById(conversation.caseId);
+                                  if (caseData) {
+                                    return (
+                                      <>
+                                        <span className={`px-2 py-1 rounded-full text-xs font-medium ${
+                                          caseData.priority === "high" ? "bg-red-100 text-red-800" : "bg-blue-100 text-blue-800"
+                                        }`}>
+                                          {caseData.priority === "high" ? "Haute" : "Normale"}
+                                        </span>
+                                        <div className="flex items-center gap-2">
+                                          {(() => {
+                                            const getStatusIcon = (status: string) => {
+                                              switch (status) {
+                                                case "initie": return <FileText className="h-3 w-3" />;
+                                                case "processing": return <Clock className="h-3 w-3" />;
+                                                case "completed": return <CheckCircle2 className="h-3 w-3" />;
+                                                case "pending": return <AlertTriangle className="h-3 w-3" />;
+                                                case "cancelled": return <AlertTriangle className="h-3 w-3" />;
+                                                default: return <Clock className="h-3 w-3" />;
+                                              }
+                                            };
+                                            
+                                            const getStatusColor = (status: string) => {
+                                              switch (status) {
+                                                case "initie": return "text-gray-600";
+                                                case "processing": return "text-blue-600";
+                                                case "completed": return "text-green-600";
+                                                case "pending": return "text-yellow-600";
+                                                case "cancelled": return "text-red-600";
+                                                default: return "text-gray-600";
+                                              }
+                                            };
+                                            
+                                            return (
+                                              <>
+                                                {getStatusIcon(caseData.status)}
+                                                <span className={`text-xs font-medium ${getStatusColor(caseData.status)}`}>
+                                                  {caseData.status === "initie" ? "Initié" : 
+                                                   caseData.status === "processing" ? "En cours" : 
+                                                   caseData.status === "completed" ? "Terminé" : 
+                                                   caseData.status === "pending" ? "En attente" : "Annulé"}
+                                                </span>
+                                              </>
+                                            );
+                                          })()}
+                                        </div>
+                                      </>
+                                    );
+                                  }
+                                  return null;
+                                })()}
+                              </>
                             )}
                           </div>
                         </div>

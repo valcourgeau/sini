@@ -10,8 +10,7 @@
         "lastMessageTime": "2024-01-21T10:30:00Z",
         "unreadCount": 2,
         "caseId": "REL-001",
-        "caseTitle": "Dossier REL-001",
-        "status": "active"
+        "caseTitle": "Dossier REL-001"
       },
       {
         "id": "conv-2",
@@ -22,8 +21,7 @@
         "lastMessageTime": "2024-01-21T09:15:00Z",
         "unreadCount": 0,
         "caseId": "REL-002",
-        "caseTitle": "Dossier REL-002",
-        "status": "active"
+        "caseTitle": "Dossier REL-002"
       },
       {
         "id": "conv-3",
@@ -34,8 +32,7 @@
         "lastMessageTime": "2024-01-21T08:45:00Z",
         "unreadCount": 0,
         "caseId": "REL-003",
-        "caseTitle": "Dossier REL-003",
-        "status": "resolved"
+        "caseTitle": "Dossier REL-003"
       },
       {
         "id": "conv-4",
@@ -46,8 +43,7 @@
         "lastMessageTime": "2024-01-21T07:30:00Z",
         "unreadCount": 1,
         "caseId": "REL-004",
-        "caseTitle": "Dossier REL-004",
-        "status": "active"
+        "caseTitle": "Dossier REL-004"
       },
       {
         "id": "conv-5",
@@ -58,8 +54,7 @@
         "lastMessageTime": "2024-01-21T06:20:00Z",
         "unreadCount": 0,
         "caseId": "REL-005",
-        "caseTitle": "Dossier REL-005",
-        "status": "pending"
+        "caseTitle": "Dossier REL-005"
       },
       {
         "id": "conv-6",
@@ -70,8 +65,7 @@
         "lastMessageTime": "2024-01-21T05:10:00Z",
         "unreadCount": 0,
         "caseId": "REL-006",
-        "caseTitle": "Dossier REL-006",
-        "status": "pending"
+        "caseTitle": "Dossier REL-006"
       },
       {
         "id": "conv-7",
@@ -82,8 +76,7 @@
         "lastMessageTime": "2024-01-21T04:00:00Z",
         "unreadCount": 0,
         "caseId": "REL-007",
-        "caseTitle": "Dossier REL-007",
-        "status": "resolved"
+        "caseTitle": "Dossier REL-007"
       },
       {
         "id": "conv-8",
@@ -94,8 +87,7 @@
         "lastMessageTime": "2024-01-21T03:30:00Z",
         "unreadCount": 1,
         "caseId": "REL-008",
-        "caseTitle": "Dossier REL-008",
-        "status": "pending"
+        "caseTitle": "Dossier REL-008"
       },
       {
         "id": "conv-agent-1",
@@ -106,8 +98,7 @@
         "lastMessageTime": "2024-01-21T02:15:00Z",
         "unreadCount": 1,
         "caseId": "REL-009",
-        "caseTitle": "Dossier REL-009",
-        "status": "active"
+        "caseTitle": "Dossier REL-009"
       },
       {
         "id": "conv-agent-2",
@@ -118,8 +109,7 @@
         "lastMessageTime": "2024-01-21T01:00:00Z",
         "unreadCount": 0,
         "caseId": "REL-005",
-        "caseTitle": "Dossier REL-005",
-        "status": "pending"
+        "caseTitle": "Dossier REL-005"
       }
     ]
   },
@@ -134,8 +124,7 @@
         "lastMessageTime": "2024-01-21T10:00:00Z",
         "unreadCount": 0,
         "caseId": "REL-003",
-        "caseTitle": "Dossier REL-003",
-        "status": "processing"
+        "caseTitle": "Dossier REL-003"
       }
     ],
     "messages": [
@@ -192,8 +181,7 @@
         "lastMessageTime": "2024-01-21T10:30:00Z",
         "unreadCount": 1,
         "propertyId": "PROP-001",
-        "propertyTitle": "Appartement 3 pièces - Genève",
-        "status": "active"
+        "propertyTitle": "Appartement 3 pièces - Genève"
       },
       {
         "id": "conv-host-2",
@@ -205,8 +193,7 @@
         "unreadCount": 0,
         "propertyId": "PROP-002",
         "propertyTitle": "Studio moderne - Lausanne",
-        "reservationId": "RES-001",
-        "status": "active"
+        "reservationId": "RES-001"
       },
       {
         "id": "conv-host-3",
@@ -217,8 +204,7 @@
         "lastMessageTime": "2024-01-20T16:45:00Z",
         "unreadCount": 0,
         "propertyId": "PROP-003",
-        "propertyTitle": "Maison familiale - Nyon",
-        "status": "pending"
+        "propertyTitle": "Maison familiale - Nyon"
       },
       {
         "id": "conv-host-4",
@@ -230,8 +216,7 @@
         "unreadCount": 0,
         "propertyId": "PROP-001",
         "propertyTitle": "Appartement 3 pièces - Genève",
-        "reservationId": "RES-002",
-        "status": "resolved"
+        "reservationId": "RES-002"
       }
     ]
   }

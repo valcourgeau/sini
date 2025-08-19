@@ -202,7 +202,6 @@ export interface Conversation {
   propertyId?: string;
   propertyTitle?: string;
   reservationId?: string;
-  status: 'active' | 'resolved' | 'pending';
 }
 
 export interface Message {
@@ -256,6 +255,21 @@ export function getConversationsByCaseId(caseId: string): Conversation[] {
 export function getConversationsByPropertyId(propertyId: string): Conversation[] {
   const conversations = getConversations('host');
   return conversations.filter(conv => conv.propertyId === propertyId);
+}
+
+// Get recent conversations for dashboard display
+export function getRecentConversations(userType: 'assurance' | 'sinistre' | 'host'): Conversation[] {
+  const conversations = getConversations(userType);
+  // Sort by last message time (most recent first) and return top conversations
+  return conversations
+    .sort((a, b) => new Date(b.lastMessageTime).getTime() - new Date(a.lastMessageTime).getTime())
+    .slice(0, 5); // Return top 5 most recent conversations
+}
+
+// Get unread conversations count
+export function getUnreadConversationsCount(userType: 'assurance' | 'sinistre' | 'host'): number {
+  const conversations = getConversations(userType);
+  return conversations.reduce((count, conv) => count + conv.unreadCount, 0);
 }
 
 // Notification data types

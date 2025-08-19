@@ -42,7 +42,7 @@ import { cn } from "@/lib/utils";
 import Link from "next/link";
 
 import { RelocationData } from '@/types/relocation';
-import { relocationCases, getDashboardStats, getCurrentMonthCases, getCurrentYearCases, getNotifications, getRecentMessages, getRecentDocuments, getUnreadNotificationsCount, getUnreadMessagesCount, getPendingDocumentsCount } from '@/lib/data-loader';
+import { relocationCases, getDashboardStats, getCurrentMonthCases, getCurrentYearCases, getNotifications, getRecentMessages, getRecentDocuments, getUnreadNotificationsCount, getUnreadMessagesCount, getPendingDocumentsCount, getRecentConversations, getUnreadConversationsCount } from '@/lib/data-loader';
 
 // Helper function to format dates to dd/mm/yyyy
 const formatDate = (dateString: string): string => {
@@ -83,8 +83,10 @@ export default function AssuranceDashboard() {
   const notifications = getNotifications('assurance');
   const recentMessages = getRecentMessages('assurance');
   const recentDocuments = getRecentDocuments('assurance');
+  const recentConversations = getRecentConversations('assurance');
   const unreadNotificationsCount = getUnreadNotificationsCount('assurance');
   const unreadMessagesCount = getUnreadMessagesCount('assurance');
+  const unreadConversationsCount = getUnreadConversationsCount('assurance');
   const pendingDocumentsCount = getPendingDocumentsCount('assurance');
 
   // Helper function to check if a date is within the selected filter range
@@ -464,7 +466,7 @@ export default function AssuranceDashboard() {
                     <span className="text-xs font-medium text-gray-600 cursor-help">Initiés</span>
                   </TooltipTrigger>
                   <TooltipContent>
-                    <p>Dossiers nécessitant des informations essentielles de votre part ou de notre équipe</p>
+                    <p>Dossiers créés nécessitant de notre équipe</p>
                   </TooltipContent>
                 </Tooltip>
               </TooltipProvider>
@@ -589,11 +591,29 @@ export default function AssuranceDashboard() {
           </div>
           <div className="space-y-4">
             <div className="flex justify-between items-center pt-3 border-t border-primary/20">
-              <span className="text-xs text-muted-foreground">Avis assurés</span>
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <span className="text-xs text-muted-foreground cursor-help">Avis assurés</span>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>Note moyenne de satisfaction des clients assurés sur cette période</p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
               <span className="text-sm font-medium text-primary">{kpis.averageSatisfaction}/5</span>
             </div>
             <div className="flex justify-between items-center">
-              <span className="text-xs text-muted-foreground">Délai moyen de traitement </span>
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <span className="text-xs text-muted-foreground cursor-help">Délai moyen de traitement</span>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>Temps moyen entre la soumission du dossier et l'acceptation du relogement</p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
               <span className="text-sm font-medium text-primary">{kpis.averageWaitingTime} jours</span>
             </div>
           </div>
@@ -606,17 +626,53 @@ export default function AssuranceDashboard() {
 
       {/* Quick Actions - Messages and Notifications */}
       <div className="grid md:grid-cols-3 gap-4">
-        <Card className="p-4 bg-background border-primary/20">
-          <div className="flex items-center gap-3 mb-3">
-            <MessageSquare className="h-5 w-5 text-primary" />
-            <h3 className="font-semibold text-primary">Messages</h3>
+        <Card className="p-6 bg-background border-primary/20">
+          <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center gap-3">
+              <MessageSquare className="h-5 w-5 text-primary" />
+              <h3 className="font-semibold text-primary">Messages</h3>
+            </div>
+            <Badge variant="outline" className="text-xs">
+              {unreadConversationsCount} non lu(s)
+            </Badge>
           </div>
-          <p className="text-sm text-muted-foreground mb-3">
-            {unreadMessagesCount} nouveau(x) message(s)
-          </p>
+          
+          <div className="space-y-3 mb-4">
+            {recentConversations.slice(0, 2).map((conversation) => (
+              <Link 
+                key={conversation.id} 
+                href={`/platform/dashboard/assurance/messages${conversation.caseId ? `?case=${conversation.caseId}` : ''}`}
+                className="block"
+              >
+                <div className="flex items-center justify-between p-2 border border-primary/20 rounded-lg bg-secondary/50 hover:bg-secondary/70 transition-colors cursor-pointer">
+                  <div className="flex items-center gap-2 min-w-0 flex-1">
+                    <div className={`w-2 h-2 rounded-full flex-shrink-0 ${conversation.unreadCount > 0 ? 'bg-primary' : 'bg-muted-foreground'}`} />
+                    <div className="min-w-0 flex-1">
+                      <p className="text-xs font-medium text-primary truncate">
+                        {conversation.participantName}
+                        {conversation.caseId && (
+                          <span className="text-muted-foreground ml-1">({conversation.caseId})</span>
+                        )}
+                      </p>
+                      <p className="text-xs text-muted-foreground truncate">{conversation.lastMessage}</p>
+                    </div>
+                  </div>
+                  <span className="text-xs text-muted-foreground flex-shrink-0 ml-2 whitespace-nowrap">
+                    {new Date(conversation.lastMessageTime).toLocaleDateString('fr-FR', { 
+                      day: '2-digit', 
+                      month: '2-digit',
+                      hour: '2-digit',
+                      minute: '2-digit'
+                    })}
+                  </span>
+                </div>
+              </Link>
+            ))}
+          </div>
+          
           <Link href="/platform/dashboard/assurance/messages">
             <Button variant="outline" size="sm" className="w-full border-primary/20 text-primary hover:bg-primary hover:text-primary-foreground">
-              Voir les messages
+              Voir tous les messages
             </Button>
           </Link>
         </Card>
@@ -633,25 +689,19 @@ export default function AssuranceDashboard() {
           </div>
           
           <div className="space-y-3 mb-4">
-            {recentMessages.slice(0, 2).map((message) => (
+            {recentMessages.slice(0, 3).map((message) => (
               <div key={message.id} className="flex items-center justify-between p-2 border border-primary/20 rounded-lg bg-secondary/50">
-                <div className="flex items-center gap-2">
-                  <div className={`w-2 h-2 rounded-full ${message.unread ? 'bg-primary' : 'bg-muted-foreground'}`} />
-                  <div>
-                    <p className="text-xs font-medium text-primary">{message.from}</p>
-                    <p className="text-xs text-muted-foreground">{message.subject}</p>
+                <div className="flex items-center gap-2 min-w-0 flex-1">
+                  <div className={`w-2 h-2 rounded-full flex-shrink-0 ${message.unread ? 'bg-primary' : 'bg-muted-foreground'}`} />
+                  <div className="min-w-0 flex-1">
+                    <p className="text-xs font-medium text-primary truncate">{message.from}</p>
+                    <p className="text-xs text-muted-foreground truncate">{message.subject}</p>
                   </div>
                 </div>
-                <span className="text-xs text-muted-foreground">{message.date}</span>
+                <span className="text-xs text-muted-foreground flex-shrink-0 ml-2 whitespace-nowrap">{message.date}</span>
               </div>
             ))}
           </div>
-          
-          <Link href="/platform/dashboard/assurance/messages">
-            <Button variant="outline" size="sm" className="w-full border-primary/20 text-primary hover:bg-primary hover:text-primary-foreground">
-              Voir toutes les notifications
-            </Button>
-          </Link>
         </Card>
 
         <Card className="p-6 bg-background border-primary/20">
@@ -666,35 +716,34 @@ export default function AssuranceDashboard() {
           </div>
           
           <div className="space-y-3 mb-4">
-            {recentDocuments.slice(0, 2).map((document) => (
+            {recentDocuments.slice(0, 3).map((document) => (
               <Link 
                 key={document.id} 
                 href={`/platform/dashboard/assurance/dossiers/${document.caseId}`}
                 className="block"
               >
                 <div className="flex items-center justify-between p-2 border border-primary/20 rounded-lg bg-secondary/50 hover:bg-secondary/70 transition-colors cursor-pointer">
-                  <div className="flex items-center gap-2">
-                    <div className={`w-2 h-2 rounded-full ${
+                  <div className="flex items-center gap-2 min-w-0 flex-1">
+                    <div className={`w-2 h-2 rounded-full flex-shrink-0 ${
                       document.status === 'pending' ? 'bg-yellow-500' : 
                       document.status === 'uploaded' ? 'bg-blue-500' : 
                       document.status === 'signed' ? 'bg-green-500' : 'bg-red-500'
                     }`} />
-                    <div>
-                      <p className="text-xs font-medium text-primary">{document.fileName}</p>
-                      <p className="text-xs text-muted-foreground">
-                        {document.caseId} - {document.clientName}
+                    <div className="min-w-0 flex-1">
+                      <p className="text-xs font-medium text-primary truncate">{document.fileName}</p>
+                      <p className="text-xs text-muted-foreground truncate">
+                        {document.clientName}
+                        {document.caseId && (
+                          <span className="text-muted-foreground ml-1">({document.caseId})</span>
+                        )}
                       </p>
                     </div>
                   </div>
-                  <span className="text-xs text-muted-foreground">{document.date}</span>
+                  <span className="text-xs text-muted-foreground flex-shrink-0 ml-2 whitespace-nowrap">{document.date}</span>
                 </div>
               </Link>
             ))}
           </div>
-          
-          <Button variant="outline" size="sm" className="w-full border-primary/20 text-primary hover:bg-primary hover:text-primary-foreground">
-            Voir tous les documents
-          </Button>
         </Card>
       </div>
 
