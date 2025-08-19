@@ -28,10 +28,26 @@ export function Footer() {
               </li>
               <li>
                 <Link 
-                  href="/relocation/new" 
+                  href="/property/new" 
+                  className="text-sm text-muted-foreground hover:text-primary transition-colors"
+                >
+                  Proposer un bien
+                </Link>
+              </li>
+              <li>
+                <Link 
+                  href="/platform" 
                   className="text-sm text-muted-foreground hover:text-primary transition-colors"
                 >
                   Plateforme Assurances
+                </Link>
+              </li>
+              <li>
+                <Link 
+                  href="/platform/dashboard" 
+                  className="text-sm text-muted-foreground hover:text-primary transition-colors"
+                >
+                  Espace Assurances
                 </Link>
               </li>
             </ul>
