@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import { 
   MessageSquare, 
@@ -31,9 +31,8 @@ import Link from "next/link";
 import { RelocationData } from '@/types/relocation';
 import { relocationCases, getConversations, getConversationById, Conversation, Message, getCaseById } from '@/lib/data-loader';
 
-
-
-export default function AssuranceMessagesPage() {
+// Component that uses useSearchParams
+function MessagesContent() {
   const searchParams = useSearchParams();
   const [conversations, setConversations] = useState<Conversation[]>([]);
   const [selectedConversation, setSelectedConversation] = useState<Conversation | null>(null);
@@ -598,5 +597,61 @@ export default function AssuranceMessagesPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+// Loading component for Suspense fallback
+function MessagesLoading() {
+  return (
+    <div className="space-y-6">
+      <div className="flex items-center justify-between">
+        <div>
+          <Button variant="outline" size="sm" className="mb-4" disabled>
+            <ArrowLeft className="h-4 w-4 mr-2" />
+            Retour
+          </Button>
+          <h1 className="text-3xl font-bold text-primary">Messages</h1>
+        </div>
+      </div>
+      <div className="grid lg:grid-cols-3 gap-6 h-[calc(100vh-300px)]">
+        <div className="lg:col-span-1 space-y-4">
+          <div className="relative">
+            <Input placeholder="Chargement..." disabled className="pl-10" />
+          </div>
+          <Card className="flex-1 overflow-hidden">
+            <div className="p-4 border-b border-border">
+              <h3 className="font-semibold text-primary">Conversations récentes</h3>
+            </div>
+            <div className="p-4 text-center text-muted-foreground">
+              Chargement des conversations...
+            </div>
+          </Card>
+        </div>
+        <div className="lg:col-span-2">
+          <Card className="h-full flex flex-col">
+            <div className="flex-1 flex items-center justify-center">
+              <div className="text-center">
+                <MessageSquare className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
+                <h3 className="text-lg font-semibold text-foreground mb-2">
+                  Chargement...
+                </h3>
+                <p className="text-muted-foreground">
+                  Veuillez patienter
+                </p>
+              </div>
+            </div>
+          </Card>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// Main component with Suspense boundary
+export default function AssuranceMessagesPage() {
+  return (
+    <Suspense fallback={<MessagesLoading />}>
+      <MessagesContent />
+    </Suspense>
   );
 }
