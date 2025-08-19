@@ -463,18 +463,18 @@ export default function AssuranceDashboard() {
               <TooltipProvider>
                 <Tooltip>
                   <TooltipTrigger asChild>
-                    <span className="text-xs font-medium text-gray-600 cursor-help">Initiés</span>
+                    <span className="text-xs font-medium text-gray-600 cursor-help whitespace-nowrap">Initiés</span>
                   </TooltipTrigger>
                   <TooltipContent>
-                    <p>Dossiers créés nécessitant de notre équipe</p>
+                    <p>Dossiers créés nécessitant l'initialisation de la part de notre équipe</p>
                   </TooltipContent>
                 </Tooltip>
               </TooltipProvider>
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2 flex-shrink-0">
                 <span className="text-sm font-medium text-primary">{kpis.initiatedFiles}</span>
                 <Link 
                   href="/platform/dashboard/assurance/dossiers?status=initie"
-                  className="text-xs text-primary hover:text-primary/80 transition-colors underline"
+                  className="text-xs text-primary hover:text-primary/80 transition-colors underline whitespace-nowrap"
                 >
                   Voir
                 </Link>
@@ -484,18 +484,18 @@ export default function AssuranceDashboard() {
               <TooltipProvider>
                 <Tooltip>
                   <TooltipTrigger asChild>
-                    <span className="text-xs font-medium text-yellow-600 cursor-help">En attente</span>
+                    <span className="text-xs font-medium text-yellow-600 cursor-help whitespace-nowrap">En attente</span>
                   </TooltipTrigger>
                   <TooltipContent>
-                    <p>Dossiers validés et en attente de traitement par notre équipe</p>
+                    <p>Dossiers en attente d'informations complémentaires de votre part</p>
                   </TooltipContent>
                 </Tooltip>
               </TooltipProvider>
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2 flex-shrink-0">
                 <span className="text-sm font-medium text-primary">{kpis.pendingFiles}</span>
                 <Link 
                   href="/platform/dashboard/assurance/dossiers?status=pending"
-                  className="text-xs text-primary hover:text-primary/80 transition-colors underline"
+                  className="text-xs text-primary hover:text-primary/80 transition-colors underline whitespace-nowrap"
                 >
                   Voir
                 </Link>
@@ -505,18 +505,18 @@ export default function AssuranceDashboard() {
               <TooltipProvider>
                 <Tooltip>
                   <TooltipTrigger asChild>
-                    <span className="text-xs font-medium text-blue-600 cursor-help">En cours</span>
+                    <span className="text-xs font-medium text-blue-600 cursor-help whitespace-nowrap">En cours</span>
                   </TooltipTrigger>
                   <TooltipContent>
-                    <p>Dossiers validés et en cours de relogement</p>
+                    <p>Dossiers validés avec un relogement prêt ou en cours</p>
                   </TooltipContent>
                 </Tooltip>
               </TooltipProvider>
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2 flex-shrink-0">
                 <span className="text-sm font-medium text-primary">{kpis.processingFiles}</span>
                 <Link 
                   href="/platform/dashboard/assurance/dossiers?status=processing"
-                  className="text-xs text-primary hover:text-primary/80 transition-colors underline"
+                  className="text-xs text-primary hover:text-primary/80 transition-colors underline whitespace-nowrap"
                 >
                   Voir
                 </Link>
@@ -526,18 +526,18 @@ export default function AssuranceDashboard() {
               <TooltipProvider>
                 <Tooltip>
                   <TooltipTrigger asChild>
-                    <span className="text-xs font-medium text-green-600 cursor-help">Terminés</span>
+                    <span className="text-xs font-medium text-green-600 cursor-help whitespace-nowrap">Terminés</span>
                   </TooltipTrigger>
                   <TooltipContent>
                     <p>Dossiers complètement finalisés avec relogement effectué</p>
                   </TooltipContent>
                 </Tooltip>
               </TooltipProvider>
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2 flex-shrink-0">
                 <span className="text-sm font-medium text-primary">{kpis.completedFiles}</span>
                 <Link 
                   href="/platform/dashboard/assurance/dossiers?status=completed"
-                  className="text-xs text-primary hover:text-primary/80 transition-colors underline"
+                  className="text-xs text-primary hover:text-primary/80 transition-colors underline whitespace-nowrap"
                 >
                   Voir
                 </Link>
@@ -558,16 +558,16 @@ export default function AssuranceDashboard() {
           </div>
           <div className="space-y-4">
             <div className="flex justify-between items-center pt-3 border-t border-primary/20">
-              <span className="text-xs text-muted-foreground">Coût moyen par jour</span>
-              <span className="text-sm font-medium text-primary">CHF {kpis.costPerDay}</span>
+              <span className="text-xs text-muted-foreground whitespace-nowrap">Coût moyen par jour</span>
+              <span className="text-sm font-medium text-primary flex-shrink-0">CHF {kpis.costPerDay}</span>
             </div>
             <div className="flex justify-between items-center">
-              <span className="text-xs text-muted-foreground">Taux moyen de couverture</span>
-              <span className="text-sm font-medium text-primary">{kpis.insuranceCoveragePercentage}%</span>
+              <span className="text-xs text-muted-foreground whitespace-nowrap">Taux moyen de couverture</span>
+              <span className="text-sm font-medium text-primary flex-shrink-0">{kpis.insuranceCoveragePercentage}%</span>
             </div>
           <div className="flex justify-between items-center">
-            <span className="text-xs text-muted-foreground">Durée moyenne du séjour</span>
-            <span className="text-sm font-medium text-primary">{kpis.averageRelocationLength} jours</span>
+            <span className="text-xs text-muted-foreground whitespace-nowrap">Durée moyenne du séjour</span>
+            <span className="text-sm font-medium text-primary flex-shrink-0">{kpis.averageRelocationLength} jours</span>
           </div>
           </div>
         </Card>
@@ -594,27 +594,27 @@ export default function AssuranceDashboard() {
               <TooltipProvider>
                 <Tooltip>
                   <TooltipTrigger asChild>
-                    <span className="text-xs text-muted-foreground cursor-help">Avis assurés</span>
+                    <span className="text-xs text-muted-foreground cursor-help whitespace-nowrap">Avis assurés</span>
                   </TooltipTrigger>
                   <TooltipContent>
                     <p>Note moyenne de satisfaction des clients assurés sur cette période</p>
                   </TooltipContent>
                 </Tooltip>
               </TooltipProvider>
-              <span className="text-sm font-medium text-primary">{kpis.averageSatisfaction}/5</span>
+              <span className="text-sm font-medium text-primary flex-shrink-0">{kpis.averageSatisfaction}/5</span>
             </div>
             <div className="flex justify-between items-center">
               <TooltipProvider>
                 <Tooltip>
                   <TooltipTrigger asChild>
-                    <span className="text-xs text-muted-foreground cursor-help">Délai moyen de traitement</span>
+                    <span className="text-xs text-muted-foreground cursor-help whitespace-nowrap">Délai moyen de traitement</span>
                   </TooltipTrigger>
                   <TooltipContent>
                     <p>Temps moyen entre la soumission du dossier et l'acceptation du relogement</p>
                   </TooltipContent>
                 </Tooltip>
               </TooltipProvider>
-              <span className="text-sm font-medium text-primary">{kpis.averageWaitingTime} jours</span>
+              <span className="text-sm font-medium text-primary flex-shrink-0">{kpis.averageWaitingTime} jours</span>
             </div>
           </div>
         </Card>
@@ -654,10 +654,10 @@ export default function AssuranceDashboard() {
                           <span className="text-muted-foreground ml-1">({conversation.caseId})</span>
                         )}
                       </p>
-                      <p className="text-xs text-muted-foreground truncate">{conversation.lastMessage}</p>
+                      <p className="text-[10px] text-muted-foreground truncate">{conversation.lastMessage}</p>
                     </div>
                   </div>
-                  <span className="text-xs text-muted-foreground flex-shrink-0 ml-2 whitespace-nowrap">
+                  <span className="text-[10px] text-muted-foreground flex-shrink-0 ml-2 whitespace-nowrap">
                     {new Date(conversation.lastMessageTime).toLocaleDateString('fr-FR', { 
                       day: '2-digit', 
                       month: '2-digit',
@@ -695,10 +695,10 @@ export default function AssuranceDashboard() {
                   <div className={`w-2 h-2 rounded-full flex-shrink-0 ${message.unread ? 'bg-primary' : 'bg-muted-foreground'}`} />
                   <div className="min-w-0 flex-1">
                     <p className="text-xs font-medium text-primary truncate">{message.from}</p>
-                    <p className="text-xs text-muted-foreground truncate">{message.subject}</p>
+                    <p className="text-[10px] text-muted-foreground truncate">{message.subject}</p>
                   </div>
                 </div>
-                <span className="text-xs text-muted-foreground flex-shrink-0 ml-2 whitespace-nowrap">{message.date}</span>
+                <span className="text-[10px] text-muted-foreground flex-shrink-0 ml-2 whitespace-nowrap">{message.date}</span>
               </div>
             ))}
           </div>
@@ -731,7 +731,7 @@ export default function AssuranceDashboard() {
                     }`} />
                     <div className="min-w-0 flex-1">
                       <p className="text-xs font-medium text-primary truncate">{document.fileName}</p>
-                      <p className="text-xs text-muted-foreground truncate">
+                      <p className="text-[10px] text-muted-foreground truncate">
                         {document.clientName}
                         {document.caseId && (
                           <span className="text-muted-foreground ml-1">({document.caseId})</span>
@@ -739,7 +739,7 @@ export default function AssuranceDashboard() {
                       </p>
                     </div>
                   </div>
-                  <span className="text-xs text-muted-foreground flex-shrink-0 ml-2 whitespace-nowrap">{document.date}</span>
+                  <span className="text-[10px] text-muted-foreground flex-shrink-0 ml-2 whitespace-nowrap">{document.date}</span>
                 </div>
               </Link>
             ))}

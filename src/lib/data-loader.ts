@@ -202,6 +202,7 @@ export interface Conversation {
   propertyId?: string;
   propertyTitle?: string;
   reservationId?: string;
+  status?: 'active' | 'pending' | 'resolved';
 }
 
 export interface Message {

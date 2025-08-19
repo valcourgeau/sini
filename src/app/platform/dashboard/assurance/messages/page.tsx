@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
+import { useSearchParams } from "next/navigation";
 import { 
   MessageSquare, 
   Search, 
@@ -33,6 +34,7 @@ import { relocationCases, getConversations, getConversationById, Conversation, M
 
 
 export default function AssuranceMessagesPage() {
+  const searchParams = useSearchParams();
   const [conversations, setConversations] = useState<Conversation[]>([]);
   const [selectedConversation, setSelectedConversation] = useState<Conversation | null>(null);
   const [messages, setMessages] = useState<Message[]>([]);
@@ -44,11 +46,41 @@ export default function AssuranceMessagesPage() {
   const [searchResults, setSearchResults] = useState<RelocationData[]>([]);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
-  // Load conversations from data
+  // Load conversations from data and handle URL parameters
   useEffect(() => {
     const conversationsData = getConversations('assurance');
     setConversations(conversationsData);
-  }, []);
+    
+    // Check for case parameter in URL
+    const caseId = searchParams.get('case');
+    if (caseId) {
+      // Find existing conversation for this case
+      const existingConversation = conversationsData.find(conv => conv.caseId === caseId);
+      if (existingConversation) {
+        setSelectedConversation(existingConversation);
+      } else {
+        // Create new conversation for this case
+        const caseData = getCaseById(caseId);
+        if (caseData) {
+          const newConversation: Conversation = {
+            id: `conv-${Date.now()}`,
+            participantId: caseData.contactPerson.email,
+            participantName: `${caseData.contactPerson.firstName} ${caseData.contactPerson.lastName}`,
+            participantType: 'client',
+            lastMessage: "Nouvelle conversation créée",
+            lastMessageTime: new Date().toISOString(),
+            unreadCount: 0,
+            caseId: caseId,
+            caseTitle: `Dossier ${caseId}`,
+            status: 'active'
+          };
+          
+          setConversations(prev => [newConversation, ...prev]);
+          setSelectedConversation(newConversation);
+        }
+      }
+    }
+  }, [searchParams]);
 
   // Generate mock messages for selected conversation
   useEffect(() => {
