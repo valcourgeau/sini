@@ -167,7 +167,7 @@
         "hasInsurance": false
       },
       "status": "completed",
-      "priority": "low",
+      "priority": "normal",
       "createdAt": "2024-01-08T11:20:00Z",
       "updatedAt": "2024-01-10T13:45:00Z",
       "responseTime": 3.2,
@@ -385,7 +385,7 @@
         "hasInsurance": false
       },
       "status": "pending",
-      "priority": "low",
+      "priority": "normal",
       "createdAt": "2024-01-19T09:30:00Z",
       "updatedAt": "2024-01-19T09:30:00Z",
       "responseTime": null,
@@ -446,6 +446,121 @@
         "id": "AG-002",
         "name": "Thomas Moreau",
         "canton": "Vaud"
+      }
+    },
+    {
+      "id": "REL-009",
+      "relocationType": "single",
+      "disasterAddress": {
+        "street": "Avenue de Champel 47",
+        "city": "Genève",
+        "postalCode": "1206",
+        "country": "Suisse",
+        "canton": "Genève"
+      },
+      "contactPerson": {
+        "firstName": "Isabelle",
+        "lastName": "Moreau",
+        "email": "isabelle.moreau@email.com",
+        "phone": "+41 22 456 78 90"
+      },
+      "relocationRequests": [
+        {
+          "firstName": "Isabelle",
+          "lastName": "Moreau",
+          "email": "isabelle.moreau@email.com",
+          "phone": "+41 22 456 78 90",
+          "bedrooms": 2,
+          "adults": 1,
+          "children": 1,
+          "hasAnimals": false,
+          "hasAccessibilityNeeds": false,
+          "needsParking": false,
+          "arrivalDate": "2024-02-01",
+          "estimatedDuration": "3 mois",
+          "useExactDates": false
+        }
+      ],
+      "insurance": {
+        "hasInsurance": true,
+        "company": "Assurance Genève",
+        "policyNumber": "POL-567890"
+      },
+      "status": "initie",
+      "priority": "normal",
+      "createdAt": "2024-01-21T08:45:00Z",
+      "updatedAt": "2024-01-21T08:45:00Z",
+      "responseTime": null,
+      "cost": null,
+      "satisfaction": null,
+      "agent": {
+        "id": "AG-001",
+        "name": "Marie Dubois",
+        "canton": "Genève"
+      }
+    },
+    {
+      "id": "REL-010",
+      "relocationType": "multiple",
+      "disasterAddress": {
+        "street": "Rue de Lausanne 145",
+        "city": "Genève",
+        "postalCode": "1202",
+        "country": "Suisse",
+        "canton": "Genève"
+      },
+      "contactPerson": {
+        "firstName": "Marc",
+        "lastName": "Lefevre",
+        "email": "marc.lefevre@email.com",
+        "phone": "+41 22 345 67 89"
+      },
+      "relocationRequests": [
+        {
+          "firstName": "Sophie",
+          "lastName": "Martin",
+          "email": "sophie.martin@email.com",
+          "phone": "+41 22 234 56 78",
+          "bedrooms": 1,
+          "adults": 1,
+          "children": 0,
+          "hasAnimals": false,
+          "hasAccessibilityNeeds": false,
+          "needsParking": true,
+          "arrivalDate": "2024-02-05",
+          "estimatedDuration": "4 mois",
+          "useExactDates": false
+        },
+        {
+          "firstName": "Pierre",
+          "lastName": "Durand",
+          "email": "pierre.durand@email.com",
+          "phone": "+41 22 123 45 67",
+          "bedrooms": 2,
+          "adults": 2,
+          "children": 0,
+          "hasAnimals": true,
+          "hasAccessibilityNeeds": false,
+          "needsParking": true,
+          "arrivalDate": "2024-02-10",
+          "estimatedDuration": "4 mois",
+          "useExactDates": false
+        }
+      ],
+      "insurance": {
+        "hasInsurance": false
+      },
+      "status": "initie",
+      "priority": "high",
+      "createdAt": "2024-01-22T14:20:00Z",
+      "updatedAt": "2024-01-22T14:20:00Z",
+      "responseTime": null,
+      "cost": null,
+      "satisfaction": null,
+      "agent": {
+        "id": "AG-003",
+        "name": "Claire Martin",
+        "canton": "Genève"
       }
     }
   ]

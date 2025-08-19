@@ -1,0 +1,166 @@
+{
+  "assurance": {
+    "notifications": [
+      {
+        "id": "notif-1",
+        "type": "message",
+        "title": "Nouveau dossier REL-009 créé",
+        "description": "Marie Dubois a créé un nouveau dossier de relogement",
+        "timestamp": "2024-01-21T10:30:00Z",
+        "isRead": false,
+        "priority": "high",
+        "actionUrl": "/platform/dashboard/assurance/messages",
+        "sender": "Marie Dubois",
+        "caseId": "REL-009"
+      },
+      {
+        "id": "notif-2",
+        "type": "message",
+        "title": "Mise à jour dossier REL-005",
+        "description": "Thomas Moreau a mis à jour le dossier REL-005",
+        "timestamp": "2024-01-21T09:15:00Z",
+        "isRead": false,
+        "priority": "normal",
+        "actionUrl": "/platform/dashboard/assurance/messages",
+        "sender": "Thomas Moreau",
+        "caseId": "REL-005"
+      },
+      {
+        "id": "notif-3",
+        "type": "system",
+        "title": "Rapport mensuel disponible",
+        "description": "Le rapport mensuel de janvier 2024 est maintenant disponible",
+        "timestamp": "2024-01-21T08:00:00Z",
+        "isRead": true,
+        "priority": "normal",
+        "actionUrl": "/platform/dashboard/assurance/statistiques"
+      },
+      {
+        "id": "notif-4",
+        "type": "alert",
+        "title": "Dossier urgent REL-004",
+        "description": "Le dossier REL-004 nécessite une attention immédiate",
+        "timestamp": "2024-01-21T07:45:00Z",
+        "isRead": false,
+        "priority": "high",
+        "actionUrl": "/platform/dashboard/assurance/dossiers/REL-004",
+        "caseId": "REL-004"
+      },
+      {
+        "id": "notif-5",
+        "type": "message",
+        "title": "Nouveau message client",
+        "description": "Jean Dupont a envoyé un message concernant le dossier REL-001",
+        "timestamp": "2024-01-21T07:30:00Z",
+        "isRead": false,
+        "priority": "normal",
+        "actionUrl": "/platform/dashboard/assurance/messages",
+        "sender": "Jean Dupont",
+        "caseId": "REL-001"
+      },
+      {
+        "id": "notif-6",
+        "type": "system",
+        "title": "Maintenance planifiée",
+        "description": "Maintenance système prévue le 22 janvier de 02h00 à 04h00",
+        "timestamp": "2024-01-21T06:00:00Z",
+        "isRead": true,
+        "priority": "normal",
+        "actionUrl": null
+      }
+    ],
+    "recentMessages": [
+      {
+        "id": "msg-1",
+        "from": "Marie Dubois",
+        "subject": "Nouveau dossier REL-009 créé",
+        "date": "Il y a 2 heures",
+        "unread": true,
+        "type": "agent",
+        "caseId": "REL-009"
+      },
+      {
+        "id": "msg-2",
+        "from": "Thomas Moreau",
+        "subject": "Mise à jour dossier REL-005",
+        "date": "Hier",
+        "unread": true,
+        "type": "agent",
+        "caseId": "REL-005"
+      },
+      {
+        "id": "msg-3",
+        "from": "Système",
+        "subject": "Rapport mensuel disponible",
+        "date": "Il y a 3 jours",
+        "unread": false,
+        "type": "system"
+      },
+      {
+        "id": "msg-4",
+        "from": "Jean Dupont",
+        "subject": "Question sur le relogement",
+        "date": "Il y a 4 jours",
+        "unread": false,
+        "type": "client",
+        "caseId": "REL-001"
+      },
+      {
+        "id": "msg-5",
+        "from": "Sophie Bernard",
+        "subject": "Confirmation de logement",
+        "date": "Il y a 5 jours",
+        "unread": false,
+        "type": "client",
+        "caseId": "REL-002"
+      }
+    ],
+    "recentDocuments": [
+      {
+        "id": "doc-1",
+        "fileName": "Déclaration d'assurance",
+        "caseId": "REL-001",
+        "clientName": "Jean Dupont",
+        "status": "pending",
+        "date": "Il y a 1 heure",
+        "type": "insurance_declaration"
+      },
+      {
+        "id": "doc-2",
+        "fileName": "Déclaration d'assurance",
+        "caseId": "REL-004",
+        "clientName": "Marie Martin",
+        "status": "uploaded",
+        "date": "Il y a 3 heures",
+        "type": "insurance_declaration"
+      },
+      {
+        "id": "doc-3",
+        "fileName": "Contrat de relogement",
+        "caseId": "REL-002",
+        "clientName": "Sophie Bernard",
+        "status": "signed",
+        "date": "Hier",
+        "type": "relocation_contract"
+      },
+      {
+        "id": "doc-4",
+        "fileName": "Déclaration d'assurance",
+        "caseId": "REL-005",
+        "clientName": "Antoine Moreau",
+        "status": "pending",
+        "date": "Il y a 2 jours",
+        "type": "insurance_declaration"
+      },
+      {
+        "id": "doc-5",
+        "fileName": "Rapport d'expertise",
+        "caseId": "REL-003",
+        "clientName": "Pierre Durand",
+        "status": "uploaded",
+        "date": "Il y a 3 jours",
+        "type": "expert_report"
+      }
+    ]
+  }
+}

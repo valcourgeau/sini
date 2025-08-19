@@ -51,6 +51,8 @@ export async function generateStaticParams() {
     { id: "REL-006" },
     { id: "REL-007" },
     { id: "REL-008" },
+    { id: "REL-009" },
+    { id: "REL-010" },
   ];
 }
 
@@ -87,6 +89,7 @@ export default async function CaseDetailPage({ params }: PageProps) {
 
   const getStatusColor = (status: string) => {
     switch (status) {
+      case "initie": return "text-gray-600";
       case "processing": return "text-blue-600";
       case "completed": return "text-green-600";
       case "pending": return "text-yellow-600";
@@ -97,6 +100,7 @@ export default async function CaseDetailPage({ params }: PageProps) {
 
   const getStatusIcon = (status: string) => {
     switch (status) {
+      case "initie": return <FileText className="h-4 w-4" />;
       case "processing": return <Clock className="h-4 w-4" />;
       case "completed": return <CheckCircle2 className="h-4 w-4" />;
       case "pending": return <AlertTriangle className="h-4 w-4" />;
@@ -109,8 +113,7 @@ export default async function CaseDetailPage({ params }: PageProps) {
     switch (priority) {
       case "high": return "bg-red-100 text-red-800";
       case "normal": return "bg-blue-100 text-blue-800";
-      case "low": return "bg-gray-100 text-gray-800";
-      default: return "bg-gray-100 text-gray-800";
+      default: return "bg-blue-100 text-blue-800";
     }
   };
 
@@ -176,14 +179,14 @@ export default async function CaseDetailPage({ params }: PageProps) {
           <div className="flex items-center gap-2">
             {getStatusIcon(currentCaseData.status)}
             <span className={`font-medium ${getStatusColor(currentCaseData.status)}`}>
-              {currentCaseData.status === "processing" ? "En cours" : 
+              {currentCaseData.status === "initie" ? "Initié" : 
+               currentCaseData.status === "processing" ? "En cours" : 
                currentCaseData.status === "completed" ? "Terminé" : 
                currentCaseData.status === "pending" ? "En attente" : "Annulé"}
             </span>
           </div>
           <Badge variant="outline" className={getPriorityColor(currentCaseData.priority)}>
-            {currentCaseData.priority === "high" ? "Haute" : 
-             currentCaseData.priority === "normal" ? "Normale" : "Basse"}
+            {currentCaseData.priority === "high" ? "Haute" : "Normale"}
           </Badge>
         </div>
       </div>

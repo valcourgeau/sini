@@ -176,6 +176,7 @@ export const getCurrentYearCases = (): RelocationData[] => {
 export const getDashboardStats = (cases: RelocationData[] = relocationCases) => {
   return {
     totalCases: cases.length,
+    initiatedCases: cases.filter(case_ => case_.status === 'initie').length,
     pendingCases: cases.filter(case_ => case_.status === 'pending').length,
     processingCases: cases.filter(case_ => case_.status === 'processing').length,
     completedCases: cases.filter(case_ => case_.status === 'completed').length,
@@ -186,3 +187,159 @@ export const getDashboardStats = (cases: RelocationData[] = relocationCases) => 
     multipleRelocations: cases.filter(case_ => case_.relocationType === 'multiple').length,
   };
 };
+
+// Conversation data types
+export interface Conversation {
+  id: string;
+  participantId: string;
+  participantName: string;
+  participantType: 'agent' | 'client' | 'system';
+  lastMessage: string;
+  lastMessageTime: string;
+  unreadCount: number;
+  caseId?: string;
+  caseTitle?: string;
+  propertyId?: string;
+  propertyTitle?: string;
+  reservationId?: string;
+  status: 'active' | 'resolved' | 'pending';
+}
+
+export interface Message {
+  id: string;
+  senderId: string;
+  senderName: string;
+  senderType: 'agent' | 'client' | 'host' | 'system';
+  content: string;
+  timestamp: string;
+  isRead: boolean;
+  caseId?: string;
+  propertyId?: string;
+  reservationId?: string;
+}
+
+// Load conversation data
+export function getConversations(userType: 'assurance' | 'sinistre' | 'host'): Conversation[] {
+  try {
+    const conversationsData = require('@/data/conversations.json');
+    return conversationsData[userType]?.conversations || [];
+  } catch (error) {
+    console.error('Error loading conversations:', error);
+    return [];
+  }
+}
+
+// Load messages for sinistre (single conversation)
+export function getSinistreMessages(): Message[] {
+  try {
+    const conversationsData = require('@/data/conversations.json');
+    return conversationsData.sinistre?.messages || [];
+  } catch (error) {
+    console.error('Error loading sinistre messages:', error);
+    return [];
+  }
+}
+
+// Get conversation by ID
+export function getConversationById(userType: 'assurance' | 'sinistre' | 'host', conversationId: string): Conversation | null {
+  const conversations = getConversations(userType);
+  return conversations.find(conv => conv.id === conversationId) || null;
+}
+
+// Get conversations by case ID (for assurance)
+export function getConversationsByCaseId(caseId: string): Conversation[] {
+  const conversations = getConversations('assurance');
+  return conversations.filter(conv => conv.caseId === caseId);
+}
+
+// Get conversations by property ID (for host)
+export function getConversationsByPropertyId(propertyId: string): Conversation[] {
+  const conversations = getConversations('host');
+  return conversations.filter(conv => conv.propertyId === propertyId);
+}
+
+// Notification data types
+export interface Notification {
+  id: string;
+  type: 'message' | 'system' | 'alert';
+  title: string;
+  description: string;
+  timestamp: string;
+  isRead: boolean;
+  priority: 'high' | 'normal' | 'low';
+  actionUrl?: string | null;
+  sender?: string;
+  caseId?: string;
+}
+
+export interface RecentMessage {
+  id: string;
+  from: string;
+  subject: string;
+  date: string;
+  unread: boolean;
+  type: 'agent' | 'client' | 'system';
+  caseId?: string;
+}
+
+// Load notification data
+export function getNotifications(userType: 'assurance' | 'sinistre' | 'host'): Notification[] {
+  try {
+    const notificationsData = require('@/data/notifications.json');
+    return notificationsData[userType]?.notifications || [];
+  } catch (error) {
+    console.error('Error loading notifications:', error);
+    return [];
+  }
+}
+
+// Load recent messages
+export function getRecentMessages(userType: 'assurance' | 'sinistre' | 'host'): RecentMessage[] {
+  try {
+    const notificationsData = require('@/data/notifications.json');
+    return notificationsData[userType]?.recentMessages || [];
+  } catch (error) {
+    console.error('Error loading recent messages:', error);
+    return [];
+  }
+}
+
+// Get unread notifications count
+export function getUnreadNotificationsCount(userType: 'assurance' | 'sinistre' | 'host'): number {
+  const notifications = getNotifications(userType);
+  return notifications.filter(notif => !notif.isRead).length;
+}
+
+// Get unread messages count
+export function getUnreadMessagesCount(userType: 'assurance' | 'sinistre' | 'host'): number {
+  const messages = getRecentMessages(userType);
+  return messages.filter(msg => msg.unread).length;
+}
+
+// Document data types
+export interface RecentDocument {
+  id: string;
+  fileName: string;
+  caseId: string;
+  clientName: string;
+  status: 'pending' | 'uploaded' | 'signed' | 'rejected';
+  date: string;
+  type: 'insurance_declaration' | 'relocation_contract' | 'expert_report' | 'other';
+}
+
+// Load recent documents
+export function getRecentDocuments(userType: 'assurance' | 'sinistre' | 'host'): RecentDocument[] {
+  try {
+    const notificationsData = require('@/data/notifications.json');
+    return notificationsData[userType]?.recentDocuments || [];
+  } catch (error) {
+    console.error('Error loading recent documents:', error);
+    return [];
+  }
+}
+
+// Get pending documents count
+export function getPendingDocumentsCount(userType: 'assurance' | 'sinistre' | 'host'): number {
+  const documents = getRecentDocuments(userType);
+  return documents.filter(doc => doc.status === 'pending').length;
+}

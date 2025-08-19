@@ -1,0 +1,238 @@
+{
+  "assurance": {
+    "conversations": [
+      {
+        "id": "conv-1",
+        "participantId": "client-1",
+        "participantName": "Jean Dupont",
+        "participantType": "client",
+        "lastMessage": "Merci pour votre aide avec le relogement.",
+        "lastMessageTime": "2024-01-21T10:30:00Z",
+        "unreadCount": 2,
+        "caseId": "REL-001",
+        "caseTitle": "Dossier REL-001",
+        "status": "active"
+      },
+      {
+        "id": "conv-2",
+        "participantId": "client-2",
+        "participantName": "Sophie Bernard",
+        "participantType": "client",
+        "lastMessage": "Avez-vous des nouvelles sur mon dossier ?",
+        "lastMessageTime": "2024-01-21T09:15:00Z",
+        "unreadCount": 0,
+        "caseId": "REL-002",
+        "caseTitle": "Dossier REL-002",
+        "status": "active"
+      },
+      {
+        "id": "conv-3",
+        "participantId": "client-3",
+        "participantName": "Pierre Durand",
+        "participantType": "client",
+        "lastMessage": "Le logement proposé me convient parfaitement.",
+        "lastMessageTime": "2024-01-21T08:45:00Z",
+        "unreadCount": 0,
+        "caseId": "REL-003",
+        "caseTitle": "Dossier REL-003",
+        "status": "resolved"
+      },
+      {
+        "id": "conv-4",
+        "participantId": "client-4",
+        "participantName": "Marie Martin",
+        "participantType": "client",
+        "lastMessage": "Quand puis-je emménager ?",
+        "lastMessageTime": "2024-01-21T07:30:00Z",
+        "unreadCount": 1,
+        "caseId": "REL-004",
+        "caseTitle": "Dossier REL-004",
+        "status": "active"
+      },
+      {
+        "id": "conv-5",
+        "participantId": "client-5",
+        "participantName": "Antoine Moreau",
+        "participantType": "client",
+        "lastMessage": "J'ai besoin d'informations supplémentaires.",
+        "lastMessageTime": "2024-01-21T06:20:00Z",
+        "unreadCount": 0,
+        "caseId": "REL-005",
+        "caseTitle": "Dossier REL-005",
+        "status": "pending"
+      },
+      {
+        "id": "conv-6",
+        "participantId": "client-6",
+        "participantName": "Isabelle Leroy",
+        "participantType": "client",
+        "lastMessage": "Merci pour le suivi de mon dossier.",
+        "lastMessageTime": "2024-01-21T05:10:00Z",
+        "unreadCount": 0,
+        "caseId": "REL-006",
+        "caseTitle": "Dossier REL-006",
+        "status": "pending"
+      },
+      {
+        "id": "conv-7",
+        "participantId": "client-7",
+        "participantName": "François Petit",
+        "participantType": "client",
+        "lastMessage": "L'appartement est parfait !",
+        "lastMessageTime": "2024-01-21T04:00:00Z",
+        "unreadCount": 0,
+        "caseId": "REL-007",
+        "caseTitle": "Dossier REL-007",
+        "status": "resolved"
+      },
+      {
+        "id": "conv-8",
+        "participantId": "client-8",
+        "participantName": "Catherine Rousseau",
+        "participantType": "client",
+        "lastMessage": "Pouvez-vous me rappeler ?",
+        "lastMessageTime": "2024-01-21T03:30:00Z",
+        "unreadCount": 1,
+        "caseId": "REL-008",
+        "caseTitle": "Dossier REL-008",
+        "status": "pending"
+      },
+      {
+        "id": "conv-agent-1",
+        "participantId": "agent-1",
+        "participantName": "Marie Dubois",
+        "participantType": "agent",
+        "lastMessage": "Nouveau dossier REL-009 créé",
+        "lastMessageTime": "2024-01-21T02:15:00Z",
+        "unreadCount": 1,
+        "caseId": "REL-009",
+        "caseTitle": "Dossier REL-009",
+        "status": "active"
+      },
+      {
+        "id": "conv-agent-2",
+        "participantId": "agent-2",
+        "participantName": "Thomas Moreau",
+        "participantType": "agent",
+        "lastMessage": "Mise à jour dossier REL-005",
+        "lastMessageTime": "2024-01-21T01:00:00Z",
+        "unreadCount": 0,
+        "caseId": "REL-005",
+        "caseTitle": "Dossier REL-005",
+        "status": "pending"
+      }
+    ]
+  },
+  "sinistre": {
+    "conversations": [
+      {
+        "id": "conv-sinistre-1",
+        "participantId": "agent-1",
+        "participantName": "Thomas Moreau",
+        "participantType": "agent",
+        "lastMessage": "Nous prévoyons de vous donner une réponse définitive d'ici 48h. Nous avons identifié plusieurs logements qui pourraient vous convenir.",
+        "lastMessageTime": "2024-01-21T10:00:00Z",
+        "unreadCount": 0,
+        "caseId": "REL-003",
+        "caseTitle": "Dossier REL-003",
+        "status": "processing"
+      }
+    ],
+    "messages": [
+      {
+        "id": "msg-1",
+        "senderId": "agent-1",
+        "senderName": "Thomas Moreau",
+        "senderType": "agent",
+        "content": "Bonjour Madame Dubois, nous avons bien reçu votre demande de relogement. Notre équipe examine actuellement votre dossier.",
+        "timestamp": "2024-01-20T10:30:00Z",
+        "isRead": true,
+        "caseId": "REL-003"
+      },
+      {
+        "id": "msg-2",
+        "senderId": "client-1",
+        "senderName": "Vous",
+        "senderType": "client",
+        "content": "Merci beaucoup. Pouvez-vous me dire quand je peux espérer une réponse ?",
+        "timestamp": "2024-01-20T11:00:00Z",
+        "isRead": true,
+        "caseId": "REL-003"
+      },
+      {
+        "id": "msg-3",
+        "senderId": "agent-1",
+        "senderName": "Thomas Moreau",
+        "senderType": "agent",
+        "content": "Nous prévoyons de vous donner une réponse définitive d'ici 48h. Nous avons identifié plusieurs logements qui pourraient vous convenir.",
+        "timestamp": "2024-01-21T10:00:00Z",
+        "isRead": false,
+        "caseId": "REL-003"
+      },
+      {
+        "id": "msg-4",
+        "senderId": "system",
+        "senderName": "Système",
+        "senderType": "system",
+        "content": "Votre dossier a été mis à jour. Statut: En cours de traitement",
+        "timestamp": "2024-01-21T11:00:00Z",
+        "isRead": true,
+        "caseId": "REL-003"
+      }
+    ]
+  },
+  "host": {
+    "conversations": [
+      {
+        "id": "conv-host-1",
+        "participantId": "agent-1",
+        "participantName": "Marie Dubois",
+        "participantType": "agent",
+        "lastMessage": "Bonjour, nous avons une demande de relogement pour votre propriété.",
+        "lastMessageTime": "2024-01-21T10:30:00Z",
+        "unreadCount": 1,
+        "propertyId": "PROP-001",
+        "propertyTitle": "Appartement 3 pièces - Genève",
+        "status": "active"
+      },
+      {
+        "id": "conv-host-2",
+        "participantId": "client-1",
+        "participantName": "Jean Martin",
+        "participantType": "client",
+        "lastMessage": "Merci pour l'accueil, l'appartement est parfait !",
+        "lastMessageTime": "2024-01-21T09:15:00Z",
+        "unreadCount": 0,
+        "propertyId": "PROP-002",
+        "propertyTitle": "Studio moderne - Lausanne",
+        "reservationId": "RES-001",
+        "status": "active"
+      },
+      {
+        "id": "conv-host-3",
+        "participantId": "agent-2",
+        "participantName": "Thomas Moreau",
+        "participantType": "agent",
+        "lastMessage": "Votre propriété a été sélectionnée pour un relogement d'urgence.",
+        "lastMessageTime": "2024-01-20T16:45:00Z",
+        "unreadCount": 0,
+        "propertyId": "PROP-003",
+        "propertyTitle": "Maison familiale - Nyon",
+        "status": "pending"
+      },
+      {
+        "id": "conv-host-4",
+        "participantId": "system",
+        "participantName": "Système",
+        "participantType": "system",
+        "lastMessage": "Nouvelle réservation confirmée pour votre propriété.",
+        "lastMessageTime": "2024-01-19T14:20:00Z",
+        "unreadCount": 0,
+        "propertyId": "PROP-001",
+        "propertyTitle": "Appartement 3 pièces - Genève",
+        "reservationId": "RES-002",
+        "status": "resolved"
+      }
+    ]
+  }
+}

@@ -187,11 +187,13 @@ export default function AssuranceStatistics({
     }, {} as { [key: string]: number });
 
     return Object.entries(statusCounts).map(([status, count]) => ({
-      name: status === "pending" ? "En attente" : 
+      name: status === "initie" ? "Initié" :
+            status === "pending" ? "En attente" : 
             status === "processing" ? "En cours" : 
             status === "completed" ? "Terminé" : "Annulé",
       value: count,
-      color: status === "pending" ? COLORS.warning :
+      color: status === "initie" ? COLORS.info :
+             status === "pending" ? COLORS.warning :
              status === "processing" ? COLORS.primary :
              status === "completed" ? COLORS.success : COLORS.danger
     }));

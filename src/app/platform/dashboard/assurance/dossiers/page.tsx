@@ -98,6 +98,7 @@ function AssuranceDossiersContent() {
 
   const getStatusColor = (status: string) => {
     switch (status) {
+      case "initie": return "text-gray-600";
       case "processing": return "text-blue-600";
       case "completed": return "text-green-600";
       case "pending": return "text-yellow-600";
@@ -108,6 +109,7 @@ function AssuranceDossiersContent() {
 
   const getStatusIcon = (status: string) => {
     switch (status) {
+      case "initie": return <FileText className="h-4 w-4" />;
       case "processing": return <Clock className="h-4 w-4" />;
       case "completed": return <CheckCircle2 className="h-4 w-4" />;
       case "pending": return <AlertTriangle className="h-4 w-4" />;
@@ -120,8 +122,7 @@ function AssuranceDossiersContent() {
     switch (priority) {
       case "high": return "bg-red-100 text-red-800";
       case "normal": return "bg-blue-100 text-blue-800";
-      case "low": return "bg-gray-100 text-gray-800";
-      default: return "bg-gray-100 text-gray-800";
+      default: return "bg-blue-100 text-blue-800";
     }
   };
 
@@ -220,9 +221,11 @@ function AssuranceDossiersContent() {
           <div className="flex gap-0.5">
             {[
               { key: "all", label: "Tous" },
-              { key: "pending", label: "En attente" },
+              { key: "initie", label: "Initié" },
               { key: "processing", label: "En cours" },
-              { key: "completed", label: "Terminé" }
+              { key: "completed", label: "Terminé" },
+              { key: "pending", label: "En attente" },
+              { key: "cancelled", label: "Annulé" }
             ].map((status) => (
               <button
                 key={status.key}
@@ -280,8 +283,7 @@ function AssuranceDossiersContent() {
             {[
               { key: "all", label: "Toutes" },
               { key: "high", label: "Haute" },
-              { key: "normal", label: "Normale" },
-              { key: "low", label: "Basse" }
+              { key: "normal", label: "Normale" }
             ].map((priority) => (
               <button
                 key={priority.key}
@@ -316,13 +318,11 @@ function AssuranceDossiersContent() {
       </div>
 
       {/* Results Summary */}
-      {(statusFilter !== "all" || typeFilter !== "all" || priorityFilter !== "all" || searchTerm !== "") && (
-        <div>
-          <span className="text-sm font-medium text-muted-foreground">
-            Résultats filtrés: {filteredCases.length} dossier(s)
-          </span>
-        </div>
-      )}
+      <div>
+        <span className="text-sm font-medium text-muted-foreground">
+          {filteredCases.length} dossier{filteredCases.length > 1 ? 's' : ''} affiché{filteredCases.length > 1 ? 's' : ''}
+        </span>
+      </div>
 
       {/* Cases List */}
       <div className="space-y-4">
@@ -334,17 +334,17 @@ function AssuranceDossiersContent() {
                 <div className="flex items-center gap-2">
                   {getStatusIcon(case_.status)}
                   <span className={`font-medium ${getStatusColor(case_.status)}`}>
-                    {case_.status === "processing" ? "En cours" : 
+                    {case_.status === "initie" ? "Initié" : 
+                     case_.status === "processing" ? "En cours" : 
                      case_.status === "completed" ? "Terminé" : 
                      case_.status === "pending" ? "En attente" : "Annulé"}
                   </span>
                 </div>
                 <span className={`px-2 py-1 rounded-full text-xs font-medium ${getPriorityColor(case_.priority)}`}>
-                  {case_.priority === "high" ? "Haute" : 
-                   case_.priority === "normal" ? "Normale" : "Basse"}
+                  {case_.priority === "high" ? "Haute" : "Normale"}
                 </span>
                 <span className="text-sm text-muted-foreground">
-                  {getTimeAgo(case_.updatedAt)}
+                  {case_.id}
                 </span>
               </div>
               
@@ -374,6 +374,10 @@ function AssuranceDossiersContent() {
                   <h4 className="font-semibold text-sm">Informations personnelles</h4>
                 </div>
                 <div className="space-y-2">
+                  <div className="flex justify-between items-center py-1">
+                    <span className="text-xs text-muted-foreground">Dossier</span>
+                    <span className="text-xs font-medium text-primary">{case_.id}</span>
+                  </div>
                   <div className="flex justify-between items-center py-1">
                     <span className="text-xs text-muted-foreground">Nom</span>
                     <span className="text-xs font-medium">

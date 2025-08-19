@@ -43,6 +43,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
         return [
           { href: '/platform/dashboard/assurance', icon: Home, label: 'Tableau de bord' },
           { href: '/platform/dashboard/assurance/dossiers', icon: FileText, label: 'Dossiers' },
+          { href: '/platform/dashboard/assurance/messages', icon: MessageSquare, label: 'Messages' },
           { href: '/platform/dashboard/assurance/statistiques', icon: BarChart3, label: 'Statistiques' },
           { href: '/platform/dashboard/assurance/profile', icon: User, label: 'Profil' },
         ];
@@ -51,6 +52,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
           { href: '/platform/dashboard/host', icon: Home, label: 'Tableau de bord' },
           { href: '/platform/dashboard/host/biens', icon: Building2, label: 'Mes biens' },
           { href: '/platform/dashboard/host/reservations', icon: Calendar, label: 'Réservations' },
+          { href: '/platform/dashboard/host/messages', icon: MessageSquare, label: 'Messages' },
           { href: '/platform/dashboard/host/revenus', icon: BarChart3, label: 'Revenus' },
           { href: '/platform/dashboard/host/profile', icon: User, label: 'Mon profil' },
         ];

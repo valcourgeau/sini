@@ -37,8 +37,8 @@ export interface RelocationData {
   };
   
   // System fields
-  status: "pending" | "processing" | "completed" | "cancelled";
-  priority: "high" | "normal" | "low";
+  status: "initie" | "pending" | "processing" | "completed" | "cancelled";
+  priority: "high" | "normal";
   createdAt: string;
   updatedAt: string;
   

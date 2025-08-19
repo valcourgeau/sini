@@ -71,7 +71,7 @@ export interface RelocationRequest {
   isLeaseTerminated: boolean | null;
   createdAt: Date;
   updatedAt: Date;
-  status: "pending" | "processing" | "completed" | "cancelled";
+  status: "initie" | "pending" | "processing" | "completed" | "cancelled";
 }
 
  
