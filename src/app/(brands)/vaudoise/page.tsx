@@ -58,15 +58,16 @@ export default function VaudoiseHomePage() {
   return (
     <main className="min-h-screen scroll-smooth">
       {/* First Section - Vaudoise Professional Background */}
-      <section id="home" className="relative hero-background-vaudoise min-h-[calc(100vh-4rem)] flex items-center justify-center scroll-mt-16">
-        {/* Background accent elements - Vaudoise themed */}
-        <div className="hero-accent-vaudoise hidden lg:block" />
-        <div className="hero-accent-circle-vaudoise-1 hidden lg:block" />
-        <div className="hero-accent-circle-vaudoise-2 hidden lg:block" />
-        <div className="hero-accent-circle-vaudoise-3 hidden lg:block" />
-        <div className="hero-accent-circle-vaudoise-4 hidden lg:block" />
-        <div className="hero-accent-circle-vaudoise-5 hidden lg:block" />
-        
+      <section 
+        id="home" 
+        className="relative min-h-[calc(100vh-4rem)] flex items-center justify-center scroll-mt-16"
+        style={{
+          backgroundImage: `url(${getImagePath('/lighthouse-red.JPG')})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center 60%',
+          backgroundRepeat: 'no-repeat'
+        }}
+      >
         {/* Content overlay */}
         <div className="hero-overlay-vaudoise" />
         
@@ -80,17 +81,17 @@ export default function VaudoiseHomePage() {
             
             {/* Enhanced title with Vaudoise branding */}
             <div className="mb-8">
-              <h1 className="text-3xl font-bold leading-tight tracking-tighter md:text-5xl lg:text-6xl lg:leading-[1.1] mb-4 animate-in fade-in duration-500 slide-in-from-bottom-4">
+              <h1 className="text-3xl font-bold leading-tight tracking-tighter md:text-5xl lg:text-6xl lg:leading-[1.1] mb-4 animate-in fade-in duration-500 slide-in-from-bottom-4 text-primary-foreground drop-shadow-lg">
                 Service de relogement d'urgence
               </h1>
               <div className="flex items-center justify-center gap-2 mt-4">
-                <span className="text-lg text-foreground font-semibold">Partenaire officiel</span>
-                <span className="text-xl font-bold text-foreground">Vaudoise Assurances</span>
+                <span className="text-lg text-primary-foreground font-semibold drop-shadow-xl">Partenaire officiel</span>
+                <span className="text-xl font-bold text-primary-foreground drop-shadow-xl">Vaudoise Assurances</span>
               </div>
             </div>
             
             {/* Enhanced subtitle */}
-            <p className="text-xl md:text-2xl text-muted-foreground mb-16 animate-in fade-in duration-500 delay-100 slide-in-from-bottom-4">
+            <p className="text-xl md:text-2xl text-primary-foreground/90 mb-16 animate-in fade-in duration-500 delay-100 slide-in-from-bottom-4 drop-shadow-md">
               pour le canton de Genève
             </p>
             
@@ -101,14 +102,14 @@ export default function VaudoiseHomePage() {
                 title="Sinistrés"
                 description="Particuliers affectés par un sinistre"
                 sectionId="sinistres"
-                opacity="80"
+                opacity="70"
               />
               <ScrollButton
                 iconName="landmark"
                 title="Assurances"
                 description="Professionnels de l'assurance"
                 sectionId="assurances"
-                opacity="80"
+                opacity="70"
               />
             </div>
           </div>

@@ -19,26 +19,30 @@ const sizes = {
 
 export function CollaborationLogo({ className, size = 'lg' }: CollaborationLogoProps) {
   return (
-    <div className={cn('flex items-center justify-center gap-6', className)}>
+    <div className={cn('flex items-center justify-center gap-12 translate-x-16', className)}>
       {/* Pharewest Logo */}
-      <Logo size={size === 'sm' ? 'sm' : size === 'md' ? 'md' : size === 'lg' ? 'lg' : 'xl'} />
+      <div className="text-accent drop-shadow-lg [text-shadow:_0_0_8px_rgba(255,255,255,0.3)]">
+        <Logo size={size === 'sm' ? 'sm' : size === 'md' ? 'md' : size === 'lg' ? 'lg' : 'xl'} />
+      </div>
       
       {/* Stylized × */}
       <div className={cn(
-        'flex items-center justify-center font-bold text-primary',
+        'flex items-center justify-center font-bold text-primary drop-shadow-lg [text-shadow:_0_0_8px_rgba(255,255,255,0.3)]',
         {
-          'text-xl': size === 'sm',
-          'text-2xl': size === 'md',
-          'text-3xl': size === 'lg',
-          'text-4xl': size === 'xl',
-          'text-5xl': size === '2xl',
+          'text-2xl': size === 'sm',
+          'text-3xl': size === 'md',
+          'text-4xl': size === 'lg',
+          'text-5xl': size === 'xl',
+          'text-6xl': size === '2xl',
         }
       )}>
         <span>×</span>
       </div>
       
       {/* Vaudoise Logo */}
-      <VaudoiseLogo size={size} />
+      <div className="drop-shadow-lg [filter:_drop-shadow(0_0_8px_rgba(255,255,255,0.3))]">
+        <VaudoiseLogo size={size} />
+      </div>
     </div>
   );
 } 

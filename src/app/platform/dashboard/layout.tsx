@@ -68,6 +68,17 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
     }
   };
 
+  // Simplified active tab detection
+  const isActiveTab = (href: string) => {
+    // Root dashboard - active when exactly on the root or when path starts with it
+    if (href === '/platform/dashboard/' + userType) {
+      return pathname === href || pathname === href + '/';
+    }
+    
+    // All other tabs - active when path starts with the href
+    return pathname.startsWith(href);
+  };
+
   const handleLogout = () => {
     router.push('/platform');
   };
@@ -113,50 +124,50 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
 
           {/* Navigation */}
           <nav className="flex-1 p-4 overflow-y-auto">
-            <ul className="space-y-1">
+            <ul className="space-y-2">
               {navigationItems.map((item) => {
-                const isActive = pathname === item.href;
+                const isActive = isActiveTab(item.href);
                 return (
                   <li key={item.href}>
-                    <Button
-                      variant="ghost"
+                    <div
                       className={cn(
-                        "w-full justify-start relative group transition-all duration-200 ease-in-out",
-                        "hover:bg-accent/20 hover:text-accent-foreground",
-                        "focus:bg-accent/20 focus:text-accent-foreground focus:ring-2 focus:ring-accent/50 focus:ring-offset-2 focus:ring-offset-primary",
-                        isActive && [
-                          "bg-secondary text-primary shadow-sm",
-                          "hover:bg-secondary/90 hover:text-primary",
-                          "before:absolute before:left-0 before:top-1/2 before:-translate-y-1/2",
-                          "before:w-1 before:h-8 before:bg-secondary before:rounded-r-full",
-                          "after:absolute after:left-0 after:top-0 after:bottom-0",
-                          "after:w-1 after:bg-accent after:rounded-r-full after:opacity-60"
-                        ]
+                        "w-full flex items-center px-4 py-3 rounded-lg cursor-pointer transition-colors duration-200 ease-in-out relative group",
+                        "focus:ring-2 focus:ring-accent/50 focus:ring-offset-2 focus:ring-offset-primary",
+                        isActive 
+                          ? [
+                              "bg-white text-primary shadow-md border border-primary/20",
+                              "hover:bg-white/90 hover:border-primary/30"
+                            ]
+                          : [
+                              "text-primary-foreground",
+                              "hover:bg-white/10 hover:text-white"
+                            ]
                       )}
                       onClick={() => {
                         router.push(item.href);
                         setIsSidebarOpen(false);
                       }}
+                      role="button"
+                      tabIndex={0}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter' || e.key === ' ') {
+                          e.preventDefault();
+                          router.push(item.href);
+                          setIsSidebarOpen(false);
+                        }
+                      }}
                     >
                       <item.icon className={cn(
-                        "h-4 w-4 mr-3 transition-transform duration-200",
-                        "group-hover:scale-110",
-                        isActive && "text-primary"
+                        "h-5 w-5 mr-3 transition-colors duration-200",
+                        isActive ? "text-primary" : "group-hover:text-white"
                       )} />
                       <span className={cn(
-                        "font-medium transition-colors duration-200",
+                        "font-semibold transition-colors duration-200",
                         isActive && "text-primary"
                       )}>
                         {item.label}
                       </span>
-                      
-                      {/* Hover indicator */}
-                      <div className={cn(
-                        "absolute inset-0 bg-accent/10 rounded-md opacity-0 transition-opacity duration-200",
-                        "group-hover:opacity-100",
-                        isActive && "hidden"
-                      )} />
-                    </Button>
+                    </div>
                   </li>
                 );
               })}
