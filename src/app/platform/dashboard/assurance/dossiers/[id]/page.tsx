@@ -36,7 +36,7 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
-import { cn } from "@/lib/utils";
+import { cn, renderStars } from "@/lib/utils";
 import Link from "next/link";
 import { RelocationData } from '@/types/relocation';
 import { getCaseById, needsRelocationOptions } from '@/lib/data-loader';
@@ -119,17 +119,7 @@ export default async function CaseDetailPage({ params }: PageProps) {
     }
   };
 
-  const renderStars = (rating: number) => {
-    return Array.from({ length: 5 }, (_, i) => (
-      <Star
-        key={i}
-        className={cn(
-          "h-4 w-4",
-          i < rating ? "text-primary fill-current" : "text-gray-300"
-        )}
-      />
-    ));
-  };
+
 
   const formatDate = (dateStr: string) => {
     if (!dateStr) return "Non spécifié";
@@ -656,8 +646,7 @@ export default async function CaseDetailPage({ params }: PageProps) {
             </div>
           )}
 
-          {/* Relocation Options Section - Client Component */}
-          <DossierDetailClient caseData={currentCaseData} />
+
         </div>
 
         {/* Right Column - Technical Information */}

@@ -38,7 +38,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
-import { cn } from "@/lib/utils";
+import { cn, renderStars } from "@/lib/utils";
 import Link from "next/link";
 
 import { RelocationData } from '@/types/relocation';
@@ -272,32 +272,7 @@ export default function AssuranceDashboard() {
     }
   };
 
-  const renderStars = (rating: number) => {
-    return Array.from({ length: 5 }, (_, i) => {
-      const starValue = i + 1;
-      const isFilled = starValue <= Math.floor(rating);
-      const isHalfFilled = !isFilled && starValue === Math.ceil(rating) && rating % 1 !== 0;
-      
-      return (
-        <div key={i} className="relative">
-          <Star
-            className={cn(
-              "h-4 w-4",
-              isFilled ? "text-primary fill-current" : "text-muted-foreground"
-            )}
-          />
-          {isHalfFilled && (
-            <div className="absolute inset-0 overflow-hidden">
-              <Star
-                className="h-4 w-4 text-primary fill-current"
-                style={{ clipPath: 'inset(0 50% 0 0)' }}
-              />
-            </div>
-          )}
-        </div>
-      );
-    });
-  };
+
 
   return (
     <div className="space-y-6">

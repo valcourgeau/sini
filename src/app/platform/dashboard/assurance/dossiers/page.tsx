@@ -37,7 +37,7 @@ import {
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { cn } from "@/lib/utils";
+import { cn, renderStars } from "@/lib/utils";
 import Link from "next/link";
 
 import { RelocationData } from '@/types/relocation';
@@ -126,17 +126,7 @@ function AssuranceDossiersContent() {
     }
   };
 
-  const renderStars = (rating: number) => {
-    return Array.from({ length: 5 }, (_, i) => (
-      <Star
-        key={i}
-        className={cn(
-          "h-4 w-4",
-          i < rating ? "text-primary fill-current" : "text-gray-300"
-        )}
-      />
-    ));
-  };
+
 
   const formatDate = (dateStr: string) => {
     if (!dateStr) return "Non spécifié";
