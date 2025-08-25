@@ -40,7 +40,7 @@ import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { RelocationData } from '@/types/relocation';
 import { getCaseById, needsRelocationOptions } from '@/lib/data-loader';
-import { DossierDetailClient } from '@/components/dossier-detail-client';
+import { DossierDetailClient, RelocationWarningWrapper } from '@/components/dossier-detail-client';
 
 // Generate static params for all mock case IDs
 export async function generateStaticParams() {
@@ -272,21 +272,11 @@ export default async function CaseDetailPage({ params }: PageProps) {
             </TooltipProvider>
           </div>
         </div>
-      </div>
+            </div>
 
       {/* Relocation Options Notification */}
       {needsOptions && (
-        <Card className="p-6 bg-yellow-50 border-yellow-200">
-          <div className="flex items-center gap-3 mb-4">
-            <div className="flex items-center justify-center w-8 h-8 bg-yellow-100 rounded-lg">
-              <AlertTriangle className="h-5 w-5 text-yellow-600" />
-            </div>
-            <h3 className="text-lg font-semibold text-foreground">Action requise</h3>
-          </div>
-          <p className="text-muted-foreground mb-4">
-            Ce dossier est en attente de sélection d'options de relogement. Veuillez en sélectionner 3 qui correspondent aux besoins du client pour pouvoir traiter ce dossier.
-          </p>
-        </Card>
+        <RelocationWarningWrapper caseData={currentCaseData} />
       )}
 
       {/* Main Content - Two Column Layout */}
