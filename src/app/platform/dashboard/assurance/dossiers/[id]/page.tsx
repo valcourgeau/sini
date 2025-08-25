@@ -36,7 +36,8 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
-import { cn, renderStars } from "@/lib/utils";
+import { cn } from "@/lib/utils";
+import { StarRating } from "@/components/ui/star-rating";
 import Link from "next/link";
 import { RelocationData } from '@/types/relocation';
 import { getCaseById, needsRelocationOptions } from '@/lib/data-loader';
@@ -741,7 +742,7 @@ export default async function CaseDetailPage({ params }: PageProps) {
               {currentCaseData.status === "completed" && currentCaseData.satisfaction ? (
                 <>
                   <div className="flex items-center gap-2">
-                    {renderStars(currentCaseData.satisfaction.rating)}
+                    <StarRating rating={currentCaseData.satisfaction.rating} />
                     <span className="text-sm font-bold text-primary">{currentCaseData.satisfaction.rating}/5</span>
                   </div>
                   {currentCaseData.satisfaction.feedback && (

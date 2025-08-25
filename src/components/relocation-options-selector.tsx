@@ -28,13 +28,15 @@ import {
   ChevronLeft,
   ChevronRight,
   X as CloseIcon,
-  AlertTriangle
+  AlertTriangle,
+  ArrowUp
 } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
-import { cn, renderStars } from "@/lib/utils";
+import { cn } from "@/lib/utils";
+import { StarRating } from "@/components/ui/star-rating";
 import { RelocationData } from "@/types/relocation";
 import { getMatchingRelocationOptions, getRelocationOptionById } from "@/lib/data-loader";
 
@@ -137,8 +139,8 @@ export function RelocationOptionsSelector({
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-4">
             <Button variant="ghost" size="sm" onClick={onCancel}>
-              <ArrowLeft className="h-4 w-4 mr-2" />
-              Retour
+              <ArrowUp className="h-4 w-4 mr-2" />
+              Fermer
             </Button>
             <div className="w-px h-6 bg-border"></div>
             <div>
@@ -302,9 +304,7 @@ export function RelocationOptionsSelector({
                   {/* Rating */}
                   {option.rating && (
                     <div className="flex items-center gap-2 mb-3">
-                      <div className="flex">
-                        {renderStars(option.rating.average)}
-                      </div>
+                      <StarRating rating={option.rating.average} />
                       <span className="text-sm text-muted-foreground">
                         {option.rating.average}/5 ({option.rating.count} avis)
                       </span>

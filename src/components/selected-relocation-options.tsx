@@ -21,7 +21,8 @@ import {
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { cn, renderStars } from "@/lib/utils";
+import { cn } from "@/lib/utils";
+import { StarRating } from "@/components/ui/star-rating";
 import { getRelocationOptionById } from "@/lib/data-loader";
 
 interface SelectedRelocationOptionsProps {
@@ -147,9 +148,7 @@ export function SelectedRelocationOptions({ selectedOptions, onEdit }: SelectedR
               {/* Rating */}
               {option.rating && (
                 <div className="flex items-center gap-2 mb-3">
-                  <div className="flex">
-                    {renderStars(option.rating.average)}
-                  </div>
+                  <StarRating rating={option.rating.average} />
                   <span className="text-sm text-muted-foreground">
                     {option.rating.average}/5 ({option.rating.count} avis)
                   </span>

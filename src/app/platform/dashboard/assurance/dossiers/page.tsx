@@ -37,7 +37,8 @@ import {
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { cn, renderStars } from "@/lib/utils";
+import { cn } from "@/lib/utils";
+import { StarRating } from "@/components/ui/star-rating";
 import Link from "next/link";
 
 import { RelocationData } from '@/types/relocation';
@@ -518,7 +519,7 @@ function AssuranceDossiersContent() {
                     <p className="text-xs text-muted-foreground">Satisfaction client</p>
                     {case_.status === "completed" && case_.satisfaction ? (
                       <div className="flex items-center gap-1">
-                        {renderStars(case_.satisfaction.rating)}
+                        <StarRating rating={case_.satisfaction.rating} className="h-3 w-3" />
                         <span className="text-xs font-medium ml-1">{case_.satisfaction.rating}/5</span>
                       </div>
                     ) : (

@@ -38,7 +38,8 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
-import { cn, renderStars } from "@/lib/utils";
+import { cn } from "@/lib/utils";
+import { StarRating } from "@/components/ui/star-rating";
 import Link from "next/link";
 
 import { RelocationData } from '@/types/relocation';
@@ -554,9 +555,7 @@ export default function AssuranceDashboard() {
               <p className="text-base font-semibold text-muted-foreground">Satisfaction client</p>
               <div className="flex flex-col gap-1">
                 <div className="flex items-center gap-3">
-                  <div className="flex">
-                    {renderStars(parseFloat(kpis.averageSatisfaction))}
-                  </div>
+                  <StarRating rating={parseFloat(kpis.averageSatisfaction)} className="h-6 w-6" />
                   <span className="text-2xl font-bold text-primary">{kpis.averageSatisfaction}/5</span>
                 </div>
                 <span className="text-sm text-muted-foreground">Sur cette période</span>
