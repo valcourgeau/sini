@@ -271,12 +271,11 @@ export default async function CaseDetailPage({ params }: PageProps) {
         <RelocationWarningWrapper caseData={currentCaseData} />
       )}
 
-      {/* Main Content - Two Column Layout */}
+      {/* Main Content - Grid Layout with Equal Heights */}
       <div className="grid lg:grid-cols-3 gap-6">
-        {/* Left Column - Main Information */}
-        <div className="lg:col-span-2 space-y-6">
-          {/* Personal Information */}
-          <div className="bg-card border border-border rounded-xl p-6 shadow-sm">
+        {/* Row 1: Personal Information (2 cols) + Agent Information (1 col) */}
+        <div className="lg:col-span-2">
+          <div className="bg-card border border-border rounded-xl p-6 shadow-sm h-full">
             <div className="flex flex-col lg:flex-row gap-8">
               {/* Contact Person Information */}
               <div className="flex-1">
@@ -305,9 +304,36 @@ export default async function CaseDetailPage({ params }: PageProps) {
               </div>
             </div>
           </div>
+        </div>
 
-          {/* Insurance & Address Information */}
-          <div className="bg-card border border-border rounded-xl p-6 shadow-sm">
+        <div className="lg:col-span-1">
+          <div className="bg-card border border-border rounded-xl p-6 shadow-sm h-full">
+            <div className="flex items-center gap-3 mb-6">
+              <div className="flex items-center justify-center w-8 h-8 bg-green-100 rounded-lg">
+                <Users className="h-5 w-5 text-green-600" />
+              </div>
+              <h3 className="text-lg font-semibold text-foreground">Agent responsable</h3>
+            </div>
+            <div className="space-y-3">
+              <div className="flex justify-between items-center py-1">
+                <span className="text-sm text-muted-foreground">Nom</span>
+                <span className="text-sm font-medium text-foreground">{currentCaseData.agent?.name || "Non assigné"}</span>
+              </div>
+              <div className="flex justify-between items-center py-1">
+                <span className="text-sm text-muted-foreground">Canton</span>
+                <span className="text-sm font-medium text-foreground">{currentCaseData.agent?.canton || "Non assigné"}</span>
+              </div>
+              <div className="flex justify-between items-center py-1">
+                <span className="text-sm text-muted-foreground">ID Agent</span>
+                <span className="text-sm font-medium text-foreground">{currentCaseData.agent?.id || "Non assigné"}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Row 2: Insurance & Address (2 cols) + Performance (1 col) */}
+        <div className="lg:col-span-2">
+          <div className="bg-card border border-border rounded-xl p-6 shadow-sm h-full">
             <div className="flex flex-col lg:flex-row gap-8">
               {/* Disaster Address Section */}
               <div className="flex-1">
@@ -387,9 +413,38 @@ export default async function CaseDetailPage({ params }: PageProps) {
               </div>
             </div>
           </div>
-          
-          {/* Relocation Preferences, Special Requirements & Arrival */}
-          <div className="bg-card border border-border rounded-xl p-6 shadow-sm">
+        </div>
+
+        <div className="lg:col-span-1">
+          <div className="bg-card border border-border rounded-xl p-6 shadow-sm h-full">
+            <div className="flex items-center gap-3 mb-6">
+              <div className="flex items-center justify-center w-8 h-8 bg-purple-100 rounded-lg">
+                <TrendingUp className="h-5 w-5 text-purple-600" />
+              </div>
+              <h3 className="text-lg font-semibold text-foreground">Performance</h3>
+            </div>
+            <div className="space-y-3">
+              {currentCaseData.responseTime && (
+                <div className="flex justify-between items-center py-1">
+                  <span className="text-sm text-muted-foreground">Délai d'acceptation</span>
+                  <span className="text-sm font-medium text-foreground">{currentCaseData.responseTime} jours</span>
+                </div>
+              )}
+              <div className="flex justify-between items-center py-1">
+                <span className="text-sm text-muted-foreground">Date de création</span>
+                <span className="text-sm font-medium text-foreground">{formatDate(currentCaseData.createdAt)}</span>
+              </div>
+              <div className="flex justify-between items-center py-1">
+                <span className="text-sm text-muted-foreground">Dernière mise à jour</span>
+                <span className="text-sm font-medium text-foreground">{formatDate(currentCaseData.updatedAt)}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Row 3: Relocation Preferences (2 cols) + Costs (1 col) */}
+        <div className="lg:col-span-2">
+          <div className="bg-card border border-border rounded-xl p-6 shadow-sm h-full">
             <div className="flex flex-col lg:flex-row gap-8">
               {/* Relocation Preferences Section */}
               <div className="flex-1">
@@ -554,158 +609,11 @@ export default async function CaseDetailPage({ params }: PageProps) {
               </div>
             </div>
           </div>
-
-          {/* Multiple Relocation Requests - Detailed View */}
-          {currentCaseData.relocationType === "multiple" && (
-            <div className="bg-card border border-border rounded-xl p-6 shadow-sm">
-              <div className="flex items-center gap-3 mb-6">
-                <div className="flex items-center justify-center w-8 h-8 bg-blue-100 rounded-lg">
-                  <Users className="h-5 w-5 text-blue-600" />
-                </div>
-                <h3 className="text-lg font-semibold text-foreground">Détails des demandes</h3>
-              </div>
-              <div className="space-y-4">
-                {currentCaseData.relocationRequests.map((request, index) => (
-                  <div key={index} className="border rounded-lg p-4 bg-gray-50">
-                    <div className="flex items-center justify-between mb-3">
-                      <h4 className="font-medium text-foreground">
-                        {request.firstName} {request.lastName}
-                      </h4>
-                      <Badge variant="outline" className="text-xs">
-                        Demande {index + 1}
-                      </Badge>
-                    </div>
-                    
-                    <div className="grid md:grid-cols-2 gap-4">
-                      <div className="space-y-2">
-                        <div className="flex justify-between items-center">
-                          <span className="text-xs text-muted-foreground">Email</span>
-                          <span className="text-xs text-foreground">{request.email}</span>
-                        </div>
-                        <div className="flex justify-between items-center">
-                          <span className="text-xs text-muted-foreground">Téléphone</span>
-                          <span className="text-xs text-foreground">{request.phone}</span>
-                        </div>
-                        <div className="flex justify-between items-center">
-                          <span className="text-xs text-muted-foreground">Chambres</span>
-                          <span className="text-xs font-medium">{request.bedrooms}</span>
-                        </div>
-                        <div className="flex justify-between items-center">
-                          <span className="text-xs text-muted-foreground">Personnes</span>
-                          <span className="text-xs font-medium">{request.adults + request.children}</span>
-                        </div>
-                      </div>
-                      
-                      <div className="space-y-2">
-                        <div className="flex justify-between items-center">
-                          <span className="text-xs text-muted-foreground">Arrivée</span>
-                          <span className="text-xs text-foreground">{formatDate(request.arrivalDate)}</span>
-                        </div>
-                        <div className="flex justify-between items-center">
-                          <span className="text-xs text-muted-foreground">
-                            {request.useExactDates ? "Départ" : "Durée"}
-                          </span>
-                          <span className="text-xs text-foreground">
-                            {request.useExactDates && request.departureDate
-                              ? formatDate(request.departureDate)
-                              : request.estimatedDuration || "Non spécifié"
-                            }
-                          </span>
-                        </div>
-                        <div className="flex justify-between items-center">
-                          <span className="text-xs text-muted-foreground">Assurance</span>
-                          <span className="text-xs font-medium">
-                            {request.hasInsurance ? "Oui" : "Non"}
-                          </span>
-                        </div>
-                        {request.specialNeeds && (
-                          <div className="flex justify-between items-center">
-                            <span className="text-xs text-muted-foreground">Besoins spéciaux</span>
-                            <span className="text-xs text-foreground">{request.specialNeeds}</span>
-                          </div>
-                        )}
-                      </div>
-                    </div>
-                    
-                    {/* Specific needs icons */}
-                    <div className="flex items-center gap-2 mt-3 pt-3 border-t">
-                      {request.hasAnimals && (
-                        <PawPrint className="h-3 w-3 text-primary" />
-                      )}
-                      {request.hasAccessibilityNeeds && (
-                        <Accessibility className="h-3 w-3 text-primary" />
-                      )}
-                      {request.needsParking && (
-                        <Car className="h-3 w-3 text-primary" />
-                      )}
-                      {!request.hasAnimals && !request.hasAccessibilityNeeds && !request.needsParking && (
-                        <span className="text-xs text-muted-foreground">Aucun besoin spécifique</span>
-                      )}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-
-
         </div>
 
-        {/* Right Column - Technical Information */}
-        <div className="space-y-6">
-          {/* Agent Information */}
-          <div className="bg-card border border-border rounded-xl p-6 shadow-sm">
-            <div className="flex items-center gap-3 mb-6">
-              <div className="flex items-center justify-center w-8 h-8 bg-green-100 rounded-lg">
-                <Users className="h-5 w-5 text-green-600" />
-              </div>
-              <h3 className="text-lg font-semibold text-foreground">Agent responsable</h3>
-            </div>
-            <div className="space-y-3">
-              <div className="flex justify-between items-center py-1">
-                <span className="text-sm text-muted-foreground">Nom</span>
-                <span className="text-sm font-medium text-foreground">{currentCaseData.agent?.name || "Non assigné"}</span>
-              </div>
-              <div className="flex justify-between items-center py-1">
-                <span className="text-sm text-muted-foreground">Canton</span>
-                <span className="text-sm font-medium text-foreground">{currentCaseData.agent?.canton || "Non assigné"}</span>
-              </div>
-              <div className="flex justify-between items-center py-1">
-                <span className="text-sm text-muted-foreground">ID Agent</span>
-                <span className="text-sm font-medium text-foreground">{currentCaseData.agent?.id || "Non assigné"}</span>
-              </div>
-            </div>
-          </div>
-
-          {/* Performance Metrics */}
-          <div className="bg-card border border-border rounded-xl p-6 shadow-sm">
-            <div className="flex items-center gap-3 mb-6">
-              <div className="flex items-center justify-center w-8 h-8 bg-purple-100 rounded-lg">
-                <TrendingUp className="h-5 w-5 text-purple-600" />
-              </div>
-              <h3 className="text-lg font-semibold text-foreground">Performance</h3>
-            </div>
-            <div className="space-y-3">
-              {currentCaseData.responseTime && (
-                <div className="flex justify-between items-center py-1">
-                  <span className="text-sm text-muted-foreground">Délai d'acceptation</span>
-                  <span className="text-sm font-medium text-foreground">{currentCaseData.responseTime} jours</span>
-                </div>
-              )}
-              <div className="flex justify-between items-center py-1">
-                <span className="text-sm text-muted-foreground">Date de création</span>
-                <span className="text-sm font-medium text-foreground">{formatDate(currentCaseData.createdAt)}</span>
-              </div>
-              <div className="flex justify-between items-center py-1">
-                <span className="text-sm text-muted-foreground">Dernière mise à jour</span>
-                <span className="text-sm font-medium text-foreground">{formatDate(currentCaseData.updatedAt)}</span>
-              </div>
-            </div>
-          </div>
-
-          {/* Costs */}
-          {currentCaseData.cost && (
-            <div className="bg-card border border-border rounded-xl p-6 shadow-sm">
+        <div className="lg:col-span-1">
+          {currentCaseData.cost ? (
+            <div className="bg-card border border-border rounded-xl p-6 shadow-sm h-full">
               <div className="flex items-center gap-3 mb-6">
                 <div className="flex items-center justify-center w-8 h-8 bg-emerald-100 rounded-lg">
                   <Wallet className="h-5 w-5 text-emerald-600" />
@@ -729,39 +637,167 @@ export default async function CaseDetailPage({ params }: PageProps) {
                 </div>
               </div>
             </div>
-          )}
-
-          {/* Customer Satisfaction */}
-          <div className="bg-card border border-border rounded-xl p-6 shadow-sm">
-            <div className="flex items-center gap-3 mb-6">
-              <div className="flex items-center justify-center w-8 h-8 bg-yellow-100 rounded-lg">
-                <Star className="h-5 w-5 text-yellow-600" />
+          ) : (
+            <div className="bg-card border border-border rounded-xl p-6 shadow-sm h-full">
+              <div className="flex items-center gap-3 mb-6">
+                <div className="flex items-center justify-center w-8 h-8 bg-yellow-100 rounded-lg">
+                  <Star className="h-5 w-5 text-yellow-600" />
+                </div>
+                <h3 className="text-lg font-semibold text-foreground">Satisfaction client</h3>
               </div>
-              <h3 className="text-lg font-semibold text-foreground">Satisfaction client</h3>
-            </div>
-            <div className="space-y-3">
-              {currentCaseData.status === "completed" && currentCaseData.satisfaction ? (
-                <>
-                  <div className="flex items-center gap-2">
-                    <StarRating rating={currentCaseData.satisfaction.rating} />
-                    <span className="text-sm font-bold text-primary">{currentCaseData.satisfaction.rating}/5</span>
+              <div className="space-y-3">
+                {currentCaseData.status === "completed" && currentCaseData.satisfaction ? (
+                  <>
+                    <div className="flex items-center gap-2">
+                      <StarRating rating={currentCaseData.satisfaction.rating} />
+                      <span className="text-sm font-bold text-primary">{currentCaseData.satisfaction.rating}/5</span>
+                    </div>
+                    {currentCaseData.satisfaction.feedback && (
+                      <div className="flex justify-between items-start py-1">
+                        <span className="text-sm text-muted-foreground">Commentaire</span>
+                        <span className="text-sm text-foreground italic">"{currentCaseData.satisfaction.feedback}"</span>
+                      </div>
+                    )}
+                  </>
+                ) : (
+                  <div className="text-center py-4">
+                    <Clock className="h-8 w-8 text-muted-foreground mx-auto mb-2" />
+                    <p className="text-sm text-muted-foreground">En attente du retour client</p>
                   </div>
-                  {currentCaseData.satisfaction.feedback && (
-                    <div className="flex justify-between items-start py-1">
-                      <span className="text-sm text-muted-foreground">Commentaire</span>
-                      <span className="text-sm text-foreground italic">"{currentCaseData.satisfaction.feedback}"</span>
+                )}
+              </div>
+            </div>
+          )}
+        </div>
+
+        {/* Row 4: Multiple Relocation Requests (2 cols) + Customer Satisfaction (1 col) */}
+        {currentCaseData.relocationType === "multiple" && (
+          <>
+            <div className="lg:col-span-2">
+              <div className="bg-card border border-border rounded-xl p-6 shadow-sm h-full">
+                <div className="flex items-center gap-3 mb-6">
+                  <div className="flex items-center justify-center w-8 h-8 bg-blue-100 rounded-lg">
+                    <Users className="h-5 w-5 text-blue-600" />
+                  </div>
+                  <h3 className="text-lg font-semibold text-foreground">Détails des demandes</h3>
+                </div>
+                <div className="space-y-4">
+                  {currentCaseData.relocationRequests.map((request, index) => (
+                    <div key={index} className="border rounded-lg p-4 bg-gray-50">
+                      <div className="flex items-center justify-between mb-3">
+                        <h4 className="font-medium text-foreground">
+                          {request.firstName} {request.lastName}
+                        </h4>
+                        <Badge variant="outline" className="text-xs">
+                          Demande {index + 1}
+                        </Badge>
+                      </div>
+                      
+                      <div className="grid md:grid-cols-2 gap-4">
+                        <div className="space-y-2">
+                          <div className="flex justify-between items-center">
+                            <span className="text-xs text-muted-foreground">Email</span>
+                            <span className="text-xs text-foreground">{request.email}</span>
+                          </div>
+                          <div className="flex justify-between items-center">
+                            <span className="text-xs text-muted-foreground">Téléphone</span>
+                            <span className="text-xs text-foreground">{request.phone}</span>
+                          </div>
+                          <div className="flex justify-between items-center">
+                            <span className="text-xs text-muted-foreground">Chambres</span>
+                            <span className="text-xs font-medium">{request.bedrooms}</span>
+                          </div>
+                          <div className="flex justify-between items-center">
+                            <span className="text-xs text-muted-foreground">Personnes</span>
+                            <span className="text-xs font-medium">{request.adults + request.children}</span>
+                          </div>
+                        </div>
+                        
+                        <div className="space-y-2">
+                          <div className="flex justify-between items-center">
+                            <span className="text-xs text-muted-foreground">Arrivée</span>
+                            <span className="text-xs text-foreground">{formatDate(request.arrivalDate)}</span>
+                          </div>
+                          <div className="flex justify-between items-center">
+                            <span className="text-xs text-muted-foreground">
+                              {request.useExactDates ? "Départ" : "Durée"}
+                            </span>
+                            <span className="text-xs text-foreground">
+                              {request.useExactDates && request.departureDate
+                                ? formatDate(request.departureDate)
+                                : request.estimatedDuration || "Non spécifié"
+                              }
+                            </span>
+                          </div>
+                          <div className="flex justify-between items-center">
+                            <span className="text-xs text-muted-foreground">Assurance</span>
+                            <span className="text-xs font-medium">
+                              {request.hasInsurance ? "Oui" : "Non"}
+                            </span>
+                          </div>
+                          {request.specialNeeds && (
+                            <div className="flex justify-between items-center">
+                              <span className="text-xs text-muted-foreground">Besoins spéciaux</span>
+                              <span className="text-xs text-foreground">{request.specialNeeds}</span>
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                      
+                      {/* Specific needs icons */}
+                      <div className="flex items-center gap-2 mt-3 pt-3 border-t">
+                        {request.hasAnimals && (
+                          <PawPrint className="h-3 w-3 text-primary" />
+                        )}
+                        {request.hasAccessibilityNeeds && (
+                          <Accessibility className="h-3 w-3 text-primary" />
+                        )}
+                        {request.needsParking && (
+                          <Car className="h-3 w-3 text-primary" />
+                        )}
+                        {!request.hasAnimals && !request.hasAccessibilityNeeds && !request.needsParking && (
+                          <span className="text-xs text-muted-foreground">Aucun besoin spécifique</span>
+                        )}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            <div className="lg:col-span-1">
+              <div className="bg-card border border-border rounded-xl p-6 shadow-sm h-full">
+                <div className="flex items-center gap-3 mb-6">
+                  <div className="flex items-center justify-center w-8 h-8 bg-yellow-100 rounded-lg">
+                    <Star className="h-5 w-5 text-yellow-600" />
+                  </div>
+                  <h3 className="text-lg font-semibold text-foreground">Satisfaction client</h3>
+                </div>
+                <div className="space-y-3">
+                  {currentCaseData.status === "completed" && currentCaseData.satisfaction ? (
+                    <>
+                      <div className="flex items-center gap-2">
+                        <StarRating rating={currentCaseData.satisfaction.rating} />
+                        <span className="text-sm font-bold text-primary">{currentCaseData.satisfaction.rating}/5</span>
+                      </div>
+                      {currentCaseData.satisfaction.feedback && (
+                        <div className="flex justify-between items-start py-1">
+                          <span className="text-sm text-muted-foreground">Commentaire</span>
+                          <span className="text-sm text-foreground italic">"{currentCaseData.satisfaction.feedback}"</span>
+                        </div>
+                      )}
+                    </>
+                  ) : (
+                    <div className="text-center py-4">
+                      <Clock className="h-8 w-8 text-muted-foreground mx-auto mb-2" />
+                      <p className="text-sm text-muted-foreground">En attente du retour client</p>
                     </div>
                   )}
-                </>
-              ) : (
-                <div className="text-center py-4">
-                  <Clock className="h-8 w-8 text-muted-foreground mx-auto mb-2" />
-                  <p className="text-sm text-muted-foreground">En attente du retour client</p>
                 </div>
-              )}
+              </div>
             </div>
-          </div>
-        </div>
+          </>
+        )}
       </div>
     </div>
   );
