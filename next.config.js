@@ -3,6 +3,7 @@ const nextConfig = {
   reactStrictMode: true,
   output: process.env.NODE_ENV === 'production' ? 'export' : undefined,
   distDir: process.env.NODE_ENV === 'production' ? 'out' : '.next',
+  outputFileTracingRoot: __dirname,
   images: {
     unoptimized: true,
   },

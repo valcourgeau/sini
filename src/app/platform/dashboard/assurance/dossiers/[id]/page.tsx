@@ -40,14 +40,24 @@ import { cn } from "@/lib/utils";
 import { StarRating } from "@/components/ui/star-rating";
 import Link from "next/link";
 import { RelocationData } from '@/types/relocation';
-import { getCaseById, needsRelocationOptions, relocationCases } from '@/lib/data-loader';
+import { getCaseById, needsRelocationOptions } from '@/lib/data-loader';
 import { DossierDetailClient, RelocationWarningWrapper } from '@/components/dossier-detail-client';
 
-// Generate static params for all available case IDs
+// Generate static params for all mock case IDs
 export async function generateStaticParams() {
-  return relocationCases.map(case_ => ({
-    id: case_.id,
-  }));
+  return [
+    { id: "REL-001" },
+    { id: "REL-002" },
+    { id: "REL-003" },
+    { id: "REL-004" },
+    { id: "REL-005" },
+    { id: "REL-006" },
+    { id: "REL-007" },
+    { id: "REL-008" },
+    { id: "REL-009" },
+    { id: "REL-010" },
+    { id: "REL-011" },
+  ];
 }
 
 interface PageProps {
