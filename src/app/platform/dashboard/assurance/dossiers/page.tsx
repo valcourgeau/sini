@@ -41,7 +41,7 @@ import { cn } from "@/lib/utils";
 import Link from "next/link";
 
 import { RelocationData } from '@/types/relocation';
-import { relocationCases, getPrimaryRequest, getTotalPeople, hasSpecialNeeds, getTotalBedrooms, hasInsuranceCoverage, getArrivalDateRange } from '@/lib/data-loader';
+import { relocationCases, getPrimaryRequest, getTotalPeople, hasSpecialNeeds, getTotalBedrooms, hasInsuranceCoverage, getArrivalDateRange, needsRelocationOptions } from '@/lib/data-loader';
 
 // Separate component that uses useSearchParams
 function AssuranceDossiersContent() {
@@ -326,240 +326,249 @@ function AssuranceDossiersContent() {
 
       {/* Cases List */}
       <div className="space-y-4">
-        {filteredCases.map((case_) => (
-          <Card key={case_.id} className="p-6">
-            {/* Header with Reference Number, Status and Priority */}
-            <div className="flex items-center justify-between mb-6">
-              <div className="flex items-center gap-4">
-                <span className="text-lg font-semibold text-primary">
-                  {case_.id}
-                </span>
-                <div className="w-px h-4 bg-muted-foreground/30"></div>
-                <div className="flex items-center gap-2">
-                  {getStatusIcon(case_.status)}
-                  <span className={`font-medium ${getStatusColor(case_.status)}`}>
-                    {case_.status === "initie" ? "Initié" : 
-                     case_.status === "processing" ? "En cours" : 
-                     case_.status === "completed" ? "Terminé" : 
-                     case_.status === "pending" ? "En attente" : "Annulé"}
+        {filteredCases.map((case_) => {
+          const needsOptions = needsRelocationOptions(case_);
+          
+          return (
+            <Card key={case_.id} className="p-6">
+              {/* Header with Reference Number, Status and Priority */}
+              <div className="flex items-center justify-between mb-6">
+                <div className="flex items-center gap-4">
+                  <span className="text-lg font-semibold text-primary">
+                    {case_.id}
                   </span>
+                  <div className="w-px h-4 bg-muted-foreground/30"></div>
+                  <div className="flex items-center gap-2">
+                    {getStatusIcon(case_.status)}
+                    <span className={`font-medium ${getStatusColor(case_.status)}`}>
+                      {case_.status === "initie" ? "Initié" : 
+                       case_.status === "processing" ? "En cours" : 
+                       case_.status === "completed" ? "Terminé" : 
+                       case_.status === "pending" ? "En attente" : "Annulé"}
+                    </span>
+                  </div>
+                  <span className={`px-2 py-1 rounded-full text-xs font-medium ${getPriorityColor(case_.priority)}`}>
+                    {case_.priority === "high" ? "Haute" : "Normale"}
+                  </span>
+                  {needsOptions && (
+                    <span className="px-2 py-1 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800 border border-yellow-300">
+                      Action requise
+                    </span>
+                  )}
                 </div>
-                <span className={`px-2 py-1 rounded-full text-xs font-medium ${getPriorityColor(case_.priority)}`}>
-                  {case_.priority === "high" ? "Haute" : "Normale"}
-                </span>
+                
+                <div className="flex items-center gap-2">
+                  <Link href={`/platform/dashboard/assurance/dossiers/${case_.id}`}>
+                    <Button variant="outline" size="sm">
+                      <Eye className="h-4 w-4" />
+                    </Button>
+                  </Link>
+                  <Button variant="outline" size="sm">
+                    <Edit className="h-4 w-4" />
+                  </Button>
+                  <Button variant="outline" size="sm">
+                    <Download className="h-4 w-4" />
+                  </Button>
+                </div>
               </div>
               
-              <div className="flex items-center gap-2">
-                <Link href={`/platform/dashboard/assurance/dossiers/${case_.id}`}>
-                  <Button variant="outline" size="sm">
-                    <Eye className="h-4 w-4" />
-                  </Button>
-                </Link>
-                <Button variant="outline" size="sm">
-                  <Edit className="h-4 w-4" />
-                </Button>
-                <Button variant="outline" size="sm">
-                  <Download className="h-4 w-4" />
-                </Button>
-              </div>
-            </div>
-            
-            {/* Main Content with Vertical Dividers */}
-            <div className="flex flex-col lg:flex-row gap-8">
-              {/* Personal Information */}
-              <div className="flex-1">
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="flex items-center justify-center w-6 h-6 bg-blue-100 rounded-lg">
-                    <User className="h-4 w-4 text-blue-600" />
+              {/* Main Content with Vertical Dividers */}
+              <div className="flex flex-col lg:flex-row gap-8">
+                {/* Personal Information */}
+                <div className="flex-1">
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="flex items-center justify-center w-6 h-6 bg-blue-100 rounded-lg">
+                      <User className="h-4 w-4 text-blue-600" />
+                    </div>
+                    <h4 className="font-semibold text-sm">Informations personnelles</h4>
                   </div>
-                  <h4 className="font-semibold text-sm">Informations personnelles</h4>
-                </div>
-                <div className="space-y-2">
-                  <div className="flex justify-between items-center py-1">
-                    <span className="text-xs text-muted-foreground">Dossier</span>
-                    <span className="text-xs font-medium text-primary">{case_.id}</span>
-                  </div>
-                  <div className="flex justify-between items-center py-1">
-                    <span className="text-xs text-muted-foreground">Nom</span>
-                    <span className="text-xs font-medium">
-                      {case_.contactPerson.firstName} {case_.contactPerson.lastName}
-                    </span>
-                  </div>
-                  <div className="flex justify-between items-center py-1">
-                    <span className="text-xs text-muted-foreground">Email</span>
-                    <span className="text-xs font-medium">{case_.contactPerson.email}</span>
-                  </div>
-                  <div className="flex justify-between items-center py-1">
-                    <span className="text-xs text-muted-foreground">Téléphone</span>
-                    <span className="text-xs font-medium">{case_.contactPerson.phone}</span>
-                  </div>
-                </div>
-              </div>
-
-              {/* Vertical Separator */}
-              <div className="hidden lg:block w-px bg-border"></div>
-
-              {/* Disaster Address */}
-              <div className="flex-1">
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="flex items-center justify-center w-6 h-6 bg-red-100 rounded-lg">
-                    <MapPin className="h-4 w-4 text-red-600" />
-                  </div>
-                  <h4 className="font-semibold text-sm">Adresse du sinistre</h4>
-                </div>
-                <div className="space-y-2">
-                  <div className="flex justify-between items-center py-1">
-                    <span className="text-xs text-muted-foreground">Adresse</span>
-                    <span className="text-xs font-medium">{case_.disasterAddress.street}</span>
-                  </div>
-                  <div className="flex justify-between items-center py-1">
-                    <span className="text-xs text-muted-foreground">Ville</span>
-                    <span className="text-xs font-medium">
-                      {case_.disasterAddress.city}, {case_.disasterAddress.postalCode}
-                    </span>
-                  </div>
-                  <div className="flex justify-between items-center py-1">
-                    <span className="text-xs text-muted-foreground">Canton</span>
-                    <span className="text-xs font-medium">{case_.disasterAddress.canton}</span>
-                  </div>
-                </div>
-              </div>
-
-              {/* Vertical Separator */}
-              <div className="hidden lg:block w-px bg-border"></div>
-
-              {/* Relocation Details */}
-              <div className="flex-1">
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="flex items-center justify-center w-6 h-6 bg-indigo-100 rounded-lg">
-                    <Home className="h-4 w-4 text-indigo-600" />
-                  </div>
-                  <h4 className="font-semibold text-sm">Détails du relogement</h4>
-                </div>
-                <div className="space-y-2">
-                  <div className="flex justify-between items-center py-1">
-                    <span className="text-xs text-muted-foreground">Type</span>
-                    <span className="text-xs font-medium">
-                      {case_.relocationType === "single" ? "Simple" : "Multiple"}
-                    </span>
-                  </div>
-                  {case_.relocationRequests && case_.relocationRequests.length > 0 && (
-                    <>
-                      <div className="flex justify-between items-center py-1">
-                        <span className="text-xs text-muted-foreground">Chambres</span>
-                        <span className="text-xs font-medium">{case_.relocationRequests[0].bedrooms}</span>
-                      </div>
-                      <div className="flex justify-between items-center py-1">
-                        <span className="text-xs text-muted-foreground">Personnes</span>
-                        <span className="text-xs font-medium">
-                          {case_.relocationRequests[0].adults + case_.relocationRequests[0].children}
-                        </span>
-                      </div>
-                    </>
-                  )}
-                  {case_.relocationRequests && case_.relocationRequests.length > 0 && (
+                  <div className="space-y-2">
                     <div className="flex justify-between items-center py-1">
-                      <span className="text-xs text-muted-foreground">Dates</span>
+                      <span className="text-xs text-muted-foreground">Dossier</span>
+                      <span className="text-xs font-medium text-primary">{case_.id}</span>
+                    </div>
+                    <div className="flex justify-between items-center py-1">
+                      <span className="text-xs text-muted-foreground">Nom</span>
                       <span className="text-xs font-medium">
-                        {case_.relocationRequests[0].useExactDates && case_.relocationRequests[0].departureDate
-                          ? `${formatDate(case_.relocationRequests[0].arrivalDate)} - ${formatDate(case_.relocationRequests[0].departureDate)} (${getNumberOfNights(case_.relocationRequests[0].arrivalDate, case_.relocationRequests[0].departureDate)} nuits)`
-                          : `${formatDate(case_.relocationRequests[0].arrivalDate)} (${case_.relocationRequests[0].estimatedDuration})`
-                        }
+                        {case_.contactPerson.firstName} {case_.contactPerson.lastName}
                       </span>
                     </div>
-                  )}
-                </div>
-              </div>
-            </div>
-            
-            {/* Bottom Row with Performance Metrics */}
-            <div className="grid lg:grid-cols-4 gap-4 mt-6 pt-4 border-t">
-              {/* Agent Responsible */}
-              <div className="flex items-center gap-3">
-                <div className="flex items-center justify-center w-6 h-6 bg-green-100 rounded-lg">
-                  <Users className="h-4 w-4 text-green-600" />
-                </div>
-                <div>
-                  <p className="text-xs text-muted-foreground">Agent responsable</p>
-                  <p className="text-xs font-medium">{case_.agent?.name || "Non assigné"}</p>
-                </div>
-              </div>
-              
-              {/* Performance Metrics */}
-              {case_.responseTime && (
-                <div className="flex items-center gap-3">
-                  <div className="flex items-center justify-center w-6 h-6 bg-purple-100 rounded-lg">
-                    <Clock className="h-4 w-4 text-purple-600" />
-                  </div>
-                  <div>
-                    <p className="text-xs text-muted-foreground">Délai d'acceptation</p>
-                    <p className="text-xs font-medium">{case_.responseTime} jours</p>
-                  </div>
-                </div>
-              )}
-              
-              {/* Costs */}
-              {case_.cost && (
-                <div className="flex items-center gap-3">
-                  <div className="flex items-center justify-center w-6 h-6 bg-emerald-100 rounded-lg">
-                    <Wallet className="h-4 w-4 text-emerald-600" />
-                  </div>
-                  <div>
-                    <p className="text-xs text-muted-foreground">Coût total</p>
-                    <p className="text-xs font-medium text-green-600">CHF {case_.cost.totalCost}</p>
-                  </div>
-                </div>
-              )}
-              
-              {/* Client Satisfaction */}
-              <div className="flex items-center gap-3">
-                <div className="flex items-center justify-center w-6 h-6 bg-yellow-100 rounded-lg">
-                  <Star className="h-4 w-4 text-yellow-600" />
-                </div>
-                <div>
-                  <p className="text-xs text-muted-foreground">Satisfaction client</p>
-                  {case_.status === "completed" && case_.satisfaction ? (
-                    <div className="flex items-center gap-1">
-                      {renderStars(case_.satisfaction.rating)}
-                      <span className="text-xs font-medium ml-1">{case_.satisfaction.rating}/5</span>
+                    <div className="flex justify-between items-center py-1">
+                      <span className="text-xs text-muted-foreground">Email</span>
+                      <span className="text-xs font-medium">{case_.contactPerson.email}</span>
                     </div>
-                  ) : (
-                    <p className="text-xs text-muted-foreground">En attente du retour client</p>
-                  )}
-                </div>
-              </div>
-            </div>
-
-            {/* Declaration de sinistre */}
-            {case_.insurance && (
-              <div className="mt-4 pt-4 border-t">
-                <div className="flex items-center gap-3">
-                  <div className="flex items-center justify-center w-6 h-6 bg-orange-100 rounded-lg">
-                    <File className="h-4 w-4 text-orange-600" />
+                    <div className="flex justify-between items-center py-1">
+                      <span className="text-xs text-muted-foreground">Téléphone</span>
+                      <span className="text-xs font-medium">{case_.contactPerson.phone}</span>
+                    </div>
                   </div>
-                  <div className="flex items-center gap-2">
-                    <span className="text-xs text-muted-foreground">Déclaration de sinistre:</span>
-                    {case_.insurance.hasInsurance ? (
-                      <div className="flex items-center gap-2">
-                        <CheckCircle className="h-3 w-3 text-green-500" />
-                        <span className="text-xs font-medium text-green-600">Téléchargée</span>
-                        <Button variant="outline" size="sm" className="h-6 px-2 text-xs">
-                          <Download className="h-3 w-3 mr-1" />
-                          Télécharger
-                        </Button>
-                      </div>
-                    ) : (
-                      <div className="flex items-center gap-2">
-                        <AlertTriangle className="h-3 w-3 text-orange-500" />
-                        <span className="text-xs font-medium text-orange-600">Non téléchargée</span>
+                </div>
+
+                {/* Vertical Separator */}
+                <div className="hidden lg:block w-px bg-border"></div>
+
+                {/* Disaster Address */}
+                <div className="flex-1">
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="flex items-center justify-center w-6 h-6 bg-red-100 rounded-lg">
+                      <MapPin className="h-4 w-4 text-red-600" />
+                    </div>
+                    <h4 className="font-semibold text-sm">Adresse du sinistre</h4>
+                  </div>
+                  <div className="space-y-2">
+                    <div className="flex justify-between items-center py-1">
+                      <span className="text-xs text-muted-foreground">Adresse</span>
+                      <span className="text-xs font-medium">{case_.disasterAddress.street}</span>
+                    </div>
+                    <div className="flex justify-between items-center py-1">
+                      <span className="text-xs text-muted-foreground">Ville</span>
+                      <span className="text-xs font-medium">
+                        {case_.disasterAddress.city}, {case_.disasterAddress.postalCode}
+                      </span>
+                    </div>
+                    <div className="flex justify-between items-center py-1">
+                      <span className="text-xs text-muted-foreground">Canton</span>
+                      <span className="text-xs font-medium">{case_.disasterAddress.canton}</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Vertical Separator */}
+                <div className="hidden lg:block w-px bg-border"></div>
+
+                {/* Relocation Details */}
+                <div className="flex-1">
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="flex items-center justify-center w-6 h-6 bg-indigo-100 rounded-lg">
+                      <Home className="h-4 w-4 text-indigo-600" />
+                    </div>
+                    <h4 className="font-semibold text-sm">Détails du relogement</h4>
+                  </div>
+                  <div className="space-y-2">
+                    <div className="flex justify-between items-center py-1">
+                      <span className="text-xs text-muted-foreground">Type</span>
+                      <span className="text-xs font-medium">
+                        {case_.relocationType === "single" ? "Simple" : "Multiple"}
+                      </span>
+                    </div>
+                    {case_.relocationRequests && case_.relocationRequests.length > 0 && (
+                      <>
+                        <div className="flex justify-between items-center py-1">
+                          <span className="text-xs text-muted-foreground">Chambres</span>
+                          <span className="text-xs font-medium">{case_.relocationRequests[0].bedrooms}</span>
+                        </div>
+                        <div className="flex justify-between items-center py-1">
+                          <span className="text-xs text-muted-foreground">Personnes</span>
+                          <span className="text-xs font-medium">
+                            {case_.relocationRequests[0].adults + case_.relocationRequests[0].children}
+                          </span>
+                        </div>
+                      </>
+                    )}
+                    {case_.relocationRequests && case_.relocationRequests.length > 0 && (
+                      <div className="flex justify-between items-center py-1">
+                        <span className="text-xs text-muted-foreground">Dates</span>
+                        <span className="text-xs font-medium">
+                          {case_.relocationRequests[0].useExactDates && case_.relocationRequests[0].departureDate
+                            ? `${formatDate(case_.relocationRequests[0].arrivalDate)} - ${formatDate(case_.relocationRequests[0].departureDate)} (${getNumberOfNights(case_.relocationRequests[0].arrivalDate, case_.relocationRequests[0].departureDate)} nuits)`
+                            : `${formatDate(case_.relocationRequests[0].arrivalDate)} (${case_.relocationRequests[0].estimatedDuration})`
+                          }
+                        </span>
                       </div>
                     )}
                   </div>
                 </div>
               </div>
-            )}
-          </Card>
-        ))}
+              
+              {/* Bottom Row with Performance Metrics */}
+              <div className="grid lg:grid-cols-4 gap-4 mt-6 pt-4 border-t">
+                {/* Agent Responsible */}
+                <div className="flex items-center gap-3">
+                  <div className="flex items-center justify-center w-6 h-6 bg-green-100 rounded-lg">
+                    <Users className="h-4 w-4 text-green-600" />
+                  </div>
+                  <div>
+                    <p className="text-xs text-muted-foreground">Agent responsable</p>
+                    <p className="text-xs font-medium">{case_.agent?.name || "Non assigné"}</p>
+                  </div>
+                </div>
+                
+                {/* Performance Metrics */}
+                {case_.responseTime && (
+                  <div className="flex items-center gap-3">
+                    <div className="flex items-center justify-center w-6 h-6 bg-purple-100 rounded-lg">
+                      <Clock className="h-4 w-4 text-purple-600" />
+                    </div>
+                    <div>
+                      <p className="text-xs text-muted-foreground">Délai d'acceptation</p>
+                      <p className="text-xs font-medium">{case_.responseTime} jours</p>
+                    </div>
+                  </div>
+                )}
+                
+                {/* Costs */}
+                {case_.cost && (
+                  <div className="flex items-center gap-3">
+                    <div className="flex items-center justify-center w-6 h-6 bg-emerald-100 rounded-lg">
+                      <Wallet className="h-4 w-4 text-emerald-600" />
+                    </div>
+                    <div>
+                      <p className="text-xs text-muted-foreground">Coût total</p>
+                      <p className="text-xs font-medium text-green-600">CHF {case_.cost.totalCost}</p>
+                    </div>
+                  </div>
+                )}
+                
+                {/* Client Satisfaction */}
+                <div className="flex items-center gap-3">
+                  <div className="flex items-center justify-center w-6 h-6 bg-yellow-100 rounded-lg">
+                    <Star className="h-4 w-4 text-yellow-600" />
+                  </div>
+                  <div>
+                    <p className="text-xs text-muted-foreground">Satisfaction client</p>
+                    {case_.status === "completed" && case_.satisfaction ? (
+                      <div className="flex items-center gap-1">
+                        {renderStars(case_.satisfaction.rating)}
+                        <span className="text-xs font-medium ml-1">{case_.satisfaction.rating}/5</span>
+                      </div>
+                    ) : (
+                      <p className="text-xs text-muted-foreground">En attente du retour client</p>
+                    )}
+                  </div>
+                </div>
+              </div>
+
+              {/* Declaration de sinistre */}
+              {case_.insurance && (
+                <div className="mt-4 pt-4 border-t">
+                  <div className="flex items-center gap-3">
+                    <div className="flex items-center justify-center w-6 h-6 bg-orange-100 rounded-lg">
+                      <File className="h-4 w-4 text-orange-600" />
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <span className="text-xs text-muted-foreground">Déclaration de sinistre:</span>
+                      {case_.insurance.hasInsurance ? (
+                        <div className="flex items-center gap-2">
+                          <CheckCircle className="h-3 w-3 text-green-500" />
+                          <span className="text-xs font-medium text-green-600">Téléchargée</span>
+                          <Button variant="outline" size="sm" className="h-6 px-2 text-xs">
+                            <Download className="h-3 w-3 mr-1" />
+                            Télécharger
+                          </Button>
+                        </div>
+                      ) : (
+                        <div className="flex items-center gap-2">
+                          <AlertTriangle className="h-3 w-3 text-orange-500" />
+                          <span className="text-xs font-medium text-orange-600">Non téléchargée</span>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              )}
+            </Card>
+          );
+        })}
       </div>
 
       {filteredCases.length === 0 && (

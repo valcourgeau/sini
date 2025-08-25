@@ -59,6 +59,54 @@
       }
     },
     {
+      "id": "REL-011",
+      "relocationType": "single",
+      "disasterAddress": {
+        "street": "Rue du Rhône 45",
+        "city": "Genève",
+        "postalCode": "1204",
+        "country": "Suisse",
+        "canton": "Genève"
+      },
+      "contactPerson": {
+        "firstName": "Claire",
+        "lastName": "Moreau",
+        "email": "claire.moreau@email.com",
+        "phone": "+41 22 345 67 89"
+      },
+      "relocationRequests": [
+        {
+          "firstName": "Claire",
+          "lastName": "Moreau",
+          "email": "claire.moreau@email.com",
+          "phone": "+41 22 345 67 89",
+          "bedrooms": 3,
+          "adults": 2,
+          "children": 2,
+          "hasAnimals": true,
+          "hasAccessibilityNeeds": false,
+          "needsParking": true,
+          "arrivalDate": "2025-02-15",
+          "departureDate": "2025-05-15",
+          "useExactDates": true
+        }
+      ],
+      "insurance": {
+        "hasInsurance": true,
+        "company": "Zurich Assurance",
+        "policyNumber": "POL-789012"
+      },
+      "status": "pending",
+      "priority": "high",
+      "createdAt": "2024-01-30T09:15:00Z",
+      "updatedAt": "2024-01-30T09:15:00Z",
+      "agent": {
+        "id": "AG-002",
+        "name": "Thomas Moreau",
+        "canton": "Genève"
+      }
+    },
+    {
       "id": "REL-002",
       "relocationType": "multiple",
       "disasterAddress": {

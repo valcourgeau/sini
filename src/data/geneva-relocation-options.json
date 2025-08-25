@@ -76,7 +76,6 @@
         "preferredContactMethod": "email"
       },
       "status": "active",
-      "priority": "high",
       "createdAt": "2024-01-20T10:00:00Z",
       "updatedAt": "2024-01-25T16:30:00Z",
       "views": 45,
@@ -163,7 +162,6 @@
         "preferredContactMethod": "phone"
       },
       "status": "active",
-      "priority": "high",
       "createdAt": "2024-01-22T14:30:00Z",
       "updatedAt": "2024-01-26T17:00:00Z",
       "views": 28,
@@ -261,7 +259,6 @@
         "preferredContactMethod": "both"
       },
       "status": "active",
-      "priority": "normal",
       "createdAt": "2024-01-24T09:15:00Z",
       "updatedAt": "2024-01-27T18:30:00Z",
       "views": 62,
@@ -350,7 +347,6 @@
         "preferredContactMethod": "email"
       },
       "status": "active",
-      "priority": "high",
       "createdAt": "2024-01-26T11:30:00Z",
       "updatedAt": "2024-01-28T16:45:00Z",
       "views": 38,
@@ -436,7 +432,6 @@
         "preferredContactMethod": "phone"
       },
       "status": "active",
-      "priority": "normal",
       "createdAt": "2024-01-27T15:20:00Z",
       "updatedAt": "2024-01-28T17:15:00Z",
       "views": 52,
@@ -537,7 +532,6 @@
         "preferredContactMethod": "both"
       },
       "status": "active",
-      "priority": "high",
       "createdAt": "2024-01-28T12:00:00Z",
       "updatedAt": "2024-01-29T15:45:00Z",
       "views": 25,
@@ -623,7 +617,6 @@
         "preferredContactMethod": "email"
       },
       "status": "active",
-      "priority": "normal",
       "createdAt": "2024-01-29T10:30:00Z",
       "updatedAt": "2024-01-29T16:20:00Z",
       "views": 35,
@@ -707,7 +700,6 @@
         "preferredContactMethod": "email"
       },
       "status": "active",
-      "priority": "normal",
       "createdAt": "2024-01-30T09:15:00Z",
       "updatedAt": "2024-01-30T14:45:00Z",
       "views": 78,

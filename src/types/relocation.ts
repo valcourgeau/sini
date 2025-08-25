@@ -36,6 +36,9 @@ export interface RelocationData {
     claimDocument?: File;
   };
   
+  // Selected relocation options (for assurance users to propose)
+  selectedRelocationOptions?: string[]; // Array of property IDs
+  
   // System fields
   status: "initie" | "pending" | "processing" | "completed" | "cancelled";
   priority: "high" | "normal";

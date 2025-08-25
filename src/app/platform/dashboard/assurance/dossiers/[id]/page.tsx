@@ -39,7 +39,8 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/comp
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { RelocationData } from '@/types/relocation';
-import { getCaseById } from '@/lib/data-loader';
+import { getCaseById, needsRelocationOptions } from '@/lib/data-loader';
+import { DossierDetailClient } from '@/components/dossier-detail-client';
 
 // Generate static params for all mock case IDs
 export async function generateStaticParams() {
@@ -160,6 +161,9 @@ export default async function CaseDetailPage({ params }: PageProps) {
   // Get the primary request for single relocations
   const primaryRequest = currentCaseData.relocationRequests[0];
 
+  // Check if this case needs relocation options
+  const needsOptions = needsRelocationOptions(currentCaseData);
+
   return (
     <div className="space-y-6">
       {/* Header with Navigation, Status, and Actions */}
@@ -192,83 +196,98 @@ export default async function CaseDetailPage({ params }: PageProps) {
           </div>
           
           <div className="flex items-center gap-2">
-          <TooltipProvider>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Button 
-                  variant="outline" 
-                  size="sm" 
-                  className="flex items-center justify-center w-10 h-10 p-0"
-                >
-                  <Edit className="h-4 w-4" />
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent>
-                <p>Modifier le dossier</p>
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
-          
-          <TooltipProvider>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Button 
-                  variant="outline" 
-                  size="sm" 
-                  className="flex items-center justify-center w-10 h-10 p-0"
-                >
-                  <Download className="h-4 w-4" />
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent>
-                <p>Exporter le dossier</p>
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
-          
-          <TooltipProvider>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Button 
-                  variant="outline" 
-                  size="sm" 
-                  className="flex items-center justify-center w-10 h-10 p-0"
-                >
-                  <FileText className="h-4 w-4" />
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent>
-                <p>Générer rapport</p>
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
-          
-          <TooltipProvider>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Button 
-                  variant="outline" 
-                  size="sm"
-                  className={`flex items-center justify-center w-10 h-10 p-0 ${
-                    currentCaseData.insurance?.hasInsurance && currentCaseData.insurance?.claimDocument
-                      ? "border-primary/20 text-primary hover:bg-primary hover:text-primary-foreground"
-                      : "border-muted text-muted-foreground cursor-not-allowed opacity-50"
-                  }`}
-                  disabled={
-                    !(currentCaseData.insurance?.hasInsurance && currentCaseData.insurance?.claimDocument)
-                  }
-                >
-                  <Download className="h-4 w-4" />
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent>
-                <p>Télécharger déclaration de sinistre</p>
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button 
+                    variant="outline" 
+                    size="sm" 
+                    className="flex items-center justify-center w-10 h-10 p-0"
+                  >
+                    <Edit className="h-4 w-4" />
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>Modifier le dossier</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+            
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button 
+                    variant="outline" 
+                    size="sm" 
+                    className="flex items-center justify-center w-10 h-10 p-0"
+                  >
+                    <Download className="h-4 w-4" />
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>Exporter le dossier</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+            
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button 
+                    variant="outline" 
+                    size="sm" 
+                    className="flex items-center justify-center w-10 h-10 p-0"
+                  >
+                    <FileText className="h-4 w-4" />
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>Générer rapport</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+            
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button 
+                    variant="outline" 
+                    size="sm"
+                    className={`flex items-center justify-center w-10 h-10 p-0 ${
+                      currentCaseData.insurance?.hasInsurance && currentCaseData.insurance?.claimDocument
+                        ? "border-primary/20 text-primary hover:bg-primary hover:text-primary-foreground"
+                        : "border-muted text-muted-foreground cursor-not-allowed opacity-50"
+                    }`}
+                    disabled={
+                      !(currentCaseData.insurance?.hasInsurance && currentCaseData.insurance?.claimDocument)
+                    }
+                  >
+                    <Download className="h-4 w-4" />
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>Télécharger déclaration de sinistre</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+          </div>
         </div>
       </div>
-    </div>
+
+      {/* Relocation Options Notification */}
+      {needsOptions && (
+        <Card className="p-6 bg-yellow-50 border-yellow-200">
+          <div className="flex items-center gap-3 mb-4">
+            <div className="flex items-center justify-center w-8 h-8 bg-yellow-100 rounded-lg">
+              <AlertTriangle className="h-5 w-5 text-yellow-600" />
+            </div>
+            <h3 className="text-lg font-semibold text-foreground">Action requise</h3>
+          </div>
+          <p className="text-muted-foreground mb-4">
+            Ce dossier est en attente de sélection d'options de relogement. Veuillez en sélectionner 3 qui correspondent aux besoins du client pour pouvoir traiter ce dossier.
+          </p>
+        </Card>
+      )}
 
       {/* Main Content - Two Column Layout */}
       <div className="grid lg:grid-cols-3 gap-6">
@@ -646,6 +665,9 @@ export default async function CaseDetailPage({ params }: PageProps) {
               </div>
             </div>
           )}
+
+          {/* Relocation Options Section - Client Component */}
+          <DossierDetailClient caseData={currentCaseData} />
         </div>
 
         {/* Right Column - Technical Information */}

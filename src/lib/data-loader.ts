@@ -1,7 +1,9 @@
 import relocationCasesData from '@/data/relocation-cases.json';
+import genevaRelocationOptionsData from '@/data/geneva-relocation-options.json';
 import { RelocationData } from '@/types/relocation';
 
 export const relocationCases: RelocationData[] = relocationCasesData.cases as RelocationData[];
+export const genevaRelocationOptions = genevaRelocationOptionsData.properties;
 
 /**
  * Get a specific case by ID
@@ -186,6 +188,157 @@ export const getDashboardStats = (cases: RelocationData[] = relocationCases) => 
     singleRelocations: cases.filter(case_ => case_.relocationType === 'single').length,
     multipleRelocations: cases.filter(case_ => case_.relocationType === 'multiple').length,
   };
+};
+
+/**
+ * Get Geneva relocation options that match the requirements of a case
+ */
+export const getMatchingRelocationOptions = (case_: RelocationData) => {
+  const primaryRequest = case_.relocationRequests[0];
+  if (!primaryRequest) return [];
+
+  // Instead of filtering out properties, we'll rank them by compatibility
+  const rankedOptions = genevaRelocationOptions.map(property => {
+    let score = 0;
+    let totalCriteria = 0;
+    const compatibilityIssues: string[] = [];
+
+    // Bedrooms compatibility (weight: 3)
+    totalCriteria += 3;
+    if (property.propertyDetails.bedrooms >= primaryRequest.bedrooms) {
+      score += 3;
+    } else {
+      compatibilityIssues.push(`Chambres insuffisantes (${property.propertyDetails.bedrooms} vs ${primaryRequest.bedrooms} requis)`);
+    }
+
+    // Accessibility needs (weight: 2)
+    totalCriteria += 2;
+    if (!primaryRequest.hasAccessibilityNeeds || property.propertyAmenities.hasAccessibility) {
+      score += 2;
+    } else {
+      compatibilityIssues.push("Pas d'accessibilité PMR");
+    }
+
+    // Parking needs (weight: 2)
+    totalCriteria += 2;
+    if (!primaryRequest.needsParking || property.propertyAmenities.hasParking) {
+      score += 2;
+    } else {
+      compatibilityIssues.push("Pas de parking");
+    }
+
+    // Pet requirements (weight: 2)
+    totalCriteria += 2;
+    if (!primaryRequest.hasAnimals || property.propertyRules.petsAllowed) {
+      score += 2;
+    } else {
+      compatibilityIssues.push("Animaux non autorisés");
+    }
+
+    // Guest capacity (weight: 3)
+    totalCriteria += 3;
+    const totalGuests = primaryRequest.adults + primaryRequest.children;
+    if (property.propertyDetails.maxGuests >= totalGuests) {
+      score += 3;
+    } else {
+      compatibilityIssues.push(`Capacité insuffisante (${property.propertyDetails.maxGuests} vs ${totalGuests} personnes)`);
+    }
+
+    // Availability dates (weight: 4)
+    totalCriteria += 4;
+    const arrivalDate = new Date(primaryRequest.arrivalDate);
+    const propertyAvailableFrom = new Date(property.propertyAvailability.availableFrom);
+    const propertyAvailableTo = new Date(property.propertyAvailability.availableTo);
+
+    if (arrivalDate >= propertyAvailableFrom && arrivalDate <= propertyAvailableTo) {
+      score += 4;
+    } else {
+      compatibilityIssues.push("Dates de disponibilité incompatibles");
+    }
+
+    // Stay duration (weight: 3)
+    totalCriteria += 3;
+    if (primaryRequest.useExactDates && primaryRequest.departureDate) {
+      const departureDate = new Date(primaryRequest.departureDate);
+      const stayDuration = Math.ceil((departureDate.getTime() - arrivalDate.getTime()) / (1000 * 60 * 60 * 24));
+      
+      if (stayDuration >= property.propertyAvailability.minStay && 
+          stayDuration <= property.propertyAvailability.maxStay) {
+        score += 3;
+      } else {
+        compatibilityIssues.push(`Durée de séjour incompatible (${stayDuration} jours vs ${property.propertyAvailability.minStay}-${property.propertyAvailability.maxStay} jours)`);
+      }
+    } else {
+      score += 3; // No exact dates specified, assume compatible
+    }
+
+    // Calculate compatibility percentage
+    const compatibilityPercentage = Math.round((score / totalCriteria) * 100);
+    
+    // Determine compatibility level
+    let compatibilityLevel: 'excellent' | 'good' | 'fair' | 'poor';
+    if (compatibilityPercentage >= 90) compatibilityLevel = 'excellent';
+    else if (compatibilityPercentage >= 70) compatibilityLevel = 'good';
+    else if (compatibilityPercentage >= 50) compatibilityLevel = 'fair';
+    else compatibilityLevel = 'poor';
+
+    return {
+      ...property,
+      compatibilityScore: score,
+      compatibilityPercentage,
+      compatibilityLevel,
+      compatibilityIssues,
+      totalCriteria
+    };
+  });
+
+  // Sort by compatibility score (highest first), then by rating, then by price
+  return rankedOptions.sort((a, b) => {
+    // First sort by compatibility score
+    if (b.compatibilityScore !== a.compatibilityScore) {
+      return b.compatibilityScore - a.compatibilityScore;
+    }
+    
+    // Then by rating
+    const ratingA = a.rating?.average || 0;
+    const ratingB = b.rating?.average || 0;
+    if (ratingB !== ratingA) {
+      return ratingB - ratingA;
+    }
+    
+    // Finally by price (lowest first)
+    const priceA = a.propertyPricing.prices.month || 0;
+    const priceB = b.propertyPricing.prices.month || 0;
+    return priceA - priceB;
+  });
+};
+
+/**
+ * Get all Geneva relocation options
+ */
+export const getAllRelocationOptions = () => {
+  return genevaRelocationOptions;
+};
+
+/**
+ * Get relocation option by ID
+ */
+export const getRelocationOptionById = (id: string) => {
+  return genevaRelocationOptions.find(property => property.id === id);
+};
+
+/**
+ * Check if a case needs relocation options
+ */
+export const needsRelocationOptions = (case_: RelocationData) => {
+  return case_.status === 'pending' && (!case_.selectedRelocationOptions || case_.selectedRelocationOptions.length === 0);
+};
+
+/**
+ * Get cases that need relocation options
+ */
+export const getCasesNeedingRelocationOptions = () => {
+  return relocationCases.filter(needsRelocationOptions);
 };
 
 // Conversation data types
