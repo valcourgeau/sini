@@ -38,19 +38,17 @@ export function Logo({ className, size = 'md' }: LogoProps) {
         Pharewest
       </span>
       
-      {/* Swiss Flag image in top right corner */}
+      {/* Swiss Flag image in top right corner of the text */}
       <img
         src={getImagePath("/ch-round-flag.png")}
         alt="Swiss Flag"
         className={cn('absolute flex-shrink-0 object-contain', {
-          'h-3 w-3 top-0.5 -right-3.5': size === 'sm',
-          'h-4 w-4 top-0 -right-4': size === 'md',
-          'h-5 w-5 -top-0.5 -right-4.5': size === 'lg',
-          'h-6 w-6 -top-1 -right-5': size === 'xl',
+          'h-3.5 w-3.5 top-0.5 -right-4': size === 'sm',
+          'h-4 w-4 top-0.5 -right-4.5': size === 'md',
+          'h-5 w-5 -top-0.5 -right-6': size === 'lg',
+          'h-6 w-6 -top-1 -right-7': size === 'xl',
         })}
         style={{
-          imageRendering: 'crisp-edges',
-          imageRendering: '-webkit-optimize-contrast',
           transform: 'translateZ(0)',
           backfaceVisibility: 'hidden'
         }}

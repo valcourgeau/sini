@@ -26,8 +26,6 @@ export function VaudoiseLogo({ className, size = 'md' }: VaudoiseLogoProps) {
           alt="Vaudoise Assurances Logo"
           className="object-contain h-full w-auto"
           style={{
-            imageRendering: 'crisp-edges',
-            imageRendering: '-webkit-optimize-contrast',
             transform: 'translateZ(0)',
             backfaceVisibility: 'hidden'
           }}
