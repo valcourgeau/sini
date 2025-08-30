@@ -847,19 +847,19 @@ export function RelocationWizard() {
         break;
       case 4:
         if (relocationType === "single") {
-          return <SingleRelocationPreferences form={form} />;
+          return <SingleRelocationPreferences form={form} userType={userTypeParam} />;
         } else if (relocationType === "multiple") {
           return <MultipleConsent form={form} onSubmit={handleSubmit} isSubmitting={isSubmitting} onBack={prevStep} />;
         }
         break;
       case 5:
         if (relocationType === "single") {
-          return <SingleArrivalDetails ref={arrivalDetailsRef} form={form} onValidationChange={setIsArrivalDetailsValid} />;
+          return <SingleArrivalDetails ref={arrivalDetailsRef} form={form} onValidationChange={setIsArrivalDetailsValid} userType={userTypeParam} />;
         }
         break;
       case 6:
         if (relocationType === "single") {
-          return <SingleReviewConfirm form={form} />;
+          return <SingleReviewConfirm form={form} userType={userTypeParam} />;
         }
         break;
       case 7:
@@ -869,7 +869,7 @@ export function RelocationWizard() {
         break;
       case 8:
         if (relocationType === "single") {
-          return <SuccessMessage />;
+          return <SuccessMessage userType={userTypeParam} />;
         }
         break;
       default:
@@ -944,7 +944,7 @@ export function RelocationWizard() {
   };
 
   if (isSubmitted) {
-    return <SuccessMessage />;
+    return <SuccessMessage userType={userTypeParam} />;
   }
 
   // Use wider container (max-w-11xl) only for the multiple relocation requests table

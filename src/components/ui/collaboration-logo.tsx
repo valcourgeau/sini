@@ -18,9 +18,12 @@ const sizes = {
 
 export function CollaborationLogo({ className, size = 'lg' }: CollaborationLogoProps) {
   return (
-    <div className={cn('flex items-center justify-center gap-8', className)}>
+    <div className={cn('flex items-center justify-center', className)}>
       {/* Pharewest Logo */}
       <Logo size={size === 'sm' ? 'sm' : size === 'md' ? 'md' : size === 'lg' ? 'lg' : 'lg'} />
+      
+      {/* Spacing after Pharewest logo (accounting for flag) */}
+      <div className="w-8"></div>
       
       {/* Stylized × */}
       <div className={cn(
@@ -34,6 +37,9 @@ export function CollaborationLogo({ className, size = 'lg' }: CollaborationLogoP
       )}>
         <span>×</span>
       </div>
+      
+      {/* Spacing before Vaudoise logo */}
+      <div className="w-4"></div>
       
       {/* Vaudoise Logo */}
       <VaudoiseLogo size={size === 'sm' ? 'sm' : size === 'md' ? 'md' : size === 'lg' ? 'lg' : 'lg'} />

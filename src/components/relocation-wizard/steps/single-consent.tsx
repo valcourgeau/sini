@@ -20,6 +20,56 @@ export function SingleConsent({ form, onSubmit, isSubmitting, onBack, userType }
   const { register, formState: { errors } } = form;
   const consentErrors = (errors.singleConsent || {}) as ConsentErrors;
 
+  // Determine section titles and descriptions based on user type
+  const getConsentTitle = () => {
+    if (userType === "sinistre") {
+      return "Votre consentement";
+    }
+    return "Consentement et autorisation";
+  };
+
+  const getConsentDescription = () => {
+    if (userType === "sinistre") {
+      return "Veuillez examiner et accepter les conditions suivantes pour soumettre votre demande de relogement.";
+    }
+    return "Veuillez examiner et accepter les conditions suivantes pour soumettre votre demande de relogement.";
+  };
+
+  const getTermsTitle = () => {
+    if (userType === "sinistre") {
+      return "Conditions d'utilisation pour votre demande";
+    }
+    return "Conditions d'utilisation";
+  };
+
+  const getTermsDescription = () => {
+    if (userType === "sinistre") {
+      return "En utilisant notre service d'assistance au relogement, vous acceptez les conditions suivantes :";
+    }
+    return "En utilisant notre service d'assistance au relogement, vous acceptez les conditions suivantes :";
+  };
+
+  const getPrivacyTitle = () => {
+    if (userType === "sinistre") {
+      return "Protection de vos données personnelles";
+    }
+    return "Politique de confidentialité";
+  };
+
+  const getPrivacyDescription = () => {
+    if (userType === "sinistre") {
+      return "Nous nous engageons à protéger votre vie privée. Voici comment nous traitons vos données :";
+    }
+    return "Nous nous engageons à protéger votre vie privée. Voici comment nous traitons vos données :";
+  };
+
+  const getImportantNote = () => {
+    if (userType === "sinistre") {
+      return "Après avoir soumis votre demande, vous recevrez un email de confirmation avec un résumé de votre demande de relogement. Notre équipe vous contactera pour les prochaines étapes.";
+    }
+    return "Après avoir soumis votre demande, vous recevrez un email de confirmation avec un résumé de votre demande de relogement. Notre équipe vous contactera pour les prochaines étapes.";
+  };
+
   // Handle form submission with validation
   const handleSubmit = async () => {
     console.log("Consent validation triggered");
@@ -36,18 +86,18 @@ export function SingleConsent({ form, onSubmit, isSubmitting, onBack, userType }
   return (
     <div className="space-y-6">
       <div>
-        <h2 className="text-lg font-medium mb-4">Consentement et autorisation</h2>
+        <h2 className="text-lg font-medium mb-4">{getConsentTitle()}</h2>
         <p className="text-sm text-muted-foreground mb-6">
-          Veuillez examiner et accepter les conditions suivantes pour soumettre votre demande de relogement.
+          {getConsentDescription()}
         </p>
       </div>
 
       <div className="space-y-6">
         <div className="p-4 bg-muted rounded-md border border-border">
           <div className="space-y-4 max-h-60 overflow-y-auto pr-2">
-            <h3 className="font-medium">Conditions d'utilisation</h3>
+            <h3 className="font-medium">{getTermsTitle()}</h3>
             <p className="text-sm text-muted-foreground">
-              En utilisant notre service d'assistance au relogement, vous acceptez les conditions suivantes :
+              {getTermsDescription()}
             </p>
             <ul className="list-disc list-outside ml-5 text-sm text-muted-foreground space-y-1">
               <li>Les informations fournies dans ce formulaire sont exactes et complètes à votre connaissance.</li>
@@ -58,9 +108,9 @@ export function SingleConsent({ form, onSubmit, isSubmitting, onBack, userType }
               <li>Vous comprenez que toute information fausse ou trompeuse peut entraîner le rejet de votre demande.</li>
             </ul>
             
-            <h3 className="font-medium mt-6">Politique de confidentialité</h3>
+            <h3 className="font-medium mt-6">{getPrivacyTitle()}</h3>
             <p className="text-sm text-muted-foreground">
-              Nous nous engageons à protéger votre vie privée. Voici comment nous traitons vos données :
+              {getPrivacyDescription()}
             </p>
             <ul className="list-disc list-outside ml-5 text-sm text-muted-foreground space-y-1">
               <li>Vos informations personnelles ne seront utilisées que pour traiter votre demande de relogement et les services associés.</li>
@@ -144,8 +194,7 @@ export function SingleConsent({ form, onSubmit, isSubmitting, onBack, userType }
 
         <div className="p-4 bg-primary/5 rounded-md border border-primary/10">
           <p className="text-sm text-primary/80">
-            <strong>Important :</strong> Après avoir soumis votre demande, vous recevrez un email de confirmation 
-            avec un résumé de votre demande de relogement. Notre équipe vous contactera pour les prochaines étapes.
+            <strong>Important :</strong> {getImportantNote()}
           </p>
         </div>
 

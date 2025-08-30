@@ -32,13 +32,56 @@ export function SingleAddressAndContact({ form, userType }: SingleAddressAndCont
     "Soleure", "Saint-Gall", "Thurgovie", "Tessin", "Uri", "Valais", "Vaud", 
     "Zoug", "Zurich"
   ];
+
+  // Determine section titles and descriptions based on user type
+  const getAddressSectionTitle = () => {
+    if (userType === "sinistre") {
+      return "Votre adresse affectée par le sinistre";
+    }
+    return "L'adresse et les coordonnées";
+  };
+
+  const getAddressSectionDescription = () => {
+    if (userType === "sinistre") {
+      return "Veuillez fournir l'adresse de votre bien affecté par le sinistre et vos coordonnées personnelles.";
+    }
+    return "Veuillez fournir l'adresse du bien affecté et vos coordonnées.";
+  };
+
+  const getDisasterAddressLabel = () => {
+    if (userType === "sinistre") {
+      return "Votre adresse affectée par le sinistre";
+    }
+    return "Adresse du sinistre";
+  };
+
+  const getInsuredSectionTitle = () => {
+    if (userType === "sinistre") {
+      return "Vos informations personnelles";
+    }
+    return "Informations de l'assuré";
+  };
+
+  const getBrokerSectionTitle = () => {
+    if (userType === "sinistre") {
+      return "Vos coordonnées de contact";
+    }
+    return "Informations du courtier";
+  };
+
+  const getPrivacyNote = () => {
+    if (userType === "sinistre") {
+      return "Vos informations personnelles ne seront utilisées que pour traiter votre demande de relogement et communiquer avec vous concernant vos besoins en logement. Nous traitons vos données conformément à notre politique de confidentialité.";
+    }
+    return "Vos informations personnelles ne seront utilisées que pour traiter votre demande de relogement et communiquer avec vous concernant vos besoins en logement. Nous traitons vos données conformément à notre politique de confidentialité.";
+  };
   
   return (
     <div className="space-y-8">
       <div className="text-center">
-        <h2 className="text-xl font-semibold mb-2">L'adresse et les coordonnées</h2>
+        <h2 className="text-xl font-semibold mb-2">{getAddressSectionTitle()}</h2>
         <p className="text-sm text-muted-foreground mb-6 max-w-lg mx-auto">
-          Veuillez fournir l'adresse du bien affecté et vos coordonnées.
+          {getAddressSectionDescription()}
         </p>
       </div>
 
@@ -48,7 +91,7 @@ export function SingleAddressAndContact({ form, userType }: SingleAddressAndCont
           <div className="space-y-4">
             {/* Street - Full width */}
             <div className="space-y-2">
-              <Label htmlFor="singleDisasterAddress.street">Adresse du sinistre <span className="text-red-500">*</span></Label>
+              <Label htmlFor="singleDisasterAddress.street">{getDisasterAddressLabel()} <span className="text-red-500">*</span></Label>
               <input
                 id="singleDisasterAddress.street"
                 {...register("singleDisasterAddress.street")}
@@ -142,13 +185,13 @@ export function SingleAddressAndContact({ form, userType }: SingleAddressAndCont
       {/* Insured Person Information Section - Only show when user doesn't have insurance */}
       {hasInsurance === false && (
         <div className="space-y-6">
-          <h3 className="text-lg font-medium">Informations de l'assuré</h3>
+          <h3 className="text-lg font-medium">{getInsuredSectionTitle()}</h3>
           <div className="space-y-4">
             {/* Personal Information - All fields on same line */}
             <div className="grid grid-cols-5 gap-4">
               <div className="space-y-2">
                 <Label htmlFor="singleInsuredData.firstName">
-                  Prénom <span className="text-red-500">*</span>
+                  {userType === "sinistre" ? "Votre prénom" : "Prénom"} <span className="text-red-500">*</span>
                 </Label>
                 <input
                   id="singleInsuredData.firstName"
@@ -165,7 +208,7 @@ export function SingleAddressAndContact({ form, userType }: SingleAddressAndCont
 
               <div className="space-y-2">
                 <Label htmlFor="singleInsuredData.lastName">
-                  Nom <span className="text-red-500">*</span>
+                  {userType === "sinistre" ? "Votre nom" : "Nom"} <span className="text-red-500">*</span>
                 </Label>
                 <input
                   id="singleInsuredData.lastName"
@@ -182,7 +225,7 @@ export function SingleAddressAndContact({ form, userType }: SingleAddressAndCont
 
               <div className="col-span-2 space-y-2">
                 <Label htmlFor="singleInsuredData.email">
-                  Email <span className="text-red-500">*</span>
+                  {userType === "sinistre" ? "Votre email" : "Email"} <span className="text-red-500">*</span>
                 </Label>
                 <input
                   id="singleInsuredData.email"
@@ -200,7 +243,7 @@ export function SingleAddressAndContact({ form, userType }: SingleAddressAndCont
 
               <div className="space-y-2">
                 <Label htmlFor="singleInsuredData.phone">
-                  Téléphone <span className="text-red-500">*</span>
+                  {userType === "sinistre" ? "Votre téléphone" : "Téléphone"} <span className="text-red-500">*</span>
                 </Label>
                 <input
                   id="singleInsuredData.phone"
@@ -221,14 +264,14 @@ export function SingleAddressAndContact({ form, userType }: SingleAddressAndCont
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label htmlFor="singleInsuranceDetails.insuranceCompany">
-                  Compagnie d'assurance <span className="text-red-500">*</span>
+                  {userType === "sinistre" ? "Votre compagnie d'assurance" : "Compagnie d'assurance"} <span className="text-red-500">*</span>
                 </Label>
                 {watch("singleInsuranceDetails.insuranceCompany") === "other" ? (
                   <div className="space-y-2">
                     <input
                       {...register("singleInsuranceDetails.customInsuranceCompany")}
                       className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-                      placeholder="Nom de votre compagnie d'assurance"
+                      placeholder={userType === "sinistre" ? "Nom de votre compagnie d'assurance" : "Nom de la compagnie d'assurance"}
                     />
                     <button
                       type="button"
@@ -255,7 +298,7 @@ export function SingleAddressAndContact({ form, userType }: SingleAddressAndCont
                     value={watch("singleInsuranceDetails.insuranceCompany") || ""}
                   >
                     <SelectTrigger className="w-full">
-                      <SelectValue placeholder="Sélectionnez une compagnie d'assurance" />
+                      <SelectValue placeholder={userType === "sinistre" ? "Sélectionnez votre compagnie d'assurance" : "Sélectionnez une compagnie d'assurance"} />
                     </SelectTrigger>
                     <SelectContent>
                       <SelectItem value="AXA">AXA</SelectItem>
@@ -286,13 +329,13 @@ export function SingleAddressAndContact({ form, userType }: SingleAddressAndCont
 
               <div className="space-y-2">
                 <Label htmlFor="singleInsuranceDetails.policyNumber">
-                  Numéro de police <span className="text-red-500">*</span>
+                  {userType === "sinistre" ? "Votre numéro de police" : "Numéro de police"} <span className="text-red-500">*</span>
                 </Label>
                 <input
                   id="singleInsuranceDetails.policyNumber"
                   {...register("singleInsuranceDetails.policyNumber")}
                   className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-                  placeholder="Numéro de police d'assurance"
+                  placeholder={userType === "sinistre" ? "Votre numéro de police d'assurance" : "Numéro de police d'assurance"}
                 />
                 {insuranceErrors.policyNumber && (
                   <p className="text-sm text-red-500 mt-1">
@@ -307,13 +350,13 @@ export function SingleAddressAndContact({ form, userType }: SingleAddressAndCont
 
       {/* Personal Information Section */}
       <div className="space-y-6">
-        <h3 className="text-lg font-medium">Informations du courtier</h3>
+        <h3 className="text-lg font-medium">{getBrokerSectionTitle()}</h3>
         <div className="space-y-4">
           {/* All fields on same line */}
           <div className="grid grid-cols-5 gap-4">
             <div className="space-y-2">
               <Label htmlFor="singlePersonalData.firstName">
-                Prénom <span className="text-red-500">*</span>
+                {userType === "sinistre" ? "Votre prénom" : "Prénom"} <span className="text-red-500">*</span>
               </Label>
               <input
                 id="singlePersonalData.firstName"
@@ -330,7 +373,7 @@ export function SingleAddressAndContact({ form, userType }: SingleAddressAndCont
 
             <div className="space-y-2">
               <Label htmlFor="singlePersonalData.lastName">
-                Nom <span className="text-red-500">*</span>
+                {userType === "sinistre" ? "Votre nom" : "Nom"} <span className="text-red-500">*</span>
               </Label>
               <input
                 id="singlePersonalData.lastName"
@@ -347,7 +390,7 @@ export function SingleAddressAndContact({ form, userType }: SingleAddressAndCont
 
             <div className="col-span-2 space-y-2">
               <Label htmlFor="singlePersonalData.email">
-                Email <span className="text-red-500">*</span>
+                {userType === "sinistre" ? "Votre email" : "Email"} <span className="text-red-500">*</span>
               </Label>
               <input
                 id="singlePersonalData.email"
@@ -365,7 +408,7 @@ export function SingleAddressAndContact({ form, userType }: SingleAddressAndCont
 
             <div className="space-y-2">
               <Label htmlFor="singlePersonalData.phone">
-                Téléphone <span className="text-red-500">*</span>
+                {userType === "sinistre" ? "Votre téléphone" : "Téléphone"} <span className="text-red-500">*</span>
               </Label>
               <input
                 id="singlePersonalData.phone"
@@ -386,9 +429,7 @@ export function SingleAddressAndContact({ form, userType }: SingleAddressAndCont
 
       <div className="p-4 bg-amber-50 rounded-md border border-amber-100">
         <p className="text-sm text-amber-700">
-          <strong>Note de confidentialité :</strong> Vos informations personnelles ne seront utilisées que pour traiter votre demande 
-          de relogement et communiquer avec vous concernant vos besoins en logement. Nous traitons vos données conformément 
-          à notre politique de confidentialité.
+          <strong>Note de confidentialité :</strong> {getPrivacyNote()}
         </p>
       </div>
     </div>

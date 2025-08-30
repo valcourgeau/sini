@@ -25,9 +25,10 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/comp
 
 interface SingleReviewConfirmProps {
   form: UseFormReturn<any>;
+  userType?: string | null;
 }
 
-export function SingleReviewConfirm({ form }: SingleReviewConfirmProps) {
+export function SingleReviewConfirm({ form, userType }: SingleReviewConfirmProps) {
   // Create a state to store form values and trigger re-renders when they change
   const [formData, setFormData] = useState(form.getValues());
   
@@ -103,6 +104,70 @@ export function SingleReviewConfirm({ form }: SingleReviewConfirmProps) {
     const nights = Math.round(diff / (1000 * 60 * 60 * 24));
     return nights > 0 ? nights : 0;
   };
+
+  // Determine section titles and descriptions based on user type
+  const getReviewTitle = () => {
+    if (userType === "sinistre") {
+      return "Vérification de votre demande";
+    }
+    return "Vérification de votre demande";
+  };
+
+  const getReviewDescription = () => {
+    if (userType === "sinistre") {
+      return "Veuillez vérifier les détails de votre demande de relogement avant de soumettre. Si vous devez apporter des modifications, vous pouvez revenir aux sections concernées.";
+    }
+    return "Veuillez vérifier les détails de votre demande de relogement avant de soumettre. Si vous devez apporter des modifications, vous pouvez revenir aux sections concernées.";
+  };
+
+  const getInsuredSectionTitle = () => {
+    if (userType === "sinistre") {
+      return "Vos informations personnelles";
+    }
+    return "Informations de l'assuré";
+  };
+
+  const getBrokerSectionTitle = () => {
+    if (userType === "sinistre") {
+      return "Vos coordonnées de contact";
+    }
+    return "Informations du courtier";
+  };
+
+  const getDisasterAddressTitle = () => {
+    if (userType === "sinistre") {
+      return "Votre adresse affectée par le sinistre";
+    }
+    return "Adresse du sinistre";
+  };
+
+  const getPreferencesTitle = () => {
+    if (userType === "sinistre") {
+      return "Vos besoins en logement";
+    }
+    return "Préférences";
+  };
+
+  const getSpecialNeedsTitle = () => {
+    if (userType === "sinistre") {
+      return "Vos besoins spécifiques";
+    }
+    return "Besoins spécifiques";
+  };
+
+  const getStayTitle = () => {
+    if (userType === "sinistre") {
+      return "Votre séjour";
+    }
+    return "Le séjour";
+  };
+
+  const getConfirmationText = () => {
+    if (userType === "sinistre") {
+      return "Je confirme que toutes les informations fournies dans cette demande sont exactes et complètes à la meilleure de ma connaissance. Je comprends que des informations incorrectes peuvent affecter le traitement de ma demande de relogement.";
+    }
+    return "Je confirme que toutes les informations fournies dans cette demande sont exactes et complètes à la meilleure de ma connaissance. Je comprends que des informations incorrectes peuvent affecter le traitement de ma demande de relogement.";
+  };
   
   // Log the form values for debugging
   console.log("Form values in review:", {
@@ -121,10 +186,9 @@ export function SingleReviewConfirm({ form }: SingleReviewConfirmProps) {
       {/* Header Section */}
       <div className="text-center space-y-3">
         <div>
-          <h2 className="text-2xl font-semibold text-foreground">Vérification de votre demande</h2>
+          <h2 className="text-2xl font-semibold text-foreground">{getReviewTitle()}</h2>
           <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
-            Veuillez vérifier les détails de votre demande de relogement avant de soumettre. 
-            Si vous devez apporter des modifications, vous pouvez revenir aux sections concernées.
+            {getReviewDescription()}
           </p>
         </div>
       </div>
@@ -141,7 +205,7 @@ export function SingleReviewConfirm({ form }: SingleReviewConfirmProps) {
                   <div className="flex items-center justify-center w-8 h-8 bg-green-100 rounded-lg">
                     <Shield className="h-5 w-5 text-green-600" />
                   </div>
-                  <h3 className="text-lg font-semibold text-foreground">Informations de l'assuré</h3>
+                  <h3 className="text-lg font-semibold text-foreground">{getInsuredSectionTitle()}</h3>
                 </div>
                 <div className="space-y-3">
                   <div className="flex justify-between items-center py-1">
@@ -173,7 +237,7 @@ export function SingleReviewConfirm({ form }: SingleReviewConfirmProps) {
                 <div className="flex items-center justify-center w-8 h-8 bg-blue-100 rounded-lg">
                   <User className="h-4 w-4 text-blue-600" />
                 </div>
-                <h3 className="text-lg font-semibold text-foreground">Informations du courtier</h3>
+                <h3 className="text-lg font-semibold text-foreground">{getBrokerSectionTitle()}</h3>
               </div>
               <div className="space-y-3">
                 <div className="flex justify-between items-center py-1">
@@ -204,7 +268,7 @@ export function SingleReviewConfirm({ form }: SingleReviewConfirmProps) {
                 <div className="flex items-center justify-center w-8 h-8 bg-red-100 rounded-lg">
                   <MapPin className="h-5 w-5 text-red-600" />
                 </div>
-                <h3 className="text-lg font-semibold text-foreground">Adresse du sinistre</h3>
+                <h3 className="text-lg font-semibold text-foreground">{getDisasterAddressTitle()}</h3>
               </div>
               <div className="space-y-3">
                 <div className="flex justify-between items-center py-1">
@@ -311,7 +375,7 @@ export function SingleReviewConfirm({ form }: SingleReviewConfirmProps) {
                 <div className="flex items-center justify-center w-8 h-8 bg-indigo-100 rounded-lg">
                   <Home className="h-5 w-5 text-indigo-600" />
                 </div>
-                <h3 className="text-lg font-semibold text-foreground">Préférences</h3>
+                <h3 className="text-lg font-semibold text-foreground">{getPreferencesTitle()}</h3>
               </div>
               <div className="space-y-3">
                 <div className="flex justify-between items-center py-1">
@@ -340,7 +404,7 @@ export function SingleReviewConfirm({ form }: SingleReviewConfirmProps) {
                 <div className="flex items-center justify-center w-8 h-8 bg-orange-100 rounded-lg">
                   <PawPrint className="h-5 w-5 text-orange-600" />
                 </div>
-                <h3 className="text-lg font-semibold text-foreground">Besoins spécifiques</h3>
+                <h3 className="text-lg font-semibold text-foreground">{getSpecialNeedsTitle()}</h3>
               </div>
               <div className="space-y-3">
                 <div className="flex justify-between items-center py-1">
@@ -373,7 +437,7 @@ export function SingleReviewConfirm({ form }: SingleReviewConfirmProps) {
                 <div className="flex items-center justify-center w-8 h-8 bg-emerald-100 rounded-lg">
                   <Calendar className="h-5 w-5 text-emerald-600" />
                 </div>
-                <h3 className="text-lg font-semibold text-foreground">Le séjour</h3>
+                <h3 className="text-lg font-semibold text-foreground">{getStayTitle()}</h3>
               </div>
               <div className="space-y-3">
                 <div className="flex justify-between items-center py-1">
@@ -426,8 +490,7 @@ export function SingleReviewConfirm({ form }: SingleReviewConfirmProps) {
               Confirmation de l'exactitude des données <span className="text-red-500">*</span>
             </Label>
             <p className="text-sm text-muted-foreground leading-relaxed">
-              Je confirme que toutes les informations fournies dans cette demande sont exactes et complètes à la meilleure de ma connaissance. 
-              Je comprends que des informations incorrectes peuvent affecter le traitement de ma demande de relogement.
+              {getConfirmationText()}
             </p>
           </div>
         </div>

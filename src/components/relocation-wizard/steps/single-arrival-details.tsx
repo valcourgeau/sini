@@ -7,6 +7,7 @@ import { cn } from "@/lib/utils";
 interface SingleArrivalDetailsProps {
   form: UseFormReturn<any>;
   onValidationChange?: (isValid: boolean) => void;
+  userType?: string | null;
 }
 
 export interface SingleArrivalDetailsRef {
@@ -27,7 +28,7 @@ interface ArrivalErrors {
 }
 
 export const SingleArrivalDetails = forwardRef<SingleArrivalDetailsRef, SingleArrivalDetailsProps>(
-  ({ form, onValidationChange }, ref) => {
+  ({ form, onValidationChange, userType }, ref) => {
   const { register, setValue, watch, formState: { errors }, trigger } = form;
   // Type assertion to handle errors properly
   const arrivalErrors = (errors.singleArrivalDetails || {}) as ArrivalErrors;
@@ -67,6 +68,42 @@ export const SingleArrivalDetails = forwardRef<SingleArrivalDetailsRef, SingleAr
       icon: <Calendar size={28} />
     },
   ];
+
+  // Determine section titles and descriptions based on user type
+  const getArrivalTitle = () => {
+    if (userType === "sinistre") {
+      return "Votre séjour";
+    }
+    return "Le séjour";
+  };
+
+  const getArrivalDescription = () => {
+    if (userType === "sinistre") {
+      return "Veuillez spécifier quand vous souhaitez emménager et la durée prévue de votre séjour.";
+    }
+    return "Veuillez spécifier quand la date d'emménagement et la durée prévue de votre séjour.";
+  };
+
+  const getArrivalDateLabel = () => {
+    if (userType === "sinistre") {
+      return "Quand souhaitez-vous emménager ?";
+    }
+    return "Date d'arrivée souhaitée";
+  };
+
+  const getDepartureDateLabel = () => {
+    if (userType === "sinistre") {
+      return "Quand prévoyez-vous de partir ?";
+    }
+    return "Date de départ";
+  };
+
+  const getDurationLabel = () => {
+    if (userType === "sinistre") {
+      return "Combien de temps prévoyez-vous de rester ?";
+    }
+    return "Durée estimée";
+  };
 
   // Calculate tomorrow's date for the min attribute
   const tomorrow = new Date();
@@ -300,9 +337,9 @@ export const SingleArrivalDetails = forwardRef<SingleArrivalDetailsRef, SingleAr
   return (
     <div className="space-y-8">
       <div className="text-center">
-        <h2 className="text-xl font-semibold mb-2">Le séjour</h2>
+        <h2 className="text-xl font-semibold mb-2">{getArrivalTitle()}</h2>
         <p className="text-sm text-muted-foreground mb-6 max-w-lg mx-auto whitespace-nowrap">
-          Veuillez spécifier quand la date d'emménagement et la durée prévue de votre séjour.
+          {getArrivalDescription()}
         </p>
       </div>
 
@@ -374,7 +411,7 @@ export const SingleArrivalDetails = forwardRef<SingleArrivalDetailsRef, SingleAr
             <div className="grid grid-cols-2 gap-8">
               <div className="flex items-center gap-4">
                 <Label htmlFor="singleArrivalDetails.arrivalDate" className="text-base font-medium whitespace-nowrap">
-                  Date d'arrivée souhaitée <span className="text-red-500">*</span>
+                  {getArrivalDateLabel()} <span className="text-red-500">*</span>
                 </Label>
                 <div>
                   <input
@@ -396,7 +433,7 @@ export const SingleArrivalDetails = forwardRef<SingleArrivalDetailsRef, SingleAr
 
               <div className="flex items-center gap-4">
                 <Label htmlFor="singleArrivalDetails.departureDate" className="text-base font-medium whitespace-nowrap">
-                  Date de départ <span className="text-red-500">*</span>
+                  {getDepartureDateLabel()} <span className="text-red-500">*</span>
                 </Label>
                 <div>
                   <input
@@ -419,7 +456,7 @@ export const SingleArrivalDetails = forwardRef<SingleArrivalDetailsRef, SingleAr
           ) : (
             <div className="flex items-center gap-4">
               <Label htmlFor="singleArrivalDetails.arrivalDate" className="text-base font-medium whitespace-nowrap">
-                Date d'arrivée souhaitée <span className="text-red-500">*</span>
+                {getArrivalDateLabel()} <span className="text-red-500">*</span>
               </Label>
               <div>
                 <input
@@ -450,7 +487,7 @@ export const SingleArrivalDetails = forwardRef<SingleArrivalDetailsRef, SingleAr
         {!useExactDates && (
           <div className="space-y-4 mt-6">
             <Label htmlFor="singleArrivalDetails.estimatedDuration" className="text-base font-medium">
-              Durée estimée <span className="text-red-500">*</span>
+              {getDurationLabel()} <span className="text-red-500">*</span>
             </Label>
             
             {/* Duration selection cards */}

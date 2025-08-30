@@ -135,16 +135,50 @@ export function SingleInsuranceCoverage({ form, userType }: SingleInsuranceCover
     }
   };
 
+  // Determine question text based on user type
+  const getQuestionText = () => {
+    if (userType === "sinistre") {
+      return "Avez-vous déjà déclaré votre sinistre auprès de votre assurance ?";
+    }
+    return "L'assuré a t-il déjà formellement déclaré son sinistre ?";
+  };
+
+  // Determine description text based on user type
+  const getDescriptionText = () => {
+    if (userType === "sinistre") {
+      return "Pour continuer, nous avons besoin de votre déclaration de sinistre. Si vous ne l'avez pas encore fait, vous pouvez la déclarer en ligne auprès de votre assureur.";
+    }
+    return "L'assuré a t-il déjà formellement déclaré son sinistre ?";
+  };
+
+  // Determine "no" option description based on user type
+  const getNoOptionDescription = () => {
+    if (userType === "sinistre") {
+      return "Vous devez d'abord déclarer votre sinistre auprès de votre assurance avant de pouvoir continuer.";
+    }
+    return "Des informations complémentaires seront nécessaires.";
+  };
+
+  // Determine "other" provider description based on user type
+  const getOtherProviderDescription = () => {
+    if (userType === "sinistre") {
+      return "Veuillez contacter directement votre assureur pour soumettre votre déclaration de sinistre.";
+    }
+    return "Veuillez contacter directement l'assureur pour soumettre la déclaration de sinistre.";
+  };
+
   return (
     <div className="space-y-6">
       <div className="text-center">
         <h2 className="text-xl font-semibold mb-2">La déclaration de sinistre</h2>
         <p className="text-sm text-muted-foreground mb-2 max-w-2xl mx-auto">
-          {userType === "assurance" 
-            ? "L'assuré a t-il déjà formellement déclaré son sinistre ?"
-            : "Votre assuré a t-il déjà formellement déclaré son sinistre ?"
-          }
+          {getQuestionText()}
         </p>
+        {userType === "sinistre" && (
+          <p className="text-sm text-muted-foreground mb-4 max-w-2xl mx-auto">
+            {getDescriptionText()}
+          </p>
+        )}
       </div>
 
       <div className="space-y-6">
@@ -276,24 +310,21 @@ export function SingleInsuranceCoverage({ form, userType }: SingleInsuranceCover
                 {selectedValue === "no" && (
                   <div className="mt-4 pt-4 border-t border-border w-full text-center space-y-4">
                     <p className="text-sm text-muted-foreground">
-                      {userType === "assurance" 
-                        ? "Des informations complémentaires seront nécessaires."
-                        : "Veuillez soumettre votre déclaration de sinistre auprès de votre assureur et revenir avec le document."
-                      }
+                      {getNoOptionDescription()}
                     </p>
                     
                     {selectedProvider === "Other" && (
                       <p className="text-sm text-muted-foreground">
-                        {userType === "assurance" 
-                          ? "Veuillez contacter directement l'assureur pour soumettre la déclaration de sinistre."
-                          : "Veuillez contacter directement votre assureur pour soumettre votre déclaration de sinistre."
-                        }
+                        {getOtherProviderDescription()}
                       </p>
                     )}
                     
                     {/* Only show insurance company links for sinistre users */}
                     {userType === "sinistre" && (
                       <div className="space-y-2">
+                        <p className="text-sm text-muted-foreground">
+                          Cliquez sur votre assureur pour déclarer votre sinistre en ligne :
+                        </p>
                         <div className="flex flex-wrap gap-2 justify-center">
                           {INSURANCE_PROVIDERS.filter(provider => provider.name !== "Other").map((provider) => (
                             <a

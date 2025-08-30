@@ -18,6 +18,7 @@ import { Input } from '@/components/ui/input';
 
 interface SingleRelocationPreferencesProps {
   form: UseFormReturn<any>;
+  userType?: string | null;
 }
 
 type CounterField = {
@@ -37,7 +38,7 @@ interface SpecialNeedCard {
   description?: string;
 }
 
-export function SingleRelocationPreferences({ form }: SingleRelocationPreferencesProps) {
+export function SingleRelocationPreferences({ form, userType }: SingleRelocationPreferencesProps) {
   const { register, setValue, watch, formState: { errors, isSubmitted } } = form;
   const preferencesErrors = (errors.singleRelocationPreferences as any) || {};
   
@@ -85,6 +86,35 @@ export function SingleRelocationPreferences({ form }: SingleRelocationPreference
       });
     }
   }, []);
+
+  // Determine section titles and descriptions based on user type
+  const getPreferencesTitle = () => {
+    if (userType === "sinistre") {
+      return "Vos besoins en logement";
+    }
+    return "Préférences";
+  };
+
+  const getPreferencesDescription = () => {
+    if (userType === "sinistre") {
+      return "Aidez-nous à trouver le logement le plus adapté à votre situation.";
+    }
+    return "Veuillez nous aider à trouver la solution la plus adaptée.";
+  };
+
+  const getHousingNeedsTitle = () => {
+    if (userType === "sinistre") {
+      return "Vos besoins en logement";
+    }
+    return "Besoins du logement";
+  };
+
+  const getSpecialNeedsTitle = () => {
+    if (userType === "sinistre") {
+      return "Vos besoins spécifiques";
+    }
+    return "Besoins spécifiques";
+  };
 
   // Counter fields
   const counterFields: CounterField[] = [
@@ -177,9 +207,9 @@ export function SingleRelocationPreferences({ form }: SingleRelocationPreference
   return (
     <div className="space-y-8">
       <div className="text-center">
-        <h2 className="text-xl font-semibold mb-2">Préférences</h2>
+        <h2 className="text-xl font-semibold mb-2">{getPreferencesTitle()}</h2>
         <p className="text-sm text-muted-foreground">
-          Veuillez nous aider à trouver la solution la plus adaptée.
+          {getPreferencesDescription()}
         </p>
       </div>
 
@@ -187,7 +217,7 @@ export function SingleRelocationPreferences({ form }: SingleRelocationPreference
         {/* Left Column - Property Requirements */}
         <div className="space-y-6">
           <div className="pt-4 border-t">
-            <h3 className="text-lg font-medium mb-6 text-center">Besoins du logement</h3>
+            <h3 className="text-lg font-medium mb-6 text-center">{getHousingNeedsTitle()}</h3>
             
             <div className="space-y-8">
               {counterFields.map((field) => {
@@ -284,7 +314,7 @@ export function SingleRelocationPreferences({ form }: SingleRelocationPreference
         {/* Right Column - Special Requirements Cards */}
         <div className="space-y-6">
           <div className="pt-4 border-t">
-            <h3 className="text-lg font-medium mb-6 text-center">Besoins spécifiques</h3>
+            <h3 className="text-lg font-medium mb-6 text-center">{getSpecialNeedsTitle()}</h3>
             
             <div className="grid grid-cols-1 gap-6 max-w-[220px] mx-auto mt-10">
               {specialNeedCards.map((card) => {

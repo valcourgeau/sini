@@ -19,11 +19,14 @@ const sizes = {
 
 export function CollaborationLogo({ className, size = 'lg' }: CollaborationLogoProps) {
   return (
-    <div className={cn('flex items-center justify-center gap-6', className)}>
+    <div className={cn('flex items-center justify-center', className)}>
       {/* Pharewest Logo */}
       <div className="text-primary drop-shadow-lg [text-shadow:_0_0_8px_rgba(255,255,255,0.3)]">
         <Logo size={size === 'sm' ? 'sm' : size === 'md' ? 'md' : size === 'lg' ? 'lg' : 'xl'} />
       </div>
+      
+      {/* Spacing after Pharewest logo (accounting for flag) */}
+      <div className="w-6"></div>
       
       {/* Stylized × */}
       <div className={cn(
@@ -38,6 +41,9 @@ export function CollaborationLogo({ className, size = 'lg' }: CollaborationLogoP
       )}>
         <span>×</span>
       </div>
+      
+      {/* Spacing before Generali logo */}
+      <div className="w-4"></div>
       
       {/* Generali Logo */}
       <div className="drop-shadow-lg [filter:_drop-shadow(0_0_8px_rgba(255,255,255,0.3))]">
