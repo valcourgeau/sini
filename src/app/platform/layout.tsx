@@ -1,20 +1,23 @@
 "use client";
 
-import { Inter } from "next/font/google";
-import "../globals.css";
+import { useBrandTheme } from "@/hooks/use-brand-theme";
+import { PlatformHeaderProvider } from "@/components/layout/platform-header-provider";
 import { PlatformHeader } from "@/components/layout/platform-header";
-
-const inter = Inter({ subsets: ["latin"] });
 
 export default function PlatformLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  // Initialize brand theme for platform pages
+  useBrandTheme();
+
   return (
-    <div className="platform-layout">
-      <PlatformHeader />
-      {children}
+    <div className="min-h-screen bg-background">
+      <PlatformHeaderProvider>
+        <PlatformHeader />
+        {children}
+      </PlatformHeaderProvider>
     </div>
   );
 } 

@@ -6,12 +6,15 @@ import { usePathname, useRouter } from "next/navigation";
 import { Logo } from "@/components/ui/logo";
 import { CollaborationLogo as GeneraliCollaborationLogo } from "@/components/brands/generali/collaboration-logo";
 import { CollaborationLogo as VaudoiseCollaborationLogo } from "@/components/brands/vaudoise/collaboration-logo";
+import { useBrandTheme } from "@/hooks/use-brand-theme";
+import { getNavigationPath } from "@/lib/utils/brand-theme";
 
 export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [brandContext, setBrandContext] = useState<string | null>(null);
   const pathname = usePathname();
   const router = useRouter();
+  const { currentTheme } = useBrandTheme();
 
   // Track brand context when user navigates
   useEffect(() => {
@@ -105,7 +108,7 @@ export function Header() {
                 Devenir Hôte
               </button>
               <Link
-                href="/platform"
+                href={getNavigationPath(currentTheme, "/platform")}
                 className="inline-flex items-center border-2 border-primary text-primary px-5 py-2 rounded-lg text-base font-semibold hover:bg-primary hover:text-primary-foreground transition-colors"
               >
                 Connexion
@@ -170,7 +173,7 @@ export function Header() {
               Devenir Hôte
             </button>
             <Link
-              href="/platform"
+              href={getNavigationPath(currentTheme, "/platform")}
               className="flex items-center border-2 border-primary text-primary px-5 py-2 rounded-lg text-base font-semibold hover:bg-primary hover:text-primary-foreground transition-colors"
               onClick={() => setIsMenuOpen(false)}
             >

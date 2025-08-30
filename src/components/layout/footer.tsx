@@ -1,8 +1,13 @@
+"use client";
+
 import Link from "next/link";
 import { Logo } from "@/components/ui/logo";
+import { useBrandTheme } from "@/hooks/use-brand-theme";
+import { getNavigationPath } from "@/lib/utils/brand-theme";
 
 export function Footer() {
   const currentYear = new Date().getFullYear();
+  const { currentTheme } = useBrandTheme();
   
   return (
     <footer className="bg-secondary/50 border-t border-border">
@@ -20,7 +25,7 @@ export function Footer() {
             <ul className="space-y-2">
               <li>
                 <Link 
-                  href="/relocation/new" 
+                  href={getNavigationPath(currentTheme, "/relocation/new")}
                   className="text-sm text-muted-foreground hover:text-primary transition-colors"
                 >
                   Demander un relogement
@@ -28,7 +33,7 @@ export function Footer() {
               </li>
               <li>
                 <Link 
-                  href="/property/new" 
+                  href={getNavigationPath(currentTheme, "/property/new")}
                   className="text-sm text-muted-foreground hover:text-primary transition-colors"
                 >
                   Proposer un bien
@@ -36,7 +41,7 @@ export function Footer() {
               </li>
               <li>
                 <Link 
-                  href="/platform" 
+                  href={getNavigationPath(currentTheme, "/platform")}
                   className="text-sm text-muted-foreground hover:text-primary transition-colors"
                 >
                   Plateforme Assurances

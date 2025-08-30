@@ -6,41 +6,76 @@ import { usePathname } from "next/navigation";
 import { Logo } from "@/components/ui/logo";
 import { User } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useBrandTheme } from "@/hooks/use-brand-theme";
+import { getBrandConfig, getNavigationPath, extractUserTypeFromPath, isDashboardPage } from "@/lib/utils/brand-theme";
+import { VaudoiseLogo } from "@/components/ui/vaudoise-logo";
+import { GeneraliLogo } from "@/components/brands/generali/generali-logo";
 
 export function PlatformHeader() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const pathname = usePathname();
+  const { currentTheme } = useBrandTheme();
 
-  // Get user type from pathname
-  const userType = pathname.split('/')[3]; // /platform/dashboard/[userType]
+  // Get user type from pathname using utility function
+  const userType = extractUserTypeFromPath(pathname);
   
-  // Check if we're on a dashboard page (not login page)
-  const isDashboardPage = pathname.startsWith("/platform/dashboard");
+  // Check if we're on a dashboard page using utility function
+  const isDashboardPageResult = isDashboardPage(pathname);
 
   const handleRelocationClick = (e: React.MouseEvent) => {
     e.preventDefault();
-    // Navigate to relocation wizard with correct user type
-    window.location.href = `/relocation/new?userType=${userType}`;
+    // Navigate to relocation wizard with correct user type and preserve brand theme
+    const brandParam = currentTheme !== 'default' ? `&brand=${currentTheme}` : '';
+    window.location.href = `/relocation/new?userType=${userType}${brandParam}`;
     // Close mobile menu if open
     setIsMenuOpen(false);
   };
 
   // Get the correct profile link based on user type
   const getProfileLink = () => {
+    let basePath = '/platform/dashboard/profile';
+    
     switch (userType) {
       case 'sinistre':
-        return '/platform/dashboard/sinistre/profile';
+        basePath = '/platform/dashboard/sinistre/profile';
+        break;
       case 'assurance':
-        return '/platform/dashboard/assurance/profile';
+        basePath = '/platform/dashboard/assurance/profile';
+        break;
       case 'host':
-        return '/platform/dashboard/host/profile';
+        basePath = '/platform/dashboard/host/profile';
+        break;
       default:
-        return '/platform/dashboard/profile';
+        basePath = '/platform/dashboard/profile';
     }
+    
+    // Use branded platform route if on a branded page
+    return getNavigationPath(currentTheme, basePath);
   };
 
   // Check if relocation button should be shown (only for assurance users)
   const shouldShowRelocationButton = userType === 'assurance';
+
+  // Get the appropriate logo based on brand theme
+  const getBrandLogo = () => {
+    const config = getBrandConfig(currentTheme);
+    
+    // Use the brand configuration to determine which logo to show
+    switch (config.name) {
+      case 'vaudoise':
+        return <VaudoiseLogo size="lg" />;
+      case 'generali':
+        return <GeneraliLogo size="lg" />;
+      default:
+        return <Logo size="lg" />;
+    }
+  };
+
+  // Get the appropriate home link based on brand theme
+  const getHomeLink = () => {
+    const config = getBrandConfig(currentTheme);
+    return config.path;
+  };
 
   return (
     <header 
@@ -50,8 +85,8 @@ export function PlatformHeader() {
       <div className="container mx-auto px-4 md:px-6">
         <div className="flex h-16 items-center justify-between">
           <div className="flex items-center">
-            <Link href="/" className="flex items-center">
-              <Logo size="lg" />
+            <Link href={getHomeLink()} className="flex items-center">
+              {getBrandLogo()}
             </Link>
           </div>
           
@@ -79,7 +114,7 @@ export function PlatformHeader() {
               </Button>
             )}
             {/* Only show profile icon on dashboard pages */}
-            {isDashboardPage && (
+            {isDashboardPageResult && (
               <Link
                 href={getProfileLink()}
                 className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-primary/10 text-primary hover:bg-primary/20 transition-colors"
@@ -146,7 +181,7 @@ export function PlatformHeader() {
               </Button>
             )}
             {/* Only show profile icon on dashboard pages in mobile menu */}
-            {isDashboardPage && (
+            {isDashboardPageResult && (
               <Link
                 href={getProfileLink()}
                 className="flex items-center justify-center w-10 h-10 rounded-full bg-primary/10 text-primary hover:bg-primary/20 transition-colors"

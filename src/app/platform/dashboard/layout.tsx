@@ -18,6 +18,8 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { useBrandTheme } from "@/hooks/use-brand-theme";
+import { getNavigationPath, extractUserTypeFromPath } from "@/lib/utils/brand-theme";
 
 interface DashboardLayoutProps {
   children: React.ReactNode;
@@ -27,35 +29,39 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const router = useRouter();
   const pathname = usePathname();
+  
+  // Initialize brand theme for dashboard pages
+  const { currentTheme } = useBrandTheme();
 
-  const userType = pathname.split('/')[3]; // /platform/dashboard/[userType]
+  // Get user type from pathname using utility function
+  const userType = extractUserTypeFromPath(pathname);
 
   const getNavigationItems = () => {
     switch (userType) {
-      case 'sinistre':
-        return [
-          { href: '/platform/dashboard/sinistre', icon: Home, label: 'Tableau de bord' },
-          { href: '/platform/dashboard/sinistre/relogement', icon: Building2, label: 'Mon relogement' },
-          { href: '/platform/dashboard/sinistre/messages', icon: MessageSquare, label: 'Messages' },
-          { href: '/platform/dashboard/sinistre/profile', icon: User, label: 'Mon profil' },
-        ];
-      case 'assurance':
-        return [
-          { href: '/platform/dashboard/assurance', icon: Home, label: 'Tableau de bord' },
-          { href: '/platform/dashboard/assurance/dossiers', icon: FileText, label: 'Dossiers' },
-          { href: '/platform/dashboard/assurance/messages', icon: MessageSquare, label: 'Messages' },
-          { href: '/platform/dashboard/assurance/statistiques', icon: BarChart3, label: 'Statistiques' },
-          { href: '/platform/dashboard/assurance/profile', icon: User, label: 'Profil' },
-        ];
-      case 'host':
-        return [
-          { href: '/platform/dashboard/host', icon: Home, label: 'Tableau de bord' },
-          { href: '/platform/dashboard/host/biens', icon: Building2, label: 'Mes biens' },
-          { href: '/platform/dashboard/host/reservations', icon: Calendar, label: 'Réservations' },
-          { href: '/platform/dashboard/host/messages', icon: MessageSquare, label: 'Messages' },
-          { href: '/platform/dashboard/host/revenus', icon: BarChart3, label: 'Revenus' },
-          { href: '/platform/dashboard/host/profile', icon: User, label: 'Mon profil' },
-        ];
+              case 'sinistre':
+          return [
+            { href: getNavigationPath(currentTheme, '/platform/dashboard/sinistre'), icon: Home, label: 'Tableau de bord' },
+            { href: getNavigationPath(currentTheme, '/platform/dashboard/sinistre/relogement'), icon: Building2, label: 'Mon relogement' },
+            { href: getNavigationPath(currentTheme, '/platform/dashboard/sinistre/messages'), icon: MessageSquare, label: 'Messages' },
+            { href: getNavigationPath(currentTheme, '/platform/dashboard/sinistre/profile'), icon: User, label: 'Mon profil' },
+          ];
+        case 'assurance':
+          return [
+            { href: getNavigationPath(currentTheme, '/platform/dashboard/assurance'), icon: Home, label: 'Tableau de bord' },
+            { href: getNavigationPath(currentTheme, '/platform/dashboard/assurance/dossiers'), icon: FileText, label: 'Dossiers' },
+            { href: getNavigationPath(currentTheme, '/platform/dashboard/assurance/messages'), icon: MessageSquare, label: 'Messages' },
+            { href: getNavigationPath(currentTheme, '/platform/dashboard/assurance/statistiques'), icon: BarChart3, label: 'Statistiques' },
+            { href: getNavigationPath(currentTheme, '/platform/dashboard/assurance/profile'), icon: User, label: 'Profil' },
+          ];
+        case 'host':
+          return [
+            { href: getNavigationPath(currentTheme, '/platform/dashboard/host'), icon: Home, label: 'Tableau de bord' },
+            { href: getNavigationPath(currentTheme, '/platform/dashboard/host/biens'), icon: Building2, label: 'Mes biens' },
+            { href: getNavigationPath(currentTheme, '/platform/dashboard/host/reservations'), icon: Calendar, label: 'Réservations' },
+            { href: getNavigationPath(currentTheme, '/platform/dashboard/host/messages'), icon: MessageSquare, label: 'Messages' },
+            { href: getNavigationPath(currentTheme, '/platform/dashboard/host/revenus'), icon: BarChart3, label: 'Revenus' },
+            { href: getNavigationPath(currentTheme, '/platform/dashboard/host/profile'), icon: User, label: 'Mon profil' },
+          ];
       default:
         return [];
     }
@@ -73,7 +79,8 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
   // Simplified active tab detection
   const isActiveTab = (href: string) => {
     // Root dashboard - active when exactly on the root or when path starts with it
-    if (href === '/platform/dashboard/' + userType) {
+    const rootPath = getNavigationPath(currentTheme, '/platform/dashboard/' + userType);
+    if (href === rootPath) {
       return pathname === href || pathname === href + '/';
     }
     
@@ -82,7 +89,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
   };
 
   const handleLogout = () => {
-    router.push('/platform');
+    router.push(getNavigationPath(currentTheme, '/platform'));
   };
 
   const navigationItems = getNavigationItems();

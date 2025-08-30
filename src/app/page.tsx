@@ -9,10 +9,14 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { getImagePath } from "@/lib/utils";
+import { useBrandTheme } from "@/hooks/use-brand-theme";
 
 export default function HomePage() {
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
+  
+  // Initialize brand theme
+  useBrandTheme();
 
   const handleRelocationClick = async (e: React.MouseEvent) => {
     e.preventDefault();

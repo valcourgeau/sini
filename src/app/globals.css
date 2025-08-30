@@ -37,6 +37,68 @@
     --radius: 0.5rem;
   }
 
+  /* Generali Theme Overrides */
+  .theme-generali {
+    --background: 40 15% 97%; /* Neutral warm cream background */
+    --foreground: 2 78% 25%; /* Darker red for text - better readability */
+
+    --card: 40 15% 97%;
+    --card-foreground: 2 78% 25%;
+
+    --popover: 40 15% 97%;
+    --popover-foreground: 2 78% 25%;
+
+    --primary: 2 78% 42%; /* Generali red #c11a16 */
+    --primary-foreground: 40 15% 97%;
+
+    --secondary: 35 20% 94%; /* Neutral warm beige for backgrounds */
+    --secondary-foreground: 2 78% 25%; /* Dark red text on light backgrounds */
+
+    --muted: 35 20% 94%;
+    --muted-foreground: 2 78% 30%; /* Darker red for muted text */
+
+    --accent: 2 78% 48%; /* Slightly lighter red */
+    --accent-foreground: 40 15% 97%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 40 15% 97%;
+
+    --border: 35 20% 88%;
+    --input: 35 20% 88%;
+    --ring: 2 78% 42%;
+  }
+
+  /* Vaudoise Theme Overrides */
+  .theme-vaudoise {
+    --background: 0 0% 100%; /* Pure white background */
+    --foreground: 146 100% 20%; /* Darker green for text - better readability */
+
+    --card: 0 0% 100%;
+    --card-foreground: 146 100% 20%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 146 100% 20%;
+
+    --primary: 146 100% 33%; /* Vaudoise green #00a751 */
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 146 50% 95%; /* Very light green for backgrounds only */
+    --secondary-foreground: 146 100% 20%; /* Dark green text on light backgrounds */
+
+    --muted: 146 50% 95%;
+    --muted-foreground: 146 100% 25%; /* Darker green for muted text */
+
+    --accent: 146 100% 35%; /* Slightly lighter green */
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 146 50% 90%;
+    --input: 146 50% 90%;
+    --ring: 146 100% 29%;
+  }
+
   .dark {
     --background: 220 35% 20%; /* Night blue background - updated to match lighthouse image */
     --foreground: 40 38% 98%; /* Sand text */
@@ -65,6 +127,67 @@
     --border: 220 35% 30%; /* Adjusted relative to new primary */
     --input: 220 35% 30%; /* Adjusted relative to new primary */
     --ring: 40 38% 98%;
+  }
+
+  /* Dark mode overrides for branded themes */
+  .dark.theme-generali {
+    --background: 2 78% 42%; /* Generali red background */
+    --foreground: 40 15% 97%; /* Neutral cream text */
+
+    --card: 2 78% 42%;
+    --card-foreground: 40 15% 97%;
+
+    --popover: 2 78% 42%;
+    --popover-foreground: 40 15% 97%;
+
+    --primary: 40 15% 97%; /* Neutral cream primary */
+    --primary-foreground: 2 78% 42%;
+
+    --secondary: 2 78% 48%;
+    --secondary-foreground: 40 15% 97%;
+
+    --muted: 2 78% 48%;
+    --muted-foreground: 35 20% 88%;
+
+    --accent: 35 20% 94%;
+    --accent-foreground: 2 78% 25%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 40 15% 97%;
+
+    --border: 2 78% 48%;
+    --input: 2 78% 48%;
+    --ring: 40 15% 97%;
+  }
+
+  .dark.theme-vaudoise {
+    --background: 146 100% 29%; /* Final Vaudoise green background */
+    --foreground: 0 0% 100%; /* White text */
+
+    --card: 146 100% 29%;
+    --card-foreground: 0 0% 100%;
+
+    --popover: 146 100% 29%;
+    --popover-foreground: 0 0% 100%;
+
+    --primary: 0 0% 100%; /* White primary */
+    --primary-foreground: 146 100% 29%;
+
+    --secondary: 146 100% 35%;
+    --secondary-foreground: 0 0% 100%;
+
+    --muted: 146 100% 35%;
+    --muted-foreground: 146 50% 90%;
+
+    --accent: 146 50% 95%;
+    --accent-foreground: 146 100% 20%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 146 100% 35%;
+    --input: 146 100% 35%;
+    --ring: 0 0% 100%;
   }
 }
 

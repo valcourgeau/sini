@@ -6,6 +6,8 @@ import { Mail, Hash, ArrowRight, Loader2, AlertCircle, Search, HelpCircle, Info 
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import { useBrandTheme } from "@/hooks/use-brand-theme";
+import { getNavigationPath } from "@/lib/utils/brand-theme";
 
 // Test reference numbers for development
 const TEST_REFERENCE_NUMBERS = {
@@ -23,6 +25,9 @@ export default function PlatformLogin() {
   const [showRetrieveForm, setShowRetrieveForm] = useState(false);
   const [showTestCodes, setShowTestCodes] = useState(false);
   const router = useRouter();
+  
+  // Initialize brand theme
+  const { currentTheme } = useBrandTheme();
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -44,7 +49,11 @@ export default function PlatformLogin() {
       else if (referenceNumber.startsWith("H")) userType = "host";
       else if (referenceNumber.startsWith("S")) userType = "sinistre";
       
-      router.push(`/platform/dashboard/${userType}?ref=${referenceNumber}`);
+      // Use branded platform route if on a branded page
+      const baseUrl = `/platform/dashboard/${userType}?ref=${referenceNumber}`;
+      const targetUrl = getNavigationPath(currentTheme, baseUrl);
+      
+      router.push(targetUrl);
     } catch (err) {
       setError("Email ou numéro de référence incorrect. Veuillez vérifier vos informations.");
     } finally {
