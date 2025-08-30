@@ -39,12 +39,12 @@ export function ScrollButton({ iconName, title, description, sectionId, opacity 
   return (
     <button
       onClick={scrollToSection}
-      className={`group relative overflow-hidden rounded-2xl ${opacityClasses[opacity as keyof typeof opacityClasses]} p-12 text-secondary transition-all duration-300 hover:bg-primary/90 hover:scale-105 shadow-2xl hover:shadow-3xl backdrop-blur-sm`}
+      className={`group relative overflow-hidden rounded-2xl ${opacityClasses[opacity as keyof typeof opacityClasses]} p-6 sm:p-8 lg:p-12 text-secondary transition-all duration-300 hover:bg-primary/90 hover:scale-105 shadow-2xl hover:shadow-3xl backdrop-blur-sm`}
     >
       <div className="relative z-10">
-        <Icon className="h-16 w-16 mb-6 mx-auto text-secondary" />
-        <h2 className="text-3xl font-bold mb-4 text-secondary">{title}</h2>
-        <p className="text-1xl text-secondary/80 whitespace-nowrap">
+        <Icon className="h-8 w-8 sm:h-12 sm:w-12 lg:h-16 lg:w-16 mb-4 sm:mb-6 mx-auto text-secondary" />
+        <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold mb-2 sm:mb-4 text-secondary">{title}</h2>
+        <p className="text-sm sm:text-base lg:text-lg text-secondary/80 leading-relaxed">
           {description}
         </p>
       </div>

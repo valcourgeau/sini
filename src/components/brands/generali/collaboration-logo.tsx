@@ -19,7 +19,7 @@ const sizes = {
 
 export function CollaborationLogo({ className, size = 'lg' }: CollaborationLogoProps) {
   return (
-    <div className={cn('flex items-center justify-center gap-12', className)}>
+    <div className={cn('flex items-center justify-center gap-4', className)}>
       {/* Pharewest Logo */}
       <div className="text-primary drop-shadow-lg [text-shadow:_0_0_8px_rgba(255,255,255,0.3)]">
         <Logo size={size === 'sm' ? 'sm' : size === 'md' ? 'md' : size === 'lg' ? 'lg' : 'xl'} />

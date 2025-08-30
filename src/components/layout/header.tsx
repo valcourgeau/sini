@@ -4,6 +4,8 @@ import Link from "next/link";
 import { useState, useEffect } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { Logo } from "@/components/ui/logo";
+import { CollaborationLogo as GeneraliCollaborationLogo } from "@/components/brands/generali/collaboration-logo";
+import { CollaborationLogo as VaudoiseCollaborationLogo } from "@/components/brands/vaudoise/collaboration-logo";
 
 export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -70,7 +72,14 @@ export function Header() {
               onClick={handleLogoClick}
               className="flex items-center hover:opacity-80 transition-opacity"
             >
-              <Logo size="lg" />
+              {/* Show collaboration logo for branded pages, regular logo for main site */}
+              {brandContext === "generali" ? (
+                <GeneraliCollaborationLogo size="sm" />
+              ) : brandContext === "vaudoise" ? (
+                <VaudoiseCollaborationLogo size="sm" />
+              ) : (
+                <Logo size="lg" />
+              )}
             </button>
           </div>
           

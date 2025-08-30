@@ -59,17 +59,9 @@ export default function HomePage() {
   return (
     <main className="min-h-screen scroll-smooth">
       {/* First Section - Enhanced Professional Background */}
-      {/* 
-        Background Options:
-        1. hero-background (current) - Subtle geometric pattern with floating elements
-        2. hero-background-corporate - More corporate, structured pattern
-        
-        To switch: replace "hero-background" with "hero-background-corporate"
-        and "hero-accent" with "hero-accent-corporate"
-      */}
       <section 
         id="home" 
-        className="relative hero-background min-h-[calc(100vh-4rem)] flex items-center justify-center scroll-mt-16"
+        className="relative hero-background min-h-screen flex items-center justify-center scroll-mt-16 px-4 sm:px-6 lg:px-8"
         style={{
           backgroundImage: `url(${getImagePath('/background-pharewest.png')})`
         }}
@@ -78,22 +70,22 @@ export default function HomePage() {
         <div className="hero-overlay" />
         
         {/* Main content */}
-        <div className="container relative z-10">
-          <div className="mx-auto max-w-[980px] text-center">
-            {/* Enhanced title with subtle animation */}
-            <div className="mb-8">
-              <h1 className="text-3xl font-bold leading-tight tracking-tighter md:text-5xl lg:text-6xl lg:leading-[1.1] mb-4 animate-in fade-in duration-500 slide-in-from-bottom-4 text-secondary">
+        <div className="container relative z-10 mx-auto">
+          <div className="mx-auto max-w-4xl text-center px-4 sm:px-6 lg:px-8 py-16 sm:py-20 lg:py-24">
+            {/* Enhanced title with responsive scaling */}
+            <div className="mb-6 sm:mb-8 lg:mb-12">
+              <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold leading-none tracking-tighter mb-3 sm:mb-4 lg:mb-6 animate-in fade-in duration-500 slide-in-from-bottom-4 text-secondary">
                 Service de relogement d'urgence
               </h1>
             </div>
             
-            {/* Enhanced subtitle */}
-            <p className="text-xl md:text-2xl text-secondary/90 mb-16 animate-in fade-in duration-500 delay-100 slide-in-from-bottom-4">
+            {/* Enhanced subtitle with responsive scaling */}
+            <p className="text-lg sm:text-xl md:text-2xl text-secondary/90 mb-8 sm:mb-12 lg:mb-16 animate-in fade-in duration-500 delay-100 slide-in-from-bottom-4 px-4">
               pour le canton de Genève
             </p>
             
-            {/* Enhanced action buttons with glass effect */}
-            <div className="grid md:grid-cols-2 gap-8 max-w-3xl mx-auto animate-in fade-in duration-500 delay-200 slide-in-from-bottom-4">
+            {/* Enhanced action buttons with responsive grid */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 lg:gap-8 max-w-2xl sm:max-w-3xl mx-auto animate-in fade-in duration-500 delay-200 slide-in-from-bottom-4 px-4 mb-8 sm:mb-12">
               <ScrollButton
                 iconName="userround"
                 title="Sinistrés"
@@ -110,60 +102,60 @@ export default function HomePage() {
           </div>
         </div>
         
-        {/* Navigation arrow with enhanced styling */}
-        <div className="absolute bottom-8 right-8 z-10">
+        {/* Navigation arrow with responsive positioning */}
+        <div className="absolute bottom-4 sm:bottom-6 lg:bottom-8 right-4 sm:right-6 lg:right-8 z-10">
           <NavigationArrow direction="down" targetId="sinistres" position="bottom" />
         </div>
       </section>
 
       {/* Second Section - Sand Background */}
-      <section id="sinistres" className="relative bg-secondary min-h-[calc(100vh-4rem)] flex items-center justify-center scroll-mt-16">
-        <div className="absolute top-24 right-8">
+      <section id="sinistres" className="relative bg-secondary min-h-screen flex items-center justify-center scroll-mt-16 px-4 sm:px-6 lg:px-8 py-16 sm:py-20 lg:py-24">
+        <div className="absolute top-4 sm:top-6 lg:top-8 right-4 sm:right-6 lg:right-8">
           <NavigationArrow direction="up" targetId="home" position="top" />
         </div>
-        <div className="absolute bottom-8 right-8">
+        <div className="absolute bottom-4 sm:bottom-6 lg:bottom-8 right-4 sm:right-6 lg:right-8">
           <NavigationArrow direction="down" targetId="assurances" position="bottom" />
         </div>
         
-        <div className="container">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <div className="space-y-8">
+        <div className="container mx-auto">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-10 lg:gap-12 items-center">
+            <div className="space-y-6 sm:space-y-8 lg:space-y-10">
               <div>
-                <h2 className="text-5xl font-bold mb-6">Sinistrés</h2>
-                <p className="text-xl text-muted-foreground mb-8">
+                <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 sm:mb-6">Sinistrés</h2>
+                <p className="text-lg sm:text-xl text-muted-foreground mb-6 sm:mb-8">
                   Votre partenaire de confiance pour un relogement rapide et serein
                 </p>
               </div>
 
-              <div className="space-y-6">
-                <div className="flex items-start gap-4">
-                  <Timer className="h-6 w-6 text-primary mt-1 flex-shrink-0" />
+              <div className="space-y-6 sm:space-y-8">
+                <div className="flex items-start gap-3 sm:gap-4">
+                  <Timer className="h-5 w-5 sm:h-6 sm:w-6 text-primary mt-1 flex-shrink-0" />
                   <div>
-                    <h3 className="text-xl font-bold mb-2">Rapidité de relogement</h3>
-                    <p className="text-muted-foreground">
+                    <h3 className="text-lg sm:text-xl font-bold mb-2">Rapidité de relogement</h3>
+                    <p className="text-sm sm:text-base text-muted-foreground">
                       Une solution d'hébergement temporaire adaptée visant à proposer un relogement dans les 24-48 heures.
                     </p>
                   </div>
                 </div>
 
-                <div className="flex items-start gap-4">
-                  <Home className="h-6 w-6 text-primary mt-1 flex-shrink-0" />
+                <div className="flex items-start gap-3 sm:gap-4">
+                  <Home className="h-5 w-5 sm:h-6 sm:w-6 text-primary mt-1 flex-shrink-0" />
                   <div>
-                    <h3 className="text-xl font-bold mb-2">Logements adaptés</h3>
-                    <p className="text-muted-foreground">
+                    <h3 className="text-lg sm:text-xl font-bold mb-2">Logements adaptés</h3>
+                    <p className="text-sm sm:text-base text-muted-foreground">
                       Profiter de notre réseau d'habitations (meublés, équipés et proches de votre lieu de vie actuel).
                     </p>
                   </div>
                 </div>
                 
-                <div className="flex items-start gap-4">
-                  <UserRound className="h-6 w-6 text-primary mt-1 flex-shrink-0" />
+                <div className="flex items-start gap-3 sm:gap-4">
+                  <UserRound className="h-5 w-5 sm:h-6 sm:w-6 text-primary mt-1 flex-shrink-0" />
                   <div>
-                    <h3 className="text-xl font-bold mb-2">Accompagnement personnalisé</h3>
-                    <p className="text-muted-foreground">
+                    <h3 className="text-lg sm:text-xl font-bold mb-2">Accompagnement personnalisé</h3>
+                    <p className="text-sm sm:text-base text-muted-foreground">
                       Un interlocuteur unique qui facilite vos démarches.
                     </p>
-                    <ul className="text-muted-foreground mt-3 space-y-1 ml-4">
+                    <ul className="text-sm sm:text-base text-muted-foreground mt-3 space-y-1 ml-4">
                       <li className="flex items-center gap-2">
                         <span className="w-1.5 h-1.5 bg-primary rounded-full"></span>
                         Clarté des coûts de la prise en charge de votre assurance.
@@ -177,34 +169,34 @@ export default function HomePage() {
                 </div>
               </div>
 
-              <div className="pt-6">
+              <div className="pt-4 sm:pt-6">
                 <button 
                   onClick={handleRelocationClick}
                   disabled={isLoading}
-                  className="group inline-flex items-center gap-2 bg-primary text-primary-foreground px-8 py-4 rounded-full text-lg font-semibold hover:bg-primary/90 transition-all duration-300 shadow-xl hover:shadow-2xl hover:scale-105 backdrop-blur-sm border-2 border-white/30 disabled:opacity-70 disabled:cursor-not-allowed"
+                  className="group inline-flex items-center gap-2 bg-primary text-primary-foreground px-6 sm:px-8 py-3 sm:py-4 rounded-full text-base sm:text-lg font-semibold hover:bg-primary/90 transition-all duration-300 shadow-xl hover:shadow-2xl hover:scale-105 backdrop-blur-sm border-2 border-white/30 disabled:opacity-70 disabled:cursor-not-allowed w-full sm:w-auto justify-center"
                 >
                   {isLoading ? (
                     <>
-                      <Loader2 className="h-5 w-5 animate-spin" />
+                      <Loader2 className="h-4 w-4 sm:h-5 sm:w-5 animate-spin" />
                       Chargement...
                     </>
                   ) : (
                     <>
                       Demander un relogement
-                      <ArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-transform" />
+                      <ArrowRight className="h-4 w-4 sm:h-5 sm:w-5 group-hover:translate-x-1 transition-transform" />
                     </>
                   )}
                 </button>
               </div>
             </div>
 
-            <div className="relative aspect-video rounded-2xl overflow-hidden bg-white/10">
+            <div className="relative aspect-video rounded-2xl overflow-hidden bg-white/10 order-first lg:order-last">
               <Image
                 src={getImagePath("/happy-swiss-family.jpg")}
                 alt="Famille heureuse devant leur nouvelle maison - Service de relogement d'urgence"
                 fill
                 className="object-cover"
-                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                 priority
                 unoptimized
               />
@@ -215,32 +207,32 @@ export default function HomePage() {
       </section>
 
       {/* Third Section - Blue Background */}
-      <section id="assurances" className="relative bg-primary min-h-[calc(100vh-4rem)] flex items-center justify-center text-primary-foreground scroll-mt-16">
-        <div className="absolute top-24 right-8">
+      <section id="assurances" className="relative bg-primary min-h-screen flex items-center justify-center text-primary-foreground scroll-mt-16 px-4 sm:px-6 lg:px-8 py-16 sm:py-20 lg:py-24">
+        <div className="absolute top-4 sm:top-6 lg:top-8 right-4 sm:right-6 lg:right-8">
           <NavigationArrow direction="up" targetId="sinistres" position="top" />
         </div>
-        <div className="absolute bottom-8 right-8">
+        <div className="absolute bottom-4 sm:bottom-6 lg:bottom-8 right-4 sm:right-6 lg:right-8">
           <NavigationArrow direction="down" targetId="hosts" position="bottom" />
         </div>
-        <div className="container">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <div className="space-y-8">
+        <div className="container mx-auto">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-10 lg:gap-12 items-center">
+            <div className="space-y-6 sm:space-y-8 lg:space-y-10">
               <div>
-                <h2 className="text-5xl font-bold mb-6 text-secondary">Assurances</h2>
-                <p className="text-xl text-secondary/90 mb-8">
+                <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 sm:mb-6 text-secondary">Assurances</h2>
+                <p className="text-lg sm:text-xl text-secondary/90 mb-6 sm:mb-8">
                   Une solution complète pour la gestion des relogements de vos assurés
                 </p>
               </div>
 
-              <div className="space-y-6">
-                <div className="flex items-start gap-4">
-                  <Building2 className="h-6 w-6 text-secondary/90 mt-1 flex-shrink-0" />
+              <div className="space-y-6 sm:space-y-8">
+                <div className="flex items-start gap-3 sm:gap-4">
+                  <Building2 className="h-5 w-5 sm:h-6 sm:w-6 text-secondary/90 mt-1 flex-shrink-0" />
                   <div>
-                    <h3 className="text-xl font-bold mb-2 text-secondary">Améliorer l'efficacité de vos équipes</h3>
-                    <p className="text-secondary/90">
+                    <h3 className="text-lg sm:text-xl font-bold mb-2 text-secondary">Améliorer l'efficacité de vos équipes</h3>
+                    <p className="text-sm sm:text-base text-secondary/90">
                       Accéder à notre interface pour gérer les dossiers de vos assurés.
                     </p>
-                    <ul className="text-secondary/90 mt-3 space-y-1 ml-4">
+                    <ul className="text-sm sm:text-base text-secondary/90 mt-3 space-y-1 ml-4">
                       <li className="flex items-center gap-2">
                         <span className="w-1.5 h-1.5 bg-secondary rounded-full"></span>
                         Faciliter et centraliser la recherche de logements.
@@ -253,55 +245,55 @@ export default function HomePage() {
                   </div>
                 </div>
 
-                <div className="flex items-start gap-4">
-                  <Clock className="h-6 w-6 text-secondary/90 mt-1 flex-shrink-0" />
+                <div className="flex items-start gap-3 sm:gap-4">
+                  <Clock className="h-5 w-5 sm:h-6 sm:w-6 text-secondary/90 mt-1 flex-shrink-0" />
                   <div>
-                    <h3 className="text-xl font-bold mb-2 text-secondary">Reloger à moindre coût</h3>
-                    <p className="text-secondary/90">
+                    <h3 className="text-lg sm:text-xl font-bold mb-2 text-secondary">Reloger à moindre coût</h3>
+                    <p className="text-sm sm:text-base text-secondary/90">
                       Comparer les prix des logements grâce à notre base de données complète.
                     </p>
                   </div>
                 </div>
 
-                <div className="flex items-start gap-4">
-                  <Users className="h-6 w-6 text-secondary/90 mt-1 flex-shrink-0" />
+                <div className="flex items-start gap-3 sm:gap-4">
+                  <Users className="h-5 w-5 sm:h-6 sm:w-6 text-secondary/90 mt-1 flex-shrink-0" />
                   <div>
-                    <h3 className="text-xl font-bold mb-2 text-secondary">Satisfaction client</h3>
-                    <p className="text-secondary/90">
+                    <h3 className="text-lg sm:text-xl font-bold mb-2 text-secondary">Satisfaction client</h3>
+                    <p className="text-sm sm:text-base text-secondary/90">
                       Bénéficier d'un interlocuteur unique pour un relogement rapide et adapté aux besoins de vos assurés.
                     </p>
                   </div>
                 </div>
               </div>
 
-              <div className="pt-6">
+              <div className="pt-4 sm:pt-6">
                 <button 
                   onClick={handleInsuranceClick}
                   disabled={isLoading}
-                  className="group inline-flex items-center gap-2 bg-secondary text-primary px-8 py-4 rounded-full text-lg font-semibold hover:bg-secondary/90 transition-all duration-300 shadow-xl hover:shadow-2xl hover:scale-105 backdrop-blur-sm border-2 border-white/30 disabled:opacity-70 disabled:cursor-not-allowed"
+                  className="group inline-flex items-center gap-2 bg-secondary text-primary px-6 sm:px-8 py-3 sm:py-4 rounded-full text-base sm:text-lg font-semibold hover:bg-secondary/90 transition-all duration-300 shadow-xl hover:shadow-2xl hover:scale-105 backdrop-blur-sm border-2 border-white/30 disabled:opacity-70 disabled:cursor-not-allowed w-full sm:w-auto justify-center"
                 >
                   {isLoading ? (
                     <>
-                      <Loader2 className="h-5 w-5 animate-spin" />
+                      <Loader2 className="h-4 w-4 sm:h-5 sm:w-5 animate-spin" />
                       Chargement...
                     </>
                   ) : (
                     <>
                       Effectuer une demande
-                      <ArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-transform" />
+                      <ArrowRight className="h-4 w-4 sm:h-5 sm:w-5 group-hover:translate-x-1 transition-transform" />
                     </>
                   )}
                 </button>
               </div>
             </div>
 
-            <div className="relative aspect-video rounded-2xl overflow-hidden">
+            <div className="relative aspect-video rounded-2xl overflow-hidden order-first lg:order-last">
               <Image
                 src={getImagePath("/happy-swiss-insurers.png")}
                 alt="Happy Swiss insurers - professionals shaking hands"
                 fill
                 className="object-cover"
-                sizes="(max-width: 768px) 100vw, 50vw"
+                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                 priority
               />
             </div>
@@ -310,81 +302,81 @@ export default function HomePage() {
       </section>
 
       {/* Fourth Section - Sand Background */}
-      <section id="hosts" className="relative bg-secondary min-h-[calc(100vh-4rem)] flex items-center justify-center scroll-mt-16">
-        <div className="absolute top-24 right-8">
+      <section id="hosts" className="relative bg-secondary min-h-screen flex items-center justify-center scroll-mt-16 px-4 sm:px-6 lg:px-8 py-16 sm:py-20 lg:py-24">
+        <div className="absolute top-4 sm:top-6 lg:top-8 right-4 sm:right-6 lg:right-8">
           <NavigationArrow direction="up" targetId="assurances" position="top" />
         </div>
         
-        <div className="container">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <div className="space-y-8">
+        <div className="container mx-auto">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-10 lg:gap-12 items-center">
+            <div className="space-y-6 sm:space-y-8 lg:space-y-10">
               <div>
-                <h2 className="text-5xl font-bold mb-6">Hôtes</h2>
-                <p className="text-xl text-muted-foreground mb-8">
+                <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 sm:mb-6">Hôtes</h2>
+                <p className="text-lg sm:text-xl text-muted-foreground mb-6 sm:mb-8">
                   Une opportunité simple et sécurisée de proposer votre logement à notre réseau de sinistrés et assurances.
                 </p>
               </div>
 
-              <div className="space-y-6">
-                <div className="flex items-start gap-4">
-                  <HandCoins className="h-6 w-6 text-primary mt-1 flex-shrink-0" />
+              <div className="space-y-6 sm:space-y-8">
+                <div className="flex items-start gap-3 sm:gap-4">
+                  <HandCoins className="h-5 w-5 sm:h-6 sm:w-6 text-primary mt-1 flex-shrink-0" />
                   <div>
-                    <h3 className="text-xl font-bold mb-2">Maximiser vos revenus</h3>
-                    <p className="text-muted-foreground">
+                    <h3 className="text-lg sm:text-xl font-bold mb-2">Maximiser vos revenus</h3>
+                    <p className="text-sm sm:text-base text-muted-foreground">
                       Optimiser vos rendements et élargisser votre clientèle en rejoignant le réseau partenaire des assurances.
                     </p>
                   </div>
                 </div>
 
-                <div className="flex items-start gap-4">
-                  <Calendar className="h-6 w-6 text-primary mt-1 flex-shrink-0" />
+                <div className="flex items-start gap-3 sm:gap-4">
+                  <Calendar className="h-5 w-5 sm:h-6 sm:w-6 text-primary mt-1 flex-shrink-0" />
                   <div>
-                    <h3 className="text-xl font-bold mb-2">Gestion centralisée de vos annonces</h3>
-                    <p className="text-muted-foreground">
+                    <h3 className="text-lg sm:text-xl font-bold mb-2">Gestion centralisée de vos annonces</h3>
+                    <p className="text-sm sm:text-base text-muted-foreground">
                       Un calendrier multi-plateforme pour la gestion et les réservations de vos biens.
                     </p>
                   </div>
                 </div>
 
-                <div className="flex items-start gap-4">
-                  <Shield className="h-6 w-6 text-primary mt-1 flex-shrink-0" />
+                <div className="flex items-start gap-3 sm:gap-4">
+                  <Shield className="h-5 w-5 sm:h-6 sm:w-6 text-primary mt-1 flex-shrink-0" />
                   <div>
-                    <h3 className="text-xl font-bold mb-2">Protéger votre bien</h3>
-                    <p className="text-muted-foreground">
+                    <h3 className="text-lg sm:text-xl font-bold mb-2">Protéger votre bien</h3>
+                    <p className="text-sm sm:text-base text-muted-foreground">
                       Chaque sejour est encadré avec des sinistrés verifiés et garanties pour preserver l'integrité de votre logement.
                     </p>
                   </div>
                 </div>
               </div>
 
-              <div className="pt-6">
+              <div className="pt-4 sm:pt-6">
                 <button
                   onClick={handlePropertyClick}
                   disabled={isLoading}
-                  className="group inline-flex items-center gap-2 bg-primary text-primary-foreground px-8 py-4 rounded-full text-lg font-semibold hover:bg-primary/90 transition-all duration-300 shadow-xl hover:shadow-2xl hover:scale-105 backdrop-blur-sm border-2 border-white/30 disabled:opacity-70 disabled:cursor-not-allowed"
+                  className="group inline-flex items-center gap-2 bg-primary text-primary-foreground px-6 sm:px-8 py-3 sm:py-4 rounded-full text-base sm:text-lg font-semibold hover:bg-primary/90 transition-all duration-300 shadow-xl hover:shadow-2xl hover:scale-105 backdrop-blur-sm border-2 border-white/30 disabled:opacity-70 disabled:cursor-not-allowed w-full sm:w-auto justify-center"
                 >
                   {isLoading ? (
                     <>
-                      <Loader2 className="h-5 w-5 animate-spin" />
+                      <Loader2 className="h-4 w-4 sm:h-5 sm:w-5 animate-spin" />
                       Chargement...
                     </>
                   ) : (
                     <>
                       Devenir hôte
-                      <ArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-transform" />
+                      <ArrowRight className="h-4 w-4 sm:h-5 sm:w-5 group-hover:translate-x-1 transition-transform" />
                     </>
                   )}
                 </button>
               </div>
             </div>
 
-            <div className="relative aspect-video rounded-2xl overflow-hidden">
+            <div className="relative aspect-video rounded-2xl overflow-hidden order-first lg:order-last">
               <Image
                 src={getImagePath("/happy-landlord.jpg")}
                 alt="Happy landlord - property owner with keys"
                 fill
                 className="object-cover"
-                sizes="(max-width: 768px) 100vw, 50vw"
+                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                 priority
               />
             </div>
