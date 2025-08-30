@@ -3,7 +3,6 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { Footer } from "@/components/layout/footer";
 import { PlatformHeaderProvider } from "@/components/layout/platform-header-provider";
-import { ThemeInitializer } from "@/components/theme-initializer";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -20,9 +19,6 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="fr">
-      <head>
-        <ThemeInitializer />
-      </head>
       <body className={inter.className}>
         <div className="flex min-h-screen flex-col">
           <PlatformHeaderProvider>

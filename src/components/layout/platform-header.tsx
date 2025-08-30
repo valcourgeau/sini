@@ -7,26 +7,60 @@ import { Logo } from "@/components/ui/logo";
 import { User } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useBrandTheme } from "@/hooks/use-brand-theme";
-import { getBrandConfig, getNavigationPath, extractUserTypeFromPath, isDashboardPage } from "@/lib/utils/brand-theme";
+import { getBrandConfig, getNavigationPath } from "@/lib/utils/brand-theme";
 import { VaudoiseLogo } from "@/components/ui/vaudoise-logo";
 import { GeneraliLogo } from "@/components/brands/generali/generali-logo";
+import { CollaborationLogo as VaudoiseCollaborationLogo } from "@/components/brands/vaudoise/collaboration-logo";
+import { CollaborationLogo as GeneraliCollaborationLogo } from "@/components/brands/generali/collaboration-logo";
 
 export function PlatformHeader() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const pathname = usePathname();
   const { currentTheme } = useBrandTheme();
 
-  // Get user type from pathname using utility function
-  const userType = extractUserTypeFromPath(pathname);
+  // Get user type from pathname - handle both branded and non-branded paths
+  const getUserType = () => {
+    const pathSegments = pathname.split('/');
+    
+    // Handle branded paths: /generali/platform/dashboard/assurance or /vaudoise/platform/dashboard/assurance
+    if (pathSegments.length >= 5 && pathSegments[1] && pathSegments[2] === 'platform' && pathSegments[3] === 'dashboard') {
+      return pathSegments[4];
+    }
+    
+    // Handle non-branded paths: /platform/dashboard/assurance
+    if (pathSegments.length >= 4 && pathSegments[1] === 'platform' && pathSegments[2] === 'dashboard') {
+      return pathSegments[3];
+    }
+    
+    return null;
+  };
   
-  // Check if we're on a dashboard page using utility function
-  const isDashboardPageResult = isDashboardPage(pathname);
+  const userType = getUserType();
+  
+  // Check if we're on a dashboard page (not login page)
+  const isDashboardPage = pathname.includes("/platform/dashboard");
 
   const handleRelocationClick = (e: React.MouseEvent) => {
     e.preventDefault();
-    // Navigate to relocation wizard with correct user type and preserve brand theme
-    const brandParam = currentTheme !== 'default' ? `&brand=${currentTheme}` : '';
-    window.location.href = `/relocation/new?userType=${userType}${brandParam}`;
+    
+    // Determine the correct relocation path based on brand theme
+    let relocationPath: string;
+    
+    if (currentTheme === 'default') {
+      // Standard platform - go to /relocation
+      relocationPath = '/relocation/new';
+    } else {
+      // Branded platform - go to /{brand}/relocation
+      relocationPath = `/${currentTheme}/relocation/new`;
+    }
+    
+    // Add userType parameter if available
+    if (userType) {
+      const separator = relocationPath.includes('?') ? '&' : '?';
+      relocationPath += `${separator}userType=${userType}`;
+    }
+    
+    window.location.href = relocationPath;
     // Close mobile menu if open
     setIsMenuOpen(false);
   };
@@ -60,12 +94,11 @@ export function PlatformHeader() {
   const getBrandLogo = () => {
     const config = getBrandConfig(currentTheme);
     
-    // Use the brand configuration to determine which logo to show
-    switch (config.name) {
+    switch (currentTheme) {
       case 'vaudoise':
-        return <VaudoiseLogo size="lg" />;
+        return <VaudoiseCollaborationLogo size="lg" />;
       case 'generali':
-        return <GeneraliLogo size="lg" />;
+        return <GeneraliCollaborationLogo size="lg" />;
       default:
         return <Logo size="lg" />;
     }
@@ -114,7 +147,7 @@ export function PlatformHeader() {
               </Button>
             )}
             {/* Only show profile icon on dashboard pages */}
-            {isDashboardPageResult && (
+            {isDashboardPage && (
               <Link
                 href={getProfileLink()}
                 className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-primary/10 text-primary hover:bg-primary/20 transition-colors"
@@ -181,7 +214,7 @@ export function PlatformHeader() {
               </Button>
             )}
             {/* Only show profile icon on dashboard pages in mobile menu */}
-            {isDashboardPageResult && (
+            {isDashboardPage && (
               <Link
                 href={getProfileLink()}
                 className="flex items-center justify-center w-10 h-10 rounded-full bg-primary/10 text-primary hover:bg-primary/20 transition-colors"

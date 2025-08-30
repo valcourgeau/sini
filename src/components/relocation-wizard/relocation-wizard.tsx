@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useSearchParams } from "next/navigation";
+import { useSearchParams, usePathname } from "next/navigation";
 import { 
   Card, 
   CardHeader, 
@@ -283,6 +283,7 @@ export function RelocationWizard() {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isArrivalDetailsValid, setIsArrivalDetailsValid] = useState(false);
   const arrivalDetailsRef = useRef<SingleArrivalDetailsRef>(null);
+  const pathname = usePathname();
   const searchParams = useSearchParams();
   const typeParam = searchParams.get("type");
   const userTypeParam = searchParams.get("userType");
@@ -414,7 +415,7 @@ export function RelocationWizard() {
               message: "Veuillez télécharger la déclaration de sinistre pour continuer"
             });
             isValid = false;
-          } else if (insuranceData.hasInsurance === false && userTypeParam === "sinistre") {
+          } else if (insuranceData.hasInsurance === false) {
             // For sinistre users, prevent proceeding when "no" is selected
             form.setError("singleInsuranceCoverage", {
               type: "manual",
