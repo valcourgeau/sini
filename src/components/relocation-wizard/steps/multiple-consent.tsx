@@ -21,14 +21,9 @@ export function MultipleConsent({ form, onSubmit, isSubmitting, onBack }: Multip
 
   // Handle form submission with validation
   const handleSubmit = async () => {
-    console.log("Multiple consent validation triggered");
     const isValid = await form.trigger("multipleConsent");
-    console.log("Multiple consent validation result:", isValid);
-    console.log("Current multiple consent values:", form.getValues("multipleConsent"));
     if (isValid) {
       await onSubmit();
-    } else {
-      console.log("Multiple consent validation failed, showing errors");
     }
   };
   

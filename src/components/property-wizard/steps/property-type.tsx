@@ -20,10 +20,7 @@ export function PropertyType({ form }: PropertyTypeProps) {
   // Get the current property type from the form
   const propertyType = watch("propertyType");
   
-  // Log when property type changes for debugging
-  useEffect(() => {
-    console.log("Property type selected:", propertyType);
-  }, [propertyType]);
+
   
   // Define the property type options
   const propertyTypes: PropertyTypeOption[] = [
@@ -61,7 +58,6 @@ export function PropertyType({ form }: PropertyTypeProps) {
 
   // Function to handle selection of property type
   const handlePropertyTypeSelect = (id: string) => {
-    console.log("Selecting property type:", id);
     setValue("propertyType", id, {
       shouldValidate: true,
       shouldDirty: true,

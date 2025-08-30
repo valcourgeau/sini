@@ -143,7 +143,6 @@ export function DossierDetailClient({ caseData }: DossierDetailClientProps) {
     setIsSelectingOptions(false);
     
     // In a real application, you would save this to the backend
-    console.log("Selected relocation options:", options);
     
     // Update the case data locally
     caseData.selectedRelocationOptions = options;

@@ -31,16 +31,8 @@ export function PropertyPricing({ form }: PropertyPricingProps) {
   
   // Function to validate the current step
   const validateStep = async () => {
-    console.log("Validating PropertyPricing step");
-    
     // Only validate the required price fields
     const isValid = await form.trigger("propertyPricing.prices");
-    
-    console.log("PropertyPricing validation result:", isValid);
-    
-    if (!isValid) {
-      console.log("PropertyPricing validation errors:", form.formState.errors);
-    }
     
     return isValid;
   };

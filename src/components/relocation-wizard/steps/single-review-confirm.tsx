@@ -169,13 +169,7 @@ export function SingleReviewConfirm({ form, userType }: SingleReviewConfirmProps
     return "Je confirme que toutes les informations fournies dans cette demande sont exactes et complètes à la meilleure de ma connaissance. Je comprends que des informations incorrectes peuvent affecter le traitement de ma demande de relogement.";
   };
   
-  // Log the form values for debugging
-  console.log("Form values in review:", {
-    hasAnimals: getBooleanValue("singleSpecialNeeds.hasAnimals"),
-    hasAccessibilityNeeds: getBooleanValue("singleSpecialNeeds.hasAccessibilityNeeds"),
-    rawHasAnimals: getValue("singleSpecialNeeds.hasAnimals"),
-    rawHasAccessibilityNeeds: getValue("singleSpecialNeeds.hasAccessibilityNeeds")
-  });
+
 
   // Get form errors for validation
   const { formState: { errors } } = form;
