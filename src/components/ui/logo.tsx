@@ -1,6 +1,7 @@
 'use client';
 
 import { cn } from '@/lib/utils';
+import { getImagePath } from '@/lib/utils';
 
 interface LogoProps {
   className?: string;
@@ -12,6 +13,13 @@ const sizes = {
   md: 'h-8',
   lg: 'h-10',
   xl: 'h-12'
+};
+
+const flagSizes = {
+  sm: 'h-3 w-3',
+  md: 'h-4 w-4',
+  lg: 'h-5 w-5',
+  xl: 'h-6 w-6'
 };
 
 export function Logo({ className, size = 'md' }: LogoProps) {
@@ -30,25 +38,23 @@ export function Logo({ className, size = 'md' }: LogoProps) {
         Pharewest
       </span>
       
-      {/* Swiss Flag as asterisk in top right corner */}
-      <svg
-        className={cn('absolute flex-shrink-0', {
-          'h-2 w-2 top-1.5 -right-2.5': size === 'sm',
-          'h-2.5 w-2.5 top-1.5 -right-3': size === 'md',
-          'h-3 w-3 top-1 -right-3': size === 'lg',
-          'h-4 w-4 top-0.5 -right-4': size === 'xl',
+      {/* Swiss Flag image in top right corner */}
+      <img
+        src={getImagePath("/ch-round-flag.png")}
+        alt="Swiss Flag"
+        className={cn('absolute flex-shrink-0 object-contain', {
+          'h-3 w-3 top-0.5 -right-3.5': size === 'sm',
+          'h-4 w-4 top-0 -right-4': size === 'md',
+          'h-5 w-5 -top-0.5 -right-4.5': size === 'lg',
+          'h-6 w-6 -top-1 -right-5': size === 'xl',
         })}
-        viewBox="0 0 16 16"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        {/* Red background */}
-        <rect width="16" height="16" fill="#FF0000" rx="1"/>
-        {/* White cross - horizontal arm */}
-        <rect x="3" y="7" width="10" height="2" fill="white"/>
-        {/* White cross - vertical arm */}
-        <rect x="7" y="3" width="2" height="10" fill="white"/>
-      </svg>
+        style={{
+          imageRendering: 'crisp-edges',
+          imageRendering: '-webkit-optimize-contrast',
+          transform: 'translateZ(0)',
+          backfaceVisibility: 'hidden'
+        }}
+      />
     </div>
   );
 } 

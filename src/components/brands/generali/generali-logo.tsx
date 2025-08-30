@@ -25,6 +25,12 @@ export function GeneraliLogo({ className, size = 'md' }: GeneraliLogoProps) {
           src={getImagePath("/brands/generali/generali-logo.png")}
           alt="Generali Logo"
           className="object-contain h-full w-auto"
+          style={{
+            imageRendering: 'crisp-edges',
+            imageRendering: '-webkit-optimize-contrast',
+            transform: 'translateZ(0)',
+            backfaceVisibility: 'hidden'
+          }}
         />
       </div>
     </div>

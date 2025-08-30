@@ -218,7 +218,7 @@ export default function VaudoiseHomePage() {
       <section id="assurances" className="relative bg-secondary min-h-screen flex items-center justify-center scroll-mt-16 overflow-hidden px-4 sm:px-6 lg:px-8 py-16 sm:py-20 lg:py-24">
         {/* Diagonal Green Background */}
         <div className="absolute inset-0 bg-primary" style={{
-          clipPath: 'polygon(0 0, 70% 0, 40% 100%, 0% 100%)'
+          clipPath: 'polygon(0 0, 80% 0, 60% 100%, 0% 100%)'
         }}></div>
         
         <div className="absolute top-4 sm:top-6 lg:top-8 right-4 sm:right-6 lg:right-8">
