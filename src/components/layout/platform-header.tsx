@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { usePathname } from "next/navigation";
 import { Logo } from "@/components/ui/logo";
 import { User } from "lucide-react";
@@ -9,7 +9,6 @@ import { Button } from "@/components/ui/button";
 
 export function PlatformHeader() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [brandContext, setBrandContext] = useState<string | null>(null);
   const pathname = usePathname();
 
   // Get user type from pathname
@@ -17,14 +16,6 @@ export function PlatformHeader() {
   
   // Check if we're on a dashboard page (not login page)
   const isDashboardPage = pathname.startsWith("/platform/dashboard");
-
-  // Detect brand context from sessionStorage or URL parameters
-  useEffect(() => {
-    const storedBrand = sessionStorage.getItem('brandContext');
-    if (storedBrand) {
-      setBrandContext(storedBrand);
-    }
-  }, []);
 
   const handleRelocationClick = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -51,56 +42,10 @@ export function PlatformHeader() {
   // Check if relocation button should be shown (only for assurance users)
   const shouldShowRelocationButton = userType === 'assurance';
 
-  // Get brand-specific header classes
-  const getHeaderClasses = () => {
-    const baseClasses = "sticky top-0 z-50 backdrop-blur-sm border-b border-border";
-    
-    if (brandContext === 'generali') {
-      return `${baseClasses} bg-generali-red-95`;
-    } else if (brandContext === 'vaudoise') {
-      return `${baseClasses} bg-vaudoise-green-95`;
-    }
-    
-    return `${baseClasses} bg-background/95`;
-  };
-
-  // Get brand-specific text classes
-  const getTextClasses = () => {
-    if (brandContext === 'generali') {
-      return "text-generali-cream hover:text-generali-cream-80";
-    } else if (brandContext === 'vaudoise') {
-      return "text-vaudoise-white hover:text-vaudoise-white-80";
-    }
-    
-    return "text-foreground hover:text-primary";
-  };
-
-  // Get brand-specific button classes
-  const getButtonClasses = () => {
-    if (brandContext === 'generali') {
-      return "bg-generali-cream text-generali-red hover:bg-generali-cream-90";
-    } else if (brandContext === 'vaudoise') {
-      return "bg-vaudoise-white text-vaudoise-green hover:bg-vaudoise-white-90";
-    }
-    
-    return "bg-primary text-primary-foreground hover:bg-primary/90";
-  };
-
-  // Get brand-specific profile icon classes
-  const getProfileIconClasses = () => {
-    if (brandContext === 'generali') {
-      return "bg-generali-cream-10 text-generali-cream hover:bg-generali-cream-20";
-    } else if (brandContext === 'vaudoise') {
-      return "bg-vaudoise-white-10 text-vaudoise-white hover:bg-vaudoise-white-20";
-    }
-    
-    return "bg-primary/10 text-primary hover:bg-primary/20";
-  };
-
   return (
     <header 
       id="header" 
-      className={getHeaderClasses()}
+      className="sticky top-0 z-50 bg-background/95 backdrop-blur-sm border-b border-border"
     >
       <div className="container mx-auto px-4 md:px-6">
         <div className="flex h-16 items-center justify-between">
@@ -114,13 +59,13 @@ export function PlatformHeader() {
           <nav className="hidden md:flex items-center gap-6">
             <Link 
               href="/about" 
-              className={`text-sm font-medium transition-colors ${getTextClasses()}`}
+              className="text-sm font-medium text-foreground hover:text-primary transition-colors"
             >
               À propos
             </Link>
             <Link 
               href="/contact" 
-              className={`text-sm font-medium transition-colors ${getTextClasses()}`}
+              className="text-sm font-medium text-foreground hover:text-primary transition-colors"
             >
               Contact
             </Link>
@@ -128,7 +73,7 @@ export function PlatformHeader() {
             {shouldShowRelocationButton && (
               <Button
                 onClick={handleRelocationClick}
-                className={`inline-flex items-center px-6 py-2.5 rounded-lg text-base font-semibold transition-colors ${getButtonClasses()}`}
+                className="inline-flex items-center bg-primary text-primary-foreground px-6 py-2.5 rounded-lg text-base font-semibold hover:bg-primary/90 transition-colors"
               >
                 Demander un relogement
               </Button>
@@ -137,7 +82,7 @@ export function PlatformHeader() {
             {isDashboardPage && (
               <Link
                 href={getProfileLink()}
-                className={`inline-flex items-center justify-center w-10 h-10 rounded-full transition-colors ${getProfileIconClasses()}`}
+                className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-primary/10 text-primary hover:bg-primary/20 transition-colors"
               >
                 <User className="h-5 w-5" />
               </Link>
@@ -146,7 +91,7 @@ export function PlatformHeader() {
           
           {/* Mobile menu button */}
           <button
-            className={`md:hidden flex items-center ${getTextClasses()}`}
+            className="md:hidden flex items-center text-foreground"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
           >
             <svg
@@ -180,15 +125,14 @@ export function PlatformHeader() {
           <div className="md:hidden py-4 space-y-2">
             <Link 
               href="/about" 
-              className={`block text-sm font-medium transition-colors py-2 ${getTextClasses()}`}
+              className="block text-sm font-medium text-foreground hover:text-primary transition-colors py-2"
               onClick={() => setIsMenuOpen(false)}
             >
               À propos
             </Link>
             <Link 
               href="/contact" 
-              className={`block text-sm font-medium transition-colors py-2 ${getTextClasses()}`}
-              onClick={() => setIsMenuOpen(false)}
+              className="block text-sm font-medium text-foreground hover:text-primary transition-colors py-2"
             >
               Contact
             </Link>
@@ -196,7 +140,7 @@ export function PlatformHeader() {
             {shouldShowRelocationButton && (
               <Button
                 onClick={handleRelocationClick}
-                className={`flex items-center px-6 py-2.5 rounded-lg text-base font-semibold transition-colors ${getButtonClasses()}`}
+                className="flex items-center bg-primary text-primary-foreground px-6 py-2.5 rounded-lg text-base font-semibold hover:bg-primary/90 transition-colors"
               >
                 Demander un relogement
               </Button>
@@ -205,7 +149,7 @@ export function PlatformHeader() {
             {isDashboardPage && (
               <Link
                 href={getProfileLink()}
-                className={`flex items-center justify-center w-10 h-10 rounded-full transition-colors ${getProfileIconClasses()}`}
+                className="flex items-center justify-center w-10 h-10 rounded-full bg-primary/10 text-primary hover:bg-primary/20 transition-colors"
                 onClick={() => setIsMenuOpen(false)}
               >
                 <User className="h-5 w-5" />

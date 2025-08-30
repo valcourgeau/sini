@@ -18,9 +18,6 @@ export default function GeneraliHomePage() {
     e.preventDefault();
     setIsLoading(true);
     
-    // Store brand context for platform navigation
-    sessionStorage.setItem('brandContext', 'generali');
-    
     // Add a small delay to show the loading state
     await new Promise(resolve => setTimeout(resolve, 400));
     
@@ -30,9 +27,6 @@ export default function GeneraliHomePage() {
   const handleInsuranceClick = async (e: React.MouseEvent) => {
     e.preventDefault();
     setIsLoading(true);
-    
-    // Store brand context for platform navigation
-    sessionStorage.setItem('brandContext', 'generali');
     
     // Add a small delay to show the loading state
     await new Promise(resolve => setTimeout(resolve, 400));
@@ -44,9 +38,6 @@ export default function GeneraliHomePage() {
     e.preventDefault();
     setIsLoading(true);
     
-    // Store brand context for platform navigation
-    sessionStorage.setItem('brandContext', 'generali');
-    
     // Add a small delay to show the loading state
     await new Promise(resolve => setTimeout(resolve, 400));
     
@@ -56,9 +47,6 @@ export default function GeneraliHomePage() {
   const handlePropertyClick = async (e: React.MouseEvent) => {
     e.preventDefault();
     setIsLoading(true);
-    
-    // Store brand context for platform navigation
-    sessionStorage.setItem('brandContext', 'generali');
     
     // Add a small delay to show the loading state
     await new Promise(resolve => setTimeout(resolve, 400));
