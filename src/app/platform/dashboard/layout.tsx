@@ -187,7 +187,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
           <div className="p-4 border-t border-primary/20">
             <Button
               variant="ghost"
-              className="w-full justify-start text-red-400 hover:text-red-300 hover:bg-red-500/10 transition-all duration-200 group"
+              className="w-full justify-start text-red-200 hover:text-red-100 hover:bg-red-500/20 transition-all duration-200 group"
               onClick={handleLogout}
             >
               <LogOut className="h-4 w-4 mr-3 transition-transform duration-200 group-hover:scale-110" />

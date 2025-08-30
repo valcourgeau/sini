@@ -96,9 +96,9 @@ export function PlatformHeader() {
     
     switch (currentTheme) {
       case 'vaudoise':
-        return <VaudoiseCollaborationLogo size="lg" />;
+        return <VaudoiseCollaborationLogo size="sm" />;
       case 'generali':
-        return <GeneraliCollaborationLogo size="lg" />;
+        return <GeneraliCollaborationLogo size="sm" />;
       default:
         return <Logo size="lg" />;
     }
