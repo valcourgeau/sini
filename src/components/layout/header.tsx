@@ -60,6 +60,11 @@ export function Header() {
     setIsMenuOpen(false);
   };
 
+  const handleConnexionClick = (e: React.MouseEvent) => {
+    // Clear brand context when going to main platform
+    sessionStorage.removeItem('brandContext');
+  };
+
   return (
     <header 
       id="header" 
@@ -106,6 +111,7 @@ export function Header() {
               </button>
               <Link
                 href="/platform"
+                onClick={handleConnexionClick}
                 className="inline-flex items-center border-2 border-primary text-primary px-5 py-2 rounded-lg text-base font-semibold hover:bg-primary hover:text-primary-foreground transition-colors"
               >
                 Connexion
@@ -171,8 +177,11 @@ export function Header() {
             </button>
             <Link
               href="/platform"
+              onClick={(e) => {
+                handleConnexionClick(e);
+                setIsMenuOpen(false);
+              }}
               className="flex items-center border-2 border-primary text-primary px-5 py-2 rounded-lg text-base font-semibold hover:bg-primary hover:text-primary-foreground transition-colors"
-              onClick={() => setIsMenuOpen(false)}
             >
               Connexion
             </Link>

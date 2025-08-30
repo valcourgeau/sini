@@ -18,6 +18,9 @@ export default function VaudoiseHomePage() {
     e.preventDefault();
     setIsLoading(true);
     
+    // Store brand context for platform navigation
+    sessionStorage.setItem('brandContext', 'vaudoise');
+    
     // Add a small delay to show the loading state
     await new Promise(resolve => setTimeout(resolve, 400));
     
@@ -27,6 +30,9 @@ export default function VaudoiseHomePage() {
   const handleInsuranceClick = async (e: React.MouseEvent) => {
     e.preventDefault();
     setIsLoading(true);
+    
+    // Store brand context for platform navigation
+    sessionStorage.setItem('brandContext', 'vaudoise');
     
     // Add a small delay to show the loading state
     await new Promise(resolve => setTimeout(resolve, 400));
@@ -38,6 +44,9 @@ export default function VaudoiseHomePage() {
     e.preventDefault();
     setIsLoading(true);
     
+    // Store brand context for platform navigation
+    sessionStorage.setItem('brandContext', 'vaudoise');
+    
     // Add a small delay to show the loading state
     await new Promise(resolve => setTimeout(resolve, 400));
     
@@ -47,6 +56,9 @@ export default function VaudoiseHomePage() {
   const handlePropertyClick = async (e: React.MouseEvent) => {
     e.preventDefault();
     setIsLoading(true);
+    
+    // Store brand context for platform navigation
+    sessionStorage.setItem('brandContext', 'vaudoise');
     
     // Add a small delay to show the loading state
     await new Promise(resolve => setTimeout(resolve, 400));

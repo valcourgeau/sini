@@ -2,6 +2,8 @@
 
 import { Inter } from "next/font/google";
 import "../globals.css";
+import "../(brands)/generali/globals.css";
+import "../(brands)/vaudoise/globals.css";
 import { PlatformHeader } from "@/components/layout/platform-header";
 
 const inter = Inter({ subsets: ["latin"] });

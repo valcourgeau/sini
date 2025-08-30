@@ -321,4 +321,41 @@
   .bg-generali-red {
     background-color: hsl(var(--generali-red-bg));
   }
+
+  /* Generali brand-specific utility classes for platform header */
+  .bg-generali-red-95 {
+    background-color: hsl(2 78% 32% / 0.95);
+  }
+
+  .text-generali-cream {
+    color: hsl(40 15% 97%);
+  }
+
+  .text-generali-cream-80 {
+    color: hsl(40 15% 97% / 0.8);
+  }
+
+  .text-generali-cream-90 {
+    color: hsl(40 15% 97% / 0.9);
+  }
+
+  .bg-generali-cream {
+    background-color: hsl(40 15% 97%);
+  }
+
+  .bg-generali-cream-90 {
+    background-color: hsl(40 15% 97% / 0.9);
+  }
+
+  .bg-generali-cream-10 {
+    background-color: hsl(40 15% 97% / 0.1);
+  }
+
+  .bg-generali-cream-20 {
+    background-color: hsl(40 15% 97% / 0.2);
+  }
+
+  .text-generali-red {
+    color: hsl(2 78% 42%);
+  }
 }
