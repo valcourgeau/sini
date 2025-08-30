@@ -16,7 +16,7 @@ export default function HomePage() {
   const router = useRouter();
   
   // Initialize brand theme
-  useBrandTheme();
+  const { currentTheme } = useBrandTheme();
 
   const handleRelocationClick = async (e: React.MouseEvent) => {
     e.preventDefault();
@@ -25,7 +25,13 @@ export default function HomePage() {
     // Add a small delay to show the loading state
     await new Promise(resolve => setTimeout(resolve, 400));
     
-    router.push("/relocation/new?userType=sinistre");
+    // Build URL with brand parameter if not default
+    let url = "/relocation/new?userType=sinistre";
+    if (currentTheme !== 'default') {
+      url += `&brand=${currentTheme}`;
+    }
+    
+    router.push(url);
   };
 
   const handleInsuranceClick = async (e: React.MouseEvent) => {
@@ -35,7 +41,13 @@ export default function HomePage() {
     // Add a small delay to show the loading state
     await new Promise(resolve => setTimeout(resolve, 400));
     
-    router.push("/relocation/new?userType=assurance");
+    // Build URL with brand parameter if not default
+    let url = "/relocation/new?userType=assurance";
+    if (currentTheme !== 'default') {
+      url += `&brand=${currentTheme}`;
+    }
+    
+    router.push(url);
   };
 
   const handleHostClick = async (e: React.MouseEvent) => {

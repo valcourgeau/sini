@@ -1,12 +1,16 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { CheckCircle, Clock, Mail, Phone } from "lucide-react";
+import { useSearchParams } from "next/navigation";
 
 interface SuccessMessageProps {
   userType?: string | null;
 }
 
 export function SuccessMessage({ userType }: SuccessMessageProps) {
+  const searchParams = useSearchParams();
+  const brandParam = searchParams.get('brand');
+  
   // Determine messages based on user type
   const getSuccessTitle = () => {
     if (userType === "sinistre") {
@@ -103,7 +107,9 @@ export function SuccessMessage({ userType }: SuccessMessageProps) {
         
         <div className="flex justify-center mt-6">
           <Button asChild>
-            <Link href="/">Retour à l'accueil</Link>
+            <Link href={brandParam ? `/?brand=${brandParam}` : "/"}>
+              Retour à l'accueil
+            </Link>
           </Button>
         </div>
       </div>

@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useSearchParams, usePathname } from "next/navigation";
+import { useBrandTheme } from "@/hooks/use-brand-theme";
 import { 
   Card, 
   CardHeader, 
@@ -287,6 +288,13 @@ export function RelocationWizard() {
   const searchParams = useSearchParams();
   const typeParam = searchParams.get("type");
   const userTypeParam = searchParams.get("userType");
+  const { currentTheme } = useBrandTheme();
+
+  // Add debugging for brand theme and URL parameters
+  useEffect(() => {
+    console.log("RelocationWizard - currentTheme:", currentTheme);
+    console.log("RelocationWizard - searchParams:", Object.fromEntries(searchParams.entries()));
+  }, [currentTheme, searchParams]);
 
   // Add debugging for isSubmitted state changes
   useEffect(() => {

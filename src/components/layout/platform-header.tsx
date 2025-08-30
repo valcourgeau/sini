@@ -43,15 +43,12 @@ export function PlatformHeader() {
   const handleRelocationClick = (e: React.MouseEvent) => {
     e.preventDefault();
     
-    // Determine the correct relocation path based on brand theme
-    let relocationPath: string;
+    // Always use the standard relocation path with brand parameter
+    let relocationPath = '/relocation/new';
     
-    if (currentTheme === 'default') {
-      // Standard platform - go to /relocation
-      relocationPath = '/relocation/new';
-    } else {
-      // Branded platform - go to /{brand}/relocation
-      relocationPath = `/${currentTheme}/relocation/new`;
+    // Add brand parameter if not default theme
+    if (currentTheme !== 'default') {
+      relocationPath += `?brand=${currentTheme}`;
     }
     
     // Add userType parameter if available
