@@ -10,7 +10,6 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { getImagePath } from "@/lib/utils";
 import { useBrandTheme } from "@/hooks/use-brand-theme";
-import { getNavigationPath } from "@/lib/utils/brand-theme";
 
 export default function GeneraliHomePage() {
   const [isLoading, setIsLoading] = useState(false);
@@ -26,7 +25,7 @@ export default function GeneraliHomePage() {
     // Add a small delay to show the loading state
     await new Promise(resolve => setTimeout(resolve, 400));
     
-    router.push(getNavigationPath('generali', "/relocation/new?userType=sinistre"));
+    router.push("/relocation/new?userType=sinistre&brand=generali");
   };
 
   const handleInsuranceClick = async (e: React.MouseEvent) => {
@@ -36,7 +35,7 @@ export default function GeneraliHomePage() {
     // Add a small delay to show the loading state
     await new Promise(resolve => setTimeout(resolve, 400));
     
-    router.push(getNavigationPath('generali', "/relocation/new?userType=assurance"));
+    router.push("/relocation/new?userType=assurance&brand=generali");
   };
 
   const handleHostClick = async (e: React.MouseEvent) => {
@@ -46,7 +45,7 @@ export default function GeneraliHomePage() {
     // Add a small delay to show the loading state
     await new Promise(resolve => setTimeout(resolve, 400));
     
-    router.push(getNavigationPath('generali', "/relocation/new?type=host"));
+    router.push("/relocation/new?type=host&brand=generali");
   };
 
   const handlePropertyClick = async (e: React.MouseEvent) => {
@@ -56,7 +55,7 @@ export default function GeneraliHomePage() {
     // Add a small delay to show the loading state
     await new Promise(resolve => setTimeout(resolve, 400));
     
-    router.push(getNavigationPath('generali', "/property/new"));
+    router.push("/property/new?brand=generali");
   };
 
   return (

@@ -53,28 +53,10 @@ export function PropertyDetails({ form }: PropertyDetailsProps) {
   const detailsErrors = errors.propertyDetails || {};
   const locationErrors = (errors.propertyLocation || {}) as PropertyLocationErrors;
   
-  // Log form state for debugging
-  useEffect(() => {
-    console.log("PropertyDetails - Form errors:", errors);
-    console.log("PropertyDetails - Details errors:", detailsErrors);
-    console.log("PropertyDetails - Location errors:", locationErrors);
-  }, [errors, detailsErrors, locationErrors]);
-  
-  // Log form values for debugging
-  useEffect(() => {
-    const subscription = form.watch((value, { name, type }) => {
-      if (name?.startsWith('propertyDetails') || name?.startsWith('propertyLocation')) {
-        console.log(`PropertyDetails - Form value changed: ${name}`, value[name]);
-      }
-    });
-    
-    return () => subscription.unsubscribe();
-  }, [form]);
+
   
   // Function to validate the current step
   const validateStep = async () => {
-    console.log("Validating PropertyDetails step");
-    
     // Validate all fields in both propertyDetails and propertyLocation objects
     const isValid = await form.trigger([
       "propertyDetails.title",
@@ -87,12 +69,6 @@ export function PropertyDetails({ form }: PropertyDetailsProps) {
       "propertyLocation.canton",
       "propertyLocation.country"
     ]);
-    
-    console.log("PropertyDetails validation result:", isValid);
-    
-    if (!isValid) {
-      console.log("PropertyDetails validation errors:", form.formState.errors);
-    }
     
     return isValid;
   };
@@ -111,14 +87,10 @@ export function PropertyDetails({ form }: PropertyDetailsProps) {
       "propertyDetails.maxGuests": 2
     };
     
-    console.log("Initializing numeric values");
-    
     Object.entries(fieldDefaults).forEach(([field, defaultValue]) => {
       const currentValue = watch(field);
-      console.log(`Field ${field} current value:`, currentValue);
       
       if (currentValue === undefined || currentValue === null) {
-        console.log(`Setting ${field} to default value:`, defaultValue);
         setValue(field, defaultValue, {
           shouldValidate: true,
           shouldDirty: false,
@@ -161,7 +133,6 @@ export function PropertyDetails({ form }: PropertyDetailsProps) {
   // Function to increment counter
   const incrementCounter = (fieldName: string, min: number, increment: number = 1) => {
     const currentValue = watch(fieldName) || min;
-    console.log(`Incrementing ${fieldName} from ${currentValue} to ${currentValue + increment}`);
     setValue(fieldName, currentValue + increment, {
       shouldValidate: true,
       shouldDirty: true,
@@ -173,7 +144,6 @@ export function PropertyDetails({ form }: PropertyDetailsProps) {
   const decrementCounter = (fieldName: string, min: number, increment: number = 1) => {
     const currentValue = watch(fieldName) || min;
     if (currentValue > min) {
-      console.log(`Decrementing ${fieldName} from ${currentValue} to ${currentValue - increment}`);
       setValue(fieldName, currentValue - increment, {
         shouldValidate: true,
         shouldDirty: true,

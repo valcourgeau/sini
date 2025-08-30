@@ -7,7 +7,7 @@ import { Logo } from "@/components/ui/logo";
 import { User } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useBrandTheme } from "@/hooks/use-brand-theme";
-import { getBrandConfig, getNavigationPath } from "@/lib/utils/brand-theme";
+import { getBrandConfig } from "@/lib/utils/brand-theme";
 import { VaudoiseLogo } from "@/components/ui/vaudoise-logo";
 import { GeneraliLogo } from "@/components/brands/generali/generali-logo";
 import { CollaborationLogo as VaudoiseCollaborationLogo } from "@/components/brands/vaudoise/collaboration-logo";
@@ -80,8 +80,12 @@ export function PlatformHeader() {
         basePath = '/platform/dashboard/profile';
     }
     
-    // Use branded platform route if on a branded page
-    return getNavigationPath(currentTheme, basePath);
+    // Add brand parameter if not default theme
+    if (currentTheme !== 'default') {
+      basePath += `?brand=${currentTheme}`;
+    }
+    
+    return basePath;
   };
 
   // Check if relocation button should be shown (only for assurance users)

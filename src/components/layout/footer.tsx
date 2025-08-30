@@ -3,7 +3,6 @@
 import Link from "next/link";
 import { Logo } from "@/components/ui/logo";
 import { useBrandTheme } from "@/hooks/use-brand-theme";
-import { getNavigationPath } from "@/lib/utils/brand-theme";
 
 export function Footer() {
   const currentYear = new Date().getFullYear();
@@ -25,7 +24,7 @@ export function Footer() {
             <ul className="space-y-2">
               <li>
                 <Link 
-                  href={getNavigationPath(currentTheme, "/relocation/new")}
+                  href={currentTheme !== 'default' ? `/relocation/new?brand=${currentTheme}` : "/relocation/new"}
                   className="text-sm text-muted-foreground hover:text-primary transition-colors"
                 >
                   Demander un relogement
@@ -33,7 +32,7 @@ export function Footer() {
               </li>
               <li>
                 <Link 
-                  href={getNavigationPath(currentTheme, "/property/new")}
+                  href={currentTheme !== 'default' ? `/property/new?brand=${currentTheme}` : "/property/new"}
                   className="text-sm text-muted-foreground hover:text-primary transition-colors"
                 >
                   Proposer un bien
@@ -41,7 +40,7 @@ export function Footer() {
               </li>
               <li>
                 <Link 
-                  href={getNavigationPath(currentTheme, "/platform")}
+                  href={currentTheme !== 'default' ? `/platform?brand=${currentTheme}` : "/platform"}
                   className="text-sm text-muted-foreground hover:text-primary transition-colors"
                 >
                   Plateforme Assurances

@@ -131,10 +131,7 @@ export function PropertyWizard() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
 
-  // Add debugging for isSubmitted state changes
-  useEffect(() => {
-    console.log("isSubmitted state changed:", isSubmitted);
-  }, [isSubmitted]);
+
 
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
@@ -204,8 +201,6 @@ export function PropertyWizard() {
 
   // Add a function to validate the current step
   const validateCurrentStep = async () => {
-    console.log("Validating current step:", step);
-    
     // Define the fields to validate for each step
     const stepFields: Record<number, string[]> = {
       1: ["propertyType"],
@@ -223,18 +218,13 @@ export function PropertyWizard() {
     const fieldsToValidate = stepFields[step];
     
     if (!fieldsToValidate) {
-      console.log("No fields to validate for step:", step);
       return true;
     }
     
     // Validate the fields
-    console.log("Validating fields:", fieldsToValidate);
     const isValid = await form.trigger(fieldsToValidate as any);
     
-    console.log("Validation result:", isValid);
-    if (!isValid) {
-      console.log("Validation errors:", form.formState.errors);
-    }
+    return isValid;
     
     return isValid;
   };
@@ -315,21 +305,16 @@ export function PropertyWizard() {
 
   // Direct form submission handler
   const handleSubmit = async () => {
-    console.log("Submit button clicked");
     setIsSubmitting(true);
     
     try {
       // Get form data
       const formData = form.getValues();
-      console.log("Form data:", formData);
       
       // Simulate API call
-      console.log("Starting simulated API call");
       await new Promise(resolve => setTimeout(resolve, 1500));
       
-      console.log("Form submitted successfully");
       setIsSubmitting(false);
-      console.log("Setting isSubmitted to true");
       setIsSubmitted(true);
     } catch (error) {
       console.error("Error submitting form:", error);

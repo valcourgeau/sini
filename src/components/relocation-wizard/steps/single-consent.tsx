@@ -72,14 +72,9 @@ export function SingleConsent({ form, onSubmit, isSubmitting, onBack, userType }
 
   // Handle form submission with validation
   const handleSubmit = async () => {
-    console.log("Consent validation triggered");
     const isValid = await form.trigger("singleConsent");
-    console.log("Consent validation result:", isValid);
-    console.log("Current consent values:", form.getValues("singleConsent"));
     if (isValid) {
       await onSubmit();
-    } else {
-      console.log("Consent validation failed, showing errors");
     }
   };
 

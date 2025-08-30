@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { useBrandTheme } from "@/hooks/use-brand-theme";
-import { getNavigationPath } from "@/lib/utils/brand-theme";
+import { useSearchParams } from "next/navigation";
 
 // Test reference numbers for development
 const TEST_REFERENCE_NUMBERS = {
@@ -25,6 +25,7 @@ export default function PlatformLogin() {
   const [showRetrieveForm, setShowRetrieveForm] = useState(false);
   const [showTestCodes, setShowTestCodes] = useState(false);
   const router = useRouter();
+  const searchParams = useSearchParams();
   
   // Initialize brand theme
   const { currentTheme } = useBrandTheme();
@@ -49,11 +50,15 @@ export default function PlatformLogin() {
       else if (referenceNumber.startsWith("H")) userType = "host";
       else if (referenceNumber.startsWith("S")) userType = "sinistre";
       
-      // Use branded platform route if on a branded page
-      const baseUrl = `/platform/dashboard/${userType}?ref=${referenceNumber}`;
-      const targetUrl = getNavigationPath(currentTheme, baseUrl);
+      // Build URL with brand parameter if not default
+      let baseUrl = `/platform/dashboard/${userType}?ref=${referenceNumber}`;
       
-      router.push(targetUrl);
+      // Add brand parameter if not default theme
+      if (currentTheme !== 'default') {
+        baseUrl += `&brand=${currentTheme}`;
+      }
+      
+      router.push(baseUrl);
     } catch (err) {
       setError("Email ou numéro de référence incorrect. Veuillez vérifier vos informations.");
     } finally {

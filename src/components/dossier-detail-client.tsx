@@ -25,7 +25,6 @@ export function RelocationWarningWrapper({ caseData }: { caseData: RelocationDat
     setIsSelectingOptions(false);
     
     // In a real application, you would save this to the backend
-    console.log("Selected relocation options:", options);
     
     // Update the case data locally
     caseData.selectedRelocationOptions = options;
@@ -97,7 +96,6 @@ export function RelocationSelectionButton({ caseData }: { caseData: RelocationDa
     setIsSelectingOptions(false);
     
     // In a real application, you would save this to the backend
-    console.log("Selected relocation options:", options);
     
     // Update the case data locally
     caseData.selectedRelocationOptions = options;

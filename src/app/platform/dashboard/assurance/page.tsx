@@ -44,6 +44,8 @@ import Link from "next/link";
 
 import { RelocationData } from '@/types/relocation';
 import { relocationCases, getDashboardStats, getCurrentMonthCases, getCurrentYearCases, getNotifications, getRecentMessages, getRecentDocuments, getUnreadNotificationsCount, getUnreadMessagesCount, getPendingDocumentsCount, getRecentConversations, getUnreadConversationsCount } from '@/lib/data-loader';
+import { useBrandTheme } from '@/hooks/use-brand-theme';
+import { preserveBrandInUrl } from '@/lib/utils/brand-theme';
 
 // Helper function to format dates to dd/mm/yyyy
 const formatDate = (dateString: string): string => {
@@ -79,6 +81,7 @@ export default function AssuranceDashboard() {
   const [selectedAgent, setSelectedAgent] = useState<string>("all");
   const [selectedCanton, setSelectedCanton] = useState<string>("all");
   const [selectedDateFilter, setSelectedDateFilter] = useState<"month" | "year" | "all">("all");
+  const { currentTheme } = useBrandTheme();
 
   // Load notification data
   const notifications = getNotifications('assurance');
@@ -449,7 +452,7 @@ export default function AssuranceDashboard() {
               <div className="flex items-center gap-2 flex-shrink-0">
                 <span className="text-sm font-medium text-primary">{kpis.initiatedFiles}</span>
                 <Link 
-                  href="/platform/dashboard/assurance/dossiers?status=initie"
+                  href={preserveBrandInUrl("/platform/dashboard/assurance/dossiers?status=initie", currentTheme)}
                   className="text-xs text-primary hover:text-primary/80 transition-colors underline whitespace-nowrap"
                 >
                   Voir
@@ -470,7 +473,7 @@ export default function AssuranceDashboard() {
               <div className="flex items-center gap-2 flex-shrink-0">
                 <span className="text-sm font-medium text-primary">{kpis.pendingFiles}</span>
                 <Link 
-                  href="/platform/dashboard/assurance/dossiers?status=pending"
+                  href={preserveBrandInUrl("/platform/dashboard/assurance/dossiers?status=pending", currentTheme)}
                   className="text-xs text-primary hover:text-primary/80 transition-colors underline whitespace-nowrap"
                 >
                   Voir
@@ -491,7 +494,7 @@ export default function AssuranceDashboard() {
               <div className="flex items-center gap-2 flex-shrink-0">
                 <span className="text-sm font-medium text-primary">{kpis.processingFiles}</span>
                 <Link 
-                  href="/platform/dashboard/assurance/dossiers?status=processing"
+                  href={preserveBrandInUrl("/platform/dashboard/assurance/dossiers?status=processing", currentTheme)}
                   className="text-xs text-primary hover:text-primary/80 transition-colors underline whitespace-nowrap"
                 >
                   Voir
@@ -512,7 +515,7 @@ export default function AssuranceDashboard() {
               <div className="flex items-center gap-2 flex-shrink-0">
                 <span className="text-sm font-medium text-primary">{kpis.completedFiles}</span>
                 <Link 
-                  href="/platform/dashboard/assurance/dossiers?status=completed"
+                  href={preserveBrandInUrl("/platform/dashboard/assurance/dossiers?status=completed", currentTheme)}
                   className="text-xs text-primary hover:text-primary/80 transition-colors underline whitespace-nowrap"
                 >
                   Voir
@@ -615,7 +618,7 @@ export default function AssuranceDashboard() {
             {recentConversations.slice(0, 2).map((conversation) => (
               <Link 
                 key={conversation.id} 
-                href={`/platform/dashboard/assurance/messages${conversation.caseId ? `?case=${conversation.caseId}` : ''}`}
+                href={preserveBrandInUrl(`/platform/dashboard/assurance/messages${conversation.caseId ? `?case=${conversation.caseId}` : ''}`, currentTheme)}
                 className="block"
               >
                 <div className="flex items-center justify-between p-2 border border-primary/20 rounded-lg bg-secondary/50 hover:bg-secondary/70 transition-colors cursor-pointer">
@@ -644,7 +647,7 @@ export default function AssuranceDashboard() {
             ))}
           </div>
           
-          <Link href="/platform/dashboard/assurance/messages">
+          <Link href={preserveBrandInUrl("/platform/dashboard/assurance/messages", currentTheme)}>
             <Button variant="outline" size="sm" className="w-full border-primary/20 text-primary hover:bg-primary hover:text-primary-foreground">
               Voir tous les messages
             </Button>
@@ -693,7 +696,7 @@ export default function AssuranceDashboard() {
             {recentDocuments.slice(0, 3).map((document) => (
               <Link 
                 key={document.id} 
-                href={`/platform/dashboard/assurance/dossiers/${document.caseId}`}
+                href={preserveBrandInUrl(`/platform/dashboard/assurance/dossiers/${document.caseId}`, currentTheme)}
                 className="block"
               >
                 <div className="flex items-center justify-between p-2 border border-primary/20 rounded-lg bg-secondary/50 hover:bg-secondary/70 transition-colors cursor-pointer">

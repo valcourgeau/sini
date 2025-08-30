@@ -7,7 +7,6 @@ import { Logo } from "@/components/ui/logo";
 import { CollaborationLogo as GeneraliCollaborationLogo } from "@/components/brands/generali/collaboration-logo";
 import { CollaborationLogo as VaudoiseCollaborationLogo } from "@/components/brands/vaudoise/collaboration-logo";
 import { useBrandTheme } from "@/hooks/use-brand-theme";
-import { getNavigationPath } from "@/lib/utils/brand-theme";
 
 export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -25,9 +24,12 @@ export function Header() {
     } else if (pathname === "/") {
       // Clear brand context when user explicitly goes to main site
       setBrandContext(null);
+    } else {
+      // For other pages, use the current theme from useBrandTheme hook
+      // This handles URL parameters like ?brand=generali
+      setBrandContext(currentTheme !== 'default' ? currentTheme : null);
     }
-    // Don't clear brand context when on other pages to maintain navigation memory
-  }, [pathname]);
+  }, [pathname, currentTheme]);
 
   // Hide nav links on platform dashboard pages
   const showNav = !pathname.startsWith("/platform/dashboard");
@@ -108,7 +110,7 @@ export function Header() {
                 Devenir Hôte
               </button>
               <Link
-                href={getNavigationPath(currentTheme, "/platform")}
+                href={currentTheme !== 'default' ? `/platform?brand=${currentTheme}` : "/platform"}
                 className="inline-flex items-center border-2 border-primary text-primary px-5 py-2 rounded-lg text-base font-semibold hover:bg-primary hover:text-primary-foreground transition-colors"
               >
                 Connexion
@@ -173,7 +175,7 @@ export function Header() {
               Devenir Hôte
             </button>
             <Link
-              href={getNavigationPath(currentTheme, "/platform")}
+              href={currentTheme !== 'default' ? `/platform?brand=${currentTheme}` : "/platform"}
               className="flex items-center border-2 border-primary text-primary px-5 py-2 rounded-lg text-base font-semibold hover:bg-primary hover:text-primary-foreground transition-colors"
               onClick={() => setIsMenuOpen(false)}
             >

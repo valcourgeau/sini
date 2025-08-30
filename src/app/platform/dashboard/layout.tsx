@@ -19,7 +19,8 @@ import {
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { useBrandTheme } from "@/hooks/use-brand-theme";
-import { getNavigationPath, extractUserTypeFromPath } from "@/lib/utils/brand-theme";
+import { extractUserTypeFromPath } from "@/lib/utils/brand-theme";
+import { useSearchParams } from "next/navigation";
 
 interface DashboardLayoutProps {
   children: React.ReactNode;
@@ -29,6 +30,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const router = useRouter();
   const pathname = usePathname();
+  const searchParams = useSearchParams();
   
   // Initialize brand theme for dashboard pages
   const { currentTheme } = useBrandTheme();
@@ -40,27 +42,27 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
     switch (userType) {
               case 'sinistre':
           return [
-            { href: getNavigationPath(currentTheme, '/platform/dashboard/sinistre'), icon: Home, label: 'Tableau de bord' },
-            { href: getNavigationPath(currentTheme, '/platform/dashboard/sinistre/relogement'), icon: Building2, label: 'Mon relogement' },
-            { href: getNavigationPath(currentTheme, '/platform/dashboard/sinistre/messages'), icon: MessageSquare, label: 'Messages' },
-            { href: getNavigationPath(currentTheme, '/platform/dashboard/sinistre/profile'), icon: User, label: 'Mon profil' },
+            { href: getNavigationUrl('/platform/dashboard/sinistre'), icon: Home, label: 'Tableau de bord' },
+            { href: getNavigationUrl('/platform/dashboard/sinistre/relogement'), icon: Building2, label: 'Mon relogement' },
+            { href: getNavigationUrl('/platform/dashboard/sinistre/messages'), icon: MessageSquare, label: 'Messages' },
+            { href: getNavigationUrl('/platform/dashboard/sinistre/profile'), icon: User, label: 'Mon profil' },
           ];
         case 'assurance':
           return [
-            { href: getNavigationPath(currentTheme, '/platform/dashboard/assurance'), icon: Home, label: 'Tableau de bord' },
-            { href: getNavigationPath(currentTheme, '/platform/dashboard/assurance/dossiers'), icon: FileText, label: 'Dossiers' },
-            { href: getNavigationPath(currentTheme, '/platform/dashboard/assurance/messages'), icon: MessageSquare, label: 'Messages' },
-            { href: getNavigationPath(currentTheme, '/platform/dashboard/assurance/statistiques'), icon: BarChart3, label: 'Statistiques' },
-            { href: getNavigationPath(currentTheme, '/platform/dashboard/assurance/profile'), icon: User, label: 'Profil' },
+            { href: getNavigationUrl('/platform/dashboard/assurance'), icon: Home, label: 'Tableau de bord' },
+            { href: getNavigationUrl('/platform/dashboard/assurance/dossiers'), icon: FileText, label: 'Dossiers' },
+            { href: getNavigationUrl('/platform/dashboard/assurance/messages'), icon: MessageSquare, label: 'Messages' },
+            { href: getNavigationUrl('/platform/dashboard/assurance/statistiques'), icon: BarChart3, label: 'Statistiques' },
+            { href: getNavigationUrl('/platform/dashboard/assurance/profile'), icon: User, label: 'Mon profil' },
           ];
         case 'host':
           return [
-            { href: getNavigationPath(currentTheme, '/platform/dashboard/host'), icon: Home, label: 'Tableau de bord' },
-            { href: getNavigationPath(currentTheme, '/platform/dashboard/host/biens'), icon: Building2, label: 'Mes biens' },
-            { href: getNavigationPath(currentTheme, '/platform/dashboard/host/reservations'), icon: Calendar, label: 'Réservations' },
-            { href: getNavigationPath(currentTheme, '/platform/dashboard/host/messages'), icon: MessageSquare, label: 'Messages' },
-            { href: getNavigationPath(currentTheme, '/platform/dashboard/host/revenus'), icon: BarChart3, label: 'Revenus' },
-            { href: getNavigationPath(currentTheme, '/platform/dashboard/host/profile'), icon: User, label: 'Mon profil' },
+            { href: getNavigationUrl('/platform/dashboard/host'), icon: Home, label: 'Tableau de bord' },
+            { href: getNavigationUrl('/platform/dashboard/host/biens'), icon: Building2, label: 'Mes biens' },
+            { href: getNavigationUrl('/platform/dashboard/host/reservations'), icon: Calendar, label: 'Réservations' },
+            { href: getNavigationUrl('/platform/dashboard/host/messages'), icon: MessageSquare, label: 'Messages' },
+            { href: getNavigationUrl('/platform/dashboard/host/revenus'), icon: BarChart3, label: 'Revenus' },
+            { href: getNavigationUrl('/platform/dashboard/host/profile'), icon: User, label: 'Mon profil' },
           ];
       default:
         return [];
@@ -76,20 +78,35 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
     }
   };
 
+  // Helper function to preserve brand parameter when navigating
+  const getNavigationUrl = (basePath: string) => {
+    const brandParam = searchParams.get('brand');
+    if (brandParam) {
+      const url = new URL(basePath, typeof window !== 'undefined' ? window.location.origin : 'http://localhost');
+      url.searchParams.set('brand', brandParam);
+      return url.pathname + url.search;
+    }
+    return basePath;
+  };
+
   // Simplified active tab detection
   const isActiveTab = (href: string) => {
+    // Extract the base path without query parameters for comparison
+    const basePath = href.split('?')[0];
+    const currentBasePath = pathname.split('?')[0];
+    
     // Root dashboard - active when exactly on the root or when path starts with it
-    const rootPath = getNavigationPath(currentTheme, '/platform/dashboard/' + userType);
-    if (href === rootPath) {
-      return pathname === href || pathname === href + '/';
+    const rootPath = '/platform/dashboard/' + userType;
+    if (basePath === rootPath) {
+      return currentBasePath === basePath || currentBasePath === basePath + '/';
     }
     
     // All other tabs - active when path starts with the href
-    return pathname.startsWith(href);
+    return currentBasePath.startsWith(basePath);
   };
 
   const handleLogout = () => {
-    router.push(getNavigationPath(currentTheme, '/platform'));
+    router.push(getNavigationUrl('/platform'));
   };
 
   const navigationItems = getNavigationItems();

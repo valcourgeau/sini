@@ -10,7 +10,6 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { getImagePath } from "@/lib/utils";
 import { useBrandTheme } from "@/hooks/use-brand-theme";
-import { getNavigationPath } from "@/lib/utils/brand-theme";
 
 export default function VaudoiseHomePage() {
   const [isLoading, setIsLoading] = useState(false);
@@ -26,7 +25,7 @@ export default function VaudoiseHomePage() {
     // Add a small delay to show the loading state
     await new Promise(resolve => setTimeout(resolve, 400));
     
-    router.push(getNavigationPath('vaudoise', "/relocation/new?userType=sinistre"));
+    router.push("/relocation/new?userType=sinistre&brand=vaudoise");
   };
 
   const handleInsuranceClick = async (e: React.MouseEvent) => {
@@ -36,7 +35,7 @@ export default function VaudoiseHomePage() {
     // Add a small delay to show the loading state
     await new Promise(resolve => setTimeout(resolve, 400));
     
-    router.push(getNavigationPath('vaudoise', "/relocation/new?userType=assurance"));
+    router.push("/relocation/new?userType=assurance&brand=vaudoise");
   };
 
   const handleHostClick = async (e: React.MouseEvent) => {
@@ -46,7 +45,7 @@ export default function VaudoiseHomePage() {
     // Add a small delay to show the loading state
     await new Promise(resolve => setTimeout(resolve, 400));
     
-    router.push(getNavigationPath('vaudoise', "/relocation/new?type=host"));
+    router.push("/relocation/new?type=host&brand=vaudoise");
   };
 
   const handlePropertyClick = async (e: React.MouseEvent) => {
@@ -56,7 +55,7 @@ export default function VaudoiseHomePage() {
     // Add a small delay to show the loading state
     await new Promise(resolve => setTimeout(resolve, 400));
     
-    router.push(getNavigationPath('vaudoise', "/property/new"));
+    router.push("/property/new?brand=vaudoise");
   };
 
   return (

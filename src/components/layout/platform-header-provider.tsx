@@ -4,7 +4,6 @@ import { usePathname } from "next/navigation";
 import { ReactNode } from "react";
 import { Header } from "./header";
 import { useBrandTheme } from "@/hooks/use-brand-theme";
-import { isSyntheticRoute } from "@/lib/utils/brand-theme";
 
 interface PlatformHeaderProviderProps {
   children: ReactNode;
@@ -16,8 +15,8 @@ export function PlatformHeaderProvider({ children }: PlatformHeaderProviderProps
   // Initialize brand theme
   useBrandTheme();
   
-  // Check if we're on a platform page (standard or synthetic) or relocation page
-  const isPlatformPage = pathname.startsWith("/platform") || isSyntheticRoute(pathname);
+  // Check if we're on a platform page or relocation page
+  const isPlatformPage = pathname.startsWith("/platform");
   const isRelocationPage = pathname.startsWith("/relocation");
   
   return (

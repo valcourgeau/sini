@@ -290,17 +290,6 @@ export function RelocationWizard() {
   const userTypeParam = searchParams.get("userType");
   const { currentTheme } = useBrandTheme();
 
-  // Add debugging for brand theme and URL parameters
-  useEffect(() => {
-    console.log("RelocationWizard - currentTheme:", currentTheme);
-    console.log("RelocationWizard - searchParams:", Object.fromEntries(searchParams.entries()));
-  }, [currentTheme, searchParams]);
-
-  // Add debugging for isSubmitted state changes
-  useEffect(() => {
-    console.log("isSubmitted state changed:", isSubmitted);
-  }, [isSubmitted]);
-
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -398,7 +387,6 @@ export function RelocationWizard() {
   const nextStep = async () => {
     // Validate current step before proceeding
     let isValid = false;
-    console.log("Validating step:", step);
     
     switch (step) {
       case 1:
@@ -654,12 +642,10 @@ export function RelocationWizard() {
         // Validate step 3 based on path
         if (form.watch("relocationType") === "single") {
           const hasInsurance = form.watch("singleInsuranceCoverage")?.hasInsurance;
-          console.log("Step 3 - hasInsurance:", hasInsurance);
           
           // Always validate disaster address and personal data
           const addressValid = await form.trigger("singleDisasterAddress");
           const personalDataValid = await form.trigger("singlePersonalData");
-          console.log("Step 3 - addressValid:", addressValid, "personalDataValid:", personalDataValid);
           
           if (hasInsurance === false) {
             // If user has no insurance, validate insured data with custom validation
@@ -740,7 +726,6 @@ export function RelocationWizard() {
               insuranceDetailsValid = false;
             }
             
-            console.log("Step 3 - insuredDataValid:", insuredDataValid, "insuranceDetailsValid:", insuranceDetailsValid);
             isValid = addressValid && personalDataValid && insuredDataValid && insuranceDetailsValid;
           } else if (hasInsurance === true) {
             // If user has insurance, only validate address and personal data (no insurance details needed)
@@ -760,13 +745,11 @@ export function RelocationWizard() {
               "singleInsuranceDetails.customInsuranceCompany"
             ]);
             
-            console.log("Step 3 - user has insurance, only validating address and personal data");
             isValid = addressValid && personalDataValid;
           } else {
             // If hasInsurance is null/undefined, just validate address and personal data
             isValid = addressValid && personalDataValid;
           }
-          console.log("Step 3 - final isValid:", isValid);
         } else {
           // Multiple path - validate review confirmation checkbox
           isValid = await form.trigger("multipleReviewConfirmation");
@@ -814,11 +797,8 @@ export function RelocationWizard() {
         isValid = true;
     }
     
-    console.log("Validation result for step", step, ":", isValid);
     if (isValid) {
       setStep(prevStep => prevStep + 1);
-    } else {
-      console.log("Validation failed for step", step, ". Form errors:", form.formState.errors);
     }
   };
 
@@ -827,7 +807,6 @@ export function RelocationWizard() {
   };
 
   const onSubmit = async (data: FormValues) => {
-    console.log("onSubmit called with data:", data);
     return data;
   };
 
@@ -930,21 +909,16 @@ export function RelocationWizard() {
 
   // Direct form submission handler
   const handleSubmit = async () => {
-    console.log("Submit button clicked");
     setIsSubmitting(true);
     
     try {
       // Get form data
       const formData = form.getValues();
-      console.log("Form data:", formData);
       
       // Simulate API call
-      console.log("Starting simulated API call");
       await new Promise(resolve => setTimeout(resolve, 1500));
       
-      console.log("Form submitted successfully");
       setIsSubmitting(false);
-      console.log("Setting isSubmitted to true");
       setIsSubmitted(true);
     } catch (error) {
       console.error("Error submitting form:", error);
