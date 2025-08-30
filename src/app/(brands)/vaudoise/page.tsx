@@ -76,7 +76,7 @@ export default function VaudoiseHomePage() {
             
             {/* Enhanced title with Vaudoise branding */}
             <div className="mb-6 sm:mb-8 lg:mb-12">
-              <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold leading-none tracking-tighter mb-3 sm:mb-4 lg:mb-6 animate-in fade-in duration-500 slide-in-from-bottom-4 text-primary-foreground drop-shadow-lg">
+              <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold leading-none tracking-tighter mb-3 sm:mb-4 lg:mb-6 animate-in fade-in duration-500 slide-in-from-bottom-4 text-primary-foreground drop-shadow-xl [text-shadow:_0_2px_8px_rgba(0,0,0,0.6)]">
                 Service de relogement d'urgence
               </h1>
               <div className="flex items-center justify-center gap-2 mt-3 sm:mt-4">
