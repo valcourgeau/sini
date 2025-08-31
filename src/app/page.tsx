@@ -69,7 +69,7 @@ export default function HomePage() {
       */}
       <section 
         id="home" 
-        className="relative hero-background min-h-[calc(100vh-4rem)] flex items-center justify-center scroll-mt-16"
+        className="relative hero-background min-h-[calc(100vh-4rem)] flex items-center justify-center scroll-mt-16 py-8 md:py-12"
         style={{
           backgroundImage: `url(${getImagePath('/background-pharewest.png')})`
         }}
@@ -88,12 +88,12 @@ export default function HomePage() {
             </div>
             
             {/* Enhanced subtitle */}
-            <p className="text-xl md:text-2xl text-secondary/90 mb-16 animate-in fade-in duration-500 delay-100 slide-in-from-bottom-4">
+            <p className="text-xl md:text-2xl text-secondary/90 mb-12 md:mb-16 animate-in fade-in duration-500 delay-100 slide-in-from-bottom-4">
               pour le canton de Genève
             </p>
             
             {/* Enhanced action buttons with glass effect */}
-            <div className="grid md:grid-cols-2 gap-8 max-w-3xl mx-auto animate-in fade-in duration-500 delay-200 slide-in-from-bottom-4">
+            <div className="grid md:grid-cols-2 gap-6 md:gap-8 max-w-3xl mx-auto animate-in fade-in duration-500 delay-200 slide-in-from-bottom-4">
               <ScrollButton
                 iconName="userround"
                 title="Sinistrés"
@@ -111,35 +111,35 @@ export default function HomePage() {
         </div>
         
         {/* Navigation arrow with enhanced styling */}
-        <div className="absolute bottom-8 right-8 z-10">
+        <div className="absolute bottom-4 md:bottom-8 right-4 md:right-8 z-10">
           <NavigationArrow direction="down" targetId="sinistres" position="bottom" />
         </div>
       </section>
 
       {/* Second Section - Sand Background */}
-      <section id="sinistres" className="relative bg-secondary min-h-[calc(100vh-4rem)] flex items-center justify-center scroll-mt-16">
-        <div className="absolute top-24 right-8">
+      <section id="sinistres" className="relative bg-secondary min-h-[calc(100vh-4rem)] flex items-center justify-center scroll-mt-16 py-8 md:py-12">
+        <div className="absolute top-16 md:top-24 right-4 md:right-8">
           <NavigationArrow direction="up" targetId="home" position="top" />
         </div>
-        <div className="absolute bottom-8 right-8">
+        <div className="absolute bottom-4 md:bottom-8 right-4 md:right-8">
           <NavigationArrow direction="down" targetId="assurances" position="bottom" />
         </div>
         
         <div className="container">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <div className="space-y-8">
+          <div className="grid lg:grid-cols-2 gap-8 md:gap-12 items-center">
+            <div className="space-y-6 md:space-y-8">
               <div>
-                <h2 className="text-5xl font-bold mb-6">Sinistrés</h2>
-                <p className="text-xl text-muted-foreground mb-8">
+                <h2 className="text-4xl md:text-5xl font-bold mb-4 md:mb-6">Sinistrés</h2>
+                <p className="text-lg md:text-xl text-muted-foreground mb-6 md:mb-8">
                   Votre partenaire de confiance pour un relogement rapide et serein
                 </p>
               </div>
 
-              <div className="space-y-6">
+              <div className="space-y-4 md:space-y-6">
                 <div className="flex items-start gap-4">
                   <Timer className="h-6 w-6 text-primary mt-1 flex-shrink-0" />
                   <div>
-                    <h3 className="text-xl font-bold mb-2">Rapidité de relogement</h3>
+                    <h3 className="text-lg md:text-xl font-bold mb-2">Rapidité de relogement</h3>
                     <p className="text-muted-foreground">
                       Une solution d'hébergement temporaire adaptée visant à proposer un relogement dans les 24-48 heures.
                     </p>
@@ -149,7 +149,7 @@ export default function HomePage() {
                 <div className="flex items-start gap-4">
                   <Home className="h-6 w-6 text-primary mt-1 flex-shrink-0" />
                   <div>
-                    <h3 className="text-xl font-bold mb-2">Logements adaptés</h3>
+                    <h3 className="text-lg md:text-xl font-bold mb-2">Logements adaptés</h3>
                     <p className="text-muted-foreground">
                       Profiter de notre réseau d'habitations (meublés, équipés et proches de votre lieu de vie actuel).
                     </p>
@@ -159,7 +159,7 @@ export default function HomePage() {
                 <div className="flex items-start gap-4">
                   <UserRound className="h-6 w-6 text-primary mt-1 flex-shrink-0" />
                   <div>
-                    <h3 className="text-xl font-bold mb-2">Accompagnement personnalisé</h3>
+                    <h3 className="text-lg md:text-xl font-bold mb-2">Accompagnement personnalisé</h3>
                     <p className="text-muted-foreground">
                       Un interlocuteur unique qui facilite vos démarches.
                     </p>
@@ -177,11 +177,11 @@ export default function HomePage() {
                 </div>
               </div>
 
-              <div className="pt-6">
+              <div className="pt-4 md:pt-6">
                 <button 
                   onClick={handleRelocationClick}
                   disabled={isLoading}
-                  className="group inline-flex items-center gap-2 bg-primary text-primary-foreground px-8 py-4 rounded-full text-lg font-semibold hover:bg-primary/90 transition-all duration-300 shadow-xl hover:shadow-2xl hover:scale-105 backdrop-blur-sm border-2 border-white/30 disabled:opacity-70 disabled:cursor-not-allowed"
+                  className="group inline-flex items-center gap-2 bg-primary text-primary-foreground px-6 md:px-8 py-3 md:py-4 rounded-full text-base md:text-lg font-semibold hover:bg-primary/90 transition-all duration-300 shadow-xl hover:shadow-2xl hover:scale-105 backdrop-blur-sm border-2 border-white/30 disabled:opacity-70 disabled:cursor-not-allowed"
                 >
                   {isLoading ? (
                     <>
@@ -215,28 +215,28 @@ export default function HomePage() {
       </section>
 
       {/* Third Section - Blue Background */}
-      <section id="assurances" className="relative bg-primary min-h-[calc(100vh-4rem)] flex items-center justify-center text-primary-foreground scroll-mt-16">
-        <div className="absolute top-24 right-8">
+      <section id="assurances" className="relative bg-primary min-h-[calc(100vh-4rem)] flex items-center justify-center text-primary-foreground scroll-mt-16 py-8 md:py-12">
+        <div className="absolute top-16 md:top-24 right-4 md:right-8">
           <NavigationArrow direction="up" targetId="sinistres" position="top" />
         </div>
-        <div className="absolute bottom-8 right-8">
+        <div className="absolute bottom-4 md:bottom-8 right-4 md:right-8">
           <NavigationArrow direction="down" targetId="hosts" position="bottom" />
         </div>
         <div className="container">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <div className="space-y-8">
+          <div className="grid lg:grid-cols-2 gap-8 md:gap-12 items-center">
+            <div className="space-y-6 md:space-y-8">
               <div>
-                <h2 className="text-5xl font-bold mb-6 text-secondary">Assurances</h2>
-                <p className="text-xl text-secondary/90 mb-8">
+                <h2 className="text-4xl md:text-5xl font-bold mb-4 md:mb-6 text-secondary">Assurances</h2>
+                <p className="text-lg md:text-xl text-secondary/90 mb-6 md:mb-8">
                   Une solution complète pour la gestion des relogements de vos assurés
                 </p>
               </div>
 
-              <div className="space-y-6">
+              <div className="space-y-4 md:space-y-6">
                 <div className="flex items-start gap-4">
                   <Building2 className="h-6 w-6 text-secondary/90 mt-1 flex-shrink-0" />
                   <div>
-                    <h3 className="text-xl font-bold mb-2 text-secondary">Améliorer l'efficacité de vos équipes</h3>
+                    <h3 className="text-lg md:text-xl font-bold mb-2 text-secondary">Améliorer l'efficacité de vos équipes</h3>
                     <p className="text-secondary/90">
                       Accéder à notre interface pour gérer les dossiers de vos assurés.
                     </p>
@@ -256,7 +256,7 @@ export default function HomePage() {
                 <div className="flex items-start gap-4">
                   <Clock className="h-6 w-6 text-secondary/90 mt-1 flex-shrink-0" />
                   <div>
-                    <h3 className="text-xl font-bold mb-2 text-secondary">Reloger à moindre coût</h3>
+                    <h3 className="text-lg md:text-xl font-bold mb-2 text-secondary">Reloger à moindre coût</h3>
                     <p className="text-secondary/90">
                       Comparer les prix des logements grâce à notre base de données complète.
                     </p>
@@ -266,7 +266,7 @@ export default function HomePage() {
                 <div className="flex items-start gap-4">
                   <Users className="h-6 w-6 text-secondary/90 mt-1 flex-shrink-0" />
                   <div>
-                    <h3 className="text-xl font-bold mb-2 text-secondary">Satisfaction client</h3>
+                    <h3 className="text-lg md:text-xl font-bold mb-2 text-secondary">Satisfaction client</h3>
                     <p className="text-secondary/90">
                       Bénéficier d'un interlocuteur unique pour un relogement rapide et adapté aux besoins de vos assurés.
                     </p>
@@ -274,11 +274,11 @@ export default function HomePage() {
                 </div>
               </div>
 
-              <div className="pt-6">
+              <div className="pt-4 md:pt-6">
                 <button 
                   onClick={handleInsuranceClick}
                   disabled={isLoading}
-                  className="group inline-flex items-center gap-2 bg-secondary text-primary px-8 py-4 rounded-full text-lg font-semibold hover:bg-secondary/90 transition-all duration-300 shadow-xl hover:shadow-2xl hover:scale-105 backdrop-blur-sm border-2 border-white/30 disabled:opacity-70 disabled:cursor-not-allowed"
+                  className="group inline-flex items-center gap-2 bg-secondary text-primary px-6 md:px-8 py-3 md:py-4 rounded-full text-base md:text-lg font-semibold hover:bg-secondary/90 transition-all duration-300 shadow-xl hover:shadow-2xl hover:scale-105 backdrop-blur-sm border-2 border-white/30 disabled:opacity-70 disabled:cursor-not-allowed"
                 >
                   {isLoading ? (
                     <>
@@ -310,26 +310,26 @@ export default function HomePage() {
       </section>
 
       {/* Fourth Section - Sand Background */}
-      <section id="hosts" className="relative bg-secondary min-h-[calc(100vh-4rem)] flex items-center justify-center scroll-mt-16">
-        <div className="absolute top-24 right-8">
+      <section id="hosts" className="relative bg-secondary min-h-[calc(100vh-4rem)] flex items-center justify-center scroll-mt-16 py-8 md:py-12">
+        <div className="absolute top-16 md:top-24 right-4 md:right-8">
           <NavigationArrow direction="up" targetId="assurances" position="top" />
         </div>
         
         <div className="container">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <div className="space-y-8">
+          <div className="grid lg:grid-cols-2 gap-8 md:gap-12 items-center">
+            <div className="space-y-6 md:space-y-8">
               <div>
-                <h2 className="text-5xl font-bold mb-6">Hôtes</h2>
-                <p className="text-xl text-muted-foreground mb-8">
+                <h2 className="text-4xl md:text-5xl font-bold mb-4 md:mb-6">Hôtes</h2>
+                <p className="text-lg md:text-xl text-muted-foreground mb-6 md:mb-8">
                   Une opportunité simple et sécurisée de proposer votre logement à notre réseau de sinistrés et assurances.
                 </p>
               </div>
 
-              <div className="space-y-6">
+              <div className="space-y-4 md:space-y-6">
                 <div className="flex items-start gap-4">
                   <HandCoins className="h-6 w-6 text-primary mt-1 flex-shrink-0" />
                   <div>
-                    <h3 className="text-xl font-bold mb-2">Maximiser vos revenus</h3>
+                    <h3 className="text-lg md:text-xl font-bold mb-2">Maximiser vos revenus</h3>
                     <p className="text-muted-foreground">
                       Optimiser vos rendements et élargisser votre clientèle en rejoignant le réseau partenaire des assurances.
                     </p>
@@ -339,7 +339,7 @@ export default function HomePage() {
                 <div className="flex items-start gap-4">
                   <Calendar className="h-6 w-6 text-primary mt-1 flex-shrink-0" />
                   <div>
-                    <h3 className="text-xl font-bold mb-2">Gestion centralisée de vos annonces</h3>
+                    <h3 className="text-lg md:text-xl font-bold mb-2">Gestion centralisée de vos annonces</h3>
                     <p className="text-muted-foreground">
                       Un calendrier multi-plateforme pour la gestion et les réservations de vos biens.
                     </p>
@@ -349,7 +349,7 @@ export default function HomePage() {
                 <div className="flex items-start gap-4">
                   <Shield className="h-6 w-6 text-primary mt-1 flex-shrink-0" />
                   <div>
-                    <h3 className="text-xl font-bold mb-2">Protéger votre bien</h3>
+                    <h3 className="text-lg md:text-xl font-bold mb-2">Protéger votre bien</h3>
                     <p className="text-muted-foreground">
                       Chaque sejour est encadré avec des sinistrés verifiés et garanties pour preserver l'integrité de votre logement.
                     </p>
@@ -357,11 +357,11 @@ export default function HomePage() {
                 </div>
               </div>
 
-              <div className="pt-6">
+              <div className="pt-4 md:pt-6">
                 <button
                   onClick={handlePropertyClick}
                   disabled={isLoading}
-                  className="group inline-flex items-center gap-2 bg-primary text-primary-foreground px-8 py-4 rounded-full text-lg font-semibold hover:bg-primary/90 transition-all duration-300 shadow-xl hover:shadow-2xl hover:scale-105 backdrop-blur-sm border-2 border-white/30 disabled:opacity-70 disabled:cursor-not-allowed"
+                  className="group inline-flex items-center gap-2 bg-primary text-primary-foreground px-6 md:px-8 py-3 md:py-4 rounded-full text-base md:text-lg font-semibold hover:bg-primary/90 transition-all duration-300 shadow-xl hover:shadow-2xl hover:scale-105 backdrop-blur-sm border-2 border-white/30 disabled:opacity-70 disabled:cursor-not-allowed"
                 >
                   {isLoading ? (
                     <>
