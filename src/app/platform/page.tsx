@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useState, useEffect, Suspense } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import { Mail, Hash, ArrowRight, Loader2, AlertCircle, Search, HelpCircle, Info } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -14,7 +14,7 @@ const TEST_REFERENCE_NUMBERS = {
   host: "H11111"
 };
 
-export default function PlatformLogin() {
+function PlatformLoginContent() {
   const [email, setEmail] = useState("");
   const [referenceNumber, setReferenceNumber] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -23,6 +23,15 @@ export default function PlatformLogin() {
   const [showRetrieveForm, setShowRetrieveForm] = useState(false);
   const [showTestCodes, setShowTestCodes] = useState(false);
   const router = useRouter();
+  const searchParams = useSearchParams();
+
+  // Capture brand parameter and store in localStorage
+  useEffect(() => {
+    const brandParam = searchParams.get('brand');
+    if (brandParam) {
+      localStorage.setItem('pharewest-brand', brandParam);
+    }
+  }, [searchParams]);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -309,5 +318,29 @@ export default function PlatformLogin() {
         </div>
       </div>
     </main>
+  );
+}
+
+export default function PlatformLogin() {
+  return (
+    <Suspense fallback={
+      <main className="min-h-screen bg-secondary flex items-center justify-center p-4">
+        <div className="w-full max-w-md">
+          <div className="text-center mb-8">
+            <h1 className="text-2xl font-bold mb-2">Accès à l'interface</h1>
+            <p className="text-muted-foreground">
+              Connectez-vous à votre espace personnel
+            </p>
+          </div>
+          <Card className="p-6 bg-background border-primary/20">
+            <div className="flex items-center justify-center py-8">
+              <Loader2 className="h-6 w-6 animate-spin text-primary" />
+            </div>
+          </Card>
+        </div>
+      </main>
+    }>
+      <PlatformLoginContent />
+    </Suspense>
   );
 } 

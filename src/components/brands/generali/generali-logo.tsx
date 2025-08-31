@@ -2,6 +2,7 @@
 
 import { cn } from '@/lib/utils';
 import { getImagePath } from '@/lib/utils';
+import Image from 'next/image';
 
 interface GeneraliLogoProps {
   className?: string;
@@ -21,9 +22,12 @@ export function GeneraliLogo({ className, size = 'md' }: GeneraliLogoProps) {
     <div className={cn('relative inline-flex items-center', className)}>
       {/* Generali Logo */}
       <div className={cn('relative', sizes[size])}>
-        <img
+        <Image
           src={getImagePath("/brands/generali/generali-logo.png")}
           alt="Generali Logo"
+          width={96}
+          height={96}
+          quality={100}
           className="object-contain h-full w-auto"
         />
       </div>

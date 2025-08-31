@@ -36,14 +36,15 @@ export function Logo({ className, size = 'md' }: LogoProps) {
       <Image
         src={getImagePath('/ch-rounded-flag.png')}
         alt="Swiss flag"
-        width={24}
-        height={24}
+        width={48}
+        height={48}
         quality={100}
+        priority
         className={cn('absolute flex-shrink-0', {
           'h-3 w-3 top-1 left-full ml-1': size === 'sm',
-          'h-4 w-4 top-0.5 left-full ml-1.5': size === 'md',
+          'h-4 w-4 top-0.5 left-full ml-1': size === 'md',
           'h-5 w-5 top-0 left-full ml-1': size === 'lg',
-          'h-6 w-6 -top-0.5 left-full ml-2.5': size === 'xl',
+          'h-6 w-6 -top-0.5 left-full ml-1.5': size === 'xl',
         })}
       />
     </div>

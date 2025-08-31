@@ -58,9 +58,17 @@ export function Header() {
     setIsMenuOpen(false);
   };
 
+  // Get platform link with brand parameter if applicable
+  const getPlatformLink = () => {
+    if (brandContext) {
+      return `/platform?brand=${brandContext}`;
+    }
+    return "/platform";
+  };
+
   return (
     <header 
-      id="header" 
+      id="header"
       className="sticky top-0 z-50 bg-background/95 backdrop-blur-sm border-b border-border"
     >
       <div className="container mx-auto px-4 md:px-6">
@@ -96,7 +104,7 @@ export function Header() {
                 Devenir Hôte
               </button>
               <Link
-                href="/platform"
+                href={getPlatformLink()}
                 className="inline-flex items-center border-2 border-primary text-primary px-5 py-2 rounded-lg text-base font-semibold hover:bg-primary hover:text-primary-foreground transition-colors"
               >
                 Connexion
@@ -161,7 +169,7 @@ export function Header() {
               Devenir Hôte
             </button>
             <Link
-              href="/platform"
+              href={getPlatformLink()}
               className="flex items-center border-2 border-primary text-primary px-5 py-2 rounded-lg text-base font-semibold hover:bg-primary hover:text-primary-foreground transition-colors"
               onClick={() => setIsMenuOpen(false)}
             >

@@ -6,6 +6,7 @@ const nextConfig = {
   outputFileTracingRoot: __dirname,
   images: {
     unoptimized: true,
+    qualities: [25, 50, 75, 100],
   },
   basePath: process.env.NODE_ENV === 'production' ? '/sini' : '',
   assetPrefix: process.env.NODE_ENV === 'production' ? '/sini/' : '',
