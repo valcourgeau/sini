@@ -60,7 +60,7 @@ export default function VaudoiseHomePage() {
       {/* First Section - Vaudoise Professional Background */}
       <section 
         id="home" 
-        className="relative min-h-[calc(100vh-4rem)] flex items-center justify-center scroll-mt-16 py-8 md:py-12"
+        className="relative min-h-[calc(100vh-4rem)] flex items-center justify-center scroll-mt-16 py-12 md:py-16"
         style={{
           backgroundImage: `url(${getImagePath('/lighthouse-red.JPG')})`,
           backgroundSize: 'cover',
@@ -122,7 +122,7 @@ export default function VaudoiseHomePage() {
       </section>
 
       {/* Second Section - White Background */}
-      <section id="sinistres" className="relative bg-secondary min-h-[calc(100vh-4rem)] flex items-center justify-center scroll-mt-16 py-8 md:py-12">
+      <section id="sinistres" className="relative bg-secondary min-h-[calc(100vh-4rem)] flex items-center justify-center scroll-mt-16 py-12 md:py-16">
         <div className="absolute top-16 md:top-24 right-4 md:right-8">
           <NavigationArrow direction="up" targetId="home" position="top" />
         </div>
@@ -220,7 +220,7 @@ export default function VaudoiseHomePage() {
       </section>
 
       {/* Third Section - Vaudoise Green Background with Diagonal Separation */}
-      <section id="assurances" className="relative bg-secondary min-h-[calc(100vh-4rem)] flex items-center justify-center scroll-mt-16 overflow-hidden py-8 md:py-12">
+      <section id="assurances" className="relative bg-secondary min-h-[calc(100vh-4rem)] flex items-center justify-center scroll-mt-16 overflow-hidden py-12 md:py-16">
         {/* Diagonal Green Background */}
         <div className="absolute inset-0 bg-primary" style={{
           clipPath: 'polygon(0 0, 80% 0, 60% 100%, 0% 100%)'
@@ -320,7 +320,7 @@ export default function VaudoiseHomePage() {
       </section>
 
       {/* Fourth Section - White Background */}
-      <section id="hosts" className="relative bg-secondary min-h-[calc(100vh-4rem)] flex items-center justify-center scroll-mt-16 py-8 md:py-12">
+      <section id="hosts" className="relative bg-secondary min-h-[calc(100vh-4rem)] flex items-center justify-center scroll-mt-16 py-12 md:py-16">
         <div className="absolute top-16 md:top-24 right-4 md:right-8">
           <NavigationArrow direction="up" targetId="assurances" position="top" />
         </div>

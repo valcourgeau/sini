@@ -69,7 +69,7 @@ export default function HomePage() {
       */}
       <section 
         id="home" 
-        className="relative hero-background min-h-[calc(100vh-4rem)] flex items-center justify-center scroll-mt-16 py-8 md:py-12"
+        className="relative hero-background min-h-[calc(100vh-4rem)] flex items-center justify-center scroll-mt-16 py-12 md:py-16"
         style={{
           backgroundImage: `url(${getImagePath('/background-pharewest.png')})`
         }}
@@ -117,7 +117,7 @@ export default function HomePage() {
       </section>
 
       {/* Second Section - Sand Background */}
-      <section id="sinistres" className="relative bg-secondary min-h-[calc(100vh-4rem)] flex items-center justify-center scroll-mt-16 py-8 md:py-12">
+      <section id="sinistres" className="relative bg-secondary min-h-[calc(100vh-4rem)] flex items-center justify-center scroll-mt-16 py-12 md:py-16">
         <div className="absolute top-16 md:top-24 right-4 md:right-8">
           <NavigationArrow direction="up" targetId="home" position="top" />
         </div>
@@ -215,7 +215,7 @@ export default function HomePage() {
       </section>
 
       {/* Third Section - Blue Background */}
-      <section id="assurances" className="relative bg-primary min-h-[calc(100vh-4rem)] flex items-center justify-center text-primary-foreground scroll-mt-16 py-8 md:py-12">
+      <section id="assurances" className="relative bg-primary min-h-[calc(100vh-4rem)] flex items-center justify-center text-primary-foreground scroll-mt-16 py-12 md:py-16">
         <div className="absolute top-16 md:top-24 right-4 md:right-8">
           <NavigationArrow direction="up" targetId="sinistres" position="top" />
         </div>
@@ -310,7 +310,7 @@ export default function HomePage() {
       </section>
 
       {/* Fourth Section - Sand Background */}
-      <section id="hosts" className="relative bg-secondary min-h-[calc(100vh-4rem)] flex items-center justify-center scroll-mt-16 py-8 md:py-12">
+      <section id="hosts" className="relative bg-secondary min-h-[calc(100vh-4rem)] flex items-center justify-center scroll-mt-16 py-12 md:py-16">
         <div className="absolute top-16 md:top-24 right-4 md:right-8">
           <NavigationArrow direction="up" targetId="assurances" position="top" />
         </div>
