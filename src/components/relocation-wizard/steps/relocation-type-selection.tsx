@@ -4,6 +4,7 @@ import { Check, Home, Users } from "lucide-react";
 
 interface RelocationTypeSelectionProps {
   form: UseFormReturn<any>;
+  userType?: string | null;
 }
 
 interface RelocationTypeOption {
@@ -13,7 +14,7 @@ interface RelocationTypeOption {
   description: string;
 }
 
-export function RelocationTypeSelection({ form }: RelocationTypeSelectionProps) {
+export function RelocationTypeSelection({ form, userType }: RelocationTypeSelectionProps) {
   const { formState: { errors } } = form;
   const currentValue = form.getValues("relocationType");
   
@@ -22,13 +23,13 @@ export function RelocationTypeSelection({ form }: RelocationTypeSelectionProps) 
       value: "single",
       icon: <Home size={32} />,
       label: "Relogement individuel",
-      description: "pour un foyer assuré"
+      description: userType === "sinistre" ? "pour votre foyer" : "pour un foyer assuré"
     },
     {
       value: "multiple",
       icon: <Users size={32} />,
       label: "Relogements multiples",
-      description: "pour plusieurs foyers assurés en une demande"
+      description: userType === "sinistre" ? "pour plusieurs foyers en une demande" : "pour plusieurs foyers assurés en une demande"
     }
   ];
 
@@ -43,7 +44,9 @@ export function RelocationTypeSelection({ form }: RelocationTypeSelectionProps) 
   return (
     <div className="space-y-6">
       <div className="text-center">
-        <h2 className="text-xl font-semibold mb-2">Sélectionner la recherche adaptée à vos besoins</h2>
+        <h2 className="text-xl font-semibold mb-2">
+          {userType === "sinistre" ? "Sélectionner le type de relogement adapté à votre situation" : "Sélectionner la recherche adaptée à vos besoins"}
+        </h2>
         <p className="text-xs text-muted-foreground mb-4">
           * Veuillez valider une option pour continuer
         </p>

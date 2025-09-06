@@ -79,9 +79,10 @@ interface RelocationRequest {
 
 interface MultipleRelocationRequestsProps {
   form: UseFormReturn<any>;
+  userType?: string | null;
 }
 
-export function MultipleRelocationRequests({ form }: MultipleRelocationRequestsProps) {
+export function MultipleRelocationRequests({ form, userType }: MultipleRelocationRequestsProps) {
   const { register, watch, setValue, formState: { errors } } = form;
   
   // Get current requests or initialize empty array
@@ -426,9 +427,14 @@ export function MultipleRelocationRequests({ form }: MultipleRelocationRequestsP
   return (
     <div className="space-y-8">
       <div className="text-center">
-        <h2 className="text-xl font-semibold mb-2">Adresses de sinistre et demandes de relogement</h2>
+        <h2 className="text-xl font-semibold mb-2">
+          {userType === "sinistre" ? "Adresses de vos biens affectés et demandes de relogement" : "Adresses de sinistre et demandes de relogement"}
+        </h2>
         <p className="text-sm text-muted-foreground mb-6 max-w-lg mx-auto">
-          Veuillez d'abord ajouter les adresses de sinistre, puis les demandes de relogement pour chaque foyer.
+          {userType === "sinistre" 
+            ? "Veuillez d'abord ajouter les adresses de vos biens affectés, puis les demandes de relogement pour chaque foyer."
+            : "Veuillez d'abord ajouter les adresses de sinistre, puis les demandes de relogement pour chaque foyer."
+          }
         </p>
       </div>
 
@@ -539,7 +545,9 @@ export function MultipleRelocationRequests({ form }: MultipleRelocationRequestsP
       {/* Disaster Addresses Section */}
     <div className="space-y-6">
       <div>
-          <h3 className="text-lg font-medium mb-4">Lieux de sinistre</h3>
+          <h3 className="text-lg font-medium mb-4">
+            {userType === "sinistre" ? "Lieux de vos biens affectés" : "Lieux de sinistre"}
+          </h3>
         </div>
         
         {disasterAddresses.length > 0 ? (
@@ -675,7 +683,10 @@ export function MultipleRelocationRequests({ form }: MultipleRelocationRequestsP
             <MapPin className="h-10 w-10 mx-auto text-muted-foreground mb-3" />
             <h3 className="text-lg font-medium mb-1">Aucune adresse ajoutée</h3>
             <p className="text-sm text-muted-foreground mb-4">
-              Veuillez ajouter au moins une adresse de sinistre
+              {userType === "sinistre" 
+                ? "Veuillez ajouter au moins une adresse de votre bien affecté"
+                : "Veuillez ajouter au moins une adresse de sinistre"
+              }
         </p>
       </div>
         )}
@@ -687,7 +698,7 @@ export function MultipleRelocationRequests({ form }: MultipleRelocationRequestsP
             className="flex-1"
           >
             <Plus className="h-4 w-4 mr-2" />
-            Ajouter une adresse de sinistre
+            {userType === "sinistre" ? "Ajouter une adresse de bien affecté" : "Ajouter une adresse de sinistre"}
           </Button>
         </div>
       </div>

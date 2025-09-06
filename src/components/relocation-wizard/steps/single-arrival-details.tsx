@@ -7,6 +7,7 @@ import { cn } from "@/lib/utils";
 interface SingleArrivalDetailsProps {
   form: UseFormReturn<any>;
   onValidationChange?: (isValid: boolean) => void;
+  userType?: string | null;
 }
 
 export interface SingleArrivalDetailsRef {
@@ -27,7 +28,7 @@ interface ArrivalErrors {
 }
 
 export const SingleArrivalDetails = forwardRef<SingleArrivalDetailsRef, SingleArrivalDetailsProps>(
-  ({ form, onValidationChange }, ref) => {
+  ({ form, onValidationChange, userType }, ref) => {
   const { register, setValue, watch, formState: { errors }, trigger } = form;
   // Type assertion to handle errors properly
   const arrivalErrors = (errors.singleArrivalDetails || {}) as ArrivalErrors;
@@ -302,7 +303,10 @@ export const SingleArrivalDetails = forwardRef<SingleArrivalDetailsRef, SingleAr
       <div className="text-center">
         <h2 className="text-xl font-semibold mb-2">Le séjour</h2>
         <p className="text-sm text-muted-foreground mb-6 max-w-lg mx-auto whitespace-nowrap">
-          Veuillez spécifier quand la date d'emménagement et la durée prévue de votre séjour.
+          {userType === "sinistre" 
+            ? "Veuillez spécifier la date d'emménagement et la durée prévue de votre séjour."
+            : "Veuillez spécifier quand la date d'emménagement et la durée prévue du séjour."
+          }
         </p>
       </div>
 

@@ -25,6 +25,7 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/comp
 
 interface MultipleReviewConfirmProps {
   form: UseFormReturn<any>;
+  userType?: string | null;
 }
 
 interface DisasterAddress {
@@ -35,7 +36,7 @@ interface DisasterAddress {
   country: string;
 }
 
-export function MultipleReviewConfirm({ form }: MultipleReviewConfirmProps) {
+export function MultipleReviewConfirm({ form, userType }: MultipleReviewConfirmProps) {
   const formValues = form.getValues();
   const requests = formValues.multipleRelocationRequests || [];
   const disasterAddresses = formValues.multipleDisasterAddresses || [];
@@ -100,9 +101,14 @@ export function MultipleReviewConfirm({ form }: MultipleReviewConfirmProps) {
       {/* Header Section */}
       <div className="text-center space-y-3">
         <div>
-          <h2 className="text-2xl font-semibold text-foreground">Vérification pour de multiples relogements</h2>
+          <h2 className="text-2xl font-semibold text-foreground">
+            {userType === "sinistre" ? "Vérification de vos demandes de relogement" : "Vérification pour de multiples relogements"}
+          </h2>
           <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
-            Veuillez vérifier les détails et coordonnées des assurés avant de soumettre. 
+            {userType === "sinistre" 
+              ? "Veuillez vérifier les détails et coordonnées avant de soumettre."
+              : "Veuillez vérifier les détails et coordonnées des assurés avant de soumettre."
+            }
           </p>
         </div>
       </div>
@@ -361,8 +367,10 @@ export function MultipleReviewConfirm({ form }: MultipleReviewConfirmProps) {
               Confirmation de l'exactitude des données <span className="text-red-500">*</span>
             </Label>
             <p className="text-sm text-muted-foreground leading-relaxed">
-              Je confirme que toutes les informations fournies dans ces demandes sont exactes et complètes à la meilleure de ma connaissance. 
-              Je comprends que des informations incorrectes peuvent affecter le traitement de ces demandes de relogement.
+              {userType === "sinistre" 
+                ? "Je confirme que toutes les informations fournies dans ces demandes sont exactes et complètes à la meilleure de ma connaissance. Je comprends que des informations incorrectes peuvent affecter le traitement de ces demandes de relogement."
+                : "Je confirme que toutes les informations fournies dans ces demandes sont exactes et complètes à la meilleure de ma connaissance. Je comprends que des informations incorrectes peuvent affecter le traitement de ces demandes de relogement."
+              }
             </p>
           </div>
         </div>

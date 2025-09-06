@@ -2,7 +2,11 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { CheckCircle, Clock, Mail, Phone } from "lucide-react";
 
-export function SuccessMessage() {
+interface SuccessMessageProps {
+  userType?: string | null;
+}
+
+export function SuccessMessage({ userType }: SuccessMessageProps) {
   return (
     <div className="flex justify-center items-center min-h-[60vh]">
       <div className="bg-card rounded-lg p-8 max-w-xl mx-auto shadow-lg border border-border">
@@ -10,9 +14,14 @@ export function SuccessMessage() {
           <div className="rounded-full bg-green-100 p-3">
             <CheckCircle className="h-12 w-12 text-green-600" />
           </div>
-          <h2 className="text-2xl font-bold text-foreground">Demande envoyée avec succès</h2>
+          <h2 className="text-2xl font-bold text-foreground">
+            {userType === "sinistre" ? "Votre demande envoyée avec succès" : "Demande envoyée avec succès"}
+          </h2>
           <p className="text-muted-foreground">
-            Nous prenons en charge votre demande.
+            {userType === "sinistre" 
+              ? "Nous prenons en charge votre demande."
+              : "Nous prenons en charge la demande."
+            }
           </p>
         </div>
         
@@ -25,7 +34,12 @@ export function SuccessMessage() {
               </div>
               <div className="flex-1 text-left">
                 <p className="text-sm text-muted-foreground">
-                  <span className="font-medium text-foreground">Vous allez recevoir un email de confirmation de votre demande.</span>
+                  <span className="font-medium text-foreground">
+                    {userType === "sinistre" 
+                      ? "Vous allez recevoir un email de confirmation de votre demande."
+                      : "Vous allez recevoir un email de confirmation de la demande."
+                    }
+                  </span>
                 </p>
               </div>
             </div>
@@ -36,7 +50,12 @@ export function SuccessMessage() {
               </div>
               <div className="flex-1 text-left">
                 <p className="text-sm text-muted-foreground">
-                  <span className="font-medium text-foreground">Notre équipe répondra à votre demande sous 24 heures.</span>
+                  <span className="font-medium text-foreground">
+                    {userType === "sinistre" 
+                      ? "Notre équipe répondra à votre demande sous 24 heures."
+                      : "Notre équipe répondra à la demande sous 24 heures."
+                    }
+                  </span>
                 </p>
               </div>
             </div>
@@ -47,7 +66,12 @@ export function SuccessMessage() {
               </div>
               <div className="flex-1 text-left">
                 <p className="text-sm text-muted-foreground">
-                  <span className="font-medium text-foreground">Un de nos spécialistes va chercher un relogement pour vous.</span>
+                  <span className="font-medium text-foreground">
+                    {userType === "sinistre" 
+                      ? "Un de nos spécialistes va chercher un relogement pour vous."
+                      : "Un de nos spécialistes va chercher un relogement adapté."
+                    }
+                  </span>
                 </p>
               </div>
             </div>

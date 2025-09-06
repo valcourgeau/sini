@@ -38,7 +38,10 @@ export function SingleAddressAndContact({ form, userType }: SingleAddressAndCont
       <div className="text-center">
         <h2 className="text-xl font-semibold mb-2">L'adresse et les coordonnées</h2>
         <p className="text-sm text-muted-foreground mb-6 max-w-lg mx-auto">
-          Veuillez fournir l'adresse du bien affecté et vos coordonnées.
+          {userType === "sinistre" 
+            ? "Veuillez fournir l'adresse de votre bien affecté et vos coordonnées."
+            : "Veuillez fournir l'adresse du bien affecté et vos coordonnées."
+          }
         </p>
       </div>
 
@@ -48,7 +51,9 @@ export function SingleAddressAndContact({ form, userType }: SingleAddressAndCont
           <div className="space-y-4">
             {/* Street - Full width */}
             <div className="space-y-2">
-              <Label htmlFor="singleDisasterAddress.street">Adresse du sinistre <span className="text-red-500">*</span></Label>
+              <Label htmlFor="singleDisasterAddress.street">
+                {userType === "sinistre" ? "Adresse de votre bien affecté" : "Adresse du sinistre"} <span className="text-red-500">*</span>
+              </Label>
               <input
                 id="singleDisasterAddress.street"
                 {...register("singleDisasterAddress.street")}
@@ -386,9 +391,10 @@ export function SingleAddressAndContact({ form, userType }: SingleAddressAndCont
 
       <div className="p-4 bg-amber-50 rounded-md border border-amber-100">
         <p className="text-sm text-amber-700">
-          <strong>Note de confidentialité :</strong> Vos informations personnelles ne seront utilisées que pour traiter votre demande 
-          de relogement et communiquer avec vous concernant vos besoins en logement. Nous traitons vos données conformément 
-          à notre politique de confidentialité.
+          <strong>Note de confidentialité :</strong> {userType === "sinistre" 
+            ? "Vos informations personnelles ne seront utilisées que pour traiter votre demande de relogement et communiquer avec vous concernant vos besoins en logement. Nous traitons vos données conformément à notre politique de confidentialité."
+            : "Les informations personnelles ne seront utilisées que pour traiter la demande de relogement et communiquer concernant les besoins en logement. Nous traitons les données conformément à notre politique de confidentialité."
+          }
         </p>
       </div>
     </div>

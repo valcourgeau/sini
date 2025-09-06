@@ -18,6 +18,7 @@ import { Input } from '@/components/ui/input';
 
 interface SingleRelocationPreferencesProps {
   form: UseFormReturn<any>;
+  userType?: string | null;
 }
 
 type CounterField = {
@@ -37,7 +38,7 @@ interface SpecialNeedCard {
   description?: string;
 }
 
-export function SingleRelocationPreferences({ form }: SingleRelocationPreferencesProps) {
+export function SingleRelocationPreferences({ form, userType }: SingleRelocationPreferencesProps) {
   const { register, setValue, watch, formState: { errors, isSubmitted } } = form;
   const preferencesErrors = (errors.singleRelocationPreferences as any) || {};
   
@@ -179,7 +180,10 @@ export function SingleRelocationPreferences({ form }: SingleRelocationPreference
       <div className="text-center">
         <h2 className="text-xl font-semibold mb-2">Préférences</h2>
         <p className="text-sm text-muted-foreground">
-          Veuillez nous aider à trouver la solution la plus adaptée.
+          {userType === "sinistre" 
+            ? "Veuillez nous aider à trouver la solution la plus adaptée à vos besoins."
+            : "Veuillez nous aider à trouver la solution la plus adaptée."
+          }
         </p>
       </div>
 

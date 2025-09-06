@@ -829,37 +829,37 @@ export function RelocationWizard() {
 
     switch (step) {
       case 1:
-        return <RelocationTypeSelection form={form} />;
+        return <RelocationTypeSelection form={form} userType={userTypeParam} />;
       case 2:
         // Branch based on relocation type
         if (relocationType === "single") {
           return <SingleInsuranceCoverage form={form} userType={userTypeParam} />;
         } else if (relocationType === "multiple") {
-          return <MultipleRelocationRequests form={form} />;
+          return <MultipleRelocationRequests form={form} userType={userTypeParam} />;
         }
         break;
       case 3:
         if (relocationType === "single") {
           return <SingleAddressAndContact form={form} userType={userTypeParam} />;
         } else if (relocationType === "multiple") {
-          return <MultipleReviewConfirm form={form} />;
+          return <MultipleReviewConfirm form={form} userType={userTypeParam} />;
         }
         break;
       case 4:
         if (relocationType === "single") {
-          return <SingleRelocationPreferences form={form} />;
+          return <SingleRelocationPreferences form={form} userType={userTypeParam} />;
         } else if (relocationType === "multiple") {
-          return <MultipleConsent form={form} onSubmit={handleSubmit} isSubmitting={isSubmitting} onBack={prevStep} />;
+          return <MultipleConsent form={form} onSubmit={handleSubmit} isSubmitting={isSubmitting} onBack={prevStep} userType={userTypeParam} />;
         }
         break;
       case 5:
         if (relocationType === "single") {
-          return <SingleArrivalDetails ref={arrivalDetailsRef} form={form} onValidationChange={setIsArrivalDetailsValid} />;
+          return <SingleArrivalDetails ref={arrivalDetailsRef} form={form} onValidationChange={setIsArrivalDetailsValid} userType={userTypeParam} />;
         }
         break;
       case 6:
         if (relocationType === "single") {
-          return <SingleReviewConfirm form={form} />;
+          return <SingleReviewConfirm form={form} userType={userTypeParam} />;
         }
         break;
       case 7:
@@ -869,7 +869,7 @@ export function RelocationWizard() {
         break;
       case 8:
         if (relocationType === "single") {
-          return <SuccessMessage />;
+          return <SuccessMessage userType={userTypeParam} />;
         }
         break;
       default:
@@ -944,7 +944,7 @@ export function RelocationWizard() {
   };
 
   if (isSubmitted) {
-    return <SuccessMessage />;
+    return <SuccessMessage userType={userTypeParam} />;
   }
 
   // Use wider container (max-w-11xl) only for the multiple relocation requests table

@@ -140,9 +140,9 @@ export function SingleInsuranceCoverage({ form, userType }: SingleInsuranceCover
       <div className="text-center">
         <h2 className="text-xl font-semibold mb-2">La déclaration de sinistre</h2>
         <p className="text-sm text-muted-foreground mb-2 max-w-2xl mx-auto">
-          {userType === "assurance" 
-            ? "L'assuré a t-il déjà formellement déclaré son sinistre ?"
-            : "Votre assuré a t-il déjà formellement déclaré son sinistre ?"
+          {userType === "sinistre" 
+            ? "Avez-vous déjà formellement déclaré votre sinistre ?"
+            : "L'assuré a t-il déjà formellement déclaré son sinistre ?"
           }
         </p>
       </div>
@@ -276,17 +276,17 @@ export function SingleInsuranceCoverage({ form, userType }: SingleInsuranceCover
                 {selectedValue === "no" && (
                   <div className="mt-4 pt-4 border-t border-border w-full text-center space-y-4">
                     <p className="text-sm text-muted-foreground">
-                      {userType === "assurance" 
-                        ? "Des informations complémentaires seront nécessaires."
-                        : "Veuillez soumettre votre déclaration de sinistre auprès de votre assureur et revenir avec le document."
+                      {userType === "sinistre" 
+                        ? "Veuillez soumettre votre déclaration de sinistre auprès de votre assureur et revenir avec le document."
+                        : "Des informations complémentaires seront nécessaires."
                       }
                     </p>
                     
                     {selectedProvider === "Other" && (
                       <p className="text-sm text-muted-foreground">
-                        {userType === "assurance" 
-                          ? "Veuillez contacter directement l'assureur pour soumettre la déclaration de sinistre."
-                          : "Veuillez contacter directement votre assureur pour soumettre votre déclaration de sinistre."
+                        {userType === "sinistre" 
+                          ? "Veuillez contacter directement votre assureur pour soumettre votre déclaration de sinistre."
+                          : "Veuillez contacter directement l'assureur pour soumettre la déclaration de sinistre."
                         }
                       </p>
                     )}

@@ -25,9 +25,10 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/comp
 
 interface SingleReviewConfirmProps {
   form: UseFormReturn<any>;
+  userType?: string | null;
 }
 
-export function SingleReviewConfirm({ form }: SingleReviewConfirmProps) {
+export function SingleReviewConfirm({ form, userType }: SingleReviewConfirmProps) {
   // Create a state to store form values and trigger re-renders when they change
   const [formData, setFormData] = useState(form.getValues());
   
@@ -121,10 +122,14 @@ export function SingleReviewConfirm({ form }: SingleReviewConfirmProps) {
       {/* Header Section */}
       <div className="text-center space-y-3">
         <div>
-          <h2 className="text-2xl font-semibold text-foreground">Vérification de votre demande</h2>
+          <h2 className="text-2xl font-semibold text-foreground">
+            {userType === "sinistre" ? "Vérification de votre demande" : "Vérification de la demande"}
+          </h2>
           <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
-            Veuillez vérifier les détails de votre demande de relogement avant de soumettre. 
-            Si vous devez apporter des modifications, vous pouvez revenir aux sections concernées.
+            {userType === "sinistre" 
+              ? "Veuillez vérifier les détails de votre demande de relogement avant de soumettre. Si vous devez apporter des modifications, vous pouvez revenir aux sections concernées."
+              : "Veuillez vérifier les détails de la demande de relogement avant de soumettre. Si vous devez apporter des modifications, vous pouvez revenir aux sections concernées."
+            }
           </p>
         </div>
       </div>

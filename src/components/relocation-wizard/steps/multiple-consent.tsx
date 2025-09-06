@@ -8,6 +8,7 @@ interface MultipleConsentProps {
   onSubmit: () => Promise<void>;
   isSubmitting: boolean;
   onBack: () => void;
+  userType?: string | null;
 }
 
 interface ConsentErrors {
@@ -15,7 +16,7 @@ interface ConsentErrors {
   agreeToDataProcessing?: { message?: string };
 }
 
-export function MultipleConsent({ form, onSubmit, isSubmitting, onBack }: MultipleConsentProps) {
+export function MultipleConsent({ form, onSubmit, isSubmitting, onBack, userType }: MultipleConsentProps) {
   const { register, formState: { errors } } = form;
   const consentErrors = (errors.multipleConsent || {}) as ConsentErrors;
 
@@ -37,7 +38,10 @@ export function MultipleConsent({ form, onSubmit, isSubmitting, onBack }: Multip
       <div>
         <h2 className="text-lg font-medium mb-4">Consentement et autorisation</h2>
         <p className="text-sm text-muted-foreground mb-6">
-          Veuillez examiner et accepter les conditions suivantes pour soumettre vos demandes de relogement.
+          {userType === "sinistre" 
+            ? "Veuillez examiner et accepter les conditions suivantes pour soumettre vos demandes de relogement."
+            : "Veuillez examiner et accepter les conditions suivantes pour soumettre les demandes de relogement."
+          }
         </p>
       </div>
 
@@ -52,9 +56,9 @@ export function MultipleConsent({ form, onSubmit, isSubmitting, onBack }: Multip
               <li>Les informations fournies dans ce formulaire sont exactes et complètes à votre connaissance.</li>
               <li>Vous nous autorisez à utiliser ces informations pour vous aider à trouver des options de relogement adaptées.</li>
               <li>Vous comprenez que la soumission de ce formulaire ne garantit pas l'assistance au relogement.</li>
-              <li>Vous acceptez de répondre rapidement à toute communication de suivi concernant les demandes.</li>
+              <li>Vous acceptez de répondre rapidement à toute communication de suivi concernant {userType === "sinistre" ? "vos demandes" : "les demandes"}.</li>
               <li>Vous reconnaissez que les options de relogement sont soumises à disponibilité et critères d'éligibilité.</li>
-              <li>Vous comprenez que toute information fausse ou trompeuse peut entraîner le rejet des demandes.</li>
+              <li>Vous comprenez que toute information fausse ou trompeuse peut entraîner le rejet {userType === "sinistre" ? "de vos demandes" : "des demandes"}.</li>
             </ul>
             
             <h3 className="font-medium mt-6">Politique de confidentialité</h3>
@@ -62,7 +66,7 @@ export function MultipleConsent({ form, onSubmit, isSubmitting, onBack }: Multip
               Nous nous engageons à protéger votre vie privée. Voici comment nous traitons vos données :
             </p>
             <ul className="list-disc list-outside ml-5 text-sm text-muted-foreground space-y-1">
-              <li>Les informations personnelles ne seront utilisées que pour traiter les demandes de relogement et les services associés.</li>
+              <li>Les informations personnelles ne seront utilisées que pour traiter {userType === "sinistre" ? "vos demandes" : "les demandes"} de relogement et les services associés.</li>
               <li>Nous pouvons partager les informations avec des partenaires et fournisseurs de logement.</li>
               <li>Si des informations d'assurance ont été fournies, nous pouvons contacter les assureurs pour vérifier la couverture.</li>
               <li>Les données seront stockées de manière sécurisée et conservées pendant la durée requise par les lois applicables.</li>
@@ -139,8 +143,8 @@ export function MultipleConsent({ form, onSubmit, isSubmitting, onBack }: Multip
 
         <div className="p-4 bg-primary/5 rounded-md border border-primary/10">
           <p className="text-sm text-primary/80">
-            <strong>Important :</strong> Après avoir soumis les demandes, vous recevrez un email de confirmation 
-            avec un résumé de toutes les demandes de relogement. Notre équipe vous contactera pour les prochaines étapes.
+            <strong>Important :</strong> Après avoir soumis {userType === "sinistre" ? "vos demandes" : "les demandes"}, vous recevrez un email de confirmation 
+            avec un résumé de {userType === "sinistre" ? "toutes vos demandes" : "toutes les demandes"} de relogement. Notre équipe vous contactera pour les prochaines étapes.
           </p>
         </div>
 
@@ -168,7 +172,7 @@ export function MultipleConsent({ form, onSubmit, isSubmitting, onBack }: Multip
             disabled={isSubmitting}
             className="px-8 py-2 h-auto bg-primary hover:bg-primary/90"
           >
-            {isSubmitting ? "Envoi en cours..." : "Valider les demandes"}
+            {isSubmitting ? "Envoi en cours..." : userType === "sinistre" ? "Valider mes demandes" : "Valider les demandes"}
           </Button>
         </div>
       </div>
