@@ -366,38 +366,36 @@ function AssuranceDossiersContent() {
               {/* Main Content with Two-Column Layout */}
               <div className="flex flex-col lg:flex-row gap-8">
                 {/* Personal Information - First Column */}
-                <div className="flex-1">
-                  <div className="space-y-4 ml-10">
+                <div className="flex-1 flex items-center">
+                  <div className="flex flex-wrap items-center gap-4 ml-10">
                     {/* Name Section */}
                     <div className="flex items-center gap-3">
                       <div className="flex items-center justify-center w-6 h-6 bg-blue-100 rounded-lg">
                         <User className="h-4 w-4 text-blue-600" />
                       </div>
-                      <div>
-                        <p className="text-sm text-foreground">
-                          {case_.contactPerson.firstName} {case_.contactPerson.lastName}
-                        </p>
-                      </div>
+                      <p className="text-sm text-foreground">
+                        {case_.contactPerson.firstName} {case_.contactPerson.lastName}
+                      </p>
                     </div>
 
-                    {/* Contact Section */}
-                    <div className="flex items-center gap-6">
-                      <div className="flex items-center gap-3">
-                        <div className="flex items-center justify-center w-6 h-6 bg-purple-100 rounded-lg">
-                          <Mail className="h-4 w-4 text-purple-600" />
-                        </div>
-                        <p className="text-sm text-foreground">
-                          {case_.contactPerson.email}
-                        </p>
+                    {/* Email Section */}
+                    <div className="flex items-center gap-3">
+                      <div className="flex items-center justify-center w-6 h-6 bg-purple-100 rounded-lg">
+                        <Mail className="h-4 w-4 text-purple-600" />
                       </div>
-                      <div className="flex items-center gap-3">
-                        <div className="flex items-center justify-center w-6 h-6 bg-green-100 rounded-lg">
-                          <Phone className="h-4 w-4 text-green-600" />
-                        </div>
-                        <p className="text-sm text-foreground">
-                          {case_.contactPerson.phone}
-                        </p>
+                      <p className="text-sm text-foreground">
+                        {case_.contactPerson.email}
+                      </p>
+                    </div>
+
+                    {/* Phone Section */}
+                    <div className="flex items-center gap-3">
+                      <div className="flex items-center justify-center w-6 h-6 bg-green-100 rounded-lg">
+                        <Phone className="h-4 w-4 text-green-600" />
                       </div>
+                      <p className="text-sm text-foreground">
+                        {case_.contactPerson.phone}
+                      </p>
                     </div>
                   </div>
                 </div>

@@ -42,6 +42,7 @@ import Link from "next/link";
 import { RelocationData } from '@/types/relocation';
 import { getCaseById, needsRelocationOptions } from '@/lib/data-loader';
 import { DossierDetailClient, RelocationWarningWrapper } from '@/components/dossier-detail-client';
+import { SelectedRelocationDetail } from '@/components/selected-relocation-detail';
 
 // Generate static params for all mock case IDs
 export async function generateStaticParams() {
@@ -792,6 +793,13 @@ export default async function CaseDetailPage({ params }: PageProps) {
             </div>
           </>
         )}
+
+        {/* Selected Relocation Section */}
+        <div className="md:col-span-2 lg:col-span-3">
+          <div className="bg-card border border-border rounded-xl p-4 md:p-6 shadow-sm">
+            <SelectedRelocationDetail caseData={currentCaseData} />
+          </div>
+        </div>
       </div>
     </div>
   );
