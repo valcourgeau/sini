@@ -380,24 +380,20 @@ function AssuranceDossiersContent() {
                       </div>
                     </div>
 
-                    {/* Email Section */}
-                    <div className="flex items-center gap-3">
-                      <div className="flex items-center justify-center w-6 h-6 bg-purple-100 rounded-lg">
-                        <Mail className="h-4 w-4 text-purple-600" />
-                      </div>
-                      <div>
+                    {/* Contact Section */}
+                    <div className="flex items-center gap-6">
+                      <div className="flex items-center gap-3">
+                        <div className="flex items-center justify-center w-6 h-6 bg-purple-100 rounded-lg">
+                          <Mail className="h-4 w-4 text-purple-600" />
+                        </div>
                         <p className="text-sm text-foreground">
                           {case_.contactPerson.email}
                         </p>
                       </div>
-                    </div>
-
-                    {/* Phone Section */}
-                    <div className="flex items-center gap-3">
-                      <div className="flex items-center justify-center w-6 h-6 bg-green-100 rounded-lg">
-                        <Phone className="h-4 w-4 text-green-600" />
-                      </div>
-                      <div>
+                      <div className="flex items-center gap-3">
+                        <div className="flex items-center justify-center w-6 h-6 bg-green-100 rounded-lg">
+                          <Phone className="h-4 w-4 text-green-600" />
+                        </div>
                         <p className="text-sm text-foreground">
                           {case_.contactPerson.phone}
                         </p>
