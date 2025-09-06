@@ -367,25 +367,42 @@ function AssuranceDossiersContent() {
               <div className="flex flex-col lg:flex-row gap-8">
                 {/* Personal Information - First Column */}
                 <div className="flex-1">
-                  <div className="space-y-2">
-                      <div className="flex justify-between items-center py-1">
-                        <span className="text-sm text-muted-foreground">Dossier</span>
-                        <span className="text-sm font-medium text-primary">{case_.id}</span>
+                  <div className="space-y-4 ml-10">
+                    {/* Name Section */}
+                    <div className="flex items-center gap-3">
+                      <div className="flex items-center justify-center w-6 h-6 bg-blue-100 rounded-lg">
+                        <User className="h-4 w-4 text-blue-600" />
                       </div>
-                      <div className="flex justify-between items-center py-1">
-                        <span className="text-sm text-muted-foreground">Nom</span>
-                        <span className="text-sm font-medium">
+                      <div>
+                        <p className="text-sm text-foreground">
                           {case_.contactPerson.firstName} {case_.contactPerson.lastName}
-                        </span>
+                        </p>
                       </div>
-                      <div className="flex justify-between items-center py-1">
-                        <span className="text-sm text-muted-foreground">Email</span>
-                        <span className="text-sm font-medium">{case_.contactPerson.email}</span>
+                    </div>
+
+                    {/* Email Section */}
+                    <div className="flex items-center gap-3">
+                      <div className="flex items-center justify-center w-6 h-6 bg-purple-100 rounded-lg">
+                        <Mail className="h-4 w-4 text-purple-600" />
                       </div>
-                      <div className="flex justify-between items-center py-1">
-                        <span className="text-sm text-muted-foreground">Téléphone</span>
-                        <span className="text-sm font-medium">{case_.contactPerson.phone}</span>
+                      <div>
+                        <p className="text-sm text-foreground">
+                          {case_.contactPerson.email}
+                        </p>
                       </div>
+                    </div>
+
+                    {/* Phone Section */}
+                    <div className="flex items-center gap-3">
+                      <div className="flex items-center justify-center w-6 h-6 bg-green-100 rounded-lg">
+                        <Phone className="h-4 w-4 text-green-600" />
+                      </div>
+                      <div>
+                        <p className="text-sm text-foreground">
+                          {case_.contactPerson.phone}
+                        </p>
+                      </div>
+                    </div>
                   </div>
                 </div>
 
@@ -401,7 +418,7 @@ function AssuranceDossiersContent() {
                     </div>
                     <div className="flex-1">
                       <p className="text-sm text-foreground">
-                        <span className="font-bold">Addresse:</span> {case_.disasterAddress?.street}, {case_.disasterAddress?.postalCode} {case_.disasterAddress?.city}, {case_.disasterAddress?.canton}
+                        {case_.disasterAddress?.street}, {case_.disasterAddress?.postalCode} {case_.disasterAddress?.city}, {case_.disasterAddress?.canton}
                       </p>
                     </div>
                   </div>
@@ -414,7 +431,7 @@ function AssuranceDossiersContent() {
                     <div className="flex-1">
                       {case_.relocationRequests && case_.relocationRequests.length > 0 ? (
                         <p className="text-sm text-foreground">
-                          <span className="font-bold">Détails:</span> {case_.relocationType === "single" ? "Simple" : "Multiple"} • {case_.relocationRequests[0]?.bedrooms || 0} chambres • {(case_.relocationRequests[0]?.adults || 0) + (case_.relocationRequests[0]?.children || 0)} personnes • {case_.relocationRequests[0]?.useExactDates && case_.relocationRequests[0]?.departureDate
+                          {case_.relocationType === "single" ? "Simple" : "Multiple"} • {case_.relocationRequests[0]?.bedrooms || 0} chambres • {(case_.relocationRequests[0]?.adults || 0) + (case_.relocationRequests[0]?.children || 0)} personnes • {case_.relocationRequests[0]?.useExactDates && case_.relocationRequests[0]?.departureDate
                             ? `${formatDate(case_.relocationRequests[0].arrivalDate)} - ${formatDate(case_.relocationRequests[0].departureDate)} (${getNumberOfNights(case_.relocationRequests[0].arrivalDate, case_.relocationRequests[0].departureDate)} nuits)`
                             : `${formatDate(case_.relocationRequests[0]?.arrivalDate)} (${case_.relocationRequests[0]?.estimatedDuration || "Non spécifié"})`
                           }
