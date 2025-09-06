@@ -76,7 +76,7 @@ function AssuranceDossiersContent() {
     if (newPriority && newPriority !== "all") params.set("priority", newPriority);
     if (newSearch && newSearch !== "") params.set("search", newSearch);
     
-    const newUrl = params.toString() ? `?${params.toString()}` : "/platform/dashboard/assurance/dossiers";
+    const newUrl = params.toString() ? `/platform/dashboard/assurance/dossiers?${params.toString()}` : "/platform/dashboard/assurance/dossiers";
     router.replace(newUrl);
   };
 
@@ -363,110 +363,74 @@ function AssuranceDossiersContent() {
                 </div>
               </div>
               
-              {/* Main Content with Vertical Dividers */}
+              {/* Main Content with Two-Column Layout */}
               <div className="flex flex-col lg:flex-row gap-8">
-                {/* Personal Information */}
+                {/* Personal Information - First Column */}
                 <div className="flex-1">
-                  <div className="flex items-center gap-3 mb-4">
-                    <div className="flex items-center justify-center w-6 h-6 bg-blue-100 rounded-lg">
-                      <User className="h-4 w-4 text-blue-600" />
-                    </div>
-                    <h4 className="font-semibold text-sm">Informations personnelles</h4>
-                  </div>
                   <div className="space-y-2">
-                    <div className="flex justify-between items-center py-1">
-                      <span className="text-xs text-muted-foreground">Dossier</span>
-                      <span className="text-xs font-medium text-primary">{case_.id}</span>
-                    </div>
-                    <div className="flex justify-between items-center py-1">
-                      <span className="text-xs text-muted-foreground">Nom</span>
-                      <span className="text-xs font-medium">
-                        {case_.contactPerson.firstName} {case_.contactPerson.lastName}
-                      </span>
-                    </div>
-                    <div className="flex justify-between items-center py-1">
-                      <span className="text-xs text-muted-foreground">Email</span>
-                      <span className="text-xs font-medium">{case_.contactPerson.email}</span>
-                    </div>
-                    <div className="flex justify-between items-center py-1">
-                      <span className="text-xs text-muted-foreground">Téléphone</span>
-                      <span className="text-xs font-medium">{case_.contactPerson.phone}</span>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Vertical Separator */}
-                <div className="hidden lg:block w-px bg-border"></div>
-
-                {/* Disaster Address */}
-                <div className="flex-1">
-                  <div className="flex items-center gap-3 mb-4">
-                    <div className="flex items-center justify-center w-6 h-6 bg-red-100 rounded-lg">
-                      <MapPin className="h-4 w-4 text-red-600" />
-                    </div>
-                    <h4 className="font-semibold text-sm">Adresse du sinistre</h4>
-                  </div>
-                  <div className="space-y-2">
-                    <div className="flex justify-between items-center py-1">
-                      <span className="text-xs text-muted-foreground">Adresse</span>
-                      <span className="text-xs font-medium">{case_.disasterAddress.street}</span>
-                    </div>
-                    <div className="flex justify-between items-center py-1">
-                      <span className="text-xs text-muted-foreground">Ville</span>
-                      <span className="text-xs font-medium">
-                        {case_.disasterAddress.city}, {case_.disasterAddress.postalCode}
-                      </span>
-                    </div>
-                    <div className="flex justify-between items-center py-1">
-                      <span className="text-xs text-muted-foreground">Canton</span>
-                      <span className="text-xs font-medium">{case_.disasterAddress.canton}</span>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Vertical Separator */}
-                <div className="hidden lg:block w-px bg-border"></div>
-
-                {/* Relocation Details */}
-                <div className="flex-1">
-                  <div className="flex items-center gap-3 mb-4">
-                    <div className="flex items-center justify-center w-6 h-6 bg-indigo-100 rounded-lg">
-                      <Home className="h-4 w-4 text-indigo-600" />
-                    </div>
-                    <h4 className="font-semibold text-sm">Détails du relogement</h4>
-                  </div>
-                  <div className="space-y-2">
-                    <div className="flex justify-between items-center py-1">
-                      <span className="text-xs text-muted-foreground">Type</span>
-                      <span className="text-xs font-medium">
-                        {case_.relocationType === "single" ? "Simple" : "Multiple"}
-                      </span>
-                    </div>
-                    {case_.relocationRequests && case_.relocationRequests.length > 0 && (
-                      <>
-                        <div className="flex justify-between items-center py-1">
-                          <span className="text-xs text-muted-foreground">Chambres</span>
-                          <span className="text-xs font-medium">{case_.relocationRequests[0].bedrooms}</span>
-                        </div>
-                        <div className="flex justify-between items-center py-1">
-                          <span className="text-xs text-muted-foreground">Personnes</span>
-                          <span className="text-xs font-medium">
-                            {case_.relocationRequests[0].adults + case_.relocationRequests[0].children}
-                          </span>
-                        </div>
-                      </>
-                    )}
-                    {case_.relocationRequests && case_.relocationRequests.length > 0 && (
                       <div className="flex justify-between items-center py-1">
-                        <span className="text-xs text-muted-foreground">Dates</span>
+                        <span className="text-xs text-muted-foreground">Dossier</span>
+                        <span className="text-xs font-medium text-primary">{case_.id}</span>
+                      </div>
+                      <div className="flex justify-between items-center py-1">
+                        <span className="text-xs text-muted-foreground">Nom</span>
                         <span className="text-xs font-medium">
-                          {case_.relocationRequests[0].useExactDates && case_.relocationRequests[0].departureDate
-                            ? `${formatDate(case_.relocationRequests[0].arrivalDate)} - ${formatDate(case_.relocationRequests[0].departureDate)} (${getNumberOfNights(case_.relocationRequests[0].arrivalDate, case_.relocationRequests[0].departureDate)} nuits)`
-                            : `${formatDate(case_.relocationRequests[0].arrivalDate)} (${case_.relocationRequests[0].estimatedDuration})`
-                          }
+                          {case_.contactPerson.firstName} {case_.contactPerson.lastName}
                         </span>
                       </div>
-                    )}
+                      <div className="flex justify-between items-center py-1">
+                        <span className="text-xs text-muted-foreground">Email</span>
+                        <span className="text-xs font-medium">{case_.contactPerson.email}</span>
+                      </div>
+                      <div className="flex justify-between items-center py-1">
+                        <span className="text-xs text-muted-foreground">Téléphone</span>
+                        <span className="text-xs font-medium">{case_.contactPerson.phone}</span>
+                      </div>
+                  </div>
+                </div>
+
+                {/* Vertical Separator */}
+                <div className="hidden lg:block w-px bg-border"></div>
+
+                {/* Second Column - Address and Relocation Details */}
+                <div className="flex-1 flex flex-col gap-6">
+                  {/* Formatted Address Line */}
+                  <div className="flex items-start gap-3">
+                    <div className="flex items-center justify-center w-6 h-6 bg-red-100 rounded-lg mt-0.5">
+                      <MapPin className="h-4 w-4 text-red-600" />
+                    </div>
+                    <div className="flex-1">
+                      <p className="text-xs text-foreground">
+                        {case_.disasterAddress?.street}, {case_.disasterAddress?.postalCode} {case_.disasterAddress?.city}
+                      </p>
+                      <p className="text-xs text-muted-foreground">
+                        {case_.disasterAddress?.canton}
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Formatted Relocation Details Line */}
+                  <div className="flex items-start gap-3">
+                    <div className="flex items-center justify-center w-6 h-6 bg-indigo-100 rounded-lg mt-0.5">
+                      <Home className="h-4 w-4 text-indigo-600" />
+                    </div>
+                    <div className="flex-1">
+                      {case_.relocationRequests && case_.relocationRequests.length > 0 ? (
+                        <div className="space-y-1">
+                          <p className="text-xs text-foreground">
+                            {case_.relocationType === "single" ? "Simple" : "Multiple"} • {case_.relocationRequests[0]?.bedrooms || 0} chambres • {(case_.relocationRequests[0]?.adults || 0) + (case_.relocationRequests[0]?.children || 0)} personnes
+                          </p>
+                          <p className="text-xs text-muted-foreground">
+                            {case_.relocationRequests[0]?.useExactDates && case_.relocationRequests[0]?.departureDate
+                              ? `${formatDate(case_.relocationRequests[0].arrivalDate)} - ${formatDate(case_.relocationRequests[0].departureDate)} (${getNumberOfNights(case_.relocationRequests[0].arrivalDate, case_.relocationRequests[0].departureDate)} nuits)`
+                              : `${formatDate(case_.relocationRequests[0]?.arrivalDate)} (${case_.relocationRequests[0]?.estimatedDuration || "Non spécifié"})`
+                            }
+                          </p>
+                        </div>
+                      ) : (
+                        <p className="text-xs text-muted-foreground">Aucune demande de relogement</p>
+                      )}
+                    </div>
                   </div>
                 </div>
               </div>
