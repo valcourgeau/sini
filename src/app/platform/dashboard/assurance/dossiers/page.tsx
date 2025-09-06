@@ -406,7 +406,7 @@ function AssuranceDossiersContent() {
                 <div className="hidden lg:block w-px bg-border"></div>
 
                 {/* Second Column - Address and Relocation Details */}
-                <div className="flex-1 flex flex-col gap-8">
+                <div className="flex-1 flex flex-col gap-4">
                   {/* Formatted Address Line */}
                   <div className="flex items-center gap-3">
                     <div className="flex items-center justify-center w-6 h-6 bg-red-100 rounded-lg">
