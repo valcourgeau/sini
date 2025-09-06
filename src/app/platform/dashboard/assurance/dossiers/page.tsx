@@ -401,7 +401,7 @@ function AssuranceDossiersContent() {
                     </div>
                     <div className="flex-1">
                       <p className="text-sm text-foreground">
-                        {case_.disasterAddress?.street}, {case_.disasterAddress?.postalCode} {case_.disasterAddress?.city}, {case_.disasterAddress?.canton}
+                        <span className="font-bold">Addresse:</span> {case_.disasterAddress?.street}, {case_.disasterAddress?.postalCode} {case_.disasterAddress?.city}, {case_.disasterAddress?.canton}
                       </p>
                     </div>
                   </div>
@@ -414,13 +414,13 @@ function AssuranceDossiersContent() {
                     <div className="flex-1">
                       {case_.relocationRequests && case_.relocationRequests.length > 0 ? (
                         <p className="text-sm text-foreground">
-                          {case_.relocationType === "single" ? "Simple" : "Multiple"} • {case_.relocationRequests[0]?.bedrooms || 0} chambres • {(case_.relocationRequests[0]?.adults || 0) + (case_.relocationRequests[0]?.children || 0)} personnes • {case_.relocationRequests[0]?.useExactDates && case_.relocationRequests[0]?.departureDate
+                          <span className="font-bold">Détails:</span> {case_.relocationType === "single" ? "Simple" : "Multiple"} • {case_.relocationRequests[0]?.bedrooms || 0} chambres • {(case_.relocationRequests[0]?.adults || 0) + (case_.relocationRequests[0]?.children || 0)} personnes • {case_.relocationRequests[0]?.useExactDates && case_.relocationRequests[0]?.departureDate
                             ? `${formatDate(case_.relocationRequests[0].arrivalDate)} - ${formatDate(case_.relocationRequests[0].departureDate)} (${getNumberOfNights(case_.relocationRequests[0].arrivalDate, case_.relocationRequests[0].departureDate)} nuits)`
                             : `${formatDate(case_.relocationRequests[0]?.arrivalDate)} (${case_.relocationRequests[0]?.estimatedDuration || "Non spécifié"})`
                           }
                         </p>
                       ) : (
-                        <p className="text-xs text-muted-foreground">Aucune demande de relogement</p>
+                        <p className="text-sm text-muted-foreground"><span className="font-bold">Détails:</span> Aucune demande de relogement</p>
                       )}
                     </div>
                   </div>
