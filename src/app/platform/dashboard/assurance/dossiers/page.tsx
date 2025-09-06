@@ -369,22 +369,22 @@ function AssuranceDossiersContent() {
                 <div className="flex-1">
                   <div className="space-y-2">
                       <div className="flex justify-between items-center py-1">
-                        <span className="text-xs text-muted-foreground">Dossier</span>
-                        <span className="text-xs font-medium text-primary">{case_.id}</span>
+                        <span className="text-sm text-muted-foreground">Dossier</span>
+                        <span className="text-sm font-medium text-primary">{case_.id}</span>
                       </div>
                       <div className="flex justify-between items-center py-1">
-                        <span className="text-xs text-muted-foreground">Nom</span>
-                        <span className="text-xs font-medium">
+                        <span className="text-sm text-muted-foreground">Nom</span>
+                        <span className="text-sm font-medium">
                           {case_.contactPerson.firstName} {case_.contactPerson.lastName}
                         </span>
                       </div>
                       <div className="flex justify-between items-center py-1">
-                        <span className="text-xs text-muted-foreground">Email</span>
-                        <span className="text-xs font-medium">{case_.contactPerson.email}</span>
+                        <span className="text-sm text-muted-foreground">Email</span>
+                        <span className="text-sm font-medium">{case_.contactPerson.email}</span>
                       </div>
                       <div className="flex justify-between items-center py-1">
-                        <span className="text-xs text-muted-foreground">Téléphone</span>
-                        <span className="text-xs font-medium">{case_.contactPerson.phone}</span>
+                        <span className="text-sm text-muted-foreground">Téléphone</span>
+                        <span className="text-sm font-medium">{case_.contactPerson.phone}</span>
                       </div>
                   </div>
                 </div>
@@ -393,40 +393,32 @@ function AssuranceDossiersContent() {
                 <div className="hidden lg:block w-px bg-border"></div>
 
                 {/* Second Column - Address and Relocation Details */}
-                <div className="flex-1 flex flex-col gap-6">
+                <div className="flex-1 flex flex-col gap-8">
                   {/* Formatted Address Line */}
-                  <div className="flex items-start gap-3">
-                    <div className="flex items-center justify-center w-6 h-6 bg-red-100 rounded-lg mt-0.5">
+                  <div className="flex items-center gap-3">
+                    <div className="flex items-center justify-center w-6 h-6 bg-red-100 rounded-lg">
                       <MapPin className="h-4 w-4 text-red-600" />
                     </div>
                     <div className="flex-1">
-                      <p className="text-xs text-foreground">
-                        {case_.disasterAddress?.street}, {case_.disasterAddress?.postalCode} {case_.disasterAddress?.city}
-                      </p>
-                      <p className="text-xs text-muted-foreground">
-                        {case_.disasterAddress?.canton}
+                      <p className="text-sm text-foreground">
+                        {case_.disasterAddress?.street}, {case_.disasterAddress?.postalCode} {case_.disasterAddress?.city}, {case_.disasterAddress?.canton}
                       </p>
                     </div>
                   </div>
 
                   {/* Formatted Relocation Details Line */}
-                  <div className="flex items-start gap-3">
-                    <div className="flex items-center justify-center w-6 h-6 bg-indigo-100 rounded-lg mt-0.5">
+                  <div className="flex items-center gap-3">
+                    <div className="flex items-center justify-center w-6 h-6 bg-indigo-100 rounded-lg">
                       <Home className="h-4 w-4 text-indigo-600" />
                     </div>
                     <div className="flex-1">
                       {case_.relocationRequests && case_.relocationRequests.length > 0 ? (
-                        <div className="space-y-1">
-                          <p className="text-xs text-foreground">
-                            {case_.relocationType === "single" ? "Simple" : "Multiple"} • {case_.relocationRequests[0]?.bedrooms || 0} chambres • {(case_.relocationRequests[0]?.adults || 0) + (case_.relocationRequests[0]?.children || 0)} personnes
-                          </p>
-                          <p className="text-xs text-muted-foreground">
-                            {case_.relocationRequests[0]?.useExactDates && case_.relocationRequests[0]?.departureDate
-                              ? `${formatDate(case_.relocationRequests[0].arrivalDate)} - ${formatDate(case_.relocationRequests[0].departureDate)} (${getNumberOfNights(case_.relocationRequests[0].arrivalDate, case_.relocationRequests[0].departureDate)} nuits)`
-                              : `${formatDate(case_.relocationRequests[0]?.arrivalDate)} (${case_.relocationRequests[0]?.estimatedDuration || "Non spécifié"})`
-                            }
-                          </p>
-                        </div>
+                        <p className="text-sm text-foreground">
+                          {case_.relocationType === "single" ? "Simple" : "Multiple"} • {case_.relocationRequests[0]?.bedrooms || 0} chambres • {(case_.relocationRequests[0]?.adults || 0) + (case_.relocationRequests[0]?.children || 0)} personnes • {case_.relocationRequests[0]?.useExactDates && case_.relocationRequests[0]?.departureDate
+                            ? `${formatDate(case_.relocationRequests[0].arrivalDate)} - ${formatDate(case_.relocationRequests[0].departureDate)} (${getNumberOfNights(case_.relocationRequests[0].arrivalDate, case_.relocationRequests[0].departureDate)} nuits)`
+                            : `${formatDate(case_.relocationRequests[0]?.arrivalDate)} (${case_.relocationRequests[0]?.estimatedDuration || "Non spécifié"})`
+                          }
+                        </p>
                       ) : (
                         <p className="text-xs text-muted-foreground">Aucune demande de relogement</p>
                       )}
@@ -436,7 +428,7 @@ function AssuranceDossiersContent() {
               </div>
               
               {/* Bottom Row with Performance Metrics */}
-              <div className="grid lg:grid-cols-4 gap-4 mt-6 pt-4 border-t">
+              <div className="grid gap-4 mt-6 pt-4 border-t" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', justifyItems: 'center' }}>
                 {/* Agent Responsible */}
                 <div className="flex items-center gap-3">
                   <div className="flex items-center justify-center w-6 h-6 bg-green-100 rounded-lg">
@@ -474,6 +466,33 @@ function AssuranceDossiersContent() {
                   </div>
                 )}
                 
+                {/* Declaration de sinistre */}
+                {case_.insurance && (
+                  <div className="flex items-center gap-3">
+                    <div className="flex items-center justify-center w-6 h-6 bg-orange-100 rounded-lg">
+                      <File className="h-4 w-4 text-orange-600" />
+                    </div>
+                    <div>
+                      <div className="flex items-center gap-2">
+                        <p className="text-xs text-muted-foreground">Déclaration</p>
+                        {case_.insurance.hasInsurance ? (
+                          <CheckCircle className="h-3 w-3 text-green-500" />
+                        ) : (
+                          <AlertTriangle className="h-3 w-3 text-orange-500" />
+                        )}
+                      </div>
+                      {case_.insurance.hasInsurance && (
+                        <div className="mt-1">
+                          <Button variant="outline" size="sm" className="h-6 px-2 text-xs">
+                            <Download className="h-3 w-3 mr-1" />
+                            Télécharger
+                          </Button>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                )}
+                
                 {/* Client Satisfaction */}
                 <div className="flex items-center gap-3">
                   <div className="flex items-center justify-center w-6 h-6 bg-yellow-100 rounded-lg">
@@ -493,34 +512,6 @@ function AssuranceDossiersContent() {
                 </div>
               </div>
 
-              {/* Declaration de sinistre */}
-              {case_.insurance && (
-                <div className="mt-4 pt-4 border-t">
-                  <div className="flex items-center gap-3">
-                    <div className="flex items-center justify-center w-6 h-6 bg-orange-100 rounded-lg">
-                      <File className="h-4 w-4 text-orange-600" />
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <span className="text-xs text-muted-foreground">Déclaration de sinistre:</span>
-                      {case_.insurance.hasInsurance ? (
-                        <div className="flex items-center gap-2">
-                          <CheckCircle className="h-3 w-3 text-green-500" />
-                          <span className="text-xs font-medium text-green-600">Téléchargée</span>
-                          <Button variant="outline" size="sm" className="h-6 px-2 text-xs">
-                            <Download className="h-3 w-3 mr-1" />
-                            Télécharger
-                          </Button>
-                        </div>
-                      ) : (
-                        <div className="flex items-center gap-2">
-                          <AlertTriangle className="h-3 w-3 text-orange-500" />
-                          <span className="text-xs font-medium text-orange-600">Non téléchargée</span>
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                </div>
-              )}
             </Card>
           );
         })}
