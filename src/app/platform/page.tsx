@@ -28,8 +28,11 @@ function PlatformLoginContent() {
   // Capture brand parameter and store in localStorage
   useEffect(() => {
     const brandParam = searchParams.get('brand');
-    if (brandParam) {
+    if (brandParam && ['generali', 'vaudoise'].includes(brandParam)) {
       localStorage.setItem('pharewest-brand', brandParam);
+    } else if (brandParam === null) {
+      // If no brand parameter, clear any stored brand to use default theme
+      localStorage.removeItem('pharewest-brand');
     }
   }, [searchParams]);
 

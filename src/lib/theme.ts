@@ -93,18 +93,10 @@ export function initializeTheme() {
       applyTheme(storedBrand);
       return storedBrand;
     } else {
-      // Check if we're coming from a branded page based on referrer
-      const referrer = document.referrer;
-      
-      if (referrer.includes('/generali')) {
-        applyTheme('generali');
-        setStoredBrand('generali');
-        return 'generali';
-      } else if (referrer.includes('/vaudoise')) {
-        applyTheme('vaudoise');
-        setStoredBrand('vaudoise');
-        return 'vaudoise';
-      }
+      // Clear any existing theme to use default theme from globals.css
+      clearTheme();
+      setStoredBrand(null);
+      return null;
     }
   }
   return null;

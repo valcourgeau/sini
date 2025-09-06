@@ -4,7 +4,7 @@ import { Inter } from "next/font/google";
 import { useEffect } from "react";
 import "../globals.css";
 import { PlatformHeader } from "@/components/layout/platform-header";
-import { initializeTheme } from "@/lib/theme";
+import { initializeTheme, clearTheme } from "@/lib/theme";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -14,7 +14,11 @@ export default function PlatformLayout({
   children: React.ReactNode;
 }>) {
   useEffect(() => {
-    initializeTheme();
+    const brand = initializeTheme();
+    // If no brand is returned, ensure we're using the default theme
+    if (!brand) {
+      clearTheme();
+    }
   }, []);
 
   return (

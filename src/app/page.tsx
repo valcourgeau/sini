@@ -5,14 +5,20 @@ import { IconBox } from "@/components/ui/icon-box";
 import { ScrollButton } from "@/components/ui/scroll-button";
 import { NavigationArrow } from "@/components/ui/navigation-arrow";
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { getImagePath } from "@/lib/utils";
+import { setStoredBrand } from "@/lib/theme";
 
 export default function HomePage() {
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
+
+  // Clear any stored brand when visiting the main page
+  useEffect(() => {
+    setStoredBrand(null);
+  }, []);
 
   const handleRelocationClick = async (e: React.MouseEvent) => {
     e.preventDefault();

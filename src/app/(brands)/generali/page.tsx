@@ -6,14 +6,20 @@ import { ScrollButton } from "@/components/ui/scroll-button";
 import { NavigationArrow } from "@/components/ui/navigation-arrow";
 import { CollaborationLogo } from "@/components/brands/generali/collaboration-logo";
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { getImagePath } from "@/lib/utils";
+import { setStoredBrand } from "@/lib/theme";
 
 export default function GeneraliHomePage() {
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
+
+  // Set Generali brand in localStorage when component mounts
+  useEffect(() => {
+    setStoredBrand('generali');
+  }, []);
 
   const handleRelocationClick = async (e: React.MouseEvent) => {
     e.preventDefault();
