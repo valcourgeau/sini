@@ -267,9 +267,9 @@ export default function AssuranceDashboard() {
 
   const getPriorityColor = (priority: string) => {
     switch (priority) {
-      case "high": return "bg-red-100 text-red-800";
-      case "normal": return "bg-blue-100 text-blue-800";
-      default: return "bg-blue-100 text-blue-800";
+      case "high": return "bg-secondary text-foreground";
+      case "normal": return "bg-secondary text-muted-foreground";
+      default: return "bg-secondary text-muted-foreground";
     }
   };
 
@@ -279,13 +279,11 @@ export default function AssuranceDashboard() {
     <div className="space-y-6">
       {/* Header */}
       <div>
-        <h1 className="text-3xl font-bold text-primary">Tableau de bord Assurance</h1>
+        <h1 className="text-3xl font-bold text-foreground">Tableau de bord Assurance</h1>
         <p className="text-muted-foreground mt-2">
           Gérez vos dossiers de sinistres et suivez les relogements
         </p>
       </div>
-
-
 
       {/* Filters - Single line, right-aligned */}
       <div className="flex justify-end items-center gap-6 mb-2">
@@ -304,7 +302,7 @@ export default function AssuranceDashboard() {
                   "px-2 py-1 rounded text-xs font-medium transition-colors",
                   selectedFilter === filter.key
                     ? "bg-primary text-primary-foreground"
-                    : "bg-secondary text-muted-foreground hover:bg-secondary/80"
+                    : "bg-secondary text-foreground hover:bg-secondary/80"
                 )}
               >
                 {filter.label}
@@ -328,7 +326,7 @@ export default function AssuranceDashboard() {
                   "px-2 py-1 rounded text-xs font-medium transition-colors",
                   selectedDateFilter === period.key
                     ? "bg-primary text-primary-foreground"
-                    : "bg-secondary text-muted-foreground hover:bg-secondary/80"
+                    : "bg-secondary text-foreground hover:bg-secondary/80"
                 )}
               >
                 {period.label}
@@ -356,7 +354,7 @@ export default function AssuranceDashboard() {
                       "px-2 py-1 rounded text-xs font-medium transition-colors",
                       selectedAgent === agent.key
                         ? "bg-primary text-primary-foreground"
-                        : "bg-secondary text-muted-foreground hover:bg-secondary/80"
+                        : "bg-secondary text-foreground hover:bg-secondary/80"
                     )}
                   >
                     {agent.label}
@@ -384,7 +382,7 @@ export default function AssuranceDashboard() {
                       "px-2 py-1 rounded text-xs font-medium transition-colors",
                       selectedCanton === canton.key
                         ? "bg-primary text-primary-foreground"
-                        : "bg-secondary text-muted-foreground hover:bg-secondary/80"
+                        : "bg-secondary text-foreground hover:bg-secondary/80"
                     )}
                   >
                     {canton.label}
@@ -416,7 +414,7 @@ export default function AssuranceDashboard() {
       {/* KPI Cards */}
       <div className="grid md:grid-cols-3 gap-4">
         {/* Operations KPI */}
-        <Card className="p-6 bg-background border-primary/20">
+        <Card className="p-6 bg-background border-border">
           <div className="flex items-start justify-between mb-6">
             <div>
               <TooltipProvider>
@@ -429,17 +427,17 @@ export default function AssuranceDashboard() {
                   </TooltipContent>
                 </Tooltip>
               </TooltipProvider>
-              <p className="text-3xl font-bold text-primary">{kpis.totalFiles}</p>
+              <p className="text-3xl font-bold text-foreground">{kpis.totalFiles}</p>
               <p className="text-sm text-muted-foreground">Dossiers enregistrés</p>
             </div>
-            <Building2 className="h-10 w-10 text-primary" />
+            <Building2 className="h-10 w-10 text-muted-foreground" />
           </div>
           <div className="space-y-4">
-            <div className="flex justify-between items-center pt-3 border-t border-primary/20">
+            <div className="flex justify-between items-center pt-3 border-t border-border">
               <TooltipProvider>
                 <Tooltip>
                   <TooltipTrigger asChild>
-                    <span className="text-xs font-medium text-gray-600 cursor-help whitespace-nowrap">Initiés</span>
+                    <span className={`text-xs font-medium cursor-help whitespace-nowrap ${getStatusColor("initie")}`}>Initiés</span>
                   </TooltipTrigger>
                   <TooltipContent>
                     <p>Dossiers créés nécessitant l'initialisation de la part de notre équipe</p>
@@ -447,7 +445,7 @@ export default function AssuranceDashboard() {
                 </Tooltip>
               </TooltipProvider>
               <div className="flex items-center gap-2 flex-shrink-0">
-                <span className="text-sm font-medium text-primary">{kpis.initiatedFiles}</span>
+                <span className="text-sm font-medium text-foreground">{kpis.initiatedFiles}</span>
                 <Link 
                   href="/platform/dashboard/assurance/dossiers?status=initie"
                   className="text-xs text-primary hover:text-primary/80 transition-colors underline whitespace-nowrap"
@@ -460,7 +458,7 @@ export default function AssuranceDashboard() {
               <TooltipProvider>
                 <Tooltip>
                   <TooltipTrigger asChild>
-                    <span className="text-xs font-medium text-yellow-600 cursor-help whitespace-nowrap">En attente</span>
+                    <span className={`text-xs font-medium cursor-help whitespace-nowrap ${getStatusColor("pending")}`}>En attente</span>
                   </TooltipTrigger>
                   <TooltipContent>
                     <p>Dossiers en attente d'informations complémentaires de votre part</p>
@@ -468,7 +466,7 @@ export default function AssuranceDashboard() {
                 </Tooltip>
               </TooltipProvider>
               <div className="flex items-center gap-2 flex-shrink-0">
-                <span className="text-sm font-medium text-primary">{kpis.pendingFiles}</span>
+                <span className="text-sm font-medium text-foreground">{kpis.pendingFiles}</span>
                 <Link 
                   href="/platform/dashboard/assurance/dossiers?status=pending"
                   className="text-xs text-primary hover:text-primary/80 transition-colors underline whitespace-nowrap"
@@ -481,7 +479,7 @@ export default function AssuranceDashboard() {
               <TooltipProvider>
                 <Tooltip>
                   <TooltipTrigger asChild>
-                    <span className="text-xs font-medium text-blue-600 cursor-help whitespace-nowrap">En cours</span>
+                    <span className={`text-xs font-medium cursor-help whitespace-nowrap ${getStatusColor("processing")}`}>En cours</span>
                   </TooltipTrigger>
                   <TooltipContent>
                     <p>Dossiers validés avec un relogement prêt ou en cours</p>
@@ -489,7 +487,7 @@ export default function AssuranceDashboard() {
                 </Tooltip>
               </TooltipProvider>
               <div className="flex items-center gap-2 flex-shrink-0">
-                <span className="text-sm font-medium text-primary">{kpis.processingFiles}</span>
+                <span className="text-sm font-medium text-foreground">{kpis.processingFiles}</span>
                 <Link 
                   href="/platform/dashboard/assurance/dossiers?status=processing"
                   className="text-xs text-primary hover:text-primary/80 transition-colors underline whitespace-nowrap"
@@ -502,7 +500,7 @@ export default function AssuranceDashboard() {
               <TooltipProvider>
                 <Tooltip>
                   <TooltipTrigger asChild>
-                    <span className="text-xs font-medium text-green-600 cursor-help whitespace-nowrap">Terminés</span>
+                    <span className={`text-xs font-medium cursor-help whitespace-nowrap ${getStatusColor("completed")}`}>Terminés</span>
                   </TooltipTrigger>
                   <TooltipContent>
                     <p>Dossiers complètement finalisés avec relogement effectué</p>
@@ -510,7 +508,7 @@ export default function AssuranceDashboard() {
                 </Tooltip>
               </TooltipProvider>
               <div className="flex items-center gap-2 flex-shrink-0">
-                <span className="text-sm font-medium text-primary">{kpis.completedFiles}</span>
+                <span className="text-sm font-medium text-foreground">{kpis.completedFiles}</span>
                 <Link 
                   href="/platform/dashboard/assurance/dossiers?status=completed"
                   className="text-xs text-primary hover:text-primary/80 transition-colors underline whitespace-nowrap"
@@ -523,48 +521,48 @@ export default function AssuranceDashboard() {
         </Card>
 
         {/* Financial KPI */}
-        <Card className="p-6 bg-background border-primary/20">
+        <Card className="p-6 bg-background border-border">
           <div className="flex items-start justify-between mb-6">
             <div>
               <p className="text-base font-semibold text-muted-foreground">Résumé financier</p>
-              <p className="text-3xl font-bold text-primary">CHF {kpis.averageCostPerStay}</p>
+              <p className="text-3xl font-bold text-foreground">CHF {kpis.averageCostPerStay}</p>
               <p className="text-sm text-muted-foreground">Coût moyen remboursé par séjour</p>
             </div>
-            <Wallet className="h-10 w-10 text-primary" />
+            <Wallet className="h-10 w-10 text-muted-foreground" />
           </div>
           <div className="space-y-4">
-            <div className="flex justify-between items-center pt-3 border-t border-primary/20">
+            <div className="flex justify-between items-center pt-3 border-t border-border">
               <span className="text-xs text-muted-foreground whitespace-nowrap">Coût moyen par jour</span>
-              <span className="text-sm font-medium text-primary flex-shrink-0">CHF {kpis.costPerDay}</span>
+              <span className="text-sm font-medium text-foreground flex-shrink-0">CHF {kpis.costPerDay}</span>
             </div>
             <div className="flex justify-between items-center">
               <span className="text-xs text-muted-foreground whitespace-nowrap">Taux moyen de couverture</span>
-              <span className="text-sm font-medium text-primary flex-shrink-0">{kpis.insuranceCoveragePercentage}%</span>
+              <span className="text-sm font-medium text-foreground flex-shrink-0">{kpis.insuranceCoveragePercentage}%</span>
             </div>
           <div className="flex justify-between items-center">
             <span className="text-xs text-muted-foreground whitespace-nowrap">Durée moyenne du séjour</span>
-            <span className="text-sm font-medium text-primary flex-shrink-0">{kpis.averageRelocationLength} jours</span>
+            <span className="text-sm font-medium text-foreground flex-shrink-0">{kpis.averageRelocationLength} jours</span>
           </div>
           </div>
         </Card>
 
         {/* Client Feedback KPI */}
-        <Card className="p-6 bg-background border-primary/20">
+        <Card className="p-6 bg-background border-border">
           <div className="flex items-start justify-between mb-6">
             <div>
               <p className="text-base font-semibold text-muted-foreground">Satisfaction client</p>
               <div className="flex flex-col gap-1">
                 <div className="flex items-center gap-3">
                   <StarRating rating={parseFloat(kpis.averageSatisfaction)} className="h-6 w-6" />
-                  <span className="text-2xl font-bold text-primary">{kpis.averageSatisfaction}/5</span>
+                  <span className="text-2xl font-bold text-foreground">{kpis.averageSatisfaction}/5</span>
                 </div>
                 <span className="text-sm text-muted-foreground">Sur cette période</span>
               </div>
             </div>
-            <Star className="h-12 w-12 text-primary" />
+            <Star className="h-12 w-12 text-muted-foreground" />
           </div>
           <div className="space-y-4">
-            <div className="flex justify-between items-center pt-3 border-t border-primary/20">
+            <div className="flex justify-between items-center pt-3 border-t border-border">
               <TooltipProvider>
                 <Tooltip>
                   <TooltipTrigger asChild>
@@ -575,7 +573,7 @@ export default function AssuranceDashboard() {
                   </TooltipContent>
                 </Tooltip>
               </TooltipProvider>
-              <span className="text-sm font-medium text-primary flex-shrink-0">{kpis.averageSatisfaction}/5</span>
+              <span className="text-sm font-medium text-foreground flex-shrink-0">{kpis.averageSatisfaction}/5</span>
             </div>
             <div className="flex justify-between items-center">
               <TooltipProvider>
@@ -588,7 +586,7 @@ export default function AssuranceDashboard() {
                   </TooltipContent>
                 </Tooltip>
               </TooltipProvider>
-              <span className="text-sm font-medium text-primary flex-shrink-0">{kpis.averageWaitingTime} jours</span>
+              <span className="text-sm font-medium text-foreground flex-shrink-0">{kpis.averageWaitingTime} jours</span>
             </div>
           </div>
         </Card>
@@ -600,11 +598,11 @@ export default function AssuranceDashboard() {
 
       {/* Quick Actions - Messages and Notifications */}
       <div className="grid md:grid-cols-3 gap-4">
-        <Card className="p-6 bg-background border-primary/20">
+        <Card className="p-6 bg-background border-border">
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-3">
-              <MessageSquare className="h-5 w-5 text-primary" />
-              <h3 className="font-semibold text-primary">Messages</h3>
+              <MessageSquare className="h-5 w-5 text-muted-foreground" />
+              <h3 className="font-semibold text-foreground">Messages</h3>
             </div>
             <Badge variant="outline" className="text-xs">
               {unreadConversationsCount} non lu(s)
@@ -618,11 +616,11 @@ export default function AssuranceDashboard() {
                 href={`/platform/dashboard/assurance/messages${conversation.caseId ? `?case=${conversation.caseId}` : ''}`}
                 className="block"
               >
-                <div className="flex items-center justify-between p-2 border border-primary/20 rounded-lg bg-secondary/50 hover:bg-secondary/70 transition-colors cursor-pointer">
+                <div className="flex items-center justify-between p-2 border border-border rounded-lg bg-secondary/50 hover:bg-secondary/70 transition-colors cursor-pointer">
                   <div className="flex items-center gap-2 min-w-0 flex-1">
                     <div className={`w-2 h-2 rounded-full flex-shrink-0 ${conversation.unreadCount > 0 ? 'bg-primary' : 'bg-muted-foreground'}`} />
                     <div className="min-w-0 flex-1">
-                      <p className="text-xs font-medium text-primary truncate">
+                      <p className="text-xs font-medium text-foreground truncate">
                         {conversation.participantName}
                         {conversation.caseId && (
                           <span className="text-muted-foreground ml-1">({conversation.caseId})</span>
@@ -645,17 +643,17 @@ export default function AssuranceDashboard() {
           </div>
           
           <Link href="/platform/dashboard/assurance/messages">
-            <Button variant="outline" size="sm" className="w-full border-primary/20 text-primary hover:bg-primary hover:text-primary-foreground">
+            <Button variant="outline" size="sm" className="w-full border-border text-foreground hover:bg-primary hover:text-primary-foreground">
               Voir tous les messages
             </Button>
           </Link>
         </Card>
 
-        <Card className="p-6 bg-background border-primary/20">
+        <Card className="p-6 bg-background border-border">
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-3">
-              <AlertTriangle className="h-5 w-5 text-primary" />
-              <h3 className="font-semibold text-primary">Notifications</h3>
+              <AlertTriangle className="h-5 w-5 text-muted-foreground" />
+              <h3 className="font-semibold text-foreground">Notifications</h3>
             </div>
             <Badge variant="outline" className="text-xs">
               {unreadNotificationsCount} non lu(s)
@@ -664,11 +662,11 @@ export default function AssuranceDashboard() {
           
           <div className="space-y-3 mb-4">
             {recentMessages.slice(0, 3).map((message) => (
-              <div key={message.id} className="flex items-center justify-between p-2 border border-primary/20 rounded-lg bg-secondary/50">
+              <div key={message.id} className="flex items-center justify-between p-2 border border-border rounded-lg bg-secondary/50">
                 <div className="flex items-center gap-2 min-w-0 flex-1">
                   <div className={`w-2 h-2 rounded-full flex-shrink-0 ${message.unread ? 'bg-primary' : 'bg-muted-foreground'}`} />
                   <div className="min-w-0 flex-1">
-                    <p className="text-xs font-medium text-primary truncate">{message.from}</p>
+                    <p className="text-xs font-medium text-foreground truncate">{message.from}</p>
                     <p className="text-[10px] text-muted-foreground truncate">{message.subject}</p>
                   </div>
                 </div>
@@ -678,11 +676,11 @@ export default function AssuranceDashboard() {
           </div>
         </Card>
 
-        <Card className="p-6 bg-background border-primary/20">
+        <Card className="p-6 bg-background border-border">
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-3">
-              <FileText className="h-5 w-5 text-primary" />
-              <h3 className="font-semibold text-primary">Documents</h3>
+              <FileText className="h-5 w-5 text-muted-foreground" />
+              <h3 className="font-semibold text-foreground">Documents</h3>
             </div>
             <Badge variant="outline" className="text-xs">
               {pendingDocumentsCount} en attente
@@ -696,15 +694,15 @@ export default function AssuranceDashboard() {
                 href={`/platform/dashboard/assurance/dossiers/${document.caseId}`}
                 className="block"
               >
-                <div className="flex items-center justify-between p-2 border border-primary/20 rounded-lg bg-secondary/50 hover:bg-secondary/70 transition-colors cursor-pointer">
+                <div className="flex items-center justify-between p-2 border border-border rounded-lg bg-secondary/50 hover:bg-secondary/70 transition-colors cursor-pointer">
                   <div className="flex items-center gap-2 min-w-0 flex-1">
                     <div className={`w-2 h-2 rounded-full flex-shrink-0 ${
-                      document.status === 'pending' ? 'bg-yellow-500' : 
-                      document.status === 'uploaded' ? 'bg-blue-500' : 
-                      document.status === 'signed' ? 'bg-green-500' : 'bg-red-500'
+                      document.status === 'pending' ? 'bg-primary' : 
+                      document.status === 'uploaded' ? 'bg-primary' : 
+                      document.status === 'signed' ? 'bg-muted-foreground' : 'bg-primary'
                     }`} />
                     <div className="min-w-0 flex-1">
-                      <p className="text-xs font-medium text-primary truncate">{document.fileName}</p>
+                      <p className="text-xs font-medium text-foreground truncate">{document.fileName}</p>
                       <p className="text-[10px] text-muted-foreground truncate">
                         {document.clientName}
                         {document.caseId && (

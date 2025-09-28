@@ -88,12 +88,12 @@ export function PlatformHeader() {
             </Link>
             {/* Only show relocation button for assurance users */}
             {shouldShowRelocationButton && (
-              <Button
+              <button
                 onClick={handleRelocationClick}
-                className="inline-flex items-center bg-primary text-primary-foreground px-6 py-2.5 rounded-lg text-base font-semibold hover:bg-primary/90 transition-colors"
+                className="inline-flex items-center border-2 border-primary text-primary px-5 py-2 rounded-lg text-base font-semibold hover:bg-primary hover:text-primary-foreground transition-colors"
               >
                 Demander un relogement
-              </Button>
+              </button>
             )}
             
             {/* Only show profile icon on dashboard pages */}

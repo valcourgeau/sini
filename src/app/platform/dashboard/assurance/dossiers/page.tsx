@@ -181,7 +181,7 @@ function AssuranceDossiersContent() {
     <div className="space-y-6">
       {/* Header */}
       <div>
-        <h1 className="text-3xl font-bold text-primary">Dossiers de relogement</h1>
+        <h1 className="text-3xl font-bold text-foreground">Dossiers de relogement</h1>
         <p className="text-muted-foreground mt-2">
           Gérez et suivez tous vos dossiers de relogement
         </p>
@@ -228,7 +228,7 @@ function AssuranceDossiersContent() {
                   "px-3 py-1.5 rounded text-xs font-medium transition-colors",
                   statusFilter === status.key
                     ? "bg-primary text-primary-foreground"
-                    : "bg-secondary text-muted-foreground hover:bg-secondary/80"
+                    : "bg-secondary text-foreground hover:bg-secondary/80"
                 )}
               >
                 {status.label}
@@ -257,7 +257,7 @@ function AssuranceDossiersContent() {
                   "px-3 py-1.5 rounded text-xs font-medium transition-colors",
                   typeFilter === type.key
                     ? "bg-primary text-primary-foreground"
-                    : "bg-secondary text-muted-foreground hover:bg-secondary/80"
+                    : "bg-secondary text-foreground hover:bg-secondary/80"
                 )}
               >
                 {type.label}
@@ -286,7 +286,7 @@ function AssuranceDossiersContent() {
                   "px-3 py-1.5 rounded text-xs font-medium transition-colors",
                   priorityFilter === priority.key
                     ? "bg-primary text-primary-foreground"
-                    : "bg-secondary text-muted-foreground hover:bg-secondary/80"
+                    : "bg-secondary text-foreground hover:bg-secondary/80"
                 )}
               >
                 {priority.label}
@@ -300,7 +300,7 @@ function AssuranceDossiersContent() {
         {/* Reset Button */}
         <button
           onClick={resetFilters}
-          className="flex items-center gap-1 px-3 py-1.5 rounded text-xs text-muted-foreground hover:bg-secondary/80 transition-colors whitespace-nowrap"
+          className="flex items-center gap-1 px-3 py-1.5 rounded text-xs text-foreground hover:bg-secondary/80 transition-colors whitespace-nowrap"
           title="Réinitialiser les filtres"
         >
           <RotateCcw className="h-3 w-3" />
@@ -310,7 +310,7 @@ function AssuranceDossiersContent() {
 
       {/* Results Summary */}
       <div>
-        <span className="text-sm font-medium text-muted-foreground">
+        <span className="text-sm font-medium text-foreground">
           {filteredCases.length} dossier{filteredCases.length > 1 ? 's' : ''} affiché{filteredCases.length > 1 ? 's' : ''}
         </span>
       </div>
@@ -325,7 +325,7 @@ function AssuranceDossiersContent() {
               {/* Header with Reference Number, Status and Priority */}
               <div className="flex items-center justify-between mb-6">
                 <div className="flex items-center gap-4">
-                  <span className="text-lg font-semibold text-primary">
+                  <span className="text-lg font-semibold text-foreground">
                     {case_.id}
                   </span>
                   <div className="w-px h-4 bg-muted-foreground/30"></div>
@@ -447,7 +447,7 @@ function AssuranceDossiersContent() {
                   </div>
                   <div>
                     <p className="text-xs text-muted-foreground">Agent responsable</p>
-                    <p className="text-xs font-medium">{case_.agent?.name || "Non assigné"}</p>
+                    <p className="text-xs font-medium text-foreground">{case_.agent?.name || "Non assigné"}</p>
                   </div>
                 </div>
                 
@@ -459,7 +459,7 @@ function AssuranceDossiersContent() {
                     </div>
                     <div>
                       <p className="text-xs text-muted-foreground">Délai d'acceptation</p>
-                      <p className="text-xs font-medium">{case_.responseTime} jours</p>
+                      <p className="text-xs font-medium text-foreground">{case_.responseTime} jours</p>
                     </div>
                   </div>
                 )}
@@ -472,7 +472,7 @@ function AssuranceDossiersContent() {
                     </div>
                     <div>
                       <p className="text-xs text-muted-foreground">Coût total</p>
-                      <p className="text-xs font-medium text-green-600">CHF {case_.cost.totalCost}</p>
+                      <p className="text-xs font-medium text-foreground">CHF {case_.cost.totalCost}</p>
                     </div>
                   </div>
                 )}
@@ -514,7 +514,7 @@ function AssuranceDossiersContent() {
                     {case_.status === "completed" && case_.satisfaction ? (
                       <div className="flex items-center gap-1">
                         <StarRating rating={case_.satisfaction.rating} className="h-3 w-3" />
-                        <span className="text-xs font-medium ml-1">{case_.satisfaction.rating}/5</span>
+                        <span className="text-xs font-medium text-foreground ml-1">{case_.satisfaction.rating}/5</span>
                       </div>
                     ) : (
                       <p className="text-xs text-muted-foreground">En attente du retour client</p>
