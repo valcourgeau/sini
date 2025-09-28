@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
-import { Logo } from "@/components/ui/logo";
+import { ConditionalLogo } from "@/components/ui/conditional-logo";
 import { User } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { getStoredBrand } from "@/lib/theme";
@@ -68,7 +68,7 @@ export function PlatformHeader() {
         <div className="flex h-16 items-center justify-between">
           <div className="flex items-center">
             <Link href={getHomeLink()} className="flex items-center">
-              <Logo size="lg" />
+              <ConditionalLogo brandContext={storedBrand} size="md" />
             </Link>
           </div>
           

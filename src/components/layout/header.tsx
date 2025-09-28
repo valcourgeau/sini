@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import { usePathname, useRouter } from "next/navigation";
-import { Logo } from "@/components/ui/logo";
+import { ConditionalLogo } from "@/components/ui/conditional-logo";
 
 export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -78,7 +78,7 @@ export function Header() {
               onClick={handleLogoClick}
               className="flex items-center hover:opacity-80 transition-opacity"
             >
-              <Logo size="lg" />
+              <ConditionalLogo brandContext={brandContext} size="md" />
             </button>
           </div>
           
