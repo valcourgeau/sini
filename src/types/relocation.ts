@@ -39,6 +39,126 @@ export interface RelocationData {
   // Selected relocation options (for assurance users to propose)
   selectedRelocationOptions?: string[]; // Array of property IDs
   
+  // Selected relocation property (single option)
+  relocationOption?: {
+    propertyId?: string;
+    propertyType: string;
+    propertyDetails: {
+      title: string;
+      bedrooms: number;
+      bathrooms: number;
+      maxGuests: number;
+      description: string;
+      size: number;
+      floor: number;
+      totalFloors: number;
+    };
+    propertyLocation: {
+      street: string;
+      city: string;
+      postalCode: string;
+      canton: string;
+      country: string;
+      neighborhood: string;
+    };
+    propertyAmenities: {
+      hasWifi: boolean;
+      hasParking: boolean;
+      hasKitchen: boolean;
+      hasWashingMachine: boolean;
+      hasTv: boolean;
+      hasHeating: boolean;
+      hasElevator?: boolean;
+      hasSecurity: boolean;
+      hasBalcony?: boolean;
+      hasGarden?: boolean;
+      hasTerrace?: boolean;
+      hasStorage?: boolean;
+      hasAccessibility?: boolean;
+      accessibilityFeatures?: string[];
+    };
+    propertyPricing: {
+      prices: {
+        night: number;
+        week: number;
+        month: number;
+      };
+      currency: string;
+      includesUtilities: boolean;
+      securityDeposit: number;
+      cleaningFee: number;
+      additionalFees?: Array<{
+        name: string;
+        amount: number;
+        frequency: string;
+        description: string;
+        isOptional: boolean;
+      }>;
+    };
+    selectedAt: string;
+    status: string;
+  };
+  
+  // Selected relocation properties (multiple options)
+  relocationOptions?: Array<{
+    propertyId: string;
+    propertyType: string;
+    propertyDetails: {
+      title: string;
+      bedrooms: number;
+      bathrooms: number;
+      maxGuests: number;
+      description: string;
+      size: number;
+      floor: number;
+      totalFloors: number;
+    };
+    propertyLocation: {
+      street: string;
+      city: string;
+      postalCode: string;
+      canton: string;
+      country: string;
+      neighborhood: string;
+    };
+    propertyAmenities: {
+      hasWifi: boolean;
+      hasParking: boolean;
+      hasKitchen: boolean;
+      hasWashingMachine: boolean;
+      hasTv: boolean;
+      hasHeating: boolean;
+      hasElevator?: boolean;
+      hasSecurity: boolean;
+      hasBalcony?: boolean;
+      hasGarden?: boolean;
+      hasTerrace?: boolean;
+      hasStorage?: boolean;
+      hasAccessibility?: boolean;
+      accessibilityFeatures?: string[];
+    };
+    propertyPricing: {
+      prices: {
+        night: number;
+        week: number;
+        month: number;
+      };
+      currency: string;
+      includesUtilities: boolean;
+      securityDeposit: number;
+      cleaningFee: number;
+      additionalFees?: Array<{
+        name: string;
+        amount: number;
+        frequency: string;
+        description: string;
+        isOptional: boolean;
+      }>;
+    };
+    selectedAt: string;
+    status: string;
+  }>;
+  
   // System fields
   status: "initie" | "pending" | "processing" | "completed" | "cancelled";
   priority: "high" | "normal";

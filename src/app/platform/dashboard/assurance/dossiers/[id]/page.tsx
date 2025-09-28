@@ -794,12 +794,14 @@ export default async function CaseDetailPage({ params }: PageProps) {
           </>
         )}
 
-        {/* Selected Relocation Section */}
-        <div className="md:col-span-2 lg:col-span-3">
-          <div className="bg-card border border-border rounded-xl p-4 md:p-6 shadow-sm">
-            <SelectedRelocationDetail caseData={currentCaseData} />
+        {/* Selected Relocation Section - Only show if there are relocation options */}
+        {((currentCaseData as any).relocationOption || ((currentCaseData as any).relocationOptions && (currentCaseData as any).relocationOptions.length > 0)) && (
+          <div className="md:col-span-2 lg:col-span-3">
+            <div className="bg-card border border-border rounded-xl p-4 md:p-6 shadow-sm">
+              <SelectedRelocationDetail caseData={currentCaseData} />
+            </div>
           </div>
-        </div>
+        )}
       </div>
     </div>
   );

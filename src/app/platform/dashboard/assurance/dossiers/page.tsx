@@ -363,77 +363,65 @@ function AssuranceDossiersContent() {
                 </div>
               </div>
               
-              {/* Main Content - Single Row Layout */}
-              <div className="flex flex-wrap items-center justify-center gap-4 lg:gap-6">
+              {/* Main Content - Hybrid Full Width + Line Breaking */}
+              <div className="flex flex-wrap items-center justify-between w-full gap-4">
                 {/* Name */}
-                <div className="flex items-center gap-3">
-                  <div className="flex items-center justify-center w-6 h-6 bg-blue-100 rounded-lg">
+                <div className="flex items-center gap-3 min-w-0 flex-1 basis-0">
+                  <div className="flex items-center justify-center w-6 h-6 bg-blue-100 rounded-lg flex-shrink-0">
                     <User className="h-4 w-4 text-blue-600" />
                   </div>
-                  <p className="text-sm text-foreground">
+                  <p className="text-sm text-foreground leading-none whitespace-nowrap">
                     {case_.contactPerson.firstName} {case_.contactPerson.lastName}
                   </p>
                 </div>
 
-                {/* Vertical Separator 1 */}
-                <div className="hidden sm:block w-px h-4 bg-muted-foreground/30"></div>
-
                 {/* Phone */}
-                <div className="flex items-center gap-3">
-                  <div className="flex items-center justify-center w-6 h-6 bg-green-100 rounded-lg">
+                <div className="flex items-center gap-3 min-w-0 flex-[0.8] basis-0 mr-2">
+                  <div className="flex items-center justify-center w-6 h-6 bg-green-100 rounded-lg flex-shrink-0">
                     <Phone className="h-4 w-4 text-green-600" />
                   </div>
-                  <p className="text-sm text-foreground">
+                  <p className="text-sm text-foreground leading-none whitespace-nowrap">
                     {case_.contactPerson.phone}
                   </p>
                 </div>
 
-                {/* Vertical Separator 2 */}
-                <div className="hidden md:block w-px h-4 bg-muted-foreground/30"></div>
-
                 {/* Address */}
-                <div className="flex items-center gap-3">
-                  <div className="flex items-center justify-center w-6 h-6 bg-red-100 rounded-lg">
+                <div className="flex items-center gap-3 min-w-0 flex-1 basis-0">
+                  <div className="flex items-center justify-center w-6 h-6 bg-red-100 rounded-lg flex-shrink-0">
                     <MapPin className="h-4 w-4 text-red-600" />
                   </div>
-                  <p className="text-sm text-foreground">
-                    {case_.disasterAddress?.street}, {case_.disasterAddress?.postalCode} {case_.disasterAddress?.city}, {case_.disasterAddress?.canton}
+                  <p className="text-sm text-foreground leading-none whitespace-nowrap">
+                    {case_.disasterAddress?.street}, {case_.disasterAddress?.city}
                   </p>
                 </div>
-
-                {/* Vertical Separator 3 */}
-                <div className="hidden lg:block w-px h-4 bg-muted-foreground/30"></div>
-
-                {/* Agent */}
-                <div className="flex items-center gap-3">
-                  <div className="flex items-center justify-center w-6 h-6 bg-purple-100 rounded-lg">
-                    <Users className="h-4 w-4 text-purple-600" />
-                  </div>
-                  <p className="text-sm text-foreground">
-                    {case_.agent?.name || "Non assigné"}
-                  </p>
-                </div>
-
-                {/* Vertical Separator 4 */}
-                <div className="hidden xl:block w-px h-4 bg-muted-foreground/30"></div>
 
                 {/* Dates */}
-                <div className="flex items-center gap-3">
-                  <div className="flex items-center justify-center w-6 h-6 bg-emerald-100 rounded-lg">
+                <div className="flex items-center gap-3 min-w-0 flex-[1.3] basis-0">
+                  <div className="flex items-center justify-center w-6 h-6 bg-emerald-100 rounded-lg flex-shrink-0">
                     <Calendar className="h-4 w-4 text-emerald-600" />
                   </div>
-                  <div className="min-w-0">
+                  <div className="min-w-0 flex-1">
                     {case_.relocationRequests && case_.relocationRequests.length > 0 ? (
-                      <p className="text-sm text-foreground">
+                      <p className="text-sm text-foreground leading-none whitespace-nowrap">
                         {case_.relocationRequests[0]?.useExactDates && case_.relocationRequests[0]?.departureDate
                           ? `${formatDate(case_.relocationRequests[0].arrivalDate)} - ${formatDate(case_.relocationRequests[0].departureDate)} (${getNumberOfNights(case_.relocationRequests[0].arrivalDate, case_.relocationRequests[0].departureDate)} nuits)`
                           : `${formatDate(case_.relocationRequests[0]?.arrivalDate)} (${case_.relocationRequests[0]?.estimatedDuration || "Non spécifié"})`
                         }
                       </p>
                     ) : (
-                      <p className="text-sm text-muted-foreground">Aucune demande de relogement</p>
+                      <p className="text-sm text-muted-foreground leading-none whitespace-nowrap">Aucune demande de relogement</p>
                     )}
                   </div>
+                </div>
+
+                {/* Agent - Last Position */}
+                <div className="flex items-center gap-3 min-w-0 flex-1 basis-0">
+                  <div className="flex items-center justify-center w-6 h-6 bg-purple-100 rounded-lg flex-shrink-0">
+                    <Users className="h-4 w-4 text-purple-600" />
+                  </div>
+                  <p className="text-sm text-foreground leading-none whitespace-nowrap">
+                    {case_.agent?.name || "Non assigné"}
+                  </p>
                 </div>
               </div>
 
