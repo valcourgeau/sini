@@ -4,7 +4,6 @@ import { Home, Users, Building2, Clock, CheckCircle2, Phone, ArrowRight, Loader2
 import { IconBox } from "@/components/ui/icon-box";
 import { ScrollButton } from "@/components/ui/scroll-button";
 import { NavigationArrow } from "@/components/ui/navigation-arrow";
-import { CollaborationLogo } from "@/components/brands/vaudoise/collaboration-logo";
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
@@ -80,10 +79,6 @@ export default function VaudoiseHomePage() {
         {/* Main content */}
         <div className="container relative z-10">
           <div className="mx-auto max-w-[980px] text-center">
-            {/* Collaboration Logo */}
-            <div className="mb-8 md:mb-12 animate-in fade-in duration-500 slide-in-from-bottom-4">
-              <CollaborationLogo size="xl" className="justify-center mb-6 md:mb-8" />
-            </div>
             
             {/* Enhanced title with Vaudoise branding */}
             <div className="mb-6 md:mb-8">
