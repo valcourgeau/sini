@@ -363,161 +363,75 @@ function AssuranceDossiersContent() {
                 </div>
               </div>
               
-              {/* Main Content with Two-Column Layout */}
-              <div className="flex flex-col lg:flex-row gap-8">
-                {/* Personal Information - First Column */}
-                <div className="flex-1 flex items-center">
-                  <div className="flex flex-wrap items-center gap-4 ml-10">
-                    {/* Name Section */}
-                    <div className="flex items-center gap-3">
-                      <div className="flex items-center justify-center w-6 h-6 bg-blue-100 rounded-lg">
-                        <User className="h-4 w-4 text-blue-600" />
-                      </div>
-                      <p className="text-sm text-foreground">
-                        {case_.contactPerson.firstName} {case_.contactPerson.lastName}
-                      </p>
-                    </div>
-
-                    {/* Email Section */}
-                    <div className="flex items-center gap-3">
-                      <div className="flex items-center justify-center w-6 h-6 bg-purple-100 rounded-lg">
-                        <Mail className="h-4 w-4 text-purple-600" />
-                      </div>
-                      <p className="text-sm text-foreground">
-                        {case_.contactPerson.email}
-                      </p>
-                    </div>
-
-                    {/* Phone Section */}
-                    <div className="flex items-center gap-3">
-                      <div className="flex items-center justify-center w-6 h-6 bg-green-100 rounded-lg">
-                        <Phone className="h-4 w-4 text-green-600" />
-                      </div>
-                      <p className="text-sm text-foreground">
-                        {case_.contactPerson.phone}
-                      </p>
-                    </div>
+              {/* Main Content - Single Row Layout */}
+              <div className="flex flex-wrap items-center justify-center gap-4 lg:gap-6">
+                {/* Name */}
+                <div className="flex items-center gap-3">
+                  <div className="flex items-center justify-center w-6 h-6 bg-blue-100 rounded-lg">
+                    <User className="h-4 w-4 text-blue-600" />
                   </div>
+                  <p className="text-sm text-foreground">
+                    {case_.contactPerson.firstName} {case_.contactPerson.lastName}
+                  </p>
                 </div>
 
-                {/* Vertical Separator */}
-                <div className="hidden lg:block w-px bg-border"></div>
+                {/* Vertical Separator 1 */}
+                <div className="hidden sm:block w-px h-4 bg-muted-foreground/30"></div>
 
-                {/* Second Column - Address and Relocation Details */}
-                <div className="flex-1 flex flex-col gap-4">
-                  {/* Formatted Address Line */}
-                  <div className="flex items-center gap-3">
-                    <div className="flex items-center justify-center w-6 h-6 bg-red-100 rounded-lg">
-                      <MapPin className="h-4 w-4 text-red-600" />
-                    </div>
-                    <div className="flex-1">
-                      <p className="text-sm text-foreground">
-                        {case_.disasterAddress?.street}, {case_.disasterAddress?.postalCode} {case_.disasterAddress?.city}, {case_.disasterAddress?.canton}
-                      </p>
-                    </div>
-                  </div>
-
-                  {/* Formatted Relocation Details Line */}
-                  <div className="flex items-center gap-3">
-                    <div className="flex items-center justify-center w-6 h-6 bg-indigo-100 rounded-lg">
-                      <Home className="h-4 w-4 text-indigo-600" />
-                    </div>
-                    <div className="flex-1">
-                      {case_.relocationRequests && case_.relocationRequests.length > 0 ? (
-                        <p className="text-sm text-foreground">
-                          {case_.relocationType === "single" ? "Simple" : "Multiple"} • {case_.relocationRequests[0]?.bedrooms || 0} chambres • {(case_.relocationRequests[0]?.adults || 0) + (case_.relocationRequests[0]?.children || 0)} personnes • {case_.relocationRequests[0]?.useExactDates && case_.relocationRequests[0]?.departureDate
-                            ? `${formatDate(case_.relocationRequests[0].arrivalDate)} - ${formatDate(case_.relocationRequests[0].departureDate)} (${getNumberOfNights(case_.relocationRequests[0].arrivalDate, case_.relocationRequests[0].departureDate)} nuits)`
-                            : `${formatDate(case_.relocationRequests[0]?.arrivalDate)} (${case_.relocationRequests[0]?.estimatedDuration || "Non spécifié"})`
-                          }
-                        </p>
-                      ) : (
-                        <p className="text-sm text-muted-foreground"><span className="font-bold">Détails:</span> Aucune demande de relogement</p>
-                      )}
-                    </div>
-                  </div>
-                </div>
-              </div>
-              
-              {/* Bottom Row with Performance Metrics */}
-              <div className="grid gap-4 mt-6 pt-4 border-t" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', justifyItems: 'center' }}>
-                {/* Agent Responsible */}
+                {/* Phone */}
                 <div className="flex items-center gap-3">
                   <div className="flex items-center justify-center w-6 h-6 bg-green-100 rounded-lg">
-                    <Users className="h-4 w-4 text-green-600" />
+                    <Phone className="h-4 w-4 text-green-600" />
                   </div>
-                  <div>
-                    <p className="text-xs text-muted-foreground">Agent responsable</p>
-                    <p className="text-xs font-medium text-foreground">{case_.agent?.name || "Non assigné"}</p>
-                  </div>
+                  <p className="text-sm text-foreground">
+                    {case_.contactPerson.phone}
+                  </p>
                 </div>
-                
-                {/* Performance Metrics */}
-                {case_.responseTime && (
-                  <div className="flex items-center gap-3">
-                    <div className="flex items-center justify-center w-6 h-6 bg-purple-100 rounded-lg">
-                      <Clock className="h-4 w-4 text-purple-600" />
-                    </div>
-                    <div>
-                      <p className="text-xs text-muted-foreground">Délai d'acceptation</p>
-                      <p className="text-xs font-medium text-foreground">{case_.responseTime} jours</p>
-                    </div>
-                  </div>
-                )}
-                
-                {/* Costs */}
-                {case_.cost && (
-                  <div className="flex items-center gap-3">
-                    <div className="flex items-center justify-center w-6 h-6 bg-emerald-100 rounded-lg">
-                      <Wallet className="h-4 w-4 text-emerald-600" />
-                    </div>
-                    <div>
-                      <p className="text-xs text-muted-foreground">Coût total</p>
-                      <p className="text-xs font-medium text-foreground">CHF {case_.cost.totalCost}</p>
-                    </div>
-                  </div>
-                )}
-                
-                {/* Declaration de sinistre */}
-                {case_.insurance && (
-                  <div className="flex items-center gap-3">
-                    <div className="flex items-center justify-center w-6 h-6 bg-orange-100 rounded-lg">
-                      <File className="h-4 w-4 text-orange-600" />
-                    </div>
-                    <div>
-                      <div className="flex items-center gap-2">
-                        <p className="text-xs text-muted-foreground">Déclaration</p>
-                        {case_.insurance.hasInsurance ? (
-                          <CheckCircle className="h-3 w-3 text-green-500" />
-                        ) : (
-                          <AlertTriangle className="h-3 w-3 text-orange-500" />
-                        )}
-                      </div>
-                      {case_.insurance.hasInsurance && (
-                        <div className="mt-1">
-                          <Button variant="outline" size="sm" className="h-6 px-2 text-xs">
-                            <Download className="h-3 w-3 mr-1" />
-                            Télécharger
-                          </Button>
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                )}
-                
-                {/* Client Satisfaction */}
+
+                {/* Vertical Separator 2 */}
+                <div className="hidden md:block w-px h-4 bg-muted-foreground/30"></div>
+
+                {/* Address */}
                 <div className="flex items-center gap-3">
-                  <div className="flex items-center justify-center w-6 h-6 bg-yellow-100 rounded-lg">
-                    <Star className="h-4 w-4 text-yellow-600" />
+                  <div className="flex items-center justify-center w-6 h-6 bg-red-100 rounded-lg">
+                    <MapPin className="h-4 w-4 text-red-600" />
                   </div>
-                  <div>
-                    <p className="text-xs text-muted-foreground">Satisfaction client</p>
-                    {case_.status === "completed" && case_.satisfaction ? (
-                      <div className="flex items-center gap-1">
-                        <StarRating rating={case_.satisfaction.rating} className="h-3 w-3" />
-                        <span className="text-xs font-medium text-foreground ml-1">{case_.satisfaction.rating}/5</span>
-                      </div>
+                  <p className="text-sm text-foreground">
+                    {case_.disasterAddress?.street}, {case_.disasterAddress?.postalCode} {case_.disasterAddress?.city}, {case_.disasterAddress?.canton}
+                  </p>
+                </div>
+
+                {/* Vertical Separator 3 */}
+                <div className="hidden lg:block w-px h-4 bg-muted-foreground/30"></div>
+
+                {/* Agent */}
+                <div className="flex items-center gap-3">
+                  <div className="flex items-center justify-center w-6 h-6 bg-purple-100 rounded-lg">
+                    <Users className="h-4 w-4 text-purple-600" />
+                  </div>
+                  <p className="text-sm text-foreground">
+                    {case_.agent?.name || "Non assigné"}
+                  </p>
+                </div>
+
+                {/* Vertical Separator 4 */}
+                <div className="hidden xl:block w-px h-4 bg-muted-foreground/30"></div>
+
+                {/* Dates */}
+                <div className="flex items-center gap-3">
+                  <div className="flex items-center justify-center w-6 h-6 bg-emerald-100 rounded-lg">
+                    <Calendar className="h-4 w-4 text-emerald-600" />
+                  </div>
+                  <div className="min-w-0">
+                    {case_.relocationRequests && case_.relocationRequests.length > 0 ? (
+                      <p className="text-sm text-foreground">
+                        {case_.relocationRequests[0]?.useExactDates && case_.relocationRequests[0]?.departureDate
+                          ? `${formatDate(case_.relocationRequests[0].arrivalDate)} - ${formatDate(case_.relocationRequests[0].departureDate)} (${getNumberOfNights(case_.relocationRequests[0].arrivalDate, case_.relocationRequests[0].departureDate)} nuits)`
+                          : `${formatDate(case_.relocationRequests[0]?.arrivalDate)} (${case_.relocationRequests[0]?.estimatedDuration || "Non spécifié"})`
+                        }
+                      </p>
                     ) : (
-                      <p className="text-xs text-muted-foreground">En attente du retour client</p>
+                      <p className="text-sm text-muted-foreground">Aucune demande de relogement</p>
                     )}
                   </div>
                 </div>
