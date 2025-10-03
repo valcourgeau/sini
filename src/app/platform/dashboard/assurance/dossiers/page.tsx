@@ -181,8 +181,8 @@ function AssuranceDossiersContent() {
     <div className="space-y-6">
       {/* Header */}
       <div>
-        <h1 className="text-3xl font-bold text-foreground">Dossiers de relogement</h1>
-        <p className="text-muted-foreground mt-2">
+        <h1 className="text-3xl font-bold text-black">Dossiers de relogement</h1>
+        <p className="text-black mt-2">
           Gérez et suivez tous vos dossiers de relogement
         </p>
       </div>
@@ -192,7 +192,7 @@ function AssuranceDossiersContent() {
         {/* Search Input */}
         <div className="flex items-center gap-2">
           <div className="relative">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-black" />
             <Input
               placeholder="Par ID, nom ou ville..."
               value={searchTerm}
@@ -200,7 +200,7 @@ function AssuranceDossiersContent() {
                 setSearchTerm(e.target.value);
                 updateUrl(statusFilter, typeFilter, priorityFilter, e.target.value);
               }}
-              className="pl-10 w-64 bg-background border-0 shadow-none focus-visible:ring-0 flex items-center text-sm"
+              className="pl-10 w-64 bg-background border-0 shadow-none focus-visible:ring-0 flex items-center text-sm text-black placeholder:text-black"
             />
           </div>
         </div>
@@ -228,7 +228,7 @@ function AssuranceDossiersContent() {
                   "px-3 py-1.5 rounded text-xs font-medium transition-colors",
                   statusFilter === status.key
                     ? "bg-primary text-primary-foreground"
-                    : "bg-secondary text-foreground hover:bg-secondary/80"
+                    : "bg-secondary text-black hover:bg-secondary/80"
                 )}
               >
                 {status.label}
@@ -257,7 +257,7 @@ function AssuranceDossiersContent() {
                   "px-3 py-1.5 rounded text-xs font-medium transition-colors",
                   typeFilter === type.key
                     ? "bg-primary text-primary-foreground"
-                    : "bg-secondary text-foreground hover:bg-secondary/80"
+                    : "bg-secondary text-black hover:bg-secondary/80"
                 )}
               >
                 {type.label}
@@ -286,7 +286,7 @@ function AssuranceDossiersContent() {
                   "px-3 py-1.5 rounded text-xs font-medium transition-colors",
                   priorityFilter === priority.key
                     ? "bg-primary text-primary-foreground"
-                    : "bg-secondary text-foreground hover:bg-secondary/80"
+                    : "bg-secondary text-black hover:bg-secondary/80"
                 )}
               >
                 {priority.label}
@@ -300,7 +300,7 @@ function AssuranceDossiersContent() {
         {/* Reset Button */}
         <button
           onClick={resetFilters}
-          className="flex items-center gap-1 px-3 py-1.5 rounded text-xs text-foreground hover:bg-secondary/80 transition-colors whitespace-nowrap"
+          className="flex items-center gap-1 px-3 py-1.5 rounded text-xs text-black hover:bg-secondary/80 transition-colors whitespace-nowrap"
           title="Réinitialiser les filtres"
         >
           <RotateCcw className="h-3 w-3" />
@@ -310,7 +310,7 @@ function AssuranceDossiersContent() {
 
       {/* Results Summary */}
       <div>
-        <span className="text-sm font-medium text-foreground">
+        <span className="text-sm font-medium text-black">
           {filteredCases.length} dossier{filteredCases.length > 1 ? 's' : ''} affiché{filteredCases.length > 1 ? 's' : ''}
         </span>
       </div>
@@ -325,19 +325,23 @@ function AssuranceDossiersContent() {
               {/* Header with Reference Number, Status and Priority */}
               <div className="flex items-center justify-between mb-6">
                 <div className="flex items-center gap-4">
-                  <span className="text-lg font-semibold text-foreground">
+                  <span className="text-lg font-semibold text-primary">
                     {case_.id}
                   </span>
-                  <div className="w-px h-4 bg-muted-foreground/30"></div>
-                  <div className="flex items-center gap-2">
-                    {getStatusIcon(case_.status)}
-                    <span className={`font-medium ${getStatusColor(case_.status)}`}>
-                      {case_.status === "initie" ? "Initié" : 
-                       case_.status === "processing" ? "En cours" : 
-                       case_.status === "completed" ? "Terminé" : 
-                       case_.status === "pending" ? "En attente" : "Annulé"}
-                    </span>
-                  </div>
+                  <div className="w-px h-4 bg-black/30"></div>
+                  <span
+                    className={`items-center gap-1 px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(case_.status)} bg-muted`}
+                  >
+                    {case_.status === "initie"
+                      ? "Initié"
+                      : case_.status === "processing"
+                      ? "En cours"
+                      : case_.status === "completed"
+                      ? "Terminé"
+                      : case_.status === "pending"
+                      ? "En attente"
+                      : "Annulé"}
+                  </span>
                   <span className={`px-2 py-1 rounded-full text-xs font-medium ${getPriorityColor(case_.priority)}`}>
                     {case_.priority === "high" ? "Haute" : "Normale"}
                   </span>
@@ -370,7 +374,7 @@ function AssuranceDossiersContent() {
                   <div className="flex items-center justify-center w-5 h-5 sm:w-6 sm:h-6 bg-blue-100 rounded-lg flex-shrink-0">
                     <User className="h-4 w-4 sm:h-4 sm:w-4 text-blue-600" />
                   </div>
-                  <p className="text-xs sm:text-sm text-foreground leading-none whitespace-nowrap">
+                  <p className="text-xs sm:text-sm text-black leading-none whitespace-nowrap">
                     {case_.contactPerson.firstName} {case_.contactPerson.lastName}
                   </p>
                 </div>
@@ -383,7 +387,7 @@ function AssuranceDossiersContent() {
                   <div className="flex items-center justify-center w-5 h-5 sm:w-6 sm:h-6 bg-green-100 rounded-lg flex-shrink-0">
                     <Phone className="h-4 w-4 sm:h-4 sm:w-4 text-green-600" />
                   </div>
-                  <p className="text-xs sm:text-sm text-foreground leading-none whitespace-nowrap">
+                  <p className="text-xs sm:text-sm text-black leading-none whitespace-nowrap">
                     {case_.contactPerson.phone}
                   </p>
                 </div>
@@ -396,7 +400,7 @@ function AssuranceDossiersContent() {
                   <div className="flex items-center justify-center w-5 h-5 sm:w-6 sm:h-6 bg-red-100 rounded-lg flex-shrink-0">
                     <MapPin className="h-4 w-4 sm:h-4 sm:w-4 text-red-600" />
                   </div>
-                  <p className="text-xs sm:text-sm text-foreground leading-none whitespace-nowrap">
+                  <p className="text-xs sm:text-sm text-black leading-none whitespace-nowrap">
                     {case_.disasterAddress?.street}, {case_.disasterAddress?.city}
                   </p>
                 </div>
@@ -411,7 +415,7 @@ function AssuranceDossiersContent() {
                   </div>
                   <div className="min-w-0 flex-1">
                     {case_.relocationRequests && case_.relocationRequests.length > 0 ? (
-                      <p className="text-xs sm:text-sm text-foreground leading-none whitespace-nowrap">
+                      <p className="text-xs sm:text-sm text-black leading-none whitespace-nowrap">
                         {case_.relocationRequests[0]?.useExactDates && case_.relocationRequests[0]?.departureDate
                           ? `${formatDate(case_.relocationRequests[0].arrivalDate)} - ${formatDate(case_.relocationRequests[0].departureDate)} (${getNumberOfNights(case_.relocationRequests[0].arrivalDate, case_.relocationRequests[0].departureDate)} nuits)`
                           : `${formatDate(case_.relocationRequests[0]?.arrivalDate)} (${case_.relocationRequests[0]?.estimatedDuration || "Non spécifié"})`
@@ -431,7 +435,7 @@ function AssuranceDossiersContent() {
                   <div className="flex items-center justify-center w-5 h-5 sm:w-6 sm:h-6 bg-purple-100 rounded-lg flex-shrink-0">
                     <Users className="h-4 w-4 sm:h-4 sm:w-4 text-purple-600" />
                   </div>
-                  <p className="text-xs sm:text-sm text-foreground leading-none whitespace-nowrap">
+                  <p className="text-xs sm:text-sm text-black leading-none whitespace-nowrap">
                     {case_.agent?.name || "Non assigné"}
                   </p>
                 </div>
@@ -445,7 +449,7 @@ function AssuranceDossiersContent() {
       {filteredCases.length === 0 && (
         <Card className="p-8 text-center">
           <FileText className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-          <p className="text-muted-foreground">Aucun dossier trouvé avec les critères sélectionnés.</p>
+          <p className="text-black">Aucun dossier trouvé avec les critères sélectionnés.</p>
         </Card>
       )}
     </div>
@@ -457,7 +461,7 @@ function LoadingFallback() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-3xl font-bold text-primary">Dossiers de relogement</h1>
+        <h1 className="text-3xl font-bold text-black">Dossiers de relogement</h1>
         <p className="text-muted-foreground mt-2">
           Gérez et suivez tous vos dossiers de relogement
         </p>

@@ -279,7 +279,7 @@ export default function AssuranceDashboard() {
     <div className="space-y-6">
       {/* Header */}
       <div>
-        <h1 className="text-3xl font-bold text-foreground">Tableau de bord Assurance</h1>
+        <h1 className="text-3xl font-bold text-black">Tableau de bord Assurance</h1>
         <p className="text-black mt-2">
           Gérez vos dossiers de sinistres et suivez les relogements
         </p>
@@ -302,7 +302,7 @@ export default function AssuranceDashboard() {
                   "px-2 py-1 rounded text-xs font-medium transition-colors",
                   selectedFilter === filter.key
                     ? "bg-primary text-primary-foreground"
-                    : "bg-secondary text-foreground hover:bg-secondary/80"
+                    : "bg-secondary text-black hover:bg-secondary/80"
                 )}
               >
                 {filter.label}
@@ -326,7 +326,7 @@ export default function AssuranceDashboard() {
                   "px-2 py-1 rounded text-xs font-medium transition-colors",
                   selectedDateFilter === period.key
                     ? "bg-primary text-primary-foreground"
-                    : "bg-secondary text-foreground hover:bg-secondary/80"
+                    : "bg-secondary text-black hover:bg-secondary/80"
                 )}
               >
                 {period.label}
@@ -354,7 +354,7 @@ export default function AssuranceDashboard() {
                       "px-2 py-1 rounded text-xs font-medium transition-colors",
                       selectedAgent === agent.key
                         ? "bg-primary text-primary-foreground"
-                        : "bg-secondary text-foreground hover:bg-secondary/80"
+                        : "bg-secondary text-black hover:bg-secondary/80"
                     )}
                   >
                     {agent.label}
@@ -604,7 +604,7 @@ export default function AssuranceDashboard() {
               <MessageSquare className="h-5 w-5 text-black" />
               <h3 className="font-semibold text-black">Messages</h3>
             </div>
-            <Badge variant="outline" className="text-xs">
+            <Badge variant="outline" className="text-xs text-black">
               {unreadConversationsCount} non lu(s)
             </Badge>
           </div>
@@ -643,7 +643,7 @@ export default function AssuranceDashboard() {
           </div>
           
           <Link href="/platform/dashboard/assurance/messages">
-            <Button variant="outline" size="sm" className="w-full border-border text-foreground hover:bg-primary hover:text-primary-foreground">
+            <Button variant="outline" size="sm" className="w-full border-border text-black hover:bg-primary hover:text-primary-foreground">
               Voir tous les messages
             </Button>
           </Link>
@@ -655,7 +655,7 @@ export default function AssuranceDashboard() {
               <AlertTriangle className="h-5 w-5 text-black" />
               <h3 className="font-semibold text-black">Notifications</h3>
             </div>
-            <Badge variant="outline" className="text-xs">
+            <Badge variant="outline" className="text-xs text-black">
               {unreadNotificationsCount} non lu(s)
             </Badge>
           </div>
@@ -682,7 +682,7 @@ export default function AssuranceDashboard() {
               <FileText className="h-5 w-5 text-black" />
               <h3 className="font-semibold text-black">Documents</h3>
             </div>
-            <Badge variant="outline" className="text-xs">
+            <Badge variant="outline" className="text-xs text-black">
               {pendingDocumentsCount} en attente
             </Badge>
           </div>
