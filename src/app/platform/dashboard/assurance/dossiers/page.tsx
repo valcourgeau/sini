@@ -363,63 +363,75 @@ function AssuranceDossiersContent() {
                 </div>
               </div>
               
-              {/* Main Content - Hybrid Full Width + Line Breaking */}
-              <div className="flex flex-wrap items-center justify-between w-full gap-4">
+              {/* Main Content - Responsive Wrapping Layout */}
+              <div className="flex flex-wrap items-center justify-between w-full gap-2 sm:gap-3 md:gap-4">
                 {/* Name */}
-                <div className="flex items-center gap-3 min-w-0 flex-1 basis-0">
-                  <div className="flex items-center justify-center w-6 h-6 bg-blue-100 rounded-lg flex-shrink-0">
-                    <User className="h-4 w-4 text-blue-600" />
+                <div className="flex items-center gap-2 min-w-0 flex-shrink-0" style={{ minWidth: '140px' }}>
+                  <div className="flex items-center justify-center w-5 h-5 sm:w-6 sm:h-6 bg-blue-100 rounded-lg flex-shrink-0">
+                    <User className="h-4 w-4 sm:h-4 sm:w-4 text-blue-600" />
                   </div>
-                  <p className="text-sm text-foreground leading-none whitespace-nowrap">
+                  <p className="text-xs sm:text-sm text-foreground leading-none whitespace-nowrap">
                     {case_.contactPerson.firstName} {case_.contactPerson.lastName}
                   </p>
                 </div>
 
+                {/* Separator */}
+                <div className="w-px h-4 bg-border flex-shrink-0 hidden sm:block"></div>
+
                 {/* Phone */}
-                <div className="flex items-center gap-3 min-w-0 flex-[0.8] basis-0 mr-2">
-                  <div className="flex items-center justify-center w-6 h-6 bg-green-100 rounded-lg flex-shrink-0">
-                    <Phone className="h-4 w-4 text-green-600" />
+                <div className="flex items-center gap-2 min-w-0 flex-shrink-0" style={{ minWidth: '120px' }}>
+                  <div className="flex items-center justify-center w-5 h-5 sm:w-6 sm:h-6 bg-green-100 rounded-lg flex-shrink-0">
+                    <Phone className="h-4 w-4 sm:h-4 sm:w-4 text-green-600" />
                   </div>
-                  <p className="text-sm text-foreground leading-none whitespace-nowrap">
+                  <p className="text-xs sm:text-sm text-foreground leading-none whitespace-nowrap">
                     {case_.contactPerson.phone}
                   </p>
                 </div>
 
+                {/* Separator */}
+                <div className="w-px h-4 bg-border flex-shrink-0 hidden md:block"></div>
+
                 {/* Address */}
-                <div className="flex items-center gap-3 min-w-0 flex-1 basis-0">
-                  <div className="flex items-center justify-center w-6 h-6 bg-red-100 rounded-lg flex-shrink-0">
-                    <MapPin className="h-4 w-4 text-red-600" />
+                <div className="flex items-center gap-2 min-w-0 flex-shrink-0" style={{ minWidth: '160px' }}>
+                  <div className="flex items-center justify-center w-5 h-5 sm:w-6 sm:h-6 bg-red-100 rounded-lg flex-shrink-0">
+                    <MapPin className="h-4 w-4 sm:h-4 sm:w-4 text-red-600" />
                   </div>
-                  <p className="text-sm text-foreground leading-none whitespace-nowrap">
+                  <p className="text-xs sm:text-sm text-foreground leading-none whitespace-nowrap">
                     {case_.disasterAddress?.street}, {case_.disasterAddress?.city}
                   </p>
                 </div>
 
+                {/* Separator */}
+                <div className="w-px h-4 bg-border flex-shrink-0 hidden lg:block"></div>
+
                 {/* Dates */}
-                <div className="flex items-center gap-3 min-w-0 flex-[1.3] basis-0">
-                  <div className="flex items-center justify-center w-6 h-6 bg-emerald-100 rounded-lg flex-shrink-0">
-                    <Calendar className="h-4 w-4 text-emerald-600" />
+                <div className="flex items-center gap-2 min-w-0 flex-shrink-0" style={{ minWidth: '180px' }}>
+                  <div className="flex items-center justify-center w-5 h-5 sm:w-6 sm:h-6 bg-emerald-100 rounded-lg flex-shrink-0">
+                    <Calendar className="h-4 w-4 sm:h-4 sm:w-4 text-emerald-600" />
                   </div>
                   <div className="min-w-0 flex-1">
                     {case_.relocationRequests && case_.relocationRequests.length > 0 ? (
-                      <p className="text-sm text-foreground leading-none whitespace-nowrap">
+                      <p className="text-xs sm:text-sm text-foreground leading-none whitespace-nowrap">
                         {case_.relocationRequests[0]?.useExactDates && case_.relocationRequests[0]?.departureDate
                           ? `${formatDate(case_.relocationRequests[0].arrivalDate)} - ${formatDate(case_.relocationRequests[0].departureDate)} (${getNumberOfNights(case_.relocationRequests[0].arrivalDate, case_.relocationRequests[0].departureDate)} nuits)`
                           : `${formatDate(case_.relocationRequests[0]?.arrivalDate)} (${case_.relocationRequests[0]?.estimatedDuration || "Non spécifié"})`
                         }
                       </p>
                     ) : (
-                      <p className="text-sm text-muted-foreground leading-none whitespace-nowrap">Aucune demande de relogement</p>
+                      <p className="text-xs sm:text-sm text-muted-foreground leading-none whitespace-nowrap">Aucune demande de relogement</p>
                     )}
                   </div>
                 </div>
 
+                {/* Separator */}
+                <div className="w-px h-4 bg-border flex-shrink-0 hidden xl:block"></div>
+
                 {/* Agent - Last Position */}
-                <div className="flex items-center gap-3 min-w-0 flex-1 basis-0">
-                  <div className="flex items-center justify-center w-6 h-6 bg-purple-100 rounded-lg flex-shrink-0">
-                    <Users className="h-4 w-4 text-purple-600" />
+                <div className="flex items-center gap-2 min-w-0 flex-shrink-0" style={{ minWidth: '130px' }}>
+                  <div className="flex items-center justify-center w-5 h-5 sm:w-6 sm:h-6 bg-purple-100 rounded-lg flex-shrink-0">
+                    <Users className="h-4 w-4 sm:h-4 sm:w-4 text-purple-600" />
                   </div>
-                  <p className="text-sm text-foreground leading-none whitespace-nowrap">
+                  <p className="text-xs sm:text-sm text-foreground leading-none whitespace-nowrap">
                     {case_.agent?.name || "Non assigné"}
                   </p>
                 </div>

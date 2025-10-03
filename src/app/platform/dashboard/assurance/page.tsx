@@ -280,7 +280,7 @@ export default function AssuranceDashboard() {
       {/* Header */}
       <div>
         <h1 className="text-3xl font-bold text-foreground">Tableau de bord Assurance</h1>
-        <p className="text-muted-foreground mt-2">
+        <p className="text-black mt-2">
           Gérez vos dossiers de sinistres et suivez les relogements
         </p>
       </div>
@@ -403,7 +403,7 @@ export default function AssuranceDashboard() {
             setSelectedCanton("all");
             setSelectedDateFilter("all");
           }}
-          className="flex items-center gap-1 px-2 py-1 rounded text-xs text-muted-foreground hover:bg-secondary/80 transition-colors"
+          className="flex items-center gap-1 px-2 py-1 rounded text-xs text-black hover:bg-secondary/80 transition-colors"
           title="Réinitialiser les filtres"
         >
           <RotateCcw className="h-3 w-3" />
@@ -420,17 +420,17 @@ export default function AssuranceDashboard() {
               <TooltipProvider>
                 <Tooltip>
                   <TooltipTrigger asChild>
-                    <p className="text-base font-semibold text-muted-foreground cursor-help">Opérations</p>
+                    <p className="text-base font-semibold text-black cursor-help">Opérations</p>
                   </TooltipTrigger>
                   <TooltipContent>
                     <p>Répartition des dossiers par statut de traitement</p>
                   </TooltipContent>
                 </Tooltip>
               </TooltipProvider>
-              <p className="text-3xl font-bold text-foreground">{kpis.totalFiles}</p>
-              <p className="text-sm text-muted-foreground">Dossiers enregistrés</p>
+              <p className="text-3xl font-bold text-primary">{kpis.totalFiles}</p>
+              <p className="text-sm text-black">Dossiers enregistrés</p>
             </div>
-            <Building2 className="h-10 w-10 text-muted-foreground" />
+            <Building2 className="h-10 w-10 text-black" />
           </div>
           <div className="space-y-4">
             <div className="flex justify-between items-center pt-3 border-t border-border">
@@ -448,7 +448,7 @@ export default function AssuranceDashboard() {
                 <span className="text-sm font-medium text-foreground">{kpis.initiatedFiles}</span>
                 <Link 
                   href="/platform/dashboard/assurance/dossiers?status=initie"
-                  className="text-xs text-primary hover:text-primary/80 transition-colors underline whitespace-nowrap"
+                  className="text-xs text-muted-foreground hover:text-muted-foreground/80 transition-colors underline whitespace-nowrap"
                 >
                   Voir
                 </Link>
@@ -469,7 +469,7 @@ export default function AssuranceDashboard() {
                 <span className="text-sm font-medium text-foreground">{kpis.pendingFiles}</span>
                 <Link 
                   href="/platform/dashboard/assurance/dossiers?status=pending"
-                  className="text-xs text-primary hover:text-primary/80 transition-colors underline whitespace-nowrap"
+                  className="text-xs text-muted-foreground hover:text-muted-foreground/80 transition-colors underline whitespace-nowrap"
                 >
                   Voir
                 </Link>
@@ -490,7 +490,7 @@ export default function AssuranceDashboard() {
                 <span className="text-sm font-medium text-foreground">{kpis.processingFiles}</span>
                 <Link 
                   href="/platform/dashboard/assurance/dossiers?status=processing"
-                  className="text-xs text-primary hover:text-primary/80 transition-colors underline whitespace-nowrap"
+                  className="text-xs text-muted-foreground hover:text-muted-foreground/80 transition-colors underline whitespace-nowrap"
                 >
                   Voir
                 </Link>
@@ -511,7 +511,7 @@ export default function AssuranceDashboard() {
                 <span className="text-sm font-medium text-foreground">{kpis.completedFiles}</span>
                 <Link 
                   href="/platform/dashboard/assurance/dossiers?status=completed"
-                  className="text-xs text-primary hover:text-primary/80 transition-colors underline whitespace-nowrap"
+                  className="text-xs text-muted-foreground hover:text-muted-foreground/80 transition-colors underline whitespace-nowrap"
                 >
                   Voir
                 </Link>
@@ -524,23 +524,23 @@ export default function AssuranceDashboard() {
         <Card className="p-6 bg-background border-border">
           <div className="flex items-start justify-between mb-6">
             <div>
-              <p className="text-base font-semibold text-muted-foreground">Résumé financier</p>
-              <p className="text-3xl font-bold text-foreground">CHF {kpis.averageCostPerStay}</p>
-              <p className="text-sm text-muted-foreground">Coût moyen remboursé par séjour</p>
+              <p className="text-base font-semibold text-black">Résumé financier</p>
+              <p className="text-3xl font-bold text-primary">CHF {kpis.averageCostPerStay}</p>
+              <p className="text-sm text-black">Coût moyen remboursé par séjour</p>
             </div>
-            <Wallet className="h-10 w-10 text-muted-foreground" />
+            <Wallet className="h-10 w-10 text-black" />
           </div>
           <div className="space-y-4">
             <div className="flex justify-between items-center pt-3 border-t border-border">
-              <span className="text-xs text-muted-foreground whitespace-nowrap">Coût moyen par jour</span>
+              <span className="text-xs text-black whitespace-nowrap">Coût moyen par jour</span>
               <span className="text-sm font-medium text-foreground flex-shrink-0">CHF {kpis.costPerDay}</span>
             </div>
             <div className="flex justify-between items-center">
-              <span className="text-xs text-muted-foreground whitespace-nowrap">Taux moyen de couverture</span>
+              <span className="text-xs text-black whitespace-nowrap">Taux moyen de couverture</span>
               <span className="text-sm font-medium text-foreground flex-shrink-0">{kpis.insuranceCoveragePercentage}%</span>
             </div>
           <div className="flex justify-between items-center">
-            <span className="text-xs text-muted-foreground whitespace-nowrap">Durée moyenne du séjour</span>
+            <span className="text-xs text-black whitespace-nowrap">Durée moyenne du séjour</span>
             <span className="text-sm font-medium text-foreground flex-shrink-0">{kpis.averageRelocationLength} jours</span>
           </div>
           </div>
@@ -550,23 +550,23 @@ export default function AssuranceDashboard() {
         <Card className="p-6 bg-background border-border">
           <div className="flex items-start justify-between mb-6">
             <div>
-              <p className="text-base font-semibold text-muted-foreground">Satisfaction client</p>
+              <p className="text-base font-semibold text-black">Satisfaction client</p>
               <div className="flex flex-col gap-1">
                 <div className="flex items-center gap-3">
                   <StarRating rating={parseFloat(kpis.averageSatisfaction)} className="h-6 w-6" />
-                  <span className="text-2xl font-bold text-foreground">{kpis.averageSatisfaction}/5</span>
+                  <span className="text-2xl font-bold text-primary">{kpis.averageSatisfaction}/5</span>
                 </div>
-                <span className="text-sm text-muted-foreground">Sur cette période</span>
+                <span className="text-sm text-black">Sur cette période</span>
               </div>
             </div>
-            <Star className="h-12 w-12 text-muted-foreground" />
+            <Star className="h-12 w-12 text-black" />
           </div>
           <div className="space-y-4">
             <div className="flex justify-between items-center pt-3 border-t border-border">
               <TooltipProvider>
                 <Tooltip>
                   <TooltipTrigger asChild>
-                    <span className="text-xs text-muted-foreground cursor-help whitespace-nowrap">Avis assurés</span>
+                    <span className="text-xs text-black cursor-help whitespace-nowrap">Avis assurés</span>
                   </TooltipTrigger>
                   <TooltipContent>
                     <p>Note moyenne de satisfaction des clients assurés sur cette période</p>
@@ -579,7 +579,7 @@ export default function AssuranceDashboard() {
               <TooltipProvider>
                 <Tooltip>
                   <TooltipTrigger asChild>
-                    <span className="text-xs text-muted-foreground cursor-help whitespace-nowrap">Délai moyen de traitement</span>
+                    <span className="text-xs text-black cursor-help whitespace-nowrap">Délai moyen de traitement</span>
                   </TooltipTrigger>
                   <TooltipContent>
                     <p>Temps moyen entre la soumission du dossier et l'acceptation du relogement</p>
@@ -601,8 +601,8 @@ export default function AssuranceDashboard() {
         <Card className="p-6 bg-background border-border">
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-3">
-              <MessageSquare className="h-5 w-5 text-muted-foreground" />
-              <h3 className="font-semibold text-foreground">Messages</h3>
+              <MessageSquare className="h-5 w-5 text-black" />
+              <h3 className="font-semibold text-black">Messages</h3>
             </div>
             <Badge variant="outline" className="text-xs">
               {unreadConversationsCount} non lu(s)
@@ -623,13 +623,13 @@ export default function AssuranceDashboard() {
                       <p className="text-xs font-medium text-foreground truncate">
                         {conversation.participantName}
                         {conversation.caseId && (
-                          <span className="text-muted-foreground ml-1">({conversation.caseId})</span>
+                          <span className="text-black ml-1">({conversation.caseId})</span>
                         )}
                       </p>
-                      <p className="text-[10px] text-muted-foreground truncate">{conversation.lastMessage}</p>
+                      <p className="text-[10px] text-black truncate">{conversation.lastMessage}</p>
                     </div>
                   </div>
-                  <span className="text-[10px] text-muted-foreground flex-shrink-0 ml-2 whitespace-nowrap">
+                  <span className="text-[10px] text-black flex-shrink-0 ml-2 whitespace-nowrap">
                     {new Date(conversation.lastMessageTime).toLocaleDateString('fr-FR', { 
                       day: '2-digit', 
                       month: '2-digit',
@@ -652,8 +652,8 @@ export default function AssuranceDashboard() {
         <Card className="p-6 bg-background border-border">
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-3">
-              <AlertTriangle className="h-5 w-5 text-muted-foreground" />
-              <h3 className="font-semibold text-foreground">Notifications</h3>
+              <AlertTriangle className="h-5 w-5 text-black" />
+              <h3 className="font-semibold text-black">Notifications</h3>
             </div>
             <Badge variant="outline" className="text-xs">
               {unreadNotificationsCount} non lu(s)
@@ -667,10 +667,10 @@ export default function AssuranceDashboard() {
                   <div className={`w-2 h-2 rounded-full flex-shrink-0 ${message.unread ? 'bg-primary' : 'bg-muted-foreground'}`} />
                   <div className="min-w-0 flex-1">
                     <p className="text-xs font-medium text-foreground truncate">{message.from}</p>
-                    <p className="text-[10px] text-muted-foreground truncate">{message.subject}</p>
+                    <p className="text-[10px] text-black truncate">{message.subject}</p>
                   </div>
                 </div>
-                <span className="text-[10px] text-muted-foreground flex-shrink-0 ml-2 whitespace-nowrap">{message.date}</span>
+                <span className="text-[10px] text-black flex-shrink-0 ml-2 whitespace-nowrap">{message.date}</span>
               </div>
             ))}
           </div>
@@ -679,8 +679,8 @@ export default function AssuranceDashboard() {
         <Card className="p-6 bg-background border-border">
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-3">
-              <FileText className="h-5 w-5 text-muted-foreground" />
-              <h3 className="font-semibold text-foreground">Documents</h3>
+              <FileText className="h-5 w-5 text-black" />
+              <h3 className="font-semibold text-black">Documents</h3>
             </div>
             <Badge variant="outline" className="text-xs">
               {pendingDocumentsCount} en attente
@@ -703,15 +703,15 @@ export default function AssuranceDashboard() {
                     }`} />
                     <div className="min-w-0 flex-1">
                       <p className="text-xs font-medium text-foreground truncate">{document.fileName}</p>
-                      <p className="text-[10px] text-muted-foreground truncate">
+                      <p className="text-[10px] text-black truncate">
                         {document.clientName}
                         {document.caseId && (
-                          <span className="text-muted-foreground ml-1">({document.caseId})</span>
+                          <span className="text-black ml-1">({document.caseId})</span>
                         )}
                       </p>
                     </div>
                   </div>
-                  <span className="text-[10px] text-muted-foreground flex-shrink-0 ml-2 whitespace-nowrap">{document.date}</span>
+                  <span className="text-[10px] text-black flex-shrink-0 ml-2 whitespace-nowrap">{document.date}</span>
                 </div>
               </Link>
             ))}
