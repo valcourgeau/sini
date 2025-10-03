@@ -437,7 +437,7 @@ export default function AssuranceDashboard() {
               <TooltipProvider>
                 <Tooltip>
                   <TooltipTrigger asChild>
-                    <span className={`text-xs font-medium cursor-help whitespace-nowrap ${getStatusColor("initie")}`}>Initiés</span>
+                    <span className={`px-2 py-1 rounded-full text-xs font-medium cursor-help whitespace-nowrap ${getStatusColor("initie")} bg-muted`}>Initiés</span>
                   </TooltipTrigger>
                   <TooltipContent>
                     <p>Dossiers créés nécessitant l'initialisation de la part de notre équipe</p>
@@ -458,7 +458,7 @@ export default function AssuranceDashboard() {
               <TooltipProvider>
                 <Tooltip>
                   <TooltipTrigger asChild>
-                    <span className={`text-xs font-medium cursor-help whitespace-nowrap ${getStatusColor("pending")}`}>En attente</span>
+                    <span className={`px-2 py-1 rounded-full text-xs font-medium cursor-help whitespace-nowrap ${getStatusColor("pending")} bg-muted`}>En attente</span>
                   </TooltipTrigger>
                   <TooltipContent>
                     <p>Dossiers en attente d'informations complémentaires de votre part</p>
@@ -479,7 +479,7 @@ export default function AssuranceDashboard() {
               <TooltipProvider>
                 <Tooltip>
                   <TooltipTrigger asChild>
-                    <span className={`text-xs font-medium cursor-help whitespace-nowrap ${getStatusColor("processing")}`}>En cours</span>
+                    <span className={`px-2 py-1 rounded-full text-xs font-medium cursor-help whitespace-nowrap ${getStatusColor("processing")} bg-muted`}>En cours</span>
                   </TooltipTrigger>
                   <TooltipContent>
                     <p>Dossiers validés avec un relogement prêt ou en cours</p>
@@ -500,7 +500,7 @@ export default function AssuranceDashboard() {
               <TooltipProvider>
                 <Tooltip>
                   <TooltipTrigger asChild>
-                    <span className={`text-xs font-medium cursor-help whitespace-nowrap ${getStatusColor("completed")}`}>Terminés</span>
+                    <span className={`px-2 py-1 rounded-full text-xs font-medium cursor-help whitespace-nowrap ${getStatusColor("completed")} bg-muted`}>Terminés</span>
                   </TooltipTrigger>
                   <TooltipContent>
                     <p>Dossiers complètement finalisés avec relogement effectué</p>

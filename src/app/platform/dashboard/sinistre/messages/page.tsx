@@ -161,15 +161,12 @@ export default function SinistreMessagesPage() {
                 Dossier {mockUserCase.id}
               </h3>
               <div className="flex items-center gap-2 mt-1">
-                <div className="flex items-center gap-1">
-                  {getStatusIcon(mockUserCase.status)}
-                  <span className={`text-sm font-medium ${getStatusColor(mockUserCase.status)}`}>
-                    {mockUserCase.status === "initie" ? "Initié" : 
-                     mockUserCase.status === "processing" ? "En cours" : 
-                     mockUserCase.status === "completed" ? "Terminé" : 
-                     mockUserCase.status === "pending" ? "En attente" : "Annulé"}
-                  </span>
-                </div>
+                <span className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(mockUserCase.status)} bg-muted`}>
+                  {mockUserCase.status === "initie" ? "Initié" : 
+                   mockUserCase.status === "processing" ? "En cours" : 
+                   mockUserCase.status === "completed" ? "Terminé" : 
+                   mockUserCase.status === "pending" ? "En attente" : "Annulé"}
+                </span>
                 <span className="text-sm text-muted-foreground">
                   {mockUserCase.disasterAddress.city}, {mockUserCase.disasterAddress.canton}
                 </span>

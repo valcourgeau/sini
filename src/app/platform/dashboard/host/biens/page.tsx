@@ -181,10 +181,9 @@ export default function HostBiens() {
                   <h3 className="font-semibold text-lg">{property.name}</h3>
                   <p className="text-muted-foreground">{property.type}</p>
                 </div>
-                <div className={`flex items-center gap-2 ${getStatusColor(property.status)}`}>
-                  {getStatusIcon(property.status)}
-                  <span className="font-medium capitalize">{property.status}</span>
-                </div>
+                <span className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(property.status)} bg-muted`}>
+                  {property.status}
+                </span>
               </div>
 
               {/* Address */}

@@ -172,18 +172,15 @@ export default async function CaseDetailPage({ params }: PageProps) {
             <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4">
               <h1 className="text-2xl md:text-3xl font-bold text-primary">Dossier {currentCaseData.id}</h1>
               <div className="flex flex-wrap items-center gap-2">
-                <div className="flex items-center gap-2">
-                  {getStatusIcon(currentCaseData.status)}
-                  <span className={`text-sm md:text-base font-medium ${getStatusColor(currentCaseData.status)}`}>
-                    {currentCaseData.status === "initie" ? "Initié" : 
-                     currentCaseData.status === "processing" ? "En cours" : 
-                     currentCaseData.status === "completed" ? "Terminé" : 
-                     currentCaseData.status === "pending" ? "En attente" : "Annulé"}
-                  </span>
-                </div>
-                <Badge variant="outline" className={getPriorityColor(currentCaseData.priority)}>
+                <span className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(currentCaseData.status)} bg-muted`}>
+                  {currentCaseData.status === "initie" ? "Initié" : 
+                   currentCaseData.status === "processing" ? "En cours" : 
+                   currentCaseData.status === "completed" ? "Terminé" : 
+                   currentCaseData.status === "pending" ? "En attente" : "Annulé"}
+                </span>
+                <span className={`px-2 py-1 rounded-full text-xs font-medium ${getPriorityColor(currentCaseData.priority)}`}>
                   {currentCaseData.priority === "high" ? "Haute" : "Normale"}
-                </Badge>
+                </span>
               </div>
             </div>
           </div>

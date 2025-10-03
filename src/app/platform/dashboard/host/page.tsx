@@ -218,10 +218,9 @@ export default function HostDashboard() {
               
               <div className="flex items-center gap-4">
                 <div className="text-right">
-                  <div className={`flex items-center gap-2 ${getStatusColor(property.status)}`}>
-                    {getStatusIcon(property.status)}
-                    <span className="font-medium capitalize">{property.status}</span>
-                  </div>
+                  <span className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(property.status)} bg-muted`}>
+                    {property.status}
+                  </span>
                   {property.currentBooking && (
                     <p className="text-sm text-muted-foreground">
                       {property.currentBooking.revenue}

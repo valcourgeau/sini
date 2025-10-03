@@ -434,15 +434,12 @@ function MessagesContent() {
                                             };
                                             
                                             return (
-                                              <>
-                                                {getStatusIcon(caseData.status)}
-                                                <span className={`text-xs font-medium ${getStatusColor(caseData.status)}`}>
-                                                  {caseData.status === "initie" ? "Initié" : 
-                                                   caseData.status === "processing" ? "En cours" : 
-                                                   caseData.status === "completed" ? "Terminé" : 
-                                                   caseData.status === "pending" ? "En attente" : "Annulé"}
-                                                </span>
-                                              </>
+                                              <span className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(caseData.status)} bg-muted`}>
+                                                {caseData.status === "initie" ? "Initié" : 
+                                                 caseData.status === "processing" ? "En cours" : 
+                                                 caseData.status === "completed" ? "Terminé" : 
+                                                 caseData.status === "pending" ? "En attente" : "Annulé"}
+                                              </span>
                                             );
                                           })()}
                                         </div>
