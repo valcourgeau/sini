@@ -245,12 +245,12 @@ export default function AssuranceDashboard() {
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case "initie": return "text-gray-600";
-      case "processing": return "text-blue-600";
-      case "completed": return "text-green-600";
-      case "pending": return "text-yellow-600";
-      case "cancelled": return "text-red-600";
-      default: return "text-gray-600";
+      case "initie": return "bg-gray-100 text-gray-600";
+      case "processing": return "bg-blue-100 text-blue-600";
+      case "completed": return "bg-green-100 text-green-600";
+      case "pending": return "bg-yellow-100 text-yellow-800";
+      case "cancelled": return "bg-red-100 text-red-600";
+      default: return "bg-grey-100 text-gray-600";
     }
   };
 
@@ -432,12 +432,12 @@ export default function AssuranceDashboard() {
             </div>
             <Building2 className="h-10 w-10 text-black" />
           </div>
-          <div className="space-y-4">
+          <div className="space-y-2">
             <div className="flex justify-between items-center pt-3 border-t border-border">
               <TooltipProvider>
                 <Tooltip>
                   <TooltipTrigger asChild>
-                    <span className={`px-2 py-1 rounded-full text-xs font-medium cursor-help whitespace-nowrap ${getStatusColor("initie")} bg-muted`}>Initiés</span>
+                    <span className={`px-2 py-1 rounded-full text-xs font-medium cursor-help whitespace-nowrap ${getStatusColor("initie")}`}>Initiés</span>
                   </TooltipTrigger>
                   <TooltipContent>
                     <p>Dossiers créés nécessitant l'initialisation de la part de notre équipe</p>
@@ -458,7 +458,7 @@ export default function AssuranceDashboard() {
               <TooltipProvider>
                 <Tooltip>
                   <TooltipTrigger asChild>
-                    <span className={`px-2 py-1 rounded-full text-xs font-medium cursor-help whitespace-nowrap ${getStatusColor("pending")} bg-muted`}>En attente</span>
+                    <span className={`px-2 py-1 rounded-full text-xs font-medium cursor-help whitespace-nowrap ${getStatusColor("pending")}`}>En attente</span>
                   </TooltipTrigger>
                   <TooltipContent>
                     <p>Dossiers en attente d'informations complémentaires de votre part</p>
@@ -479,7 +479,7 @@ export default function AssuranceDashboard() {
               <TooltipProvider>
                 <Tooltip>
                   <TooltipTrigger asChild>
-                    <span className={`px-2 py-1 rounded-full text-xs font-medium cursor-help whitespace-nowrap ${getStatusColor("processing")} bg-muted`}>En cours</span>
+                    <span className={`px-2 py-1 rounded-full text-xs font-medium cursor-help whitespace-nowrap ${getStatusColor("processing")}`}>En cours</span>
                   </TooltipTrigger>
                   <TooltipContent>
                     <p>Dossiers validés avec un relogement prêt ou en cours</p>
@@ -500,7 +500,7 @@ export default function AssuranceDashboard() {
               <TooltipProvider>
                 <Tooltip>
                   <TooltipTrigger asChild>
-                    <span className={`px-2 py-1 rounded-full text-xs font-medium cursor-help whitespace-nowrap ${getStatusColor("completed")} bg-muted`}>Terminés</span>
+                    <span className={`px-2 py-1 rounded-full text-xs font-medium cursor-help whitespace-nowrap ${getStatusColor("completed")}`}>Terminés</span>
                   </TooltipTrigger>
                   <TooltipContent>
                     <p>Dossiers complètement finalisés avec relogement effectué</p>

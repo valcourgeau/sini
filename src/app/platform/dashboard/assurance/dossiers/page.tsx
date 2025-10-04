@@ -101,8 +101,8 @@ function AssuranceDossiersContent() {
     switch (status) {
       case "initie": return "bg-grey-100 text-gray-600";
       case "processing": return "bg-blue-100 text-blue-600";
-      case "completed": return "text-green-600";
-      case "pending": return "bg-yellow-100 text-yellow-600";
+      case "completed": return "bg-green-100 text-green-600";
+      case "pending": return "bg-yellow-100 text-yellow-800";
       case "cancelled": return "bg-red-100 text-red-600";
       default: return "bg-grey-100 text-gray-600";
     }
@@ -200,7 +200,7 @@ function AssuranceDossiersContent() {
                 setSearchTerm(e.target.value);
                 updateUrl(statusFilter, typeFilter, priorityFilter, e.target.value);
               }}
-              className="pl-10 w-64 bg-background border-0 shadow-none focus-visible:ring-0 flex items-center text-sm text-black placeholder:text-black"
+              className="pl-10 w-64 bg-background border-0 shadow-none focus-visible:ring-0 flex items-center text-sm text-black placeholder:text-black/30"
             />
           </div>
         </div>
@@ -330,7 +330,7 @@ function AssuranceDossiersContent() {
                   </span>
                   <div className="w-px h-4 bg-black/30"></div>
                   <span
-                    className={`items-center gap-1 px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(case_.status)} bg-muted`}
+                    className={`items-center gap-1 px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(case_.status)}`}
                   >
                     {case_.status === "initie"
                       ? "Initié"
