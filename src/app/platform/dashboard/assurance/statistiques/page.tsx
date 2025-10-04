@@ -62,13 +62,13 @@ export default function AssuranceStatistiquesPage() {
       <div className="flex items-center justify-between">
         <div>
           <Link href="/platform/dashboard/assurance">
-            <Button variant="outline" size="sm" className="mb-4">
+            <Button variant="outline" size="sm" className="mb-4 text-black">
               <ArrowLeft className="h-4 w-4 mr-2" />
-              Retour au tableau de bord
+              Retour
             </Button>
           </Link>
           <h1 className="text-3xl font-bold text-primary">Statistiques et analyses</h1>
-          <p className="text-muted-foreground mt-2">
+          <p className="text-black mt-2">
             Visualisez les performances, coûts et tendances de vos dossiers
           </p>
         </div>

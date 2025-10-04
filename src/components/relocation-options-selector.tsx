@@ -28,8 +28,8 @@ import {
   ChevronLeft,
   ChevronRight,
   X as CloseIcon,
-  AlertTriangle,
-  ArrowUp
+  ArrowUp,
+  Info
 } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -37,6 +37,7 @@ import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import { StarRating } from "@/components/ui/star-rating";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { RelocationData } from "@/types/relocation";
 import { getMatchingRelocationOptions, getRelocationOptionById } from "@/lib/data-loader";
 
@@ -96,6 +97,79 @@ export function RelocationOptionsSelector({
       case 'poor': return 'Limité';
       default: return 'Inconnu';
     }
+  };
+
+  const getCompatibilityIconColor = (level: string) => {
+    switch (level) {
+      case 'excellent': return 'text-green-600 hover:text-green-700';
+      case 'good': return 'text-blue-600 hover:text-blue-700';
+      case 'fair': return 'text-yellow-600 hover:text-yellow-700';
+      case 'poor': return 'text-red-600 hover:text-red-700';
+      default: return 'text-gray-600 hover:text-gray-700';
+    }
+  };
+
+  const getCompatibilityAdvantages = (option: any, caseData: RelocationData) => {
+    const primaryRequest = caseData.relocationRequests[0];
+    if (!primaryRequest) return [];
+
+    const advantages: string[] = [];
+
+    // Bedrooms advantage
+    if (option.propertyDetails.bedrooms >= primaryRequest.bedrooms) {
+      advantages.push(`✓ Chambres suffisantes (${option.propertyDetails.bedrooms} chambres)`);
+    }
+
+    // Accessibility advantage
+    if (!primaryRequest.hasAccessibilityNeeds || option.propertyAmenities.hasAccessibility) {
+      if (primaryRequest.hasAccessibilityNeeds) {
+        advantages.push('✓ Accessibilité PMR disponible');
+      }
+    }
+
+    // Parking advantage
+    if (!primaryRequest.needsParking || option.propertyAmenities.hasParking) {
+      if (primaryRequest.needsParking) {
+        advantages.push('✓ Parking disponible');
+      }
+    }
+
+    // Pet advantage
+    if (!primaryRequest.hasAnimals || option.propertyRules.petsAllowed) {
+      if (primaryRequest.hasAnimals) {
+        advantages.push('✓ Animaux autorisés');
+      }
+    }
+
+    // Guest capacity advantage
+    const totalGuests = primaryRequest.adults + primaryRequest.children;
+    if (option.propertyDetails.maxGuests >= totalGuests) {
+      advantages.push(`✓ Capacité suffisante (${option.propertyDetails.maxGuests} personnes)`);
+    }
+
+    // Availability advantage
+    const arrivalDate = new Date(primaryRequest.arrivalDate);
+    const propertyAvailableFrom = new Date(option.propertyAvailability.availableFrom);
+    const propertyAvailableTo = new Date(option.propertyAvailability.availableTo);
+
+    if (arrivalDate >= propertyAvailableFrom && arrivalDate <= propertyAvailableTo) {
+      advantages.push('✓ Disponible aux dates souhaitées');
+    }
+
+    // Stay duration advantage
+    if (primaryRequest.useExactDates && primaryRequest.departureDate) {
+      const departureDate = new Date(primaryRequest.departureDate);
+      const stayDuration = Math.ceil((departureDate.getTime() - arrivalDate.getTime()) / (1000 * 60 * 60 * 24));
+      
+      if (stayDuration >= option.propertyAvailability.minStay && 
+          stayDuration <= option.propertyAvailability.maxStay) {
+        advantages.push('✓ Durée de séjour compatible');
+      }
+    } else {
+      advantages.push('✓ Durée de séjour flexible');
+    }
+
+    return advantages;
   };
 
   const handleOptionSelect = (optionId: string) => {
@@ -168,16 +242,16 @@ export function RelocationOptionsSelector({
       </div>
 
       {/* Search and Filters */}
-      <div className="bg-muted/30 p-4 ">
+      <div className="bg-muted/30 p-4 text-black">
         <div className="flex items-center gap-4 text-black">
-          <div className="flex-1">
-            <div className="relative">
+          <div className="flex-1 text-black">
+            <div className="relative text-black">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-black" />
               <Input
                 placeholder="Rechercher par nom ou quartier..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-10"
+                className="pl-10 text-black placeholder:text-black focus-visible:ring-2 focus-visible:ring-primary focus-visible:border-primary"
               />
             </div>
           </div>
@@ -185,7 +259,7 @@ export function RelocationOptionsSelector({
           <select
             value={filterType}
             onChange={(e) => setFilterType(e.target.value)}
-            className="px-3 py-2 border rounded-md text-sm bg-background min-w-[140px]"
+            className="px-3 py-2 border rounded-md text-sm bg-background min-w-[140px] focus-visible:ring-2 focus-visible:ring-primary focus-visible:border-primary"
           >
             <option value="all">Tous les types</option>
             <option value="apartment">Appartements</option>
@@ -233,7 +307,7 @@ export function RelocationOptionsSelector({
                 <div className="flex-1 min-w-0">
                   <div className="flex items-start justify-between mb-3">
                     <div className="flex-1 min-w-0">
-                      <h3 className="font-semibold text-lg mb-1 line-clamp-1">
+                      <h3 className="font-semibold text-lg mb-1 line-clamp-1 text-primary">
                         {option.propertyDetails.title}
                       </h3>
                       <div className="flex items-center gap-2 text-black mb-2">
@@ -245,12 +319,34 @@ export function RelocationOptionsSelector({
                     </div>
                     
                     <div className="flex items-center gap-2 ml-4">
-                      <Badge 
-                        variant="outline" 
-                        className={cn("text-xs", getCompatibilityColor(option.compatibilityLevel))}
-                      >
-                        {getCompatibilityText(option.compatibilityLevel)} ({option.compatibilityPercentage}%)
-                      </Badge>
+                      <TooltipProvider>
+                        <Tooltip>
+                          <TooltipTrigger asChild>
+                            <Badge 
+                              variant="outline" 
+                              className={cn("text-xs cursor-help transition-all duration-200 hover:shadow-sm flex items-center gap-1", getCompatibilityColor(option.compatibilityLevel))}
+                            >
+                              {getCompatibilityText(option.compatibilityLevel)} ({option.compatibilityPercentage}%)
+                              <Info className={cn("h-3 w-3 transition-colors duration-200", getCompatibilityIconColor(option.compatibilityLevel))} />
+                            </Badge>
+                          </TooltipTrigger>
+                          <TooltipContent className="max-w-xs">
+                            <div className="space-y-2">
+                              <p className="font-semibold text-sm">
+                                Score de compatibilité: {option.compatibilityPercentage}%
+                              </p>
+                              <div className="space-y-1">
+                                <p className="text-xs font-medium text-muted-foreground">Avantages:</p>
+                                {getCompatibilityAdvantages(option, caseData).map((advantage, index) => (
+                                  <p key={index} className="text-xs text-green-700">
+                                    {advantage}
+                                  </p>
+                                ))}
+                              </div>
+                            </div>
+                          </TooltipContent>
+                        </Tooltip>
+                      </TooltipProvider>
                       {isSelected && (
                         <div className="bg-primary text-primary-foreground rounded-full p-1">
                           <Check className="h-4 w-4" />
@@ -260,8 +356,8 @@ export function RelocationOptionsSelector({
                   </div>
 
                   {/* Key Details Grid */}
-                  <div className="grid grid-cols-4 gap-4 mb-4">
-                    <div className="flex items-center gap-2">
+                  <div className="grid grid-cols-4 gap-4 mb-4 text-black">
+                    <div className="flex items-center gap-2 text-black">
                       <Bed className="h-4 w-4 text-black" />
                       <span className="text-sm">{option.propertyDetails.bedrooms} chambre{option.propertyDetails.bedrooms > 1 ? 's' : ''}</span>
                     </div>
@@ -317,28 +413,6 @@ export function RelocationOptionsSelector({
                   </p>
                 </div>
 
-                {/* Right Section - Compatibility Issues */}
-                {option.compatibilityIssues && option.compatibilityIssues.length > 0 && (
-                  <div className="w-64 p-4 bg-amber-50 border border-amber-200 rounded-lg flex-shrink-0">
-                    <h4 className="text-sm font-semibold text-amber-800 mb-3 flex items-center gap-2">
-                      <AlertTriangle className="h-4 w-4" />
-                      Incompatibilités détectées
-                    </h4>
-                    <ul className="text-xs text-amber-700 space-y-2">
-                      {option.compatibilityIssues.slice(0, 3).map((issue: string, index: number) => (
-                        <li key={index} className="flex items-start gap-2">
-                          <span className="text-amber-600 mt-0.5 font-bold">•</span>
-                          <span className="leading-relaxed">{issue}</span>
-                        </li>
-                      ))}
-                      {option.compatibilityIssues.length > 3 && (
-                        <li className="text-amber-600 text-xs font-medium pt-1 border-t border-amber-200">
-                          +{option.compatibilityIssues.length - 3} autre(s) problème(s)
-                        </li>
-                      )}
-                    </ul>
-                  </div>
-                )}
               </div>
             </Card>
           );

@@ -30,7 +30,8 @@ import {
   ArrowLeft,
   PawPrint,
   Bed,
-  Heart
+  Heart,
+  FileUp
 } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -162,7 +163,7 @@ export default async function CaseDetailPage({ params }: PageProps) {
       {/* Header with Navigation, Status, and Actions */}
       <div>
         <Link href="/platform/dashboard/assurance/dossiers">
-          <Button variant="outline" size="sm" className="mb-4">
+          <Button variant="outline" size="sm" className="mb- text-black">
             <ArrowLeft className="h-4 w-4 mr-2" />
             Retour
           </Button>
@@ -192,7 +193,7 @@ export default async function CaseDetailPage({ params }: PageProps) {
                   <Button 
                     variant="outline" 
                     size="sm" 
-                    className="flex items-center justify-center w-10 h-10 p-0"
+                    className="flex items-center justify-center w-10 h-10 p-0 text-primary"
                   >
                     <Edit className="h-4 w-4" />
                   </Button>
@@ -209,9 +210,9 @@ export default async function CaseDetailPage({ params }: PageProps) {
                   <Button 
                     variant="outline" 
                     size="sm" 
-                    className="flex items-center justify-center w-10 h-10 p-0"
+                    className="flex items-center justify-center w-10 h-10 p-0 text-primary"
                   >
-                    <Download className="h-4 w-4" />
+                    <FileUp className="h-4 w-4" />
                   </Button>
                 </TooltipTrigger>
                 <TooltipContent>
@@ -226,7 +227,7 @@ export default async function CaseDetailPage({ params }: PageProps) {
                   <Button 
                     variant="outline" 
                     size="sm" 
-                    className="flex items-center justify-center w-10 h-10 p-0"
+                    className="flex items-center justify-center w-10 h-10 p-0 text-primary"
                   >
                     <FileText className="h-4 w-4" />
                   </Button>

@@ -113,45 +113,45 @@ function PlatformLoginContent() {
           </p>
         </div>
 
-        <Card className="p-6 bg-background border-primary/20">
+        <Card className="p-6 bg-background border-primary/20 text-black">
           {!showRetrieveForm ? (
             <form onSubmit={handleLogin} className="space-y-4">
               <div>
-                <label htmlFor="email" className="block text-sm font-medium mb-2">
+                <label htmlFor="email" className="block text-sm font-medium mb-2 text-black">
                   Adresse email
                 </label>
-                <div className="relative">
-                  <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                <div className="relative text-black">
+                  <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-black" />
                   <Input
                     id="email"
                     type="email"
                     placeholder="votre@email.com"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    className="pl-10 border-primary/20 focus:border-primary"
+                    className="pl-10 border-primary/20 focus:border-primary text-black placeholder:text-black/30"
                     disabled={isLoading}
                   />
                 </div>
               </div>
 
               <div>
-                <label htmlFor="referenceNumber" className="block text-sm font-medium mb-2">
+                <label htmlFor="referenceNumber" className="block text-sm font-medium mb-2 text-black">
                   Numéro de référence
                 </label>
-                <div className="relative">
-                  <Hash className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                <div className="relative text-black">
+                  <Hash className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-black" />
                   <Input
                     id="referenceNumber"
                     type="text"
                     placeholder="Ex: S12345, A67890, H11111"
                     value={referenceNumber}
                     onChange={(e) => setReferenceNumber(e.target.value.toUpperCase())}
-                    className="pl-10 border-primary/20 focus:border-primary uppercase"
+                    className="pl-10 border-primary/20 focus:border-primary uppercase text-black placeholder:text-black/30"
                     maxLength={8}
                     disabled={isLoading}
                   />
                 </div>
-                <p className="text-xs text-muted-foreground mt-1">
+                <p className="text-xs mt-1 text-black/80">
                   Format: S (Sinistré), A (Assurance), H (Hôte) + 5 chiffres
                 </p>
               </div>
@@ -165,7 +165,7 @@ function PlatformLoginContent() {
 
               <Button
                 type="submit"
-                className="w-full bg-primary text-primary-foreground hover:bg-primary/90"
+                className="w-full bg-secondary text-secondary-foreground hover:bg-primary hover:text-primary-foreground transition-colors"
                 disabled={isLoading}
               >
                 {isLoading ? (

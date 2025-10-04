@@ -397,7 +397,7 @@ export default function AssuranceStatistics({
       </div>
 
       {/* Tab Navigation */}
-      <div className="flex flex-wrap gap-2 mb-6">
+      <div className="flex flex-wrap gap-2 mb-6 text-black">
         {[
           { key: "costs", label: "Coûts", icon: Coins },
           { key: "performance", label: "Performance", icon: Target },
@@ -424,8 +424,8 @@ export default function AssuranceStatistics({
           <Card className="p-6">
             <div className="flex items-center justify-between mb-4">
               <div>
-                <h3 className="text-lg font-semibold text-foreground">Coûts mensuels</h3>
-                <p className="text-sm text-muted-foreground">Évolution des coûts par mois</p>
+                <h3 className="text-lg font-semibold text-black">Coûts mensuels</h3>
+                <p className="text-sm text-black">Évolution des coûts par mois</p>
               </div>
               <BarChart3 className="h-6 w-6 text-primary" />
             </div>
@@ -457,8 +457,8 @@ export default function AssuranceStatistics({
           <Card className="p-6">
             <div className="flex items-center justify-between mb-4">
               <div>
-                <h3 className="text-lg font-semibold text-foreground">Coûts cumulés</h3>
-                <p className="text-sm text-muted-foreground">Progression des coûts totaux</p>
+                <h3 className="text-lg font-semibold text-black">Coûts cumulés</h3>
+                <p className="text-sm text-black">Progression des coûts totaux</p>
               </div>
               <TrendingUp className="h-6 w-6 text-primary" />
             </div>
@@ -497,8 +497,8 @@ export default function AssuranceStatistics({
           <Card className="p-6">
             <div className="flex items-center justify-between mb-4">
               <div>
-                <h3 className="text-lg font-semibold text-foreground">Répartition des statuts</h3>
-                <p className="text-sm text-muted-foreground">Distribution des dossiers par statut</p>
+                <h3 className="text-lg font-semibold text-black">Répartition des statuts</h3>
+                <p className="text-sm text-black">Distribution des dossiers par statut</p>
               </div>
               <PieChartIcon className="h-6 w-6 text-primary" />
             </div>
@@ -528,8 +528,8 @@ export default function AssuranceStatistics({
           <Card className="p-6">
             <div className="flex items-center justify-between mb-4">
               <div>
-                <h3 className="text-lg font-semibold text-foreground">Répartition par canton</h3>
-                <p className="text-sm text-muted-foreground">Distribution des dossiers par canton</p>
+                <h3 className="text-lg font-semibold text-black">Répartition par canton</h3>
+                <p className="text-sm text-black">Distribution des dossiers par canton</p>
               </div>
               <Building2 className="h-6 w-6 text-primary" />
             </div>
@@ -565,8 +565,8 @@ export default function AssuranceStatistics({
           <Card className="p-6">
             <div className="flex items-center justify-between mb-4">
               <div>
-                <h3 className="text-lg font-semibold text-foreground">Performance des agents</h3>
-                <p className="text-sm text-muted-foreground">Comparaison des performances par agent</p>
+                <h3 className="text-lg font-semibold text-black">Performance des agents</h3>
+                <p className="text-sm text-black">Comparaison des performances par agent</p>
               </div>
               <Users className="h-6 w-6 text-primary" />
             </div>
@@ -620,7 +620,7 @@ export default function AssuranceStatistics({
                 <div className="flex items-center justify-between mb-3">
                   <div>
                     <h4 className="font-semibold text-foreground">{agent.name}</h4>
-                    <p className="text-sm text-muted-foreground">{agent.canton}</p>
+                    <p className="text-sm text-black">{agent.canton}</p>
                   </div>
                   <div 
                     className="w-3 h-3 rounded-full"
@@ -630,35 +630,35 @@ export default function AssuranceStatistics({
                 
                 <div className="space-y-2">
                   <div className="flex justify-between items-center">
-                    <span className="text-xs text-muted-foreground">Coûts totaux</span>
+                    <span className="text-xs text-black">Coûts totaux</span>
                     <span className="text-sm font-medium text-green-600">
                       CHF {agent.totalCosts.toLocaleString()}
                     </span>
                   </div>
                   
                   <div className="flex justify-between items-center">
-                    <span className="text-xs text-muted-foreground">Dossiers</span>
+                    <span className="text-xs text-black">Dossiers</span>
                     <span className="text-sm font-medium">
                       {agent.completedCases}/{agent.totalCases}
                     </span>
                   </div>
                   
                   <div className="flex justify-between items-center">
-                    <span className="text-xs text-muted-foreground">Taux completion</span>
+                    <span className="text-xs text-black">Taux completion</span>
                     <span className="text-sm font-medium text-primary">
                       {agent.completionRate.toFixed(1)}%
                     </span>
                   </div>
                   
                   <div className="flex justify-between items-center">
-                    <span className="text-xs text-muted-foreground">Délai moyen</span>
+                    <span className="text-xs text-black">Délai moyen</span>
                     <span className="text-sm font-medium">
                       {agent.averageResponseTime.toFixed(1)} jours
                     </span>
                   </div>
                   
                   <div className="flex justify-between items-center">
-                    <span className="text-xs text-muted-foreground">Satisfaction</span>
+                    <span className="text-xs text-black">Satisfaction</span>
                     <div className="flex items-center gap-1">
                       <Star className="h-3 w-3 text-yellow-400 fill-current" />
                       <span className="text-sm font-medium">
@@ -680,8 +680,8 @@ export default function AssuranceStatistics({
           <Card className="p-6">
             <div className="flex items-center justify-between mb-4">
               <div>
-                <h3 className="text-lg font-semibold text-foreground">Évolution de la satisfaction</h3>
-                <p className="text-sm text-muted-foreground">Tendance de la satisfaction client</p>
+                <h3 className="text-lg font-semibold text-black">Évolution de la satisfaction</h3>
+                <p className="text-sm text-black">Tendance de la satisfaction client</p>
               </div>
               <Star className="h-6 w-6 text-primary" />
             </div>
@@ -716,8 +716,8 @@ export default function AssuranceStatistics({
           <Card className="p-6">
             <div className="flex items-center justify-between mb-4">
               <div>
-                <h3 className="text-lg font-semibold text-foreground">Délais de réponse</h3>
-                <p className="text-sm text-muted-foreground">Évolution des délais d'acceptation</p>
+                <h3 className="text-lg font-semibold text-black">Délais de réponse</h3>
+                <p className="text-sm text-black">Évolution des délais d'acceptation</p>
               </div>
               <Clock className="h-6 w-6 text-primary" />
             </div>

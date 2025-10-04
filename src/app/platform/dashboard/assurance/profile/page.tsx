@@ -58,7 +58,7 @@ export default function AssuranceProfilePage() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold text-primary">Profil Assurance</h1>
-          <p className="text-muted-foreground">Gérez vos informations de contact et préférences</p>
+          <p className="text-black">Gérez vos informations de contact et préférences</p>
         </div>
         <Button
           onClick={() => setIsEditing(!isEditing)}
@@ -68,44 +68,47 @@ export default function AssuranceProfilePage() {
         </Button>
       </div>
 
-      <div className="grid gap-6 md:grid-cols-2">
+      <div className="grid gap-6 md:grid-cols-2 text-black">
         {/* Company Information */}
         <Card>
           <CardHeader>
-            <CardTitle className="flex items-center gap-2">
+            <CardTitle className="flex items-center gap-2 text-black">
               <Building2 className="h-5 w-5" />
               Informations de l'entreprise
             </CardTitle>
-            <CardDescription>
+            <CardDescription className="text-black">
               Détails de votre compagnie d'assurance
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
-            <div className="space-y-2">
+            <div className="space-y-2 text-black">
               <Label htmlFor="companyName">Nom de l'entreprise</Label>
               <Input
                 id="companyName"
                 value={formData.companyName}
                 onChange={(e) => handleInputChange("companyName", e.target.value)}
                 disabled={!isEditing}
+                className="text-black"
               />
             </div>
-            <div className="space-y-2">
+            <div className="space-y-2 text-black">
               <Label htmlFor="contactPerson">Personne de contact</Label>
               <Input
                 id="contactPerson"
                 value={formData.contactPerson}
                 onChange={(e) => handleInputChange("contactPerson", e.target.value)}
                 disabled={!isEditing}
+                className="text-black"
               />
             </div>
-            <div className="space-y-2">
+            <div className="space-y-2 text-black">
               <Label htmlFor="licenseNumber">Numéro de licence</Label>
               <Input
                 id="licenseNumber"
                 value={formData.licenseNumber}
                 onChange={(e) => handleInputChange("licenseNumber", e.target.value)}
                 disabled={!isEditing}
+                className="text-black"
               />
             </div>
           </CardContent>
@@ -114,16 +117,16 @@ export default function AssuranceProfilePage() {
         {/* Contact Information */}
         <Card>
           <CardHeader>
-            <CardTitle className="flex items-center gap-2">
+            <CardTitle className="flex items-center gap-2 text-black">
               <User className="h-5 w-5" />
               Informations de contact
             </CardTitle>
-            <CardDescription>
+            <CardDescription className="text-black">
               Vos coordonnées principales
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
-            <div className="space-y-2">
+            <div className="space-y-2 text-black">
               <Label htmlFor="email">Email</Label>
               <Input
                 id="email"
@@ -131,43 +134,48 @@ export default function AssuranceProfilePage() {
                 value={formData.email}
                 onChange={(e) => handleInputChange("email", e.target.value)}
                 disabled={!isEditing}
+                className="text-black"
               />
             </div>
-            <div className="space-y-2">
+            <div className="space-y-2 text-black">
               <Label htmlFor="phone">Téléphone</Label>
               <Input
                 id="phone"
                 value={formData.phone}
                 onChange={(e) => handleInputChange("phone", e.target.value)}
                 disabled={!isEditing}
+                className="text-black"
               />
             </div>
-            <div className="space-y-2">
+            <div className="space-y-2 text-black">
               <Label htmlFor="address">Adresse</Label>
               <Input
                 id="address"
                 value={formData.address}
                 onChange={(e) => handleInputChange("address", e.target.value)}
                 disabled={!isEditing}
+                className="text-black"
               />
             </div>
             <div className="grid grid-cols-2 gap-4">
-              <div className="space-y-2">
+              <div className="space-y-2 text-black">
                 <Label htmlFor="city">Ville</Label>
                 <Input
                   id="city"
                   value={formData.city}
                   onChange={(e) => handleInputChange("city", e.target.value)}
                   disabled={!isEditing}
+                  className="text-black"
                 />
               </div>
-              <div className="space-y-2">
+              <div className="space-y-2 text-black">
                 <Label htmlFor="postalCode">Code postal</Label>
                 <Input
                   id="postalCode"
                   value={formData.postalCode}
                   onChange={(e) => handleInputChange("postalCode", e.target.value)}
                   disabled={!isEditing}
+                  className="text-black"
                 />
               </div>
             </div>
@@ -177,15 +185,14 @@ export default function AssuranceProfilePage() {
         {/* Specialties */}
         <Card>
           <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Shield className="h-5 w-5" />
+            <CardTitle className="flex items-center gap-2 text-black">
               Spécialités
             </CardTitle>
-            <CardDescription>
+            <CardDescription className="text-black">
               Types d'assurance que vous proposez
             </CardDescription>
           </CardHeader>
-          <CardContent>
+          <CardContent className="space-y-4">
             <div className="flex flex-wrap gap-2">
               {formData.specialties.map((specialty, index) => (
                 <span
@@ -202,24 +209,24 @@ export default function AssuranceProfilePage() {
         {/* Account Information */}
         <Card>
           <CardHeader>
-            <CardTitle>Informations du compte</CardTitle>
-            <CardDescription>
+            <CardTitle className="text-black">Informations du compte</CardTitle>
+            <CardDescription className="text-black">
               Détails de votre compte
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="flex justify-between items-center">
-              <span className="text-sm text-muted-foreground">Membre depuis</span>
-              <span className="text-sm font-medium">
+              <span className="text-sm text-black">Membre depuis</span>
+              <span className="text-sm font-medium text-black">
                 {new Date(formData.memberSince).toLocaleDateString('fr-FR')}
               </span>
             </div>
             <div className="flex justify-between items-center">
-              <span className="text-sm text-muted-foreground">Type de compte</span>
-              <span className="text-sm font-medium">Assurance</span>
+              <span className="text-sm text-black">Type de compte</span>
+              <span className="text-sm font-medium text-black">Assurance</span>
             </div>
             <div className="flex justify-between items-center">
-              <span className="text-sm text-muted-foreground">Statut</span>
+              <span className="text-sm text-black">Statut</span>
               <span className="inline-flex items-center px-2 py-1 rounded-full text-xs bg-green-100 text-green-800">
                 Actif
               </span>
