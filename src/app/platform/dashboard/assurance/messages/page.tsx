@@ -276,7 +276,7 @@ function MessagesContent() {
   );
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 pb-12">
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
@@ -296,7 +296,7 @@ function MessagesContent() {
 
 
       {/* Main Chat Interface */}
-      <div className="grid lg:grid-cols-3 gap-6 h-[calc(100vh-300px)]">
+      <div className="grid lg:grid-cols-3 gap-6">
         {/* Conversations List */}
         <div className="lg:col-span-1 space-y-4">
           {/* Search */}
@@ -373,7 +373,7 @@ function MessagesContent() {
             <div className="p-4 border-b border-border">
               <h3 className="font-semibold text-primary">Conversations récentes</h3>
             </div>
-            <div className="overflow-y-auto h-[calc(100vh-400px)]">
+            <div className="overflow-y-auto h-[calc(100vh-300px)] min-h-[300px]">
               {filteredConversations.map((conversation) => (
                 <div
                   key={conversation.id}
@@ -476,7 +476,7 @@ function MessagesContent() {
 
         {/* Chat Area */}
         <div className="lg:col-span-2">
-          <Card className="h-full flex flex-col">
+          <Card className="flex flex-col chat-area" style={{ minHeight: '400px' }}>
             {selectedConversation ? (
               <>
                 {/* Chat Header */}
@@ -600,7 +600,7 @@ function MessagesContent() {
 // Loading component for Suspense fallback
 function MessagesLoading() {
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 pb-12">
       <div className="flex items-center justify-between">
         <div>
           <Button variant="outline" size="sm" className="mb-4" disabled>
@@ -610,7 +610,7 @@ function MessagesLoading() {
           <h1 className="text-3xl font-bold text-primary">Messages</h1>
         </div>
       </div>
-      <div className="grid lg:grid-cols-3 gap-6 h-[calc(100vh-300px)]">
+      <div className="grid lg:grid-cols-3 gap-6">
         <div className="lg:col-span-1 space-y-4">
           <div className="relative">
             <Input placeholder="Chargement..." disabled className="pl-10" />

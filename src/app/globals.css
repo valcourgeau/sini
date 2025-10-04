@@ -312,4 +312,25 @@
     border: 1px solid hsl(215 28% 25% / 0.1);
     box-shadow: 0 8px 32px hsl(215 28% 25% / 0.1);
   }
+
+  /* Footer positioning utilities */
+  .min-h-screen-footer {
+    min-height: calc(100vh - 200px); /* Account for header and footer heights */
+  }
+
+  /* Ensure proper spacing for platform pages */
+  .platform-content {
+    min-height: calc(100vh - 200px);
+    padding-bottom: 2rem;
+  }
+
+  /* Ensure chat area is always accessible */
+  .chat-area {
+    min-height: 400px;
+  }
+
+  /* Messages area should expand naturally */
+  .messages-area {
+    min-height: 400px;
+  }
 } 

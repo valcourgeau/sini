@@ -88,7 +88,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
   const navigationItems = getNavigationItems();
 
   return (
-    <div className="flex bg-secondary">
+    <div className="flex min-h-screen bg-secondary">
       {/* Mobile sidebar overlay */}
       {isSidebarOpen && (
         <div 
@@ -191,7 +191,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
       </aside>
 
       {/* Main content */}
-      <div className="flex-1 min-w-0">
+      <div className="flex-1 min-w-0 flex flex-col">
         {/* Top bar for mobile */}
         <header className="lg:hidden bg-background border-b border-primary/20 p-4 sticky top-16 z-20 flex items-center justify-between h-16">
             <div className="flex items-center gap-2">
@@ -208,7 +208,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
         </header>
 
         {/* Page content */}
-        <main className="p-6">
+        <main className="flex-1 p-6 pb-12">
           {children}
         </main>
       </div>

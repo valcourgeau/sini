@@ -178,7 +178,7 @@ function AssuranceDossiersContent() {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 pb-8">
       {/* Header */}
       <div>
         <h1 className="text-3xl font-bold text-black">Dossiers de relogement</h1>

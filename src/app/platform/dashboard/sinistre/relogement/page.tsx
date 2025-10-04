@@ -97,11 +97,11 @@ export default function SinistreRelogement() {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 pb-8">
       {/* Header */}
       <div>
         <h1 className="text-3xl font-bold">Mon relogement</h1>
-        <p className="text-muted-foreground mt-2">
+        <p className="text-black mt-2">
           Détails de votre relogement temporaire
         </p>
       </div>
@@ -111,7 +111,7 @@ export default function SinistreRelogement() {
         <div className="flex items-center justify-between mb-4">
           <div>
             <h2 className="text-xl font-semibold">État du relogement</h2>
-            <p className="text-sm text-muted-foreground">ID: {relocation.id}</p>
+            <p className="text-sm text-black">ID: {relocation.id}</p>
           </div>
           <span className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(relocation.status)}`}>
             {relocation.status.replace('_', ' ')}
@@ -138,7 +138,7 @@ export default function SinistreRelogement() {
               <Home className="h-5 w-5 text-primary mt-0.5" />
               <div>
                 <p className="font-medium">Adresse</p>
-                <p className="text-muted-foreground">{relocation.address}</p>
+                <p className="text-black">{relocation.address}</p>
               </div>
             </div>
             
@@ -146,7 +146,7 @@ export default function SinistreRelogement() {
               <Building2 className="h-5 w-5 text-primary mt-0.5" />
               <div>
                 <p className="font-medium">Type de logement</p>
-                <p className="text-muted-foreground">{relocation.propertyType}</p>
+                <p className="text-black">{relocation.propertyType}</p>
               </div>
             </div>
             
@@ -154,7 +154,7 @@ export default function SinistreRelogement() {
               <Calendar className="h-5 w-5 text-primary mt-0.5" />
               <div>
                 <p className="font-medium">Période</p>
-                <p className="text-muted-foreground">
+                <p className="text-black">
                   Du {relocation.startDate} au {relocation.endDate}
                 </p>
               </div>
@@ -166,17 +166,17 @@ export default function SinistreRelogement() {
               <User className="h-5 w-5 text-primary mt-0.5" />
               <div>
                 <p className="font-medium">Contact principal</p>
-                <p className="text-muted-foreground">{relocation.contactPerson}</p>
+                <p className="text-black">{relocation.contactPerson}</p>
               </div>
             </div>
             
             <div className="space-y-2">
               <div className="flex items-center gap-2">
-                <Phone className="h-4 w-4 text-muted-foreground" />
+                <Phone className="h-4 w-4 text-black" />
                 <span className="text-sm">{relocation.phone}</span>
               </div>
               <div className="flex items-center gap-2">
-                <Mail className="h-4 w-4 text-muted-foreground" />
+                <Mail className="h-4 w-4 text-black" />
                 <span className="text-sm">{relocation.email}</span>
               </div>
             </div>
@@ -211,9 +211,9 @@ export default function SinistreRelogement() {
               <div className="flex-1">
                 <div className="flex items-center justify-between">
                   <h3 className="font-medium">{item.step}</h3>
-                  <span className="text-sm text-muted-foreground">{item.date}</span>
+                  <span className="text-sm text-black">{item.date}</span>
                 </div>
-                <p className="text-sm text-muted-foreground mt-1">{item.description}</p>
+                <p className="text-sm text-black mt-1">{item.description}</p>
               </div>
             </div>
           ))}
@@ -236,7 +236,7 @@ export default function SinistreRelogement() {
                 <FileText className="h-5 w-5 text-primary" />
                 <div>
                   <p className="font-medium">{doc.name}</p>
-                  <p className="text-sm text-muted-foreground">
+                  <p className="text-sm text-black">
                     {doc.required ? "Document requis" : "Document informatif"}
                   </p>
                 </div>
@@ -259,11 +259,11 @@ export default function SinistreRelogement() {
         <h2 className="text-xl font-semibold mb-4">Informations assurance</h2>
         <div className="grid md:grid-cols-2 gap-4">
           <div>
-            <p className="text-sm text-muted-foreground">Assurance</p>
+            <p className="text-sm text-black">Assurance</p>
             <p className="font-medium">{relocation.insurance}</p>
           </div>
           <div>
-            <p className="text-sm text-muted-foreground">Numéro de dossier</p>
+            <p className="text-sm text-black">Numéro de dossier</p>
             <p className="font-medium">{relocation.caseNumber}</p>
           </div>
         </div>

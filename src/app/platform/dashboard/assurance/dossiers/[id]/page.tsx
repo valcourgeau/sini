@@ -159,11 +159,11 @@ export default async function CaseDetailPage({ params }: PageProps) {
   const needsOptions = needsRelocationOptions(currentCaseData);
 
   return (
-    <div className="space-y-4 md:space-y-6">
+    <div className="space-y-4 md:space-y-6 pb-8">
       {/* Header with Navigation, Status, and Actions */}
       <div>
         <Link href="/platform/dashboard/assurance/dossiers">
-          <Button variant="outline" size="sm" className="mb- text-black">
+          <Button variant="outline" size="sm" className="mb-6 text-black">
             <ArrowLeft className="h-4 w-4 mr-2" />
             Retour
           </Button>

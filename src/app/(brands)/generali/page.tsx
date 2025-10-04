@@ -137,7 +137,7 @@ export default function GeneraliHomePage() {
             <div className="space-y-6 md:space-y-8">
               <div>
                 <h2 className="text-4xl md:text-5xl font-bold mb-4 md:mb-6 text-primary">Sinistrés</h2>
-                <p className="text-lg md:text-xl text-muted-foreground mb-6 md:mb-8">
+                <p className="text-lg md:text-xl text-black mb-6 md:mb-8">
                   Votre partenaire de confiance pour un relogement rapide et serein
                 </p>
               </div>
@@ -147,7 +147,7 @@ export default function GeneraliHomePage() {
                   <Timer className="h-6 w-6 text-primary mt-1 flex-shrink-0" />
                   <div>
                     <h3 className="text-lg md:text-xl font-bold mb-2 text-primary">Rapidité de relogement</h3>
-                    <p className="text-muted-foreground">
+                    <p className="text-black">
                       Une solution d'hébergement temporaire adaptée visant à proposer un relogement dans les 24-48 heures.
                     </p>
                   </div>
@@ -157,7 +157,7 @@ export default function GeneraliHomePage() {
                   <Home className="h-6 w-6 text-primary mt-1 flex-shrink-0" />
                   <div>
                     <h3 className="text-lg md:text-xl font-bold mb-2 text-primary">Logements adaptés</h3>
-                    <p className="text-muted-foreground">
+                    <p className="text-black">
                       Profiter de notre réseau d'habitations (meublés, équipés et proches de votre lieu de vie actuel).
                     </p>
                   </div>
@@ -167,16 +167,16 @@ export default function GeneraliHomePage() {
                   <UserRound className="h-6 w-6 text-primary mt-1 flex-shrink-0" />
                   <div>
                     <h3 className="text-lg md:text-xl font-bold mb-2 text-primary">Accompagnement personnalisé</h3>
-                    <p className="text-muted-foreground">
+                    <p className="text-black">
                       Un interlocuteur unique qui facilite vos démarches.
                     </p>
-                    <ul className="text-muted-foreground mt-3 space-y-1 ml-4">
+                    <ul className="text-black mt-3 space-y-1 ml-4">
                       <li className="flex items-center gap-2">
-                        <span className="w-1.5 h-1.5 bg-primary rounded-full"></span>
+                        <span className="w-1.5 h-1.5 bg-black rounded-full"></span>
                         Clarté des coûts de la prise en charge de votre assurance.
                       </li>
                       <li className="flex items-center gap-2">
-                        <span className="w-1.5 h-1.5 bg-primary rounded-full"></span>
+                        <span className="w-1.5 h-1.5 bg-black rounded-full"></span>
                         Assure le suivi auprès de votre assurance et des autres intervenants.
                       </li>
                     </ul>
@@ -224,7 +224,7 @@ export default function GeneraliHomePage() {
       {/* Third Section - Generali Red Background with Diagonal Separation */}
       <section id="assurances" className="relative bg-secondary min-h-[calc(100vh-4rem)] flex items-center justify-center scroll-mt-16 overflow-hidden py-12 md:py-16">
         {/* Diagonal Red Background */}
-        <div className="absolute inset-0 bg-generali-red" style={{
+        <div className="absolute inset-0 bg-primary" style={{
           clipPath: 'polygon(0 0, 80% 0, 60% 100%, 0% 100%)'
         }}></div>
         
@@ -332,7 +332,7 @@ export default function GeneraliHomePage() {
             <div className="space-y-6 md:space-y-8">
               <div>
                 <h2 className="text-4xl md:text-5xl font-bold mb-4 md:mb-6 text-primary">Hôtes</h2>
-                <p className="text-lg md:text-xl text-muted-foreground mb-6 md:mb-8">
+                <p className="text-lg md:text-xl text-black mb-6 md:mb-8">
                   Une opportunité simple et sécurisée de proposer votre logement à notre réseau de sinistrés et assurances.
                 </p>
               </div>
@@ -342,7 +342,7 @@ export default function GeneraliHomePage() {
                   <HandCoins className="h-6 w-6 text-primary mt-1 flex-shrink-0" />
                   <div>
                     <h3 className="text-lg md:text-xl font-bold mb-2 text-primary">Maximiser vos revenus</h3>
-                    <p className="text-muted-foreground">
+                    <p className="text-black">
                       Optimiser vos rendements et élargisser votre clientèle en rejoignant le réseau partenaire des assurances.
                     </p>
                   </div>
@@ -352,7 +352,7 @@ export default function GeneraliHomePage() {
                   <Calendar className="h-6 w-6 text-primary mt-1 flex-shrink-0" />
                   <div>
                     <h3 className="text-lg md:text-xl font-bold mb-2 text-primary">Gestion centralisée de vos annonces</h3>
-                    <p className="text-muted-foreground">
+                    <p className="text-black">
                       Un calendrier multi-plateforme pour la gestion et les réservations de vos biens.
                     </p>
                   </div>
@@ -362,7 +362,7 @@ export default function GeneraliHomePage() {
                   <Shield className="h-6 w-6 text-primary mt-1 flex-shrink-0" />
                   <div>
                     <h3 className="text-lg md:text-xl font-bold mb-2 text-primary">Protéger votre bien</h3>
-                    <p className="text-muted-foreground">
+                    <p className="text-black">
                       Chaque sejour est encadré avec des sinistrés verifiés et garanties pour preserver l'integrité de votre logement.
                     </p>
                   </div>
