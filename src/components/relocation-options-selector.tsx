@@ -137,7 +137,7 @@ export function RelocationOptionsSelector({
       {/* Header */}
       <div className="border-b pb-6">
         <div className="flex items-center justify-between">
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-4 text-black">
             <Button variant="ghost" size="sm" onClick={onCancel}>
               <ArrowUp className="h-4 w-4 mr-2" />
               Fermer
@@ -145,14 +145,14 @@ export function RelocationOptionsSelector({
             <div className="w-px h-6 bg-border"></div>
             <div>
               <h2 className="text-xl font-semibold">Options de relogement</h2>
-              <p className="text-sm text-muted-foreground">
+              <p className="text-sm text-black">
                 Sélectionnez au moins 3 options qui correspondent aux besoins du client
               </p>
             </div>
           </div>
           
           <div className="flex items-center gap-4">
-            <div className="text-sm text-muted-foreground">
+            <div className="text-sm text-black">
               {selectedOptions.length}/3 sélectionné{selectedOptions.length > 1 ? 's' : ''}
             </div>
             <Button 
@@ -168,11 +168,11 @@ export function RelocationOptionsSelector({
       </div>
 
       {/* Search and Filters */}
-      <div className="bg-muted/30 p-4">
-        <div className="flex items-center gap-4">
+      <div className="bg-muted/30 p-4 ">
+        <div className="flex items-center gap-4 text-black">
           <div className="flex-1">
             <div className="relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-black" />
               <Input
                 placeholder="Rechercher par nom ou quartier..."
                 value={searchTerm}
@@ -196,7 +196,7 @@ export function RelocationOptionsSelector({
       </div>
 
       {/* Progress Indicator */}
-      <div className="flex items-center justify-between text-sm text-muted-foreground">
+      <div className="flex items-center justify-between text-sm text-black">
         <span>
           {filteredOptions.length} option{filteredOptions.length > 1 ? 's' : ''} trouvée{filteredOptions.length > 1 ? 's' : ''}
           {searchTerm && ` pour "${searchTerm}"`}
@@ -226,7 +226,7 @@ export function RelocationOptionsSelector({
               <div className="flex gap-6">
                 {/* Left Section - Image Placeholder */}
                 <div className="w-48 h-32 bg-muted rounded-lg flex items-center justify-center flex-shrink-0">
-                  <Home className="h-8 w-8 text-muted-foreground" />
+                  <Home className="h-8 w-8 text-black" />
                 </div>
 
                 {/* Center Section - Main Info */}
@@ -236,7 +236,7 @@ export function RelocationOptionsSelector({
                       <h3 className="font-semibold text-lg mb-1 line-clamp-1">
                         {option.propertyDetails.title}
                       </h3>
-                      <div className="flex items-center gap-2 text-muted-foreground mb-2">
+                      <div className="flex items-center gap-2 text-black mb-2">
                         <MapPin className="h-4 w-4" />
                         <span className="text-sm">
                           {option.propertyLocation.neighborhood}, {option.propertyLocation.city}
@@ -262,19 +262,19 @@ export function RelocationOptionsSelector({
                   {/* Key Details Grid */}
                   <div className="grid grid-cols-4 gap-4 mb-4">
                     <div className="flex items-center gap-2">
-                      <Bed className="h-4 w-4 text-muted-foreground" />
+                      <Bed className="h-4 w-4 text-black" />
                       <span className="text-sm">{option.propertyDetails.bedrooms} chambre{option.propertyDetails.bedrooms > 1 ? 's' : ''}</span>
                     </div>
                     <div className="flex items-center gap-2">
-                      <Users className="h-4 w-4 text-muted-foreground" />
+                      <Users className="h-4 w-4 text-black" />
                       <span className="text-sm">Max {option.propertyDetails.maxGuests} pers.</span>
                     </div>
                     <div className="flex items-center gap-2">
-                      <Calendar className="h-4 w-4 text-muted-foreground" />
+                      <Calendar className="h-4 w-4 text-black" />
                       <span className="text-sm">{formatDate(option.propertyAvailability.availableFrom)}</span>
                     </div>
                     <div className="flex items-center gap-2">
-                      <Wallet className="h-4 w-4 text-muted-foreground" />
+                      <Wallet className="h-4 w-4 text-black" />
                       <span className="text-sm font-medium">CHF {option.propertyPricing.prices.month}/mois</span>
                     </div>
                   </div>
@@ -305,14 +305,14 @@ export function RelocationOptionsSelector({
                   {option.rating && (
                     <div className="flex items-center gap-2 mb-3">
                       <StarRating rating={option.rating.average} />
-                      <span className="text-sm text-muted-foreground">
+                      <span className="text-sm text-black">
                         {option.rating.average}/5 ({option.rating.count} avis)
                       </span>
                     </div>
                   )}
 
                   {/* Description */}
-                  <p className="text-sm text-muted-foreground line-clamp-2">
+                  <p className="text-sm text-black line-clamp-2">
                     {option.propertyDetails.description}
                   </p>
                 </div>
@@ -348,9 +348,9 @@ export function RelocationOptionsSelector({
       {/* No Results */}
       {filteredOptions.length === 0 && (
         <div className="text-center py-12">
-          <Home className="h-16 w-16 text-muted-foreground mx-auto mb-4" />
+          <Home className="h-16 w-16 text-black mx-auto mb-4" />
           <h3 className="text-xl font-semibold mb-2">Aucune option trouvée</h3>
-          <p className="text-muted-foreground">
+          <p className="text-black">
             Aucune option de relogement ne correspond à vos critères de recherche.
           </p>
         </div>

@@ -99,14 +99,14 @@ export function SelectedRelocationDetail({ caseData }: SelectedRelocationDetailP
         <div className="flex items-center justify-center w-8 h-8 bg-green-100 rounded-lg">
           <Home className="h-5 w-5 text-green-600" />
         </div>
-        <h3 className="text-lg font-semibold text-foreground">
+        <h3 className="text-lg font-semibold text-black">
           {hasRelocationOptions ? "Options de relogement sélectionnées" : "Option de relogement sélectionnée"}
         </h3>
       </div>
 
       {/* Single Relocation Option */}
       {hasRelocationOption && (
-        <Card className="p-6 border-2 border-primary/20">
+        <Card className="p-6 border-2 border-primary/20 text-black">
           {/* Status and Property Type */}
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-2">
@@ -126,7 +126,7 @@ export function SelectedRelocationDetail({ caseData }: SelectedRelocationDetailP
           </h4>
 
           {/* Location */}
-          <div className="flex items-center gap-2 text-muted-foreground mb-3">
+          <div className="flex items-center gap-2 text-black mb-3">
             <MapPin className="h-4 w-4" />
             <span className="text-sm">
               {caseData.relocationOption.propertyLocation.street}, {caseData.relocationOption.propertyLocation.city}
@@ -136,19 +136,19 @@ export function SelectedRelocationDetail({ caseData }: SelectedRelocationDetailP
           {/* Key Details */}
           <div className="grid grid-cols-2 gap-3 mb-4">
             <div className="flex items-center gap-2">
-              <Bed className="h-4 w-4 text-muted-foreground" />
+              <Bed className="h-4 w-4 text-black" />
               <span className="text-sm">{caseData.relocationOption.propertyDetails.bedrooms} chambre{caseData.relocationOption.propertyDetails.bedrooms > 1 ? 's' : ''}</span>
             </div>
             <div className="flex items-center gap-2">
-              <Users className="h-4 w-4 text-muted-foreground" />
+              <Users className="h-4 w-4 text-black" />
               <span className="text-sm">Max {caseData.relocationOption.propertyDetails.maxGuests} pers.</span>
             </div>
             <div className="flex items-center gap-2">
-              <Calendar className="h-4 w-4 text-muted-foreground" />
+              <Calendar className="h-4 w-4 text-black" />
               <span className="text-sm">Sélectionné le {formatDate(caseData.relocationOption.selectedAt)}</span>
             </div>
             <div className="flex items-center gap-2">
-              <Wallet className="h-4 w-4 text-muted-foreground" />
+              <Wallet className="h-4 w-4 text-black" />
               <span className="text-sm font-medium">CHF {caseData.relocationOption.propertyPricing.prices.month}/mois</span>
             </div>
           </div>
@@ -156,25 +156,25 @@ export function SelectedRelocationDetail({ caseData }: SelectedRelocationDetailP
           {/* Special Features */}
           <div className="flex flex-wrap gap-2 mb-4">
             {caseData.relocationOption.propertyAmenities.hasAccessibility && (
-              <Badge variant="outline" className="text-xs">
+              <Badge variant="outline" className="text-xs text-primary">
                 <Accessibility className="h-3 w-3 mr-1" />
                 PMR
               </Badge>
             )}
             {caseData.relocationOption.propertyAmenities.hasParking && (
-              <Badge variant="outline" className="text-xs">
+              <Badge variant="outline" className="text-xs text-primary">
                 <Car className="h-3 w-3 mr-1" />
                 Parking
               </Badge>
             )}
             {caseData.relocationOption.propertyAmenities.hasGarden && (
-              <Badge variant="outline" className="text-xs">
+              <Badge variant="outline" className="text-xs text-primary">
                 <Home className="h-3 w-3 mr-1" />
                 Jardin
               </Badge>
             )}
             {caseData.relocationOption.propertyAmenities.hasBalcony && (
-              <Badge variant="outline" className="text-xs">
+              <Badge variant="outline" className="text-xs text-primary">
                 <Home className="h-3 w-3 mr-1" />
                 Balcon
               </Badge>
@@ -189,7 +189,7 @@ export function SelectedRelocationDetail({ caseData }: SelectedRelocationDetailP
                 CHF {caseData.relocationOption.propertyPricing.prices.month}
               </span>
             </div>
-            <p className="text-xs text-muted-foreground mt-1">
+            <p className="text-xs text-black mt-1">
               Factures incluses • Caution: CHF {caseData.relocationOption.propertyPricing.securityDeposit}
             </p>
           </div>
@@ -223,7 +223,7 @@ export function SelectedRelocationDetail({ caseData }: SelectedRelocationDetailP
               </h4>
 
               {/* Location */}
-              <div className="flex items-center gap-2 text-muted-foreground mb-3">
+              <div className="flex items-center gap-2 text-black mb-3">
                 <MapPin className="h-4 w-4" />
                 <span className="text-sm">
                   {option.propertyLocation.street}, {option.propertyLocation.city}
@@ -233,19 +233,19 @@ export function SelectedRelocationDetail({ caseData }: SelectedRelocationDetailP
               {/* Key Details */}
               <div className="grid grid-cols-2 gap-3 mb-4">
                 <div className="flex items-center gap-2">
-                  <Bed className="h-4 w-4 text-muted-foreground" />
+                  <Bed className="h-4 w-4 text-black" />
                   <span className="text-sm">{option.propertyDetails.bedrooms} chambre{option.propertyDetails.bedrooms > 1 ? 's' : ''}</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Users className="h-4 w-4 text-muted-foreground" />
+                  <Users className="h-4 w-4 text-black" />
                   <span className="text-sm">Max {option.propertyDetails.maxGuests} pers.</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Calendar className="h-4 w-4 text-muted-foreground" />
+                  <Calendar className="h-4 w-4 text-black" />
                   <span className="text-sm">Sélectionné le {formatDate(option.selectedAt)}</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Wallet className="h-4 w-4 text-muted-foreground" />
+                  <Wallet className="h-4 w-4 text-black" />
                   <span className="text-sm font-medium">CHF {option.propertyPricing.prices.month}/mois</span>
                 </div>
               </div>
@@ -286,7 +286,7 @@ export function SelectedRelocationDetail({ caseData }: SelectedRelocationDetailP
                     CHF {option.propertyPricing.prices.month}
                   </span>
                 </div>
-                <p className="text-xs text-muted-foreground mt-1">
+                <p className="text-xs text-black mt-1">
                   Factures incluses • Caution: CHF {option.propertyPricing.securityDeposit}
                 </p>
               </div>
@@ -301,7 +301,7 @@ export function SelectedRelocationDetail({ caseData }: SelectedRelocationDetailP
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm font-medium text-primary">Résumé des options</p>
-              <p className="text-xs text-muted-foreground">
+              <p className="text-xs text-black">
                 {caseData.relocationOptions.length} option{caseData.relocationOptions.length > 1 ? 's' : ''} sélectionnée{caseData.relocationOptions.length > 1 ? 's' : ''}
               </p>
             </div>

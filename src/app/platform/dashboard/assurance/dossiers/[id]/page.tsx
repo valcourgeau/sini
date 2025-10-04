@@ -78,9 +78,9 @@ export default async function CaseDetailPage({ params }: PageProps) {
     return (
       <div className="flex items-center justify-center min-h-[400px]">
         <div className="text-center">
-          <AlertTriangle className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-          <h2 className="text-xl font-semibold text-foreground mb-2">Dossier non trouvé</h2>
-          <p className="text-muted-foreground mb-4">Le dossier {caseId} n'existe pas.</p>
+          <AlertTriangle className="h-12 w-12 text-black mx-auto mb-4" />
+          <h2 className="text-xl font-semibold text-black mb-2">Dossier non trouvé</h2>
+          <p className="text-black mb-4">Le dossier {caseId} n'existe pas.</p>
           <Link href="/platform/dashboard/assurance/dossiers">
             <Button variant="outline">
               <ArrowLeft className="h-4 w-4 mr-2" />
@@ -246,7 +246,7 @@ export default async function CaseDetailPage({ params }: PageProps) {
                     className={`flex items-center justify-center w-10 h-10 p-0 ${
                       currentCaseData.insurance?.hasInsurance && currentCaseData.insurance?.claimDocument
                         ? "border-primary/20 text-primary hover:bg-primary hover:text-primary-foreground"
-                        : "border-muted text-muted-foreground cursor-not-allowed opacity-50"
+                        : "border-muted text-black cursor-not-allowed opacity-50"
                     }`}
                     disabled={
                       !(currentCaseData.insurance?.hasInsurance && currentCaseData.insurance?.claimDocument)
@@ -281,22 +281,22 @@ export default async function CaseDetailPage({ params }: PageProps) {
                   <div className="flex items-center justify-center w-6 h-6 md:w-8 md:h-8 bg-blue-100 rounded-lg">
                     <User className="h-4 w-4 md:h-5 md:w-5 text-blue-600" />
                   </div>
-                  <h3 className="text-base md:text-lg font-semibold text-foreground">Coordonnées de l'assuré</h3>
+                  <h3 className="text-base md:text-lg font-semibold text-black">Coordonnées de l'assuré</h3>
                 </div>
                 <div className="space-y-2 md:space-y-3">
                   <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center py-1 gap-1 sm:gap-0">
-                    <span className="text-xs md:text-sm text-muted-foreground">Nom complet</span>
-                    <span className="text-xs md:text-sm font-medium text-foreground">
+                    <span className="text-xs md:text-sm text-black">Nom complet</span>
+                    <span className="text-xs md:text-sm font-medium text-black">
                       {currentCaseData.contactPerson.firstName} {currentCaseData.contactPerson.lastName}
                     </span>
                   </div>
                   <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center py-1 gap-1 sm:gap-0">
-                    <span className="text-xs md:text-sm text-muted-foreground">Email</span>
-                    <span className="text-xs md:text-sm font-medium text-foreground break-all">{currentCaseData.contactPerson.email}</span>
+                    <span className="text-xs md:text-sm text-black">Email</span>
+                    <span className="text-xs md:text-sm font-medium text-black break-all">{currentCaseData.contactPerson.email}</span>
                   </div>
                   <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center py-1 gap-1 sm:gap-0">
-                    <span className="text-xs md:text-sm text-muted-foreground">Téléphone</span>
-                    <span className="text-xs md:text-sm font-medium text-foreground">{currentCaseData.contactPerson.phone}</span>
+                    <span className="text-xs md:text-sm text-black">Téléphone</span>
+                    <span className="text-xs md:text-sm font-medium text-black">{currentCaseData.contactPerson.phone}</span>
                   </div>
                 </div>
               </div>
@@ -310,20 +310,20 @@ export default async function CaseDetailPage({ params }: PageProps) {
               <div className="flex items-center justify-center w-6 h-6 md:w-8 md:h-8 bg-green-100 rounded-lg">
                 <Users className="h-4 w-4 md:h-5 md:w-5 text-green-600" />
               </div>
-              <h3 className="text-base md:text-lg font-semibold text-foreground">Agent responsable</h3>
+              <h3 className="text-base md:text-lg font-semibold text-black">Agent responsable</h3>
             </div>
             <div className="space-y-2 md:space-y-3">
               <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center py-1 gap-1 sm:gap-0">
-                <span className="text-xs md:text-sm text-muted-foreground">Nom</span>
-                <span className="text-xs md:text-sm font-medium text-foreground">{currentCaseData.agent?.name || "Non assigné"}</span>
+                <span className="text-xs md:text-sm text-black">Nom</span>
+                <span className="text-xs md:text-sm font-medium text-black">{currentCaseData.agent?.name || "Non assigné"}</span>
               </div>
               <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center py-1 gap-1 sm:gap-0">
-                <span className="text-xs md:text-sm text-muted-foreground">Canton</span>
-                <span className="text-xs md:text-sm font-medium text-foreground">{currentCaseData.agent?.canton || "Non assigné"}</span>
+                <span className="text-xs md:text-sm text-black">Canton</span>
+                <span className="text-xs md:text-sm font-medium text-black">{currentCaseData.agent?.canton || "Non assigné"}</span>
               </div>
               <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center py-1 gap-1 sm:gap-0">
-                <span className="text-xs md:text-sm text-muted-foreground">ID Agent</span>
-                <span className="text-xs md:text-sm font-medium text-foreground">{currentCaseData.agent?.id || "Non assigné"}</span>
+                <span className="text-xs md:text-sm text-black">ID Agent</span>
+                <span className="text-xs md:text-sm font-medium text-black">{currentCaseData.agent?.id || "Non assigné"}</span>
               </div>
             </div>
           </div>
@@ -339,26 +339,26 @@ export default async function CaseDetailPage({ params }: PageProps) {
                   <div className="flex items-center justify-center w-6 h-6 md:w-8 md:h-8 bg-red-100 rounded-lg">
                     <MapPin className="h-4 w-4 md:h-5 md:w-5 text-red-600" />
                   </div>
-                  <h3 className="text-base md:text-lg font-semibold text-foreground">Adresse du sinistre</h3>
+                  <h3 className="text-base md:text-lg font-semibold text-black">Adresse du sinistre</h3>
                 </div>
                 <div className="space-y-2 md:space-y-3">
                   <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center py-1 gap-1 sm:gap-0">
-                    <span className="text-xs md:text-sm text-muted-foreground">Rue</span>
-                    <span className="text-xs md:text-sm font-medium text-foreground">{currentCaseData.disasterAddress.street}</span>
+                    <span className="text-xs md:text-sm text-black">Rue</span>
+                    <span className="text-xs md:text-sm font-medium text-black">{currentCaseData.disasterAddress.street}</span>
                   </div>
                   <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center py-1 gap-1 sm:gap-0">
-                    <span className="text-xs md:text-sm text-muted-foreground">Ville</span>
-                    <span className="text-xs md:text-sm font-medium text-foreground">{currentCaseData.disasterAddress.city}</span>
+                    <span className="text-xs md:text-sm text-black">Ville</span>
+                    <span className="text-xs md:text-sm font-medium text-black">{currentCaseData.disasterAddress.city}</span>
                   </div>
                   <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center py-1 gap-1 sm:gap-0">
-                    <span className="text-xs md:text-sm text-muted-foreground">Code postal</span>
-                    <span className="text-xs md:text-sm font-medium text-foreground">{currentCaseData.disasterAddress.postalCode}</span>
+                    <span className="text-xs md:text-sm text-black">Code postal</span>
+                    <span className="text-xs md:text-sm font-medium text-black">{currentCaseData.disasterAddress.postalCode}</span>
                   </div>
                   <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center py-1 gap-1 sm:gap-0">
-                    <span className="text-xs md:text-sm text-muted-foreground">
+                    <span className="text-xs md:text-sm text-black">
                       {currentCaseData.disasterAddress.canton ? "Canton" : "Pays"}
                     </span>
-                    <span className="text-xs md:text-sm font-medium text-foreground">
+                    <span className="text-xs md:text-sm font-medium text-black">
                       {currentCaseData.disasterAddress.canton || currentCaseData.disasterAddress.country}
                     </span>
                   </div>
@@ -372,21 +372,21 @@ export default async function CaseDetailPage({ params }: PageProps) {
                   <div className="flex items-center justify-center w-6 h-6 md:w-8 md:h-8 bg-purple-100 rounded-lg">
                     <FileText className="h-4 w-4 md:h-5 md:w-5 text-purple-600" />
                   </div>
-                  <h3 className="text-base md:text-lg font-semibold text-foreground">Détails de l'assurance</h3>
+                  <h3 className="text-base md:text-lg font-semibold text-black">Détails de l'assurance</h3>
                 </div>
                 <div className="space-y-2 md:space-y-3">
                   <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center py-1 gap-1 sm:gap-0">
-                    <span className="text-xs md:text-sm text-muted-foreground">Assurance</span>
+                    <span className="text-xs md:text-sm text-black">Assurance</span>
                     <div className="flex items-center gap-2">
                       {currentCaseData.insurance?.hasInsurance ? (
                         <>
                           <CheckCircle className="h-3 w-3 md:h-4 md:w-4 text-green-500" />
-                          <span className="text-xs md:text-sm text-foreground">Oui</span>
+                          <span className="text-xs md:text-sm text-black">Oui</span>
                         </>
                       ) : (
                         <>
                           <AlertTriangle className="h-3 w-3 md:h-4 md:w-4 text-orange-500" />
-                          <span className="text-xs md:text-sm text-foreground">Non</span>
+                          <span className="text-xs md:text-sm text-black">Non</span>
                         </>
                       )}
                     </div>
@@ -394,15 +394,15 @@ export default async function CaseDetailPage({ params }: PageProps) {
                   
                   {currentCaseData.insurance?.hasInsurance && currentCaseData.insurance?.company && (
                     <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center py-1 gap-1 sm:gap-0">
-                      <span className="text-xs md:text-sm text-muted-foreground">Compagnie d'assurance</span>
-                      <span className="text-xs md:text-sm font-medium text-foreground">{currentCaseData.insurance.company}</span>
+                      <span className="text-xs md:text-sm text-black">Compagnie d'assurance</span>
+                      <span className="text-xs md:text-sm font-medium text-black">{currentCaseData.insurance.company}</span>
                     </div>
                   )}
                   
                   {currentCaseData.insurance?.hasInsurance && currentCaseData.insurance?.policyNumber && (
                     <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center py-1 gap-1 sm:gap-0">
-                      <span className="text-xs md:text-sm text-muted-foreground">Numéro de police</span>
-                      <span className="text-xs md:text-sm font-medium text-foreground">{currentCaseData.insurance.policyNumber}</span>
+                      <span className="text-xs md:text-sm text-black">Numéro de police</span>
+                      <span className="text-xs md:text-sm font-medium text-black">{currentCaseData.insurance.policyNumber}</span>
                     </div>
                   )}
                 </div>
@@ -417,22 +417,22 @@ export default async function CaseDetailPage({ params }: PageProps) {
               <div className="flex items-center justify-center w-6 h-6 md:w-8 md:h-8 bg-purple-100 rounded-lg">
                 <TrendingUp className="h-4 w-4 md:h-5 md:w-5 text-purple-600" />
               </div>
-              <h3 className="text-base md:text-lg font-semibold text-foreground">Performance</h3>
+              <h3 className="text-base md:text-lg font-semibold text-black">Performance</h3>
             </div>
             <div className="space-y-2 md:space-y-3">
               {currentCaseData.responseTime && (
                 <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center py-1 gap-1 sm:gap-0">
-                  <span className="text-xs md:text-sm text-muted-foreground">Délai d'acceptation</span>
-                  <span className="text-xs md:text-sm font-medium text-foreground">{currentCaseData.responseTime} jours</span>
+                  <span className="text-xs md:text-sm text-black">Délai d'acceptation</span>
+                  <span className="text-xs md:text-sm font-medium text-black">{currentCaseData.responseTime} jours</span>
                 </div>
               )}
               <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center py-1 gap-1 sm:gap-0">
-                <span className="text-xs md:text-sm text-muted-foreground">Date de création</span>
-                <span className="text-xs md:text-sm font-medium text-foreground">{formatDate(currentCaseData.createdAt)}</span>
+                <span className="text-xs md:text-sm text-black">Date de création</span>
+                <span className="text-xs md:text-sm font-medium text-black">{formatDate(currentCaseData.createdAt)}</span>
               </div>
               <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center py-1 gap-1 sm:gap-0">
-                <span className="text-xs md:text-sm text-muted-foreground">Dernière mise à jour</span>
-                <span className="text-xs md:text-sm font-medium text-foreground">{formatDate(currentCaseData.updatedAt)}</span>
+                <span className="text-xs md:text-sm text-black">Dernière mise à jour</span>
+                <span className="text-xs md:text-sm font-medium text-black">{formatDate(currentCaseData.updatedAt)}</span>
               </div>
             </div>
           </div>
@@ -448,36 +448,36 @@ export default async function CaseDetailPage({ params }: PageProps) {
                   <div className="flex items-center justify-center w-6 h-6 md:w-8 md:h-8 bg-indigo-100 rounded-lg">
                     <Home className="h-4 w-4 md:h-5 md:w-5 text-indigo-600" />
                   </div>
-                  <h3 className="text-base md:text-lg font-semibold text-foreground">
+                  <h3 className="text-base md:text-lg font-semibold text-black">
                     {currentCaseData.relocationType === "single" ? "Préférences" : "Demandes"}
                   </h3>
                 </div>
                 {currentCaseData.relocationType === "single" ? (
                   <div className="space-y-2 md:space-y-3">
                     <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center py-1 gap-1 sm:gap-0">
-                      <span className="text-xs md:text-sm text-muted-foreground">Chambres</span>
-                      <span className="text-xs md:text-sm font-medium text-foreground">{primaryRequest.bedrooms}</span>
+                      <span className="text-xs md:text-sm text-black">Chambres</span>
+                      <span className="text-xs md:text-sm font-medium text-black">{primaryRequest.bedrooms}</span>
                     </div>
                     <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center py-1 gap-1 sm:gap-0">
-                      <span className="text-xs md:text-sm text-muted-foreground">Adultes</span>
-                      <span className="text-xs md:text-sm font-medium text-foreground">{primaryRequest.adults}</span>
+                      <span className="text-xs md:text-sm text-black">Adultes</span>
+                      <span className="text-xs md:text-sm font-medium text-black">{primaryRequest.adults}</span>
                     </div>
                     {primaryRequest.children && primaryRequest.children > 0 && (
                       <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center py-1 gap-1 sm:gap-0">
-                        <span className="text-xs md:text-sm text-muted-foreground">Enfants</span>
-                        <span className="text-xs md:text-sm font-medium text-foreground">{primaryRequest.children}</span>
+                        <span className="text-xs md:text-sm text-black">Enfants</span>
+                        <span className="text-xs md:text-sm font-medium text-black">{primaryRequest.children}</span>
                       </div>
                     )}
                   </div>
                 ) : (
                   <div className="space-y-2 md:space-y-3">
                     <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center py-1 gap-1 sm:gap-0">
-                      <span className="text-xs md:text-sm text-muted-foreground">Nombre de demandes</span>
-                      <span className="text-xs md:text-sm font-medium text-foreground">{currentCaseData.relocationRequests.length}</span>
+                      <span className="text-xs md:text-sm text-black">Nombre de demandes</span>
+                      <span className="text-xs md:text-sm font-medium text-black">{currentCaseData.relocationRequests.length}</span>
                     </div>
                     <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center py-1 gap-1 sm:gap-0">
-                      <span className="text-xs md:text-sm text-muted-foreground">Total de personnes</span>
-                      <span className="text-xs md:text-sm font-medium text-foreground">
+                      <span className="text-xs md:text-sm text-black">Total de personnes</span>
+                      <span className="text-xs md:text-sm font-medium text-black">
                         {currentCaseData.relocationRequests.reduce((total, req) => total + req.adults + req.children, 0)}
                       </span>
                     </div>
@@ -492,25 +492,25 @@ export default async function CaseDetailPage({ params }: PageProps) {
                   <div className="flex items-center justify-center w-6 h-6 md:w-8 md:h-8 bg-orange-100 rounded-lg">
                     <PawPrint className="h-4 w-4 md:h-5 md:w-5 text-orange-600" />
                   </div>
-                  <h3 className="text-base md:text-lg font-semibold text-foreground">Besoins spécifiques</h3>
+                  <h3 className="text-base md:text-lg font-semibold text-black">Besoins spécifiques</h3>
                 </div>
                 {currentCaseData.relocationType === "single" ? (
                   <div className="space-y-2 md:space-y-3">
                     <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center py-1 gap-1 sm:gap-0">
-                      <span className="text-xs md:text-sm text-muted-foreground">Animaux</span>
-                      <span className="text-xs md:text-sm text-foreground">
+                      <span className="text-xs md:text-sm text-black">Animaux</span>
+                      <span className="text-xs md:text-sm text-black">
                         {primaryRequest.hasAnimals ? "Oui" : "Non"}
                       </span>
                     </div>
                     <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center py-1 gap-1 sm:gap-0">
-                      <span className="text-xs md:text-sm text-muted-foreground">Accessibilité</span>
-                      <span className="text-xs md:text-sm text-foreground">
+                      <span className="text-xs md:text-sm text-black">Accessibilité</span>
+                      <span className="text-xs md:text-sm text-black">
                         {primaryRequest.hasAccessibilityNeeds ? "Oui" : "Non"}
                       </span>
                     </div>
                     <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center py-1 gap-1 sm:gap-0">
-                      <span className="text-xs md:text-sm text-muted-foreground">Stationnement</span>
-                      <span className="text-xs md:text-sm text-foreground">
+                      <span className="text-xs md:text-sm text-black">Stationnement</span>
+                      <span className="text-xs md:text-sm text-black">
                         {primaryRequest.needsParking ? "Oui" : "Non"}
                       </span>
                     </div>
@@ -518,20 +518,20 @@ export default async function CaseDetailPage({ params }: PageProps) {
                 ) : (
                   <div className="space-y-2 md:space-y-3">
                     <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center py-1 gap-1 sm:gap-0">
-                      <span className="text-xs md:text-sm text-muted-foreground">Avec animaux</span>
-                      <span className="text-xs md:text-sm text-foreground">
+                      <span className="text-xs md:text-sm text-black">Avec animaux</span>
+                      <span className="text-xs md:text-sm text-black">
                         {currentCaseData.relocationRequests.filter(r => r.hasAnimals).length} demandes
                       </span>
                     </div>
                     <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center py-1 gap-1 sm:gap-0">
-                      <span className="text-xs md:text-sm text-muted-foreground">Avec accessibilité</span>
-                      <span className="text-xs md:text-sm text-foreground">
+                      <span className="text-xs md:text-sm text-black">Avec accessibilité</span>
+                      <span className="text-xs md:text-sm text-black">
                         {currentCaseData.relocationRequests.filter(r => r.hasAccessibilityNeeds).length} demandes
                       </span>
                     </div>
                     <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center py-1 gap-1 sm:gap-0">
-                      <span className="text-xs md:text-sm text-muted-foreground">Avec stationnement</span>
-                      <span className="text-xs md:text-sm text-foreground">
+                      <span className="text-xs md:text-sm text-black">Avec stationnement</span>
+                      <span className="text-xs md:text-sm text-black">
                         {currentCaseData.relocationRequests.filter(r => r.needsParking).length} demandes
                       </span>
                     </div>
@@ -546,25 +546,25 @@ export default async function CaseDetailPage({ params }: PageProps) {
                   <div className="flex items-center justify-center w-6 h-6 md:w-8 md:h-8 bg-emerald-100 rounded-lg">
                     <Calendar className="h-4 w-4 md:h-5 md:w-5 text-emerald-600" />
                   </div>
-                  <h3 className="text-base md:text-lg font-semibold text-foreground">Le séjour</h3>
+                  <h3 className="text-base md:text-lg font-semibold text-black">Le séjour</h3>
                 </div>
                 {currentCaseData.relocationType === "single" ? (
                   <div className="space-y-2 md:space-y-3">
                     <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center py-1 gap-1 sm:gap-0">
-                      <span className="text-xs md:text-sm text-muted-foreground">Date d'arrivée</span>
-                      <span className="text-xs md:text-sm text-foreground">{formatDate(primaryRequest.arrivalDate)}</span>
+                      <span className="text-xs md:text-sm text-black">Date d'arrivée</span>
+                      <span className="text-xs md:text-sm text-black">{formatDate(primaryRequest.arrivalDate)}</span>
                     </div>
                     {primaryRequest.departureDate && (
                       <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center py-1 gap-1 sm:gap-0">
-                        <span className="text-xs md:text-sm text-muted-foreground">Date de départ</span>
-                        <span className="text-xs md:text-sm text-foreground">{formatDate(primaryRequest.departureDate)}</span>
+                        <span className="text-xs md:text-sm text-black">Date de départ</span>
+                        <span className="text-xs md:text-sm text-black">{formatDate(primaryRequest.departureDate)}</span>
                       </div>
                     )}
                     <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center py-1 gap-1 sm:gap-0">
-                      <span className="text-xs md:text-sm text-muted-foreground">
+                      <span className="text-xs md:text-sm text-black">
                         {primaryRequest.useExactDates ? "Durée" : "Durée estimée"}
                       </span>
-                      <span className="text-xs md:text-sm text-foreground">
+                      <span className="text-xs md:text-sm text-black">
                         {primaryRequest.useExactDates && primaryRequest.arrivalDate && primaryRequest.departureDate 
                           ? `${getNumberOfNights(primaryRequest.arrivalDate, primaryRequest.departureDate)} nuits`
                           : primaryRequest.estimatedDuration || "Non spécifié"
@@ -575,24 +575,24 @@ export default async function CaseDetailPage({ params }: PageProps) {
                 ) : (
                   <div className="space-y-2 md:space-y-3">
                     <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center py-1 gap-1 sm:gap-0">
-                      <span className="text-xs md:text-sm text-muted-foreground">Première arrivée</span>
-                      <span className="text-xs md:text-sm text-foreground">
+                      <span className="text-xs md:text-sm text-black">Première arrivée</span>
+                      <span className="text-xs md:text-sm text-black">
                         {currentCaseData.relocationRequests.length ? 
                           formatDate(currentCaseData.relocationRequests[0].arrivalDate) : "Non spécifié"
                         }
                       </span>
                     </div>
                     <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center py-1 gap-1 sm:gap-0">
-                      <span className="text-xs md:text-sm text-muted-foreground">Dernière arrivée</span>
-                      <span className="text-xs md:text-sm text-foreground">
+                      <span className="text-xs md:text-sm text-black">Dernière arrivée</span>
+                      <span className="text-xs md:text-sm text-black">
                         {currentCaseData.relocationRequests.length ? 
                           formatDate(currentCaseData.relocationRequests[currentCaseData.relocationRequests.length - 1].arrivalDate) : "Non spécifié"
                         }
                       </span>
                     </div>
                     <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center py-1 gap-1 sm:gap-0">
-                      <span className="text-xs md:text-sm text-muted-foreground">Nombre de demandes</span>
-                      <span className="text-xs md:text-sm text-foreground">
+                      <span className="text-xs md:text-sm text-black">Nombre de demandes</span>
+                      <span className="text-xs md:text-sm text-black">
                         {currentCaseData.relocationRequests.length} demandes
                       </span>
                     </div>
@@ -610,21 +610,21 @@ export default async function CaseDetailPage({ params }: PageProps) {
                 <div className="flex items-center justify-center w-6 h-6 md:w-8 md:h-8 bg-emerald-100 rounded-lg">
                   <Wallet className="h-4 w-4 md:h-5 md:w-5 text-emerald-600" />
                 </div>
-                <h3 className="text-base md:text-lg font-semibold text-foreground">Coûts</h3>
+                <h3 className="text-base md:text-lg font-semibold text-black">Coûts</h3>
               </div>
               <div className="space-y-2 md:space-y-3">
                 <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center py-1 gap-1 sm:gap-0">
-                  <span className="text-xs md:text-sm text-muted-foreground">Coût total</span>
+                  <span className="text-xs md:text-sm text-black">Coût total</span>
                   <span className="text-xs md:text-sm font-bold text-green-600">CHF {currentCaseData.cost.totalCost}</span>
                 </div>
                 <div className="space-y-2 md:space-y-3">
                   <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center py-1 gap-1 sm:gap-0">
-                    <span className="text-xs md:text-sm text-muted-foreground">Assurance</span>
-                    <span className="text-xs md:text-sm font-medium">CHF {currentCaseData.cost.insuranceCost}</span>
+                    <span className="text-xs md:text-sm text-black">Assurance</span>
+                    <span className="text-xs md:text-sm font-medium text-black">CHF {currentCaseData.cost.insuranceCost}</span>
                   </div>
                   <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center py-1 gap-1 sm:gap-0">
-                    <span className="text-xs md:text-sm text-muted-foreground">Assuré</span>
-                    <span className="text-xs md:text-sm font-medium">CHF {currentCaseData.cost.insuredCost}</span>
+                    <span className="text-xs md:text-sm text-black">Assuré</span>
+                    <span className="text-xs md:text-sm font-medium text-black">CHF {currentCaseData.cost.insuredCost}</span>
                   </div>
                 </div>
               </div>
@@ -635,7 +635,7 @@ export default async function CaseDetailPage({ params }: PageProps) {
                 <div className="flex items-center justify-center w-6 h-6 md:w-8 md:h-8 bg-yellow-100 rounded-lg">
                   <Star className="h-4 w-4 md:h-5 md:w-5 text-yellow-600" />
                 </div>
-                <h3 className="text-base md:text-lg font-semibold text-foreground">Satisfaction client</h3>
+                <h3 className="text-base md:text-lg font-semibold text-black">Satisfaction client</h3>
               </div>
               <div className="space-y-2 md:space-y-3">
                 {currentCaseData.status === "completed" && currentCaseData.satisfaction ? (
@@ -646,15 +646,15 @@ export default async function CaseDetailPage({ params }: PageProps) {
                     </div>
                     {currentCaseData.satisfaction.feedback && (
                       <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start py-1 gap-1 sm:gap-0">
-                        <span className="text-xs md:text-sm text-muted-foreground">Commentaire</span>
-                        <span className="text-xs md:text-sm text-foreground italic">"{currentCaseData.satisfaction.feedback}"</span>
+                        <span className="text-xs md:text-sm text-black">Commentaire</span>
+                        <span className="text-xs md:text-sm text-black italic">"{currentCaseData.satisfaction.feedback}"</span>
                       </div>
                     )}
                   </>
                 ) : (
                   <div className="text-center py-4">
-                    <Clock className="h-6 w-6 md:h-8 md:w-8 text-muted-foreground mx-auto mb-2" />
-                    <p className="text-xs md:text-sm text-muted-foreground">En attente du retour client</p>
+                    <Clock className="h-6 w-6 md:h-8 md:w-8 text-black mx-auto mb-2" />
+                    <p className="text-xs md:text-sm text-black">En attente du retour client</p>
                   </div>
                 )}
               </div>
@@ -671,13 +671,13 @@ export default async function CaseDetailPage({ params }: PageProps) {
                   <div className="flex items-center justify-center w-8 h-8 bg-blue-100 rounded-lg">
                     <Users className="h-5 w-5 text-blue-600" />
                   </div>
-                  <h3 className="text-lg font-semibold text-foreground">Détails des demandes</h3>
+                  <h3 className="text-lg font-semibold text-black">Détails des demandes</h3>
                 </div>
                 <div className="space-y-4">
                   {currentCaseData.relocationRequests.map((request, index) => (
                     <div key={index} className="border rounded-lg p-4 bg-gray-50">
                       <div className="flex items-center justify-between mb-3">
-                        <h4 className="font-medium text-foreground">
+                        <h4 className="font-medium text-black">
                           {request.firstName} {request.lastName}
                         </h4>
                         <Badge variant="outline" className="text-xs">
@@ -688,33 +688,33 @@ export default async function CaseDetailPage({ params }: PageProps) {
                       <div className="grid md:grid-cols-2 gap-4">
                         <div className="space-y-2">
                           <div className="flex justify-between items-center">
-                            <span className="text-xs text-muted-foreground">Email</span>
-                            <span className="text-xs text-foreground">{request.email}</span>
+                            <span className="text-xs text-black">Email</span>
+                            <span className="text-xs text-black">{request.email}</span>
                           </div>
                           <div className="flex justify-between items-center">
-                            <span className="text-xs text-muted-foreground">Téléphone</span>
-                            <span className="text-xs text-foreground">{request.phone}</span>
+                            <span className="text-xs text-black">Téléphone</span>
+                            <span className="text-xs text-black">{request.phone}</span>
                           </div>
                           <div className="flex justify-between items-center">
-                            <span className="text-xs text-muted-foreground">Chambres</span>
+                            <span className="text-xs text-black">Chambres</span>
                             <span className="text-xs font-medium">{request.bedrooms}</span>
                           </div>
                           <div className="flex justify-between items-center">
-                            <span className="text-xs text-muted-foreground">Personnes</span>
+                            <span className="text-xs text-black">Personnes</span>
                             <span className="text-xs font-medium">{request.adults + request.children}</span>
                           </div>
                         </div>
                         
                         <div className="space-y-2">
                           <div className="flex justify-between items-center">
-                            <span className="text-xs text-muted-foreground">Arrivée</span>
-                            <span className="text-xs text-foreground">{formatDate(request.arrivalDate)}</span>
+                            <span className="text-xs text-black">Arrivée</span>
+                            <span className="text-xs text-black">{formatDate(request.arrivalDate)}</span>
                           </div>
                           <div className="flex justify-between items-center">
-                            <span className="text-xs text-muted-foreground">
+                            <span className="text-xs text-black">
                               {request.useExactDates ? "Départ" : "Durée"}
                             </span>
-                            <span className="text-xs text-foreground">
+                            <span className="text-xs text-black">
                               {request.useExactDates && request.departureDate
                                 ? formatDate(request.departureDate)
                                 : request.estimatedDuration || "Non spécifié"
@@ -722,15 +722,15 @@ export default async function CaseDetailPage({ params }: PageProps) {
                             </span>
                           </div>
                           <div className="flex justify-between items-center">
-                            <span className="text-xs text-muted-foreground">Assurance</span>
+                            <span className="text-xs text-black">Assurance</span>
                             <span className="text-xs font-medium">
                               {request.hasInsurance ? "Oui" : "Non"}
                             </span>
                           </div>
                           {request.specialNeeds && (
                             <div className="flex justify-between items-center">
-                              <span className="text-xs text-muted-foreground">Besoins spéciaux</span>
-                              <span className="text-xs text-foreground">{request.specialNeeds}</span>
+                              <span className="text-xs text-black">Besoins spéciaux</span>
+                              <span className="text-xs text-black">{request.specialNeeds}</span>
                             </div>
                           )}
                         </div>
@@ -748,7 +748,7 @@ export default async function CaseDetailPage({ params }: PageProps) {
                           <Car className="h-3 w-3 text-primary" />
                         )}
                         {!request.hasAnimals && !request.hasAccessibilityNeeds && !request.needsParking && (
-                          <span className="text-xs text-muted-foreground">Aucun besoin spécifique</span>
+                          <span className="text-xs text-black">Aucun besoin spécifique</span>
                         )}
                       </div>
                     </div>
@@ -763,7 +763,7 @@ export default async function CaseDetailPage({ params }: PageProps) {
                   <div className="flex items-center justify-center w-8 h-8 bg-yellow-100 rounded-lg">
                     <Star className="h-5 w-5 text-yellow-600" />
                   </div>
-                  <h3 className="text-lg font-semibold text-foreground">Satisfaction client</h3>
+                  <h3 className="text-lg font-semibold text-black">Satisfaction client</h3>
                 </div>
                 <div className="space-y-3">
                   {currentCaseData.status === "completed" && currentCaseData.satisfaction ? (
@@ -774,15 +774,15 @@ export default async function CaseDetailPage({ params }: PageProps) {
                       </div>
                       {currentCaseData.satisfaction.feedback && (
                         <div className="flex justify-between items-start py-1">
-                          <span className="text-sm text-muted-foreground">Commentaire</span>
-                          <span className="text-sm text-foreground italic">"{currentCaseData.satisfaction.feedback}"</span>
+                          <span className="text-sm text-black">Commentaire</span>
+                          <span className="text-sm text-black italic">"{currentCaseData.satisfaction.feedback}"</span>
                         </div>
                       )}
                     </>
                   ) : (
                     <div className="text-center py-4">
-                      <Clock className="h-8 w-8 text-muted-foreground mx-auto mb-2" />
-                      <p className="text-sm text-muted-foreground">En attente du retour client</p>
+                      <Clock className="h-8 w-8 text-black mx-auto mb-2" />
+                      <p className="text-sm text-black">En attente du retour client</p>
                     </div>
                   )}
                 </div>
