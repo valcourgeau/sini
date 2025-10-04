@@ -201,7 +201,7 @@ export default function SinistreProfile() {
                 emergencyContact: {...profile.emergencyContact, name: e.target.value}
               })}
               disabled={!isEditing}
-              className="text-xs md:text-sm font-medium text-black w-full sm:w-64"
+              className="text-xs md:text-sm font-medium text-black w-full sm:w-72"
             />
           </div>
           <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center py-1 gap-1 sm:gap-0">
@@ -213,7 +213,7 @@ export default function SinistreProfile() {
                 emergencyContact: {...profile.emergencyContact, phone: e.target.value}
               })}
               disabled={!isEditing}
-              className="text-xs md:text-sm font-medium text-black w-full sm:w-64"
+              className="text-xs md:text-sm font-medium text-black w-full sm:w-72"
             />
           </div>
           <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center py-1 gap-1 sm:gap-0">
@@ -225,7 +225,7 @@ export default function SinistreProfile() {
                 emergencyContact: {...profile.emergencyContact, relationship: e.target.value}
               })}
               disabled={!isEditing}
-              className="text-xs md:text-sm font-medium text-black w-full sm:w-64"
+              className="text-xs md:text-sm font-medium text-black w-full sm:w-72"
             />
           </div>
         </div>
