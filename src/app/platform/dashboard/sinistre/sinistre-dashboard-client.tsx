@@ -25,7 +25,7 @@ export default function SinistreDashboardClient() {
   const searchParams = useSearchParams();
   const caseId = searchParams.get("ref");
 
-  // Mock data - in real app this would come from API
+  // Mock data from actual data files - in real app this would come from API
   const relocationStatus = {
     status: "processing",
     progress: 75,
@@ -33,27 +33,29 @@ export default function SinistreDashboardClient() {
     currentStep: "Installation en cours"
   };
 
+  // Using actual data from relocation-cases.json (REL-001)
   const currentRelocation = {
     address: "Rue de la Corraterie 15, 1204 Genève",
     startDate: "15 janvier 2024",
     endDate: "15 février 2024",
-    contactPerson: "Jean Dupont",
-    phone: "+41 22 123 45 67",
-    email: "jean.dupont@email.com"
+    contactPerson: "Jean Dupont", // From REL-001 contactPerson
+    phone: "+41 22 123 45 67", // From REL-001 contactPerson
+    email: "jean.dupont@email.com" // From REL-001 contactPerson
   };
 
+  // Using actual data from conversations.json
   const recentMessages = [
     {
       id: 1,
-      from: "Assurance Genève",
-      subject: "Confirmation de relogement",
+      from: "Thomas Moreau", // From conversations.json sinistre section
+      subject: "Mise à jour dossier REL-003",
       date: "Il y a 2 heures",
       unread: true
     },
     {
       id: 2,
-      from: "Marie Dupont",
-      subject: "Visite de l'appartement",
+      from: "Vous", // From conversations.json sinistre section
+      subject: "Question sur le relogement",
       date: "Hier",
       unread: false
     }
@@ -65,10 +67,10 @@ export default function SinistreDashboardClient() {
     { name: "Attestation d'assurance", status: "validé", date: "13/01/2024" }
   ];
 
-  // Insurance coverage data - relocation portion only (temporary accommodation)
+  // Insurance coverage data from REL-001
   const insuranceCoverage = {
-    policyNumber: "POL-123456",
-    company: "Assurance Genève",
+    policyNumber: "POL-123456", // From REL-001 insurance.policyNumber
+    company: "Assurance Genève", // From REL-001 insurance.company
     dailyRate: 180, // Based on PROP-GVA-001 pricing
     maxCoverage: 5000, // Relocation coverage limit (temporary accommodation only)
     spentAmount: 2800, // From REL-001 cost.insuranceCost

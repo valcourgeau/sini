@@ -14,28 +14,29 @@ import {
   Building2,
   Car,
   Wifi,
-  Utensils
+  Utensils,
+  Shield
 } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 
 export default function SinistreRelogement() {
-  // Mock data - in real app this would come from API
+  // Mock data from REL-001 - in real app this would come from API
   const relocation = {
-    id: "REL-2024-001",
+    id: "REL-001", // From REL-001 id
     status: "en_cours",
     progress: 75,
-    address: "Rue du Relogement 123, 1201 Genève",
+    address: "Rue de la Corraterie 15, 1204 Genève", // From REL-001 relocationOption propertyLocation
     startDate: "15 janvier 2024",
     endDate: "15 février 2024",
-    contactPerson: "Marie Dupont",
-    phone: "+41 22 123 45 67",
-    email: "marie.dupont@pharewest.ch",
-    propertyType: "Appartement 2 pièces",
-    amenities: ["WiFi", "Cuisine équipée", "Parking", "Ascenseur"],
-    insurance: "Assurance Genève",
-    caseNumber: "CASE-2024-001"
+    contactPerson: "Jean Dupont", // From REL-001 contactPerson
+    phone: "+41 22 123 45 67", // From REL-001 contactPerson
+    email: "jean.dupont@email.com", // From REL-001 contactPerson
+    propertyType: "Appartement 2 pièces", // From REL-001 relocationOption propertyDetails
+    amenities: ["WiFi", "Cuisine équipée", "Parking", "Ascenseur"], // From REL-001 relocationOption propertyAmenities
+    insurance: "Assurance Genève", // From REL-001 insurance.company
+    caseNumber: "REL-001" // From REL-001 id
   };
 
   const timeline = [
@@ -80,38 +81,38 @@ export default function SinistreRelogement() {
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case "terminé": return "text-green-600";
-      case "en_cours": return "text-blue-600";
-      case "en_attente": return "text-yellow-600";
-      default: return "text-gray-600";
+      case "terminé": return "bg-green-100 text-green-600";
+      case "en_cours": return "bg-blue-100 text-blue-600";
+      case "en_attente": return "bg-yellow-100 text-yellow-800";
+      default: return "bg-gray-100 text-gray-600";
     }
   };
 
   const getStatusIcon = (status: string) => {
     switch (status) {
-      case "terminé": return <CheckCircle2 className="h-4 w-4" />;
-      case "en_cours": return <Clock className="h-4 w-4" />;
-      case "en_attente": return <AlertTriangle className="h-4 w-4" />;
-      default: return <Clock className="h-4 w-4" />;
+      case "terminé": return <CheckCircle2 className="h-4 w-4 text-green-600" />;
+      case "en_cours": return <Clock className="h-4 w-4 text-blue-600" />;
+      case "en_attente": return <AlertTriangle className="h-4 w-4 text-yellow-600" />;
+      default: return <Clock className="h-4 w-4 text-gray-600" />;
     }
   };
 
   return (
-    <div className="space-y-6 pb-8">
+    <div className="space-y-4 md:space-y-6 pb-8">
       {/* Header */}
       <div>
-        <h1 className="text-3xl font-bold">Mon relogement</h1>
+        <h1 className="text-2xl md:text-3xl font-bold text-primary">Mon relogement</h1>
         <p className="text-black mt-2">
           Détails de votre relogement temporaire
         </p>
       </div>
 
       {/* Status Overview */}
-      <Card className="p-6">
+      <div className="bg-card border border-border rounded-xl p-4 md:p-6 shadow-sm">
         <div className="flex items-center justify-between mb-4">
           <div>
-            <h2 className="text-xl font-semibold">État du relogement</h2>
-            <p className="text-sm text-black">ID: {relocation.id}</p>
+            <h2 className="text-base md:text-lg font-semibold text-black">État du relogement</h2>
+            <p className="text-xs md:text-sm text-black">ID: {relocation.id}</p>
           </div>
           <span className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(relocation.status)}`}>
             {relocation.status.replace('_', ' ')}
@@ -120,64 +121,60 @@ export default function SinistreRelogement() {
         
         <div className="space-y-4">
           <div>
-            <div className="flex justify-between text-sm mb-2">
-              <span>Progression</span>
-              <span>{relocation.progress}%</span>
+            <div className="flex justify-between text-xs md:text-sm mb-2">
+              <span className="text-black">Progression</span>
+              <span className="text-black">{relocation.progress}%</span>
             </div>
             <Progress value={relocation.progress} className="h-2" />
           </div>
         </div>
-      </Card>
+      </div>
 
       {/* Property Details */}
-      <Card className="p-6">
-        <h2 className="text-xl font-semibold mb-4">Détails du logement</h2>
-        <div className="grid md:grid-cols-2 gap-6">
-          <div className="space-y-4">
-            <div className="flex items-start gap-3">
-              <Home className="h-5 w-5 text-primary mt-0.5" />
-              <div>
-                <p className="font-medium">Adresse</p>
-                <p className="text-black">{relocation.address}</p>
+      <div className="bg-card border border-border rounded-xl p-4 md:p-6 shadow-sm">
+        <div className="flex items-center gap-3 mb-4 md:mb-6">
+          <div className="flex items-center justify-center w-6 h-6 md:w-8 md:h-8 bg-indigo-100 rounded-lg">
+            <Home className="h-4 w-4 md:h-5 md:w-5 text-indigo-600" />
+          </div>
+          <h2 className="text-base md:text-lg font-semibold text-black">Détails du logement</h2>
+        </div>
+        <div className="grid grid-cols-1 lg:grid-cols-2">
+          <div className="min-w-0 lg:border-r lg:border-border pr-4 md:pr-6 lg:pr-8">
+            <div className="space-y-2 md:space-y-3">
+              <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center py-1 gap-1 sm:gap-0">
+                <span className="text-xs md:text-sm text-black">Adresse</span>
+                <span className="text-xs md:text-sm font-medium text-black">{relocation.address}</span>
               </div>
-            </div>
-            
-            <div className="flex items-start gap-3">
-              <Building2 className="h-5 w-5 text-primary mt-0.5" />
-              <div>
-                <p className="font-medium">Type de logement</p>
-                <p className="text-black">{relocation.propertyType}</p>
+              
+              <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center py-1 gap-1 sm:gap-0">
+                <span className="text-xs md:text-sm text-black">Type de logement</span>
+                <span className="text-xs md:text-sm font-medium text-black">{relocation.propertyType}</span>
               </div>
-            </div>
-            
-            <div className="flex items-start gap-3">
-              <Calendar className="h-5 w-5 text-primary mt-0.5" />
-              <div>
-                <p className="font-medium">Période</p>
-                <p className="text-black">
+              
+              <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center py-1 gap-1 sm:gap-0">
+                <span className="text-xs md:text-sm text-black">Période</span>
+                <span className="text-xs md:text-sm font-medium text-black">
                   Du {relocation.startDate} au {relocation.endDate}
-                </p>
+                </span>
               </div>
             </div>
           </div>
           
-          <div className="space-y-4">
-            <div className="flex items-start gap-3">
-              <User className="h-5 w-5 text-primary mt-0.5" />
-              <div>
-                <p className="font-medium">Contact principal</p>
-                <p className="text-black">{relocation.contactPerson}</p>
+          <div className="min-w-0 pl-4 md:pl-6 lg:pl-8">
+            <div className="space-y-2 md:space-y-3">
+              <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center py-1 gap-1 sm:gap-0">
+                <span className="text-xs md:text-sm text-black">Contact principal</span>
+                <span className="text-xs md:text-sm font-medium text-black">{relocation.contactPerson}</span>
               </div>
-            </div>
-            
-            <div className="space-y-2">
-              <div className="flex items-center gap-2">
-                <Phone className="h-4 w-4 text-black" />
-                <span className="text-sm">{relocation.phone}</span>
+              
+              <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center py-1 gap-1 sm:gap-0">
+                <span className="text-xs md:text-sm text-black">Téléphone</span>
+                <span className="text-xs md:text-sm font-medium text-black">{relocation.phone}</span>
               </div>
-              <div className="flex items-center gap-2">
-                <Mail className="h-4 w-4 text-black" />
-                <span className="text-sm">{relocation.email}</span>
+              
+              <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center py-1 gap-1 sm:gap-0">
+                <span className="text-xs md:text-sm text-black">Email</span>
+                <span className="text-xs md:text-sm font-medium text-black break-all">{relocation.email}</span>
               </div>
             </div>
           </div>
@@ -185,10 +182,10 @@ export default function SinistreRelogement() {
 
         {/* Amenities */}
         <div className="mt-6">
-          <h3 className="font-semibold mb-3">Équipements inclus</h3>
+          <h3 className="text-sm md:text-base font-semibold text-black mb-3">Équipements inclus</h3>
           <div className="flex flex-wrap gap-2">
             {relocation.amenities.map((amenity) => (
-              <span key={amenity} className="flex items-center gap-1 px-3 py-1 bg-gray-100 rounded-full text-sm">
+              <span key={amenity} className="flex items-center gap-1 px-3 py-1 bg-gray-100 rounded-full text-xs md:text-sm text-black">
                 {amenity === "WiFi" && <Wifi className="h-3 w-3" />}
                 {amenity === "Cuisine équipée" && <Utensils className="h-3 w-3" />}
                 {amenity === "Parking" && <Car className="h-3 w-3" />}
@@ -197,34 +194,44 @@ export default function SinistreRelogement() {
             ))}
           </div>
         </div>
-      </Card>
+      </div>
 
       {/* Timeline */}
-      <Card className="p-6">
-        <h2 className="text-xl font-semibold mb-4">Suivi du relogement</h2>
+      <div className="bg-card border border-border rounded-xl p-4 md:p-6 shadow-sm">
+        <div className="flex items-center gap-3 mb-4 md:mb-6">
+          <div className="flex items-center justify-center w-6 h-6 md:w-8 md:h-8 bg-emerald-100 rounded-lg">
+            <Clock className="h-4 w-4 md:h-5 md:w-5 text-emerald-600" />
+          </div>
+          <h2 className="text-base md:text-lg font-semibold text-black">Suivi du relogement</h2>
+        </div>
         <div className="space-y-4">
           {timeline.map((item, index) => (
             <div key={index} className="flex items-start gap-4">
-              <div className={`flex items-center justify-center w-8 h-8 rounded-full ${getStatusColor(item.status)} bg-opacity-10`}>
+              <div className="flex items-center justify-center w-8 h-8">
                 {getStatusIcon(item.status)}
               </div>
               <div className="flex-1">
                 <div className="flex items-center justify-between">
-                  <h3 className="font-medium">{item.step}</h3>
-                  <span className="text-sm text-black">{item.date}</span>
+                  <h3 className="text-sm md:text-base font-medium text-black">{item.step}</h3>
+                  <span className="text-xs md:text-sm text-black">{item.date}</span>
                 </div>
-                <p className="text-sm text-black mt-1">{item.description}</p>
+                <p className="text-xs md:text-sm text-black mt-1">{item.description}</p>
               </div>
             </div>
           ))}
         </div>
-      </Card>
+      </div>
 
       {/* Documents */}
-      <Card className="p-6">
+      <div className="bg-card border border-border rounded-xl p-4 md:p-6 shadow-sm">
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-xl font-semibold">Documents</h2>
-          <Button variant="outline" size="sm">
+          <div className="flex items-center gap-3">
+            <div className="flex items-center justify-center w-6 h-6 md:w-8 md:h-8 bg-purple-100 rounded-lg">
+              <FileText className="h-4 w-4 md:h-5 md:w-5 text-purple-600" />
+            </div>
+            <h2 className="text-base md:text-lg font-semibold text-black">Documents</h2>
+          </div>
+          <Button variant="outline" size="sm" className="text-black">
             Télécharger tout
           </Button>
         </div>
@@ -235,39 +242,47 @@ export default function SinistreRelogement() {
               <div className="flex items-center gap-3">
                 <FileText className="h-5 w-5 text-primary" />
                 <div>
-                  <p className="font-medium">{doc.name}</p>
-                  <p className="text-sm text-black">
+                  <p className="text-sm md:text-base font-medium text-black">{doc.name}</p>
+                  <p className="text-xs md:text-sm text-black">
                     {doc.required ? "Document requis" : "Document informatif"}
                   </p>
                 </div>
               </div>
               <div className="flex items-center gap-3">
                 <span className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(doc.status)}`}>
-                  {doc.status}
+                  {doc.status === "signé" ? "Signé" : 
+                   doc.status === "en_attente" ? "En attente" : 
+                   doc.status === "validé" ? "Validé" : 
+                   doc.status === "disponible" ? "Disponible" : doc.status}
                 </span>
-                <Button variant="outline" size="sm">
+                <Button variant="outline" size="sm" className="text-black">
                   Télécharger
                 </Button>
               </div>
             </div>
           ))}
         </div>
-      </Card>
+      </div>
 
       {/* Insurance Info */}
-      <Card className="p-6">
-        <h2 className="text-xl font-semibold mb-4">Informations assurance</h2>
-        <div className="grid md:grid-cols-2 gap-4">
-          <div>
-            <p className="text-sm text-black">Assurance</p>
-            <p className="font-medium">{relocation.insurance}</p>
+      <div className="bg-card border border-border rounded-xl p-4 md:p-6 shadow-sm">
+        <div className="flex items-center gap-3 mb-4 md:mb-6">
+          <div className="flex items-center justify-center w-6 h-6 md:w-8 md:h-8 bg-blue-100 rounded-lg">
+            <Shield className="h-4 w-4 md:h-5 md:w-5 text-blue-600" />
           </div>
-          <div>
-            <p className="text-sm text-black">Numéro de dossier</p>
-            <p className="font-medium">{relocation.caseNumber}</p>
+          <h2 className="text-base md:text-lg font-semibold text-black">Informations assurance</h2>
+        </div>
+        <div className="grid md:grid-cols-2 gap-4">
+          <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center py-1 gap-1 sm:gap-0">
+            <span className="text-xs md:text-sm text-black">Assurance</span>
+            <span className="text-xs md:text-sm font-medium text-black">{relocation.insurance}</span>
+          </div>
+          <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center py-1 gap-1 sm:gap-0">
+            <span className="text-xs md:text-sm text-black">Numéro de dossier</span>
+            <span className="text-xs md:text-sm font-medium text-black">{relocation.caseNumber}</span>
           </div>
         </div>
-      </Card>
+      </div>
     </div>
   );
 } 

@@ -278,7 +278,7 @@ function MessagesContent() {
   return (
     <div className="space-y-6 pb-12">
       {/* Header */}
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between text-black">
         <div>
           <Link href="/platform/dashboard/assurance">
             <Button variant="outline" size="sm" className="mb-4">
@@ -286,7 +286,7 @@ function MessagesContent() {
               Retour
             </Button>
           </Link>
-          <h1 className="text-3xl font-bold text-primary">Messages</h1>
+          <h1 className="text-3xl font-bold text-black">Messages</h1>
 
         </div>
         
@@ -301,14 +301,14 @@ function MessagesContent() {
         <div className="lg:col-span-1 space-y-4">
           {/* Search */}
           <div className="relative">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-black" />
             <Input
               placeholder={isNewConversationMode ? "Rechercher un dossier ou un nom..." : "Rechercher des conversations..."}
               value={isNewConversationMode ? searchCaseId : searchTerm}
               onChange={(e) => isNewConversationMode ? handleSearchInputChange(e.target.value) : setSearchTerm(e.target.value)}
               className={cn(
-                "pl-10 transition-all duration-300",
-                isNewConversationMode && "bg-primary/10 border-primary/20 text-primary placeholder:text-primary/70"
+                "pl-10 transition-all duration-300 text-black placeholder:text-black/70",
+                isNewConversationMode && "bg-primary/10 border-primary/20"
               )}
             />
             <Button
@@ -343,7 +343,7 @@ function MessagesContent() {
                     <div className="flex items-center justify-between">
                       <div>
                         <p className="text-sm font-medium text-primary">{case_.id}</p>
-                        <p className="text-xs text-muted-foreground">
+                        <p className="text-xs text-black">
                           {case_.contactPerson.firstName} {case_.contactPerson.lastName}
                         </p>
                       </div>
@@ -371,7 +371,7 @@ function MessagesContent() {
           {/* Conversations */}
           <Card className="flex-1 overflow-hidden">
             <div className="p-4 border-b border-border">
-              <h3 className="font-semibold text-primary">Conversations récentes</h3>
+              <h3 className="font-semibold text-black">Conversations récentes</h3>
             </div>
             <div className="overflow-y-auto h-[calc(100vh-300px)] min-h-[300px]">
               {filteredConversations.map((conversation) => (
@@ -390,13 +390,13 @@ function MessagesContent() {
                           <User className="h-4 w-4 text-primary" />
                         </div>
                         <div className="flex-1 min-w-0">
-                          <p className="font-medium text-foreground truncate">
+                          <p className="font-medium text-black truncate">
                             {conversation.participantName}
                           </p>
                           <div className="flex items-center gap-2">
                             {conversation.caseId && (
                               <>
-                                <span className="text-xs text-muted-foreground">
+                                <span className="text-xs text-black">
                                   {conversation.caseId}
                                 </span>
                                 {(() => {
@@ -424,12 +424,12 @@ function MessagesContent() {
                                             
                                             const getStatusColor = (status: string) => {
                                               switch (status) {
-                                                case "initie": return "text-gray-600";
-                                                case "processing": return "text-blue-600";
-                                                case "completed": return "text-green-600";
-                                                case "pending": return "text-yellow-600";
-                                                case "cancelled": return "text-red-600";
-                                                default: return "text-gray-600";
+                                                case "initie": return "bg-grey-100 text-gray-600";
+                                                case "processing": return "bg-blue-100 text-blue-600";
+                                                case "completed": return "bg-green-100 text-green-600";
+                                                case "pending": return "bg-yellow-100 text-yellow-600";
+                                                case "cancelled": return "bg-red-100 text-red-600";
+                                                default: return "bg-grey-100 text-gray-600";
                                               }
                                             };
                                             
@@ -453,12 +453,12 @@ function MessagesContent() {
                           </div>
                         </div>
                       </div>
-                      <p className="text-sm text-muted-foreground truncate">
+                      <p className="text-sm text-black truncate">
                         {conversation.lastMessage}
                       </p>
                     </div>
                     <div className="flex flex-col items-end gap-1 ml-2">
-                      <span className="text-xs text-muted-foreground">
+                      <span className="text-xs text-black">
                         {formatTime(conversation.lastMessageTime)}
                       </span>
                       {conversation.unreadCount > 0 && (
@@ -487,14 +487,14 @@ function MessagesContent() {
                         <User className="h-5 w-5 text-primary" />
                       </div>
                       <div>
-                        <h3 className="font-semibold text-foreground">
+                        <h3 className="font-semibold text-black">
                           {selectedConversation.participantName}
                         </h3>
-                        <div className="flex items-center gap-2">
+                        <div className="flex items-center gap-2 text-primary">
                           <Badge 
                             variant="outline" 
                             className={cn(
-                              "text-xs",
+                              "text-xs text-primary",
                               selectedConversation.status === 'active' && "border-green-500 text-green-600",
                               selectedConversation.status === 'pending' && "border-yellow-500 text-yellow-600",
                               selectedConversation.status === 'resolved' && "border-gray-500 text-gray-600"
@@ -543,7 +543,7 @@ function MessagesContent() {
                           "max-w-[70%] p-3 rounded-lg",
                           message.senderType === 'agent'
                             ? "bg-primary text-primary-foreground"
-                            : "bg-secondary text-foreground"
+                            : "bg-secondary text-black"
                         )}
                       >
                         <div className="flex items-center gap-2 mb-1">
@@ -580,11 +580,11 @@ function MessagesContent() {
             ) : (
               <div className="flex-1 flex items-center justify-center">
                 <div className="text-center">
-                  <MessageSquare className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-                  <h3 className="text-lg font-semibold text-foreground mb-2">
+                  <MessageSquare className="h-12 w-12 text-black mx-auto mb-4" />
+                  <h3 className="text-lg font-semibold text-black mb-2">
                     Aucune conversation sélectionnée
                   </h3>
-                  <p className="text-muted-foreground">
+                  <p className="text-black">
                     Sélectionnez une conversation pour commencer à discuter
                   </p>
                 </div>
@@ -619,7 +619,7 @@ function MessagesLoading() {
             <div className="p-4 border-b border-border">
               <h3 className="font-semibold text-primary">Conversations récentes</h3>
             </div>
-            <div className="p-4 text-center text-muted-foreground">
+            <div className="p-4 text-center text-black">
               Chargement des conversations...
             </div>
           </Card>
@@ -628,11 +628,11 @@ function MessagesLoading() {
           <Card className="h-full flex flex-col">
             <div className="flex-1 flex items-center justify-center">
               <div className="text-center">
-                <MessageSquare className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-                <h3 className="text-lg font-semibold text-foreground mb-2">
+                <MessageSquare className="h-12 w-12 text-black mx-auto mb-4" />
+                <h3 className="text-lg font-semibold text-black mb-2">
                   Chargement...
                 </h3>
-                <p className="text-muted-foreground">
+                <p className="text-black">
                   Veuillez patienter
                 </p>
               </div>

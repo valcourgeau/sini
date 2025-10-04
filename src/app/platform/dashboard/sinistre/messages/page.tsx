@@ -229,10 +229,10 @@ function SinistreMessagesContent() {
                 <FileText className="h-5 w-5 text-primary" />
               </div>
               <div>
-                <h3 className="font-semibold text-black">
-                  Dossier {userCase.id}
-                </h3>
-                <div className="flex items-center gap-2 mt-1">
+                <div className="flex items-center gap-2">
+                  <h3 className="font-semibold text-black">
+                    Dossier {userCase.id}
+                  </h3>
                   <span className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(userCase.status)}`}>
                     {userCase.status === "initie" ? "Initié" : 
                      userCase.status === "processing" ? "En cours" : 
@@ -240,18 +240,15 @@ function SinistreMessagesContent() {
                      userCase.status === "pending" ? "En attente" : 
                      userCase.status === "cancelled" ? "Annulé" : "Inconnu"}
                   </span>
-                  <span className="text-xs text-black">
-                    {userCase.disasterAddress.city}, {userCase.disasterAddress.canton}
-                  </span>
                 </div>
               </div>
             </div>
             <div className="flex gap-2">
-              <Button variant="outline" size="sm" className="flex-1">
+              <Button variant="outline" size="sm" className="flex-1 text-black">
                 <Phone className="h-4 w-4 mr-2" />
                 Appeler
               </Button>
-              <Button variant="outline" size="sm" className="flex-1">
+              <Button variant="outline" size="sm" className="flex-1 text-black">
                 <Mail className="h-4 w-4 mr-2" />
                 Email
               </Button>
@@ -368,7 +365,7 @@ function SinistreMessagesContent() {
                   value={newMessage}
                   onChange={(e) => setNewMessage(e.target.value)}
                   onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
-                  className="flex-1"
+                  className="flex-1 text-black placeholder:text-black/70"
                 />
                 <Button onClick={handleSendMessage} disabled={!newMessage.trim()}>
                   <Send className="h-4 w-4" />
