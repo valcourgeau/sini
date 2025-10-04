@@ -113,7 +113,7 @@ export default function SinistreRelogement() {
             <h2 className="text-xl font-semibold">État du relogement</h2>
             <p className="text-sm text-muted-foreground">ID: {relocation.id}</p>
           </div>
-          <span className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(relocation.status)} bg-muted`}>
+          <span className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(relocation.status)}`}>
             {relocation.status.replace('_', ' ')}
           </span>
         </div>
@@ -242,7 +242,7 @@ export default function SinistreRelogement() {
                 </div>
               </div>
               <div className="flex items-center gap-3">
-                <span className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(doc.status)} bg-muted`}>
+                <span className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(doc.status)}`}>
                   {doc.status}
                 </span>
                 <Button variant="outline" size="sm">

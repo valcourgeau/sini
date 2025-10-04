@@ -95,12 +95,12 @@ export default async function CaseDetailPage({ params }: PageProps) {
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case "initie": return "text-gray-600";
-      case "processing": return "text-blue-600";
-      case "completed": return "text-green-600";
-      case "pending": return "text-yellow-600";
-      case "cancelled": return "text-red-600";
-      default: return "text-gray-600";
+      case "initie": return "bg-gray-100 text-gray-600";
+      case "processing": return "bg-blue-100 text-blue-600";
+      case "completed": return "bg-green-100 text-green-600";
+      case "pending": return "bg-yellow-100 text-yellow-800";
+      case "cancelled": return "bg-red-100 text-red-600";
+      default: return "bg-gray-100 text-gray-600";
     }
   };
 
@@ -173,7 +173,7 @@ export default async function CaseDetailPage({ params }: PageProps) {
             <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4">
               <h1 className="text-2xl md:text-3xl font-bold text-primary">Dossier {currentCaseData.id}</h1>
               <div className="flex flex-wrap items-center gap-2">
-                <span className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(currentCaseData.status)} bg-muted`}>
+                <span className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(currentCaseData.status)}`}>
                   {currentCaseData.status === "initie" ? "Initié" : 
                    currentCaseData.status === "processing" ? "En cours" : 
                    currentCaseData.status === "completed" ? "Terminé" : 

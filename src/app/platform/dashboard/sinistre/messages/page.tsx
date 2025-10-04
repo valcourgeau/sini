@@ -161,7 +161,7 @@ export default function SinistreMessagesPage() {
                 Dossier {mockUserCase.id}
               </h3>
               <div className="flex items-center gap-2 mt-1">
-                <span className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(mockUserCase.status)} bg-muted`}>
+                <span className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(mockUserCase.status)}`}>
                   {mockUserCase.status === "initie" ? "Initié" : 
                    mockUserCase.status === "processing" ? "En cours" : 
                    mockUserCase.status === "completed" ? "Terminé" : 

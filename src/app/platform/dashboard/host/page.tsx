@@ -218,7 +218,7 @@ export default function HostDashboard() {
               
               <div className="flex items-center gap-4">
                 <div className="text-right">
-                  <span className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(property.status)} bg-muted`}>
+                  <span className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(property.status)}`}>
                     {property.status}
                   </span>
                   {property.currentBooking && (

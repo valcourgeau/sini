@@ -102,7 +102,7 @@ export default function SinistreDashboardClient() {
       <Card className="p-6 bg-background border-primary/20">
         <div className="flex items-center justify-between mb-4">
           <h2 className="text-xl font-semibold text-primary">État de votre relogement</h2>
-          <span className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(relocationStatus.status)} bg-muted`}>
+          <span className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(relocationStatus.status)}`}>
             {relocationStatus.status.replace('_', ' ')}
           </span>
         </div>

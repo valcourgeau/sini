@@ -10,7 +10,7 @@ export function Footer() {
         <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
           <div className="space-y-4">
             <Logo size="sm" />
-            <p className="text-sm text-muted-foreground">
+            <p className="text-sm text-black">
               Service de relogement de sinistrés pour le canton de Genève.
             </p>
           </div>
@@ -21,7 +21,7 @@ export function Footer() {
               <li>
                 <Link 
                   href="/relocation/new" 
-                  className="text-sm text-muted-foreground hover:text-primary transition-colors"
+                  className="text-sm text-black hover:text-primary transition-colors"
                 >
                   Demander un relogement
                 </Link>
@@ -29,7 +29,7 @@ export function Footer() {
               <li>
                 <Link 
                   href="/property/new" 
-                  className="text-sm text-muted-foreground hover:text-primary transition-colors"
+                  className="text-sm text-black hover:text-primary transition-colors"
                 >
                   Proposer un bien
                 </Link>
@@ -37,7 +37,7 @@ export function Footer() {
               <li>
                 <Link 
                   href="/platform" 
-                  className="text-sm text-muted-foreground hover:text-primary transition-colors"
+                  className="text-sm text-black hover:text-primary transition-colors"
                 >
                   Plateforme Assurances
                 </Link>
@@ -45,7 +45,7 @@ export function Footer() {
               <li>
                 <Link 
                   href="/platform/dashboard" 
-                  className="text-sm text-muted-foreground hover:text-primary transition-colors"
+                  className="text-sm text-black hover:text-primary transition-colors"
                 >
                   Espace Assurances
                 </Link>
@@ -59,7 +59,7 @@ export function Footer() {
               <li>
                 <Link 
                   href="/about" 
-                  className="text-sm text-muted-foreground hover:text-primary transition-colors"
+                  className="text-sm text-black hover:text-primary transition-colors"
                 >
                   À propos
                 </Link>
@@ -67,7 +67,7 @@ export function Footer() {
               <li>
                 <Link 
                   href="/contact" 
-                  className="text-sm text-muted-foreground hover:text-primary transition-colors"
+                  className="text-sm text-black hover:text-primary transition-colors"
                 >
                   Contact
                 </Link>
@@ -81,7 +81,7 @@ export function Footer() {
               <li>
                 <Link 
                   href="/privacy" 
-                  className="text-sm text-muted-foreground hover:text-primary transition-colors"
+                  className="text-sm text-black hover:text-primary transition-colors"
                 >
                   Politique de confidentialité
                 </Link>
@@ -89,7 +89,7 @@ export function Footer() {
               <li>
                 <Link 
                   href="/terms" 
-                  className="text-sm text-muted-foreground hover:text-primary transition-colors"
+                  className="text-sm text-black hover:text-primary transition-colors"
                 >
                   Conditions d'utilisation
                 </Link>
@@ -99,13 +99,13 @@ export function Footer() {
         </div>
         
         <div className="mt-8 pt-8 border-t border-border flex flex-col md:flex-row justify-between items-center">
-          <p className="text-sm text-muted-foreground">
+          <p className="text-sm text-black">
             &copy; {currentYear} Pharewest. Tous droits réservés.
           </p>
           <div className="mt-4 md:mt-0 flex space-x-6">
             <Link 
               href="https://x.com" 
-              className="text-muted-foreground hover:text-primary transition-colors"
+              className="text-black hover:text-primary transition-colors"
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -116,7 +116,7 @@ export function Footer() {
             </Link>
             <Link 
               href="https://linkedin.com" 
-              className="text-muted-foreground hover:text-primary transition-colors"
+              className="text-black hover:text-primary transition-colors"
               target="_blank"
               rel="noopener noreferrer"
             >

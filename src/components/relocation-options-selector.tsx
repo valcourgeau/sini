@@ -172,6 +172,37 @@ export function RelocationOptionsSelector({
     return advantages;
   };
 
+  const getFinancialInfo = (option: any) => {
+    const monthlyPrice = option.propertyPricing.prices.month;
+    const securityDeposit = option.propertyPricing.securityDeposit;
+    const utilitiesIncluded = option.propertyPricing.utilitiesIncluded;
+    
+    const financialInfo: string[] = [];
+    
+    // Price comparison
+    if (monthlyPrice <= 2000) {
+      financialInfo.push('💰 Prix très compétitif pour la région');
+    } else if (monthlyPrice <= 3000) {
+      financialInfo.push('💰 Prix raisonnable pour la qualité');
+    } else {
+      financialInfo.push('💰 Prix premium avec services inclus');
+    }
+    
+    // Utilities information
+    if (utilitiesIncluded) {
+      financialInfo.push('💡 Charges incluses (électricité, eau, chauffage)');
+    }
+    
+    // Security deposit
+    if (securityDeposit <= 2000) {
+      financialInfo.push('🔒 Caution modérée (CHF ' + securityDeposit + ')');
+    } else {
+      financialInfo.push('🔒 Caution standard (CHF ' + securityDeposit + ')');
+    }
+    
+    return financialInfo;
+  };
+
   const handleOptionSelect = (optionId: string) => {
     if (selectedOptions.includes(optionId)) {
       setSelectedOptions(selectedOptions.filter(id => id !== optionId));
@@ -330,19 +361,32 @@ export function RelocationOptionsSelector({
                               <Info className={cn("h-3 w-3 transition-colors duration-200", getCompatibilityIconColor(option.compatibilityLevel))} />
                             </Badge>
                           </TooltipTrigger>
-                          <TooltipContent className="max-w-xs">
+                          <TooltipContent className="max-w-sm">
                             <div className="space-y-2">
                               <p className="font-semibold text-sm">
                                 Score de compatibilité: {option.compatibilityPercentage}%
                               </p>
-                              <div className="space-y-1">
-                                <p className="text-xs font-medium text-muted-foreground">Avantages:</p>
-                                {getCompatibilityAdvantages(option, caseData).map((advantage, index) => (
-                                  <p key={index} className="text-xs text-green-700">
-                                    {advantage}
-                                  </p>
-                                ))}
-                              </div>
+                              
+                              <p className="text-xs font-medium text-muted-foreground">Avantages:</p>
+                              {getCompatibilityAdvantages(option, caseData).map((advantage, index) => (
+                                <p key={index} className="text-xs text-green-700">
+                                  {advantage}
+                                </p>
+                              ))}
+                              
+                              <p className="text-xs font-medium text-muted-foreground pt-1">Informations financières:</p>
+                              {getFinancialInfo(option).map((info, index) => (
+                                <p key={index} className="text-xs text-blue-700">
+                                  {info}
+                                </p>
+                              ))}
+                              
+                              <p className="text-xs font-medium text-foreground pt-1">Coûts détaillés:</p>
+                              <p className="text-xs text-foreground">💵 Loyer mensuel: CHF {option.propertyPricing.prices.month}</p>
+                              <p className="text-xs text-foreground">🔒 Caution requise: CHF {option.propertyPricing.securityDeposit}</p>
+                              {option.propertyPricing.utilitiesIncluded && (
+                                <p className="text-xs text-green-600">✅ Charges incluses</p>
+                              )}
                             </div>
                           </TooltipContent>
                         </Tooltip>

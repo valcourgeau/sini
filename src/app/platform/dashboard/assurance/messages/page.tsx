@@ -434,7 +434,7 @@ function MessagesContent() {
                                             };
                                             
                                             return (
-                                              <span className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(caseData.status)} bg-muted`}>
+                                              <span className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(caseData.status)}`}>
                                                 {caseData.status === "initie" ? "Initié" : 
                                                  caseData.status === "processing" ? "En cours" : 
                                                  caseData.status === "completed" ? "Terminé" : 

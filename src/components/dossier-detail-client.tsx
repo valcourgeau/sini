@@ -75,7 +75,7 @@ export function RelocationWarningWrapper({ caseData }: { caseData: RelocationDat
         <h3 className="text-lg font-semibold text-foreground">Action requise</h3>
       </div>
       <p className="text-muted-foreground mb-4">
-        Ce dossier est en attente de sélection d'options de relogement. Veuillez en sélectionner 3 qui correspondent aux besoins du client pour pouvoir traiter ce dossier.
+        Ce dossier est en attente d'une sélection de 3 options de relogement pour pouvoir traiter ce dossier.
       </p>
       <Button onClick={handleSelectOptions} className="bg-primary hover:bg-primary/90">
         <Home className="h-4 w-4 mr-2" />
