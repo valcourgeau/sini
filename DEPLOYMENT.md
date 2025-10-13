@@ -59,6 +59,11 @@ npm run deploy:github-pages
 
 ## Vercel Deployment
 
+### ✅ Successfully Deployed!
+Your project is now live on Vercel:
+- **Production URL**: https://sini-j2yl9r4ab-pharewest.vercel.app
+- **Inspect URL**: https://vercel.com/pharewest/sini/GCYbfqSoFvYuYqL5BcGE1PMEG9JD
+
 ### First-time Setup
 1. Install Vercel CLI:
    ```bash
@@ -133,3 +138,18 @@ The configuration automatically adapts based on the `DEPLOY_TARGET` environment 
 2. **Testing**: Test both build outputs before deploying
 3. **CI/CD**: Use the appropriate build script in your CI/CD pipeline
 4. **Environment**: Set `DEPLOY_TARGET` explicitly in production builds
+
+
+# QUICK COMMANDS
+
+# Deploy to GitHub Pages
+npm run deploy:github-pages
+
+# Deploy to Vercel
+npm run deploy:vercel
+
+# Build for GitHub Pages only
+npm run build:github-pages
+
+# Build for Vercel only
+npm run build:vercel
