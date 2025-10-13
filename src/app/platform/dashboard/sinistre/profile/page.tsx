@@ -1,19 +1,16 @@
 "use client";
 
-import { 
-  User, 
-  Mail, 
-  Phone, 
-  MapPin, 
-  Calendar, 
-  FileText, 
-  Edit, 
-  Save,
-  X
-} from "lucide-react";
-import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import {
+  Calendar,
+  Edit,
+  FileText,
+  Phone,
+  Save,
+  User,
+  X
+} from "lucide-react";
 import { useState } from "react";
 
 export default function SinistreProfile() {
@@ -189,7 +186,7 @@ export default function SinistreProfile() {
           <div className="flex items-center justify-center w-6 h-6 md:w-8 md:h-8 bg-orange-100 rounded-lg">
             <Phone className="h-4 w-4 md:h-5 md:w-5 text-orange-600" />
           </div>
-          <h2 className="text-base md:text-lg font-semibold text-black">Contact d'urgence</h2>
+          <h2 className="text-base md:text-lg font-semibold text-black">Contact d&apos;urgence</h2>
         </div>
         <div className="space-y-2 md:space-y-3">
           <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center py-1 gap-1 sm:gap-0">
