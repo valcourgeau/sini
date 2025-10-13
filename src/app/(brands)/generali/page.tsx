@@ -1,10 +1,8 @@
 "use client";
 
-import { Home, Users, Building2, Clock, CheckCircle2, Phone, ArrowRight, Loader2, HandCoins, Timer, UserRound, Video, Calendar, Heart, PiggyBank, Shield, ShieldCheck } from "lucide-react";
-import { IconBox } from "@/components/ui/icon-box";
+import { Home, Users, Building2, Clock, ArrowRight, Loader2, HandCoins, Timer, UserRound, Calendar, Shield } from "lucide-react";
 import { ScrollButton } from "@/components/ui/scroll-button";
 import { NavigationArrow } from "@/components/ui/navigation-arrow";
-import Link from "next/link";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
@@ -40,15 +38,6 @@ export default function GeneraliHomePage() {
     router.push("/relocation/new?userType=assurance");
   };
 
-  const handleHostClick = async (e: React.MouseEvent) => {
-    e.preventDefault();
-    setIsLoading(true);
-    
-    // Add a small delay to show the loading state
-    await new Promise(resolve => setTimeout(resolve, 400));
-    
-    router.push("/relocation/new?type=host");
-  };
 
   const handlePropertyClick = async (e: React.MouseEvent) => {
     e.preventDefault();
@@ -84,7 +73,7 @@ export default function GeneraliHomePage() {
             {/* Enhanced title with Generali branding */}
             <div className="mb-6 md:mb-8">
               <h1 className="text-3xl font-bold leading-tight tracking-tighter md:text-5xl lg:text-6xl lg:leading-[1.1] mb-4 animate-in fade-in duration-500 slide-in-from-bottom-4 text-primary-foreground drop-shadow-lg">
-                Service de relogement d'urgence
+                Service de relogement d&apos;urgence
               </h1>
               <div className="flex items-center justify-center gap-2 mt-4">
                 <span className="text-lg text-primary-foreground font-semibold drop-shadow-xl">Partenaire officiel</span>
@@ -148,7 +137,7 @@ export default function GeneraliHomePage() {
                   <div>
                     <h3 className="text-lg md:text-xl font-bold mb-2 text-primary">Rapidité de relogement</h3>
                     <p className="text-black">
-                      Une solution d'hébergement temporaire adaptée visant à proposer un relogement dans les 24-48 heures.
+                      Une solution d&apos;hébergement temporaire adaptée visant à proposer un relogement dans les 24-48 heures.
                     </p>
                   </div>
                 </div>
@@ -158,7 +147,7 @@ export default function GeneraliHomePage() {
                   <div>
                     <h3 className="text-lg md:text-xl font-bold mb-2 text-primary">Logements adaptés</h3>
                     <p className="text-black">
-                      Profiter de notre réseau d'habitations (meublés, équipés et proches de votre lieu de vie actuel).
+                      Profiter de notre réseau d&apos;habitations (meublés, équipés et proches de votre lieu de vie actuel).
                     </p>
                   </div>
                 </div>
@@ -248,7 +237,7 @@ export default function GeneraliHomePage() {
                 <div className="flex items-start gap-4">
                   <Building2 className="h-6 w-6 text-secondary/90 mt-1 flex-shrink-0" />
                   <div>
-                    <h3 className="text-lg md:text-xl font-bold mb-2 text-secondary">Améliorer l'efficacité de vos équipes</h3>
+                    <h3 className="text-lg md:text-xl font-bold mb-2 text-secondary">Améliorer l&apos;efficacité de vos équipes</h3>
                     <p className="text-secondary/90">
                       Accéder à notre interface pour gérer les dossiers de vos assurés.
                     </p>
@@ -280,7 +269,7 @@ export default function GeneraliHomePage() {
                   <div>
                     <h3 className="text-lg md:text-xl font-bold mb-2 text-secondary">Satisfaction client</h3>
                     <p className="text-secondary/90">
-                      Bénéficier d'un interlocuteur unique pour un relogement rapide et adapté aux besoins de vos assurés.
+                      Bénéficier d&apos;un interlocuteur unique pour un relogement rapide et adapté aux besoins de vos assurés.
                     </p>
                   </div>
                 </div>
@@ -363,7 +352,7 @@ export default function GeneraliHomePage() {
                   <div>
                     <h3 className="text-lg md:text-xl font-bold mb-2 text-primary">Protéger votre bien</h3>
                     <p className="text-black">
-                      Chaque sejour est encadré avec des sinistrés verifiés et garanties pour preserver l'integrité de votre logement.
+                      Chaque sejour est encadré avec des sinistrés verifiés et garanties pour preserver l&apos;integrité de votre logement.
                     </p>
                   </div>
                 </div>

@@ -522,4 +522,6 @@ export const SingleArrivalDetails = forwardRef<SingleArrivalDetailsRef, SingleAr
       )}
     </div>
   );
-}); 
+});
+
+SingleArrivalDetails.displayName = "SingleArrivalDetails"; 

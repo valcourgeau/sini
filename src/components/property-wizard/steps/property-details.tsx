@@ -99,7 +99,7 @@ export function PropertyDetails({ form }: PropertyDetailsProps) {
   
   // Expose the validate function to the parent component
   useEffect(() => {
-    // @ts-ignore - Adding a custom property to the form object
+    // @ts-expect-error - Adding a custom property to the form object
     form.validatePropertyDetails = validateStep;
   }, [form]);
   

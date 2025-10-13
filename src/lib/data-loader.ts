@@ -374,6 +374,7 @@ export interface Message {
 // Load conversation data
 export function getConversations(userType: 'assurance' | 'sinistre' | 'host'): Conversation[] {
   try {
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
     const conversationsData = require('@/data/conversations.json');
     return conversationsData[userType]?.conversations || [];
   } catch (error) {
@@ -385,6 +386,7 @@ export function getConversations(userType: 'assurance' | 'sinistre' | 'host'): C
 // Load messages for sinistre (single conversation)
 export function getSinistreMessages(): Message[] {
   try {
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
     const conversationsData = require('@/data/conversations.json');
     return conversationsData.sinistre?.messages || [];
   } catch (error) {
@@ -453,6 +455,7 @@ export interface RecentMessage {
 // Load notification data
 export function getNotifications(userType: 'assurance' | 'sinistre' | 'host'): Notification[] {
   try {
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
     const notificationsData = require('@/data/notifications.json');
     return notificationsData[userType]?.notifications || [];
   } catch (error) {
@@ -464,6 +467,7 @@ export function getNotifications(userType: 'assurance' | 'sinistre' | 'host'): N
 // Load recent messages
 export function getRecentMessages(userType: 'assurance' | 'sinistre' | 'host'): RecentMessage[] {
   try {
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
     const notificationsData = require('@/data/notifications.json');
     return notificationsData[userType]?.recentMessages || [];
   } catch (error) {
@@ -498,6 +502,7 @@ export interface RecentDocument {
 // Load recent documents
 export function getRecentDocuments(userType: 'assurance' | 'sinistre' | 'host'): RecentDocument[] {
   try {
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
     const notificationsData = require('@/data/notifications.json');
     return notificationsData[userType]?.recentDocuments || [];
   } catch (error) {

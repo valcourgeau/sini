@@ -92,6 +92,11 @@ export function SelectedRelocationDetail({ caseData }: SelectedRelocationDetailP
     return null;
   }
 
+  // Early return if no single relocation option
+  if (!caseData.relocationOption) {
+    return null;
+  }
+
   return (
     <div className="space-y-6">
       {/* Header */}
@@ -197,7 +202,7 @@ export function SelectedRelocationDetail({ caseData }: SelectedRelocationDetailP
       )}
 
       {/* Multiple Relocation Options */}
-      {hasRelocationOptions && (
+      {hasRelocationOptions && caseData.relocationOptions && (
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           {caseData.relocationOptions.map((option, index) => (
             <Card key={option.propertyId} className="p-6 border-2 border-primary/20">
@@ -296,7 +301,7 @@ export function SelectedRelocationDetail({ caseData }: SelectedRelocationDetailP
       )}
 
       {/* Summary for multiple options */}
-      {hasRelocationOptions && (
+      {hasRelocationOptions && caseData.relocationOptions && (
         <Card className="p-4 bg-primary/5 border-primary/20">
           <div className="flex items-center justify-between">
             <div>

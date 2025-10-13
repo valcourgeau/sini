@@ -132,6 +132,7 @@ export default function AssuranceStatistics({
     const agentStats: { [key: string]: any } = {};
     
     data.forEach(item => {
+      if (!item.agent) return;
       const agentId = item.agent.id;
       if (!agentStats[agentId]) {
         agentStats[agentId] = {
@@ -201,7 +202,9 @@ export default function AssuranceStatistics({
 
   const processCantonDistribution = () => {
     const cantonCounts = data.reduce((acc, item) => {
-      acc[item.agent.canton] = (acc[item.agent.canton] || 0) + 1;
+      if (item.agent) {
+        acc[item.agent.canton] = (acc[item.agent.canton] || 0) + 1;
+      }
       return acc;
     }, {} as { [key: string]: number });
 
@@ -388,7 +391,7 @@ export default function AssuranceStatistics({
             <div>
               <p className="text-sm text-orange-600 font-medium">Agents actifs</p>
               <p className="text-2xl font-bold text-orange-800">
-                {new Set(data.map(item => item.agent.id)).size}
+                {new Set(data.filter(item => item.agent).map(item => item.agent!.id)).size}
               </p>
             </div>
             <Users className="h-8 w-8 text-orange-600" />

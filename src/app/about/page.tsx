@@ -20,7 +20,7 @@ export default function AboutPage() {
           <div className="prose prose-gray max-w-none">
             <h2>Notre Mission</h2>
             <p>
-              Pharewest a été créé pour répondre aux besoins urgents de relogement des personnes touchées par des sinistres dans les cantons de Genève et Vaud. Notre mission est de faciliter et d'accélérer le processus de relogement en mettant en relation les personnes sinistrées avec les logements disponibles.
+              Pharewest a été créé pour répondre aux besoins urgents de relogement des personnes touchées par des sinistres dans les cantons de Genève et Vaud. Notre mission est de faciliter et d&apos;accélérer le processus de relogement en mettant en relation les personnes sinistrées avec les logements disponibles.
             </p>
 
             <div className="my-12">
@@ -31,7 +31,7 @@ export default function AboutPage() {
 
             <h2>Notre Engagement</h2>
             <p>
-              Notre équipe s'engage à fournir un service de qualité et à accompagner les personnes sinistrées tout au long du processus de relogement. Nous travaillons en étroite collaboration avec les autorités locales, les assurances et les propriétaires pour garantir des solutions adaptées à chaque situation.
+              Notre équipe s&apos;engage à fournir un service de qualité et à accompagner les personnes sinistrées tout au long du processus de relogement. Nous travaillons en étroite collaboration avec les autorités locales, les assurances et les propriétaires pour garantir des solutions adaptées à chaque situation.
             </p>
 
             <h2>Notre Approche</h2>
