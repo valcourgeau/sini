@@ -5,10 +5,13 @@
   "scripts": {
     "dev": "npx next dev",
     "build": "npx next build",
+    "build:github-pages": "DEPLOY_TARGET=github-pages npx next build",
+    "build:vercel": "DEPLOY_TARGET=vercel npx next build",
     "start": "npx next start",
     "lint": "npx next lint",
-    "export": "next build",
-    "deploy": "gh-pages -d out"
+    "export": "npm run build:github-pages",
+    "deploy:github-pages": "npm run build:github-pages && gh-pages -d out",
+    "deploy:vercel": "vercel --prod"
   },
   "dependencies": {
     "@hookform/resolvers": "^4.1.3",

@@ -1,23 +1,26 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  output: process.env.NODE_ENV === 'production' ? 'export' : undefined,
-  distDir: process.env.NODE_ENV === 'production' ? 'out' : '.next',
+  // Only use static export for GitHub Pages deployment
+  output: process.env.DEPLOY_TARGET === 'github-pages' ? 'export' : undefined,
+  distDir: process.env.DEPLOY_TARGET === 'github-pages' ? 'out' : '.next',
   outputFileTracingRoot: __dirname,
   images: {
-    unoptimized: true,
+    // Only unoptimize for GitHub Pages static export
+    unoptimized: process.env.DEPLOY_TARGET === 'github-pages',
     qualities: [25, 50, 75, 100],
   },
-  basePath: process.env.NODE_ENV === 'production' ? '/sini' : '',
-  assetPrefix: process.env.NODE_ENV === 'production' ? '/sini/' : '',
+  // Only apply basePath for GitHub Pages deployment
+  basePath: process.env.DEPLOY_TARGET === 'github-pages' ? '/sini' : '',
+  assetPrefix: process.env.DEPLOY_TARGET === 'github-pages' ? '/sini/' : '',
   trailingSlash: true,
-  // Disable ESLint during build for GitHub Pages deployment
+  // Disable ESLint during build for GitHub Pages deployment only
   eslint: {
-    ignoreDuringBuilds: true,
+    ignoreDuringBuilds: process.env.DEPLOY_TARGET === 'github-pages',
   },
-  // Disable TypeScript type checking during build for GitHub Pages deployment
+  // Disable TypeScript type checking during build for GitHub Pages deployment only
   typescript: {
-    ignoreBuildErrors: true,
+    ignoreBuildErrors: process.env.DEPLOY_TARGET === 'github-pages',
   },
 }
 
